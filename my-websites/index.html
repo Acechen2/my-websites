@@ -3,38 +3,138 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>鎴戠殑绗竴涓綉椤?/title>
+  <title>涓汉涓婚〉</title>
   <style>
-    body {
-      font-family: "Microsoft YaHei", sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+    :root {
+      --bg-start: #f6efe8;
+      --bg-mid: #dbeafe;
+      --bg-end: #c7f9cc;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --card-bg: rgba(255, 255, 255, 0.76);
+      --card-border: rgba(255, 255, 255, 0.45);
+      --accent: #0f766e;
+      --shadow: 0 24px 60px rgba(31, 41, 55, 0.12);
     }
 
-    .container {
-      text-align: center;
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 32%),
+        linear-gradient(135deg, var(--bg-start), var(--bg-mid) 55%, var(--bg-end));
+    }
+
+    .card {
+      width: min(760px, 100%);
       padding: 40px;
+      border-radius: 28px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.1);
+      color: var(--accent);
+      font-size: 14px;
+      letter-spacing: 0.08em;
     }
 
     h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
+      margin: 18px 0 12px;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      line-height: 1.05;
     }
 
-    p {
-      font-size: 1.5em;
+    .subtitle {
+      margin: 0 0 28px;
+      max-width: 560px;
+      font-size: 1.08rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .panel {
+      padding: 22px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      color: var(--accent);
+    }
+
+    p,
+    li {
+      margin: 0;
+      font-size: 0.98rem;
+      line-height: 1.8;
+      color: var(--text-main);
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 28px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>閮ㄧ讲鎴愬姛锛?/h1>
-    <p>杩欐槸閫氳繃 GitHub 鑷姩閮ㄧ讲鐨勭綉椤?/p>
-  </div>
+  <main class="card">
+    <span class="tag">PERSONAL HOME</span>
+    <h1>鏋楃煡杩?/h1>
+    <p class="subtitle">
+      浣犲ソ锛屾垜鏄竴鍚嶇儹鐖辫璁′笌鎶€鏈殑鍒涗綔鑰咃紝鍠滄鐢ㄧ畝娲佺殑鏂瑰紡琛ㄨ揪鎯虫硶锛?      涔熷枩娆㈡妸缁嗚妭鎵撶（鍒版伆鍒板ソ澶勩€傝繖閲屾槸鎴戠殑涓汉涓婚〉锛屼竴涓畨闈欍€佹竻鐖界殑灏忚钀姐€?    </p>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>绠€浠?/h2>
+        <p>
+          鐩墠涓撴敞浜庡墠绔璁°€佺綉椤典綋楠屽拰鍐呭鍒涗綔锛屽笇鏈涢€氳繃鏈夋俯搴︾殑瑙嗚涓庢竻鏅扮殑淇℃伅琛ㄨ揪锛?          鍋氬嚭璁╀汉鎰挎剰鍋滅暀鐨勪綔鍝併€?        </p>
+      </article>
+
+      <article class="panel">
+        <h2>鍏磋叮鐖卞ソ</h2>
+        <ul>
+          <li>鎽勫奖锛岃褰曞厜褰变笌鏃ュ父</li>
+          <li>闃呰锛屽亸鐖变汉鏂囦笌璁捐绫诲唴瀹?/li>
+          <li>鏃呰锛岃瀵熶笉鍚屽煄甯傜殑鑺傚涓庣編鎰?/li>
+        </ul>
+      </article>
+    </section>
+  </main>
 </body>
 </html>
