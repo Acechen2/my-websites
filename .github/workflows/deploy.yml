@@ -1,3 +1,23 @@
+<<<<<<< HEAD
+name: Deploy to Retinbox Web Hosting
+
+on: push
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container:
+      image: shangzheny/rth-host-helper:latest
+    steps:
+      - name: Deploy to Retinbox Web Hosting
+        uses: rthsoftware/host-auto-deploy@master
+        env:
+          RTH_API_KEY: ${{ secrets.RTH_API_KEY }}
+        with:
+          site: "mytest123"
+          build: ""
+          outdir: "my-websites"
+=======
 name: Deploy to Retiehe
 
 on:
@@ -18,3 +38,4 @@ jobs:
             -H "Authorization: Bearer $RTH_API_KEY" \
             -H "Content-Type: application/json" \
             -d '{"site": "mytest123.rth1.xyz", "dist": "."}'
+>>>>>>> b0e41302e1f55ac9ffc9128edc76736973526761
