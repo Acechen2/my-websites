@@ -1,393 +1,171 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-  <title>作品集展示</title>
-  <style>
-    :root {
-      --bg-1: #07111f;
-      --bg-2: #0f1e35;
-      --bg-3: #17304b;
-      --card: rgba(10, 18, 30, 0.72);
-      --card-border: rgba(173, 216, 255, 0.16);
-      --text-main: #f4f7fb;
-      --text-muted: #9db0c6;
-      --accent: #79e0ff;
-      --accent-strong: #48b9ff;
-      --tag-bg: rgba(121, 224, 255, 0.12);
-      --shadow: 0 22px 50px rgba(0, 0, 0, 0.32);
-=======
-  <title>个人主页</title>
-  <style>
-    :root {
-      --bg-start: #f6efe8;
-      --bg-mid: #dbeafe;
-      --bg-end: #c7f9cc;
-      --text-main: #1f2937;
-      --text-muted: #4b5563;
-      --card-bg: rgba(255, 255, 255, 0.76);
-      --card-border: rgba(255, 255, 255, 0.45);
-      --accent: #0f766e;
-      --shadow: 0 24px 60px rgba(31, 41, 55, 0.12);
->>>>>>> 104b6e73af6d852d2d29dc3f3a42bcd014fb4285
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人博客 | 极简生活与思考</title>
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --text-main: #222;
+            --text-muted: #666;
+            --accent: #0070f3;
+            --border: #eee;
+        }
 
-    * {
-      box-sizing: border-box;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-<<<<<<< HEAD
-      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      color: var(--text-main);
-      background:
-        radial-gradient(circle at top left, rgba(72, 185, 255, 0.22), transparent 32%),
-        radial-gradient(circle at 85% 15%, rgba(87, 255, 203, 0.16), transparent 28%),
-        linear-gradient(145deg, var(--bg-1), var(--bg-2) 48%, var(--bg-3));
-      overflow-x: hidden;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
 
-    body::before,
-    body::after {
-      content: "";
-      position: fixed;
-      inset: auto;
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
-      filter: blur(90px);
-      opacity: 0.25;
-      pointer-events: none;
-      z-index: 0;
-    }
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
 
-    body::before {
-      top: -80px;
-      right: -90px;
-      background: #1fb8ff;
-    }
+        header {
+            margin-bottom: 80px;
+        }
 
-    body::after {
-      bottom: -120px;
-      left: -80px;
-      background: #00d9a6;
-    }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 1rem;
+        }
 
-    .page {
-      position: relative;
-      z-index: 1;
-      width: min(1120px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 72px 0 88px;
-    }
+        .intro {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 500px;
+        }
 
-    .hero {
-      margin-bottom: 42px;
-    }
+        .post-list {
+            margin-top: 60px;
+        }
 
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      padding: 8px 14px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--accent);
-      font-size: 0.86rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
+        .post-item {
+            margin-bottom: 48px;
+            transition: opacity 0.2s ease;
+        }
 
-    h1 {
-      margin: 18px 0 14px;
-      font-size: clamp(2.4rem, 5vw, 4.6rem);
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      max-width: 760px;
-    }
+        .post-item:hover {
+            opacity: 0.8;
+        }
 
-    .hero p {
-      margin: 0;
-      max-width: 640px;
-      color: var(--text-muted);
-      font-size: 1.08rem;
-      line-height: 1.8;
-    }
+        .post-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
 
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 22px;
-    }
+        .post-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
 
-    .project-card {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      padding: 26px;
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      background: var(--card);
-      backdrop-filter: blur(16px);
-      box-shadow: var(--shadow);
-      transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
-    }
+        .post-excerpt {
+            color: var(--text-muted);
+            font-size: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
 
-    .project-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(121, 224, 255, 0.36);
-      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.4);
-    }
+        .read-more-btn {
+            display: inline-block;
+            margin-top: 16px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
 
-    .project-card h2 {
-      margin: 0;
-      font-size: 1.3rem;
-      letter-spacing: -0.02em;
-    }
+        .read-more-btn:hover {
+            text-decoration: underline;
+        }
 
-    .project-card p {
-      margin: 0;
-      color: var(--text-muted);
-      line-height: 1.7;
-      flex: 1;
-    }
+        footer {
+            margin-top: 120px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
 
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .tag {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: var(--tag-bg);
-      border: 1px solid rgba(121, 224, 255, 0.14);
-      color: #caefff;
-      font-size: 0.9rem;
-    }
-
-    .demo-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-      width: fit-content;
-    }
-
-    .demo-link:hover {
-      color: var(--accent-strong);
-    }
-
-    .demo-link span {
-      transition: transform 0.25s ease;
-    }
-
-    .demo-link:hover span {
-      transform: translateX(4px);
-    }
-
-    @media (max-width: 640px) {
-      .page {
-        width: min(100% - 20px, 1120px);
-        padding: 48px 0 64px;
-      }
-
-      .hero {
-        margin-bottom: 32px;
-      }
-
-      .project-card {
-        padding: 22px;
-        border-radius: 20px;
-      }
-
-      .hero p {
-        font-size: 1rem;
-=======
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      color: var(--text-main);
-      background:
-        radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 32%),
-        linear-gradient(135deg, var(--bg-start), var(--bg-mid) 55%, var(--bg-end));
-    }
-
-    .card {
-      width: min(760px, 100%);
-      padding: 40px;
-      border-radius: 28px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(16px);
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(15, 118, 110, 0.1);
-      color: var(--accent);
-      font-size: 14px;
-      letter-spacing: 0.08em;
-    }
-
-    h1 {
-      margin: 18px 0 12px;
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      line-height: 1.05;
-    }
-
-    .subtitle {
-      margin: 0 0 28px;
-      max-width: 560px;
-      font-size: 1.08rem;
-      line-height: 1.8;
-      color: var(--text-muted);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .panel {
-      padding: 22px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-    }
-
-    h2 {
-      margin: 0 0 12px;
-      font-size: 1rem;
-      color: var(--accent);
-    }
-
-    p,
-    li {
-      margin: 0;
-      font-size: 0.98rem;
-      line-height: 1.8;
-      color: var(--text-main);
-    }
-
-    ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-
-    @media (max-width: 640px) {
-      .card {
-        padding: 28px;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
->>>>>>> 104b6e73af6d852d2d29dc3f3a42bcd014fb4285
-      }
-    }
-  </style>
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 24px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<<<<<<< HEAD
-  <main class="page">
-    <section class="hero">
-      <div class="eyebrow">Portfolio Showcase</div>
-      <h1>用简洁布局呈现重点项目与真实能力。</h1>
-      <p>这是一个现代卡片式作品集页面示例，聚焦项目标题、项目描述、技术标签与演示入口，适合个人主页、开发者作品集或自由职业展示页。</p>
-    </section>
+    <div class="container">
+        <header>
+            <h1>你好，这里是我的博客</h1>
+            <p class="intro">
+                探索设计、科技、生活与思考的交汇点。保持好奇，保持简单。
+            </p>
+        </header>
 
-    <section class="projects-grid">
-      <article class="project-card">
-        <h2>品牌官网重构</h2>
-        <p>为设计工作室重做响应式官网，优化首屏信息层级和视觉节奏，使页面加载速度与移动端可读性明显提升。</p>
-        <div class="tags">
-          <span class="tag">HTML5</span>
-          <span class="tag">CSS3</span>
-          <span class="tag">Responsive</span>
-        </div>
-        <a class="demo-link" href="https://example.com/demo-1" target="_blank" rel="noopener noreferrer">
-          查看演示 <span>→</span>
-        </a>
-      </article>
 
-      <article class="project-card">
-        <h2>数据看板系统</h2>
-        <p>构建面向运营团队的可视化数据后台，整合关键指标、趋势图和筛选控件，帮助团队更快完成日报分析。</p>
-        <div class="tags">
-          <span class="tag">JavaScript</span>
-          <span class="tag">Chart UI</span>
-          <span class="tag">Dashboard</span>
-        </div>
-        <a class="demo-link" href="https://example.com/demo-2" target="_blank" rel="noopener noreferrer">
-          查看演示 <span>→</span>
-        </a>
-      </article>
+        <section class="post-list">
+            <!-- 示例文章 1 -->
+            <article class="post-item">
+                <p class="post-date">2024年3月24日</p>
+                <h2 class="post-title">如何构建一个极简且高效的工作流程？</h2>
+                <p class="post-excerpt">
+                    在充满干扰的时代，保持专注是一项稀缺能力。在这篇文章中，我们将探讨如何通过减少不必要的工具和习惯，来提升核心产出。
+                </p>
+                <a href="#" class="read-more-btn">阅读更多 &rarr;</a>
+            </article>
 
-      <article class="project-card">
-        <h2>电商落地页</h2>
-        <p>设计并实现高转化商品落地页，强化卖点模块、用户评价与行动按钮布局，适配广告投放与社媒引流场景。</p>
-        <div class="tags">
-          <span class="tag">Landing Page</span>
-          <span class="tag">UI Design</span>
-          <span class="tag">A/B Test</span>
-        </div>
-        <a class="demo-link" href="https://example.com/demo-3" target="_blank" rel="noopener noreferrer">
-          查看演示 <span>→</span>
-        </a>
-      </article>
 
-      <article class="project-card">
-        <h2>SaaS 管理平台</h2>
-        <p>面向中小团队的后台界面方案，统一信息架构、导航逻辑和组件风格，让复杂功能在深色界面中依然保持清晰。</p>
-        <div class="tags">
-          <span class="tag">Admin Panel</span>
-          <span class="tag">Dark UI</span>
-          <span class="tag">Design System</span>
-        </div>
-        <a class="demo-link" href="https://example.com/demo-4" target="_blank" rel="noopener noreferrer">
-          查看演示 <span>→</span>
-        </a>
-=======
-  <main class="card">
-    <span class="tag">PERSONAL HOME</span>
-    <h1>林知远</h1>
-    <p class="subtitle">
-      你好，我是一名热爱设计与技术的创作者，喜欢用简洁的方式表达想法，
-      也喜欢把细节打磨到恰到好处。这里是我的个人主页，一个安静、清爽的小角落。
-    </p>
+            <!-- 示例文章 2 -->
+            <article class="post-item">
+                <p class="post-date">2024年3月20日</p>
+                <h2 class="post-title">探索现代 Web 设计中的留白艺术</h2>
+                <p class="post-excerpt">
+                    留白不仅仅是空白，它是设计中的呼吸空间。适当的留白能引导视线，平衡视觉层级，并提供更舒适的用户体验。
+                </p>
+                <a href="#" class="read-more-btn">阅读更多 &rarr;</a>
+            </article>
 
-    <section class="grid">
-      <article class="panel">
-        <h2>简介</h2>
-        <p>
-          目前专注于前端设计、网页体验和内容创作，希望通过有温度的视觉与清晰的信息表达，
-          做出让人愿意停留的作品。
-        </p>
-      </article>
 
-      <article class="panel">
-        <h2>兴趣爱好</h2>
-        <ul>
-          <li>摄影，记录光影与日常</li>
-          <li>阅读，偏爱人文与设计类内容</li>
-          <li>旅行，观察不同城市的节奏与美感</li>
-        </ul>
->>>>>>> 104b6e73af6d852d2d29dc3f3a42bcd014fb4285
-      </article>
-    </section>
-  </main>
+            <!-- 示例文章 3 -->
+            <article class="post-item">
+                <p class="post-date">2024年3月15日</p>
+                <h2 class="post-title">2024 年值得关注的开源项目推荐</h2>
+                <p class="post-excerpt">
+                    开源社区正以惊人的速度演进。本期精选了几个在性能和开发者体验上表现优异的新兴工具。
+                </p>
+                <a href="#" class="read-more-btn">阅读更多 &rarr;</a>
+            </article>
+        </section>
+
+
+        <footer>
+            <p>&copy; 2024 我的博客. 构建自极简主义灵感.</p>
+        </footer>
+    </div>
 </body>
 </html>
