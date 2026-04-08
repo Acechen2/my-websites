@@ -1,1305 +1,668 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSS 入门课件 — 网页设计课程</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页设计课程课件 - 个人主页制作</title>
+    <style>
+        /* ==================== 课件全局样式 ==================== */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        
+        body {
+            font-family: "Microsoft YaHei","微软雅黑",Arial,sans-serif;
+            line-height: 1.8;
+            color: #2c3e50;
+            background: #f5f7fa;
+        }
 
-  :root {
-    --primary: #4f46e5;
-    --primary-light: #818cf8;
-    --accent: #06b6d4;
-    --accent2: #f59e0b;
-    --bg: #0f172a;
-    --bg2: #1e293b;
-    --bg3: #334155;
-    --text: #f1f5f9;
-    --text2: #94a3b8;
-    --green: #22c55e;
-    --red: #ef4444;
-    --pink: #ec4899;
-  }
+        .slide-container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
 
-  html { scroll-behavior: smooth; }
+        /* 幻灯片页面样式 */
+        .slide {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 50px 45px;
+            margin-bottom: 35px;
+            page-break-after: always;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 6px; height: 100%;
+            border-radius: 16px 0 0 16px;
+        }
+        .slide:nth-child(1)::before { background: linear-gradient(#667eea,#764ba2); }
+        .slide:nth-child(2)::before { background: linear-gradient(#e44d26,#f16529); }
+        .slide:nth-child(3)::before { background: linear-gradient(#264de4,#2965f1); }
+        .slide:nth-child(4)::before { background: linear-gradient(#3498db,#2ecc71); }
+        .slide:nth-child(5)::before { background: linear-gradient(#9b59b6,#e74c3c); }
+        .slide:nth-child(6)::before { background: linear-gradient(#f39c12,#e67e22); }
+        .slide:nth-child(7)::before { background: linear-gradient(#1abc9c,#16a085); }
+        .slide:nth-child(8)::before { background: linear-gradient(#e74c3c,#c0392b); }
+        .slide:nth-child(9)::before { background: linear-gradient(#34495e,#2c3e50); }
+        .slide:nth-child(10)::before { background: linear-gradient(#27ae60,#2ecc71); }
+        .slide:nth-child(11)::before { background: linear-gradient(#8e44ad,#9b59b6); }
 
-  body {
-    font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 16px;
-    line-height: 1.7;
-  }
+        h1.slide-title {
+            font-size: 38px;
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        h1.slide-title::after {
+            content:"";
+            display:block;width:80px;height:4px;background:#3498db;margin:12px auto 0;border-radius:2px;
+        }
 
-  /* ===== 侧边导航 ===== */
-  .sidebar {
-    position: fixed; left: 0; top: 0; bottom: 0;
-    width: 220px; background: var(--bg2);
-    border-right: 1px solid var(--bg3);
-    overflow-y: auto; z-index: 100;
-    padding: 20px 0;
-  }
-  .sidebar-logo {
-    text-align: center; padding: 10px 20px 20px;
-    border-bottom: 1px solid var(--bg3); margin-bottom: 10px;
-  }
-  .sidebar-logo span {
-    font-size: 13px; color: var(--text2);
-    display: block; margin-top: 4px;
-  }
-  .sidebar-logo h2 { font-size: 18px; color: var(--primary-light); }
-  .nav-section { padding: 8px 20px 4px; font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; }
-  .sidebar a {
-    display: block; padding: 8px 20px; color: var(--text2);
-    text-decoration: none; font-size: 14px; transition: all .2s;
-    border-left: 3px solid transparent;
-  }
-  .sidebar a:hover, .sidebar a.active {
-    color: var(--primary-light); background: rgba(79,70,229,.1);
-    border-left-color: var(--primary-light);
-  }
-  .lesson-tag {
-    display: inline-block; font-size: 10px; padding: 1px 6px;
-    border-radius: 10px; margin-left: 6px; vertical-align: middle;
-  }
-  .tag-1 { background: rgba(79,70,229,.3); color: var(--primary-light); }
-  .tag-2 { background: rgba(6,182,212,.3); color: var(--accent); }
+        h2 {
+            font-size: 26px;
+            color: #2c3e50;
+            margin: 25px 0 15px;
+            padding-left: 14px;
+            border-left: 4px solid #3498db;
+        }
 
-  /* ===== 主内容区 ===== */
-  .main {
-    margin-left: 220px;
-    padding: 0 0 80px;
-  }
+        h3 {
+            font-size: 20px;
+            color: #555;
+            margin: 18px 0 10px;
+        }
 
-  /* ===== Hero 封面 ===== */
-  .hero {
-    background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 40%, #0c4a6e 100%);
-    padding: 80px 60px;
-    border-bottom: 1px solid var(--bg3);
-    position: relative; overflow: hidden;
-  }
-  .hero::before {
-    content: '</>';
-    position: absolute; right: 60px; top: 50%; transform: translateY(-50%);
-    font-size: 180px; color: rgba(79,70,229,.08);
-    font-family: monospace; font-weight: bold;
-  }
-  .hero-badge {
-    display: inline-block; background: rgba(79,70,229,.2);
-    border: 1px solid var(--primary); color: var(--primary-light);
-    padding: 4px 14px; border-radius: 20px; font-size: 13px; margin-bottom: 16px;
-  }
-  .hero h1 { font-size: 46px; font-weight: 800; margin-bottom: 12px; }
-  .hero h1 span { color: var(--primary-light); }
-  .hero p { color: var(--text2); font-size: 18px; max-width: 500px; }
-  .hero-meta { display: flex; gap: 30px; margin-top: 30px; }
-  .hero-meta div { text-align: center; }
-  .hero-meta .num { font-size: 28px; font-weight: 700; color: var(--accent); }
-  .hero-meta .label { font-size: 13px; color: var(--text2); }
+        p { margin-bottom: 12px; font-size: 17px; }
 
-  /* ===== 课时分隔Banner ===== */
-  .lesson-banner {
-    padding: 28px 60px;
-    display: flex; align-items: center; gap: 16px;
-    position: sticky; top: 0; z-index: 50;
-  }
-  .lesson-banner.l1 { background: linear-gradient(90deg, #312e81, #1e293b); }
-  .lesson-banner.l2 { background: linear-gradient(90deg, #164e63, #1e293b); }
-  .lesson-banner .lesson-num {
-    font-size: 48px; font-weight: 900; opacity: .15; font-style: italic;
-  }
-  .lesson-banner .lesson-info h2 { font-size: 22px; font-weight: 700; }
-  .lesson-banner .lesson-info p { color: var(--text2); font-size: 14px; }
+        ul, ol { padding-left: 24px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; font-size: 16px; line-height: 1.7; }
 
-  /* ===== 章节卡片容器 ===== */
-  .section {
-    padding: 40px 60px;
-    border-bottom: 1px solid var(--bg3);
-  }
-  .section-header {
-    display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
-  }
-  .section-icon {
-    width: 42px; height: 42px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px; flex-shrink: 0;
-  }
-  .icon-purple { background: rgba(79,70,229,.2); }
-  .icon-cyan   { background: rgba(6,182,212,.2); }
-  .icon-amber  { background: rgba(245,158,11,.2); }
-  .icon-green  { background: rgba(34,197,94,.2); }
-  .icon-pink   { background: rgba(236,72,153,.2); }
-  .section-header h2 { font-size: 22px; font-weight: 700; }
-  .section-header p  { font-size: 14px; color: var(--text2); }
+        /* 代码块样式 */
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px 24px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: "Consolas","Courier New",monospace;
+            font-size: 14px;
+            line-height: 1.65;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+        }
+        code { font-family: "Consolas","Courier New",monospace; }
 
-  /* ===== 知识点卡片网格 ===== */
-  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 16px; }
-  .card {
-    background: var(--bg2); border: 1px solid var(--bg3);
-    border-radius: 12px; padding: 20px; transition: all .2s;
-  }
-  .card:hover { border-color: var(--primary-light); transform: translateY(-2px); }
-  .card h3 { font-size: 15px; margin-bottom: 8px; color: var(--text); }
-  .card p  { font-size: 13px; color: var(--text2); }
+        /* 语法高亮 */
+        .tag { color: #e06c75; }      /* 标签名 - 红色 */
+        .attr { color: #d19a66; }     /* 属性名 - 橙色 */
+        .val  { color: #98c379; }      /* 属性值 - 绿色 */
+        .sel  { color: #61afef; }      /* CSS选择器 - 蓝色 */
+        .prop { color: #e06c75; }      /* CSS属性 - 红色 */
+        .cmt  { color: #5c6370;font-style:italic; } /* 注释 - 灰色斜体 */
+        .kw   { color: #c678dd; }      /* 关键字 - 紫色 */
 
-  /* ===== 代码演示区 ===== */
-  .demo-box {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
-    border: 1px solid var(--bg3); border-radius: 12px; overflow: hidden; margin: 20px 0;
-  }
-  .code-panel { background: #0d1117; }
-  .preview-panel { background: white; }
-  .panel-header {
-    padding: 8px 16px; font-size: 12px; font-weight: 600;
-    display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--bg3);
-  }
-  .code-panel .panel-header { background: #161b22; color: #8b949e; }
-  .preview-panel .panel-header { background: #f3f4f6; color: #374151; border-color: #e5e7eb; }
-  .dot { width: 10px; height: 10px; border-radius: 50%; }
-  .dot-r { background: #ef4444; }
-  .dot-y { background: #f59e0b; }
-  .dot-g { background: #22c55e; }
-  .code-panel pre {
-    padding: 20px; font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 13px; line-height: 1.8; overflow-x: auto; color: #e6edf3;
-  }
-  .preview-panel .preview-content {
-    padding: 20px; min-height: 120px;
-  }
+        /* 提示框 */
+        .tip-box {
+            background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+            border-left: 4px solid #4caf50;
+            padding: 16px 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 15px 0;
+        }
+        .tip-box.warning {
+            background: linear-gradient(135deg, #fff3e0, #fff8e1);
+            border-left-color: #ff9800;
+        }
+        .tip-box.info {
+            background: linear-gradient(135deg, #e3f2fd, #e8f4fd);
+            border-left-color: #2196f3;
+        }
+        .tip-box strong { color: #333; }
+        .tip-icon { margin-right: 8px; }
 
-  /* 代码高亮 */
-  .kw  { color: #ff7b72; }   /* 关键字/属性 */
-  .val { color: #79c0ff; }   /* 值 */
-  .sel { color: #d2a8ff; }   /* 选择器 */
-  .com { color: #8b949e; font-style: italic; }   /* 注释 */
-  .str { color: #a5d6ff; }   /* 字符串 */
-  .tag { color: #7ee787; }   /* HTML标签 */
-  .attr{ color: #79c0ff; }   /* 属性名 */
-  .num { color: #f2cc60; }   /* 数字 */
+        /* 对比表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 11px 15px;
+            text-align: left;
+        }
+        th { background: #3498db; color: white; }
+        tr:nth-child(even) { background: #f8f9fa; }
 
-  /* ===== 对比表格 ===== */
-  .compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-  .compare-table th {
-    background: var(--bg3); padding: 12px 16px;
-    text-align: left; font-size: 14px; color: var(--text2);
-  }
-  .compare-table td {
-    padding: 11px 16px; border-bottom: 1px solid var(--bg3);
-    font-size: 14px; vertical-align: top;
-  }
-  .compare-table tr:last-child td { border-bottom: none; }
-  .compare-table .highlight { color: var(--primary-light); font-weight: 600; }
-  code.inline {
-    background: rgba(79,70,229,.15); color: var(--primary-light);
-    padding: 2px 7px; border-radius: 4px; font-size: 13px;
-    font-family: 'Consolas', monospace;
-  }
+        /* 知识点标签 */
+        .tag-label {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+        .tag-html { background: #ffebee; color: #d32f2f; }
+        .tag-css { background: #e3f2fd; color: #1976d2; }
+        .tag-js { background: #fff3e0; color: #e65100; }
 
-  /* ===== 盒模型可视化 ===== */
-  .box-model-viz {
-    display: flex; justify-content: center; align-items: center;
-    padding: 30px; background: var(--bg2); border-radius: 12px; margin: 20px 0;
-  }
-  .bm-margin    { background: rgba(245,158,11,.15); border: 2px dashed var(--accent2); padding: 24px; border-radius: 4px; }
-  .bm-border    { background: rgba(79,70,229,.15);  border: 2px solid var(--primary-light); padding: 20px; }
-  .bm-padding   { background: rgba(6,182,212,.15);  border: 2px dashed var(--accent); padding: 20px; }
-  .bm-content   { background: rgba(34,197,94,.2);   border: 2px solid var(--green); padding: 20px; text-align: center; min-width: 140px; }
-  .bm-label { font-size: 11px; text-align: center; margin-top: 4px; font-weight: 600; }
-  .bm-margin .bm-label  { color: var(--accent2); }
-  .bm-border .bm-label  { color: var(--primary-light); }
-  .bm-padding .bm-label { color: var(--accent); }
-  .bm-content .bm-label { color: var(--green); font-size: 13px; }
+        /* 封面页特殊样式 */
+        .cover-slide {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .cover-slide h1 {
+            color: white !important;
+            font-size: 46px !important;
+            margin-bottom: 15px;
+        }
+        .cover-slide h1::after { background: white !important; width: 120px !important; height: 5px !important; }
+        .cover-slide p { color: rgba(255,255,255,0.9) !important; font-size: 20px !important; }
+        .cover-subtitle { font-size: 22px !important; opacity: 0.95; margin-top: 20px !important; }
+        .cover-info { 
+            margin-top: 40px !important; 
+            font-size: 16px !important; 
+            opacity: 0.8;
+        }
+        .cover-slide::before { display:none; }
 
-  /* ===== 选择器展示 ===== */
-  .selector-row {
-    display: flex; align-items: center; gap: 16px;
-    background: var(--bg2); border: 1px solid var(--bg3);
-    border-radius: 10px; padding: 14px 18px; margin-bottom: 10px;
-  }
-  .selector-name { font-family: monospace; color: var(--primary-light); font-size: 15px; min-width: 160px; }
-  .selector-desc { color: var(--text2); font-size: 14px; flex: 1; }
-  .selector-eg   { font-size: 13px; background: rgba(0,0,0,.3); padding: 4px 10px; border-radius: 6px; font-family: monospace; color: var(--accent); }
+        /* 页码标记 */
+        .page-num {
+            position: absolute;
+            bottom: 15px;
+            right: 25px;
+            font-size: 13px;
+            color: #aaa;
+        }
 
-  /* ===== 颜色色块 ===== */
-  .color-grid { display: flex; flex-wrap: wrap; gap: 12px; }
-  .color-item { text-align: center; }
-  .color-swatch { width: 70px; height: 50px; border-radius: 8px; margin-bottom: 6px; border: 1px solid rgba(255,255,255,.1); }
-  .color-item span { font-size: 12px; color: var(--text2); display: block; }
-  .color-item code { font-size: 11px; color: var(--text2); }
+        /* 两栏布局 */
+        .two-col {
+            display: flex;
+            gap: 25px;
+        }
+        .two-col > div { flex: 1; }
 
-  /* ===== 要点提示框 ===== */
-  .tip {
-    display: flex; gap: 12px; padding: 14px 18px;
-    border-radius: 10px; margin: 16px 0; font-size: 14px; align-items: flex-start;
-  }
-  .tip-icon { font-size: 18px; flex-shrink: 0; }
-  .tip.info  { background: rgba(79,70,229,.1); border-left: 3px solid var(--primary); }
-  .tip.warn  { background: rgba(245,158,11,.1); border-left: 3px solid var(--accent2); }
-  .tip.good  { background: rgba(34,197,94,.1);  border-left: 3px solid var(--green); }
-
-  /* ===== 属性大卡片 ===== */
-  .prop-section { margin: 20px 0; }
-  .prop-title { font-size: 16px; font-weight: 700; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-  .prop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 10px; }
-  .prop-item {
-    background: var(--bg2); border: 1px solid var(--bg3); border-radius: 8px; padding: 12px 14px;
-  }
-  .prop-item .prop-name { font-family: monospace; color: var(--primary-light); font-size: 14px; font-weight: 600; }
-  .prop-item .prop-desc { font-size: 12px; color: var(--text2); margin-top: 4px; }
-  .prop-item .prop-example { font-size: 12px; color: var(--accent); font-family: monospace; margin-top: 6px; background: rgba(0,0,0,.3); padding: 3px 8px; border-radius: 4px; }
-
-  /* ===== Flex 演示 ===== */
-  .flex-demo { display: flex; gap: 8px; padding: 16px; background: var(--bg); border-radius: 8px; border: 1px dashed var(--bg3); }
-  .flex-item { background: var(--primary); color: white; padding: 10px 16px; border-radius: 6px; font-size: 13px; text-align: center; }
-  .flex-demo.jc-sb { justify-content: space-between; }
-  .flex-demo.jc-c  { justify-content: center; }
-  .flex-demo.wrap  { flex-wrap: wrap; }
-  .flex-demo.col   { flex-direction: column; align-items: flex-start; }
-
-  /* ===== 实战案例区 ===== */
-  .case-wrap { background: var(--bg2); border: 1px solid var(--bg3); border-radius: 14px; overflow: hidden; margin: 16px 0; }
-  .case-header { padding: 14px 20px; background: var(--bg3); font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
-  .case-body { padding: 20px; }
-
-  /* ===== 进度条章节总结 ===== */
-  .summary-bar {
-    background: var(--bg2); border: 1px solid var(--bg3); border-radius: 12px; padding: 24px 28px; margin: 20px 0;
-  }
-  .summary-bar h3 { font-size: 16px; margin-bottom: 16px; color: var(--accent); }
-  .summary-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 14px; }
-  .check { width: 20px; height: 20px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
-
-  /* ===== 页脚 ===== */
-  .footer {
-    text-align: center; padding: 40px; color: var(--text2); font-size: 13px;
-    border-top: 1px solid var(--bg3); margin-left: 0;
-  }
-
-  /* 滚动高亮 */
-  @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: none; } }
-  .section { animation: fadeIn .4s ease both; }
-</style>
+        @media (max-width:768px) {
+            .two-col { flex-direction: column; }
+            .slide { padding: 30px 20px; }
+            h1.slide-title { font-size: 28px; }
+        }
+    </style>
 </head>
 <body>
-
-<!-- 侧边导航 -->
-<nav class="sidebar">
-  <div class="sidebar-logo">
-    <h2>CSS 入门</h2>
-    <span>网页设计课程</span>
-  </div>
-  <div class="nav-section">第一节课</div>
-  <a href="#what-is-css">💡 CSS 是什么</a>
-  <a href="#how-to-use">🔗 三种使用方式</a>
-  <a href="#selectors">🎯 选择器</a>
-  <a href="#colors">🎨 颜色与字体</a>
-  <a href="#text-props">✏️ 文字样式</a>
-  <a href="#lesson1-summary">✅ 第一节小结</a>
-  <div class="nav-section">第二节课</div>
-  <a href="#box-model">📦 盒模型</a>
-  <a href="#display">🖥️ display属性</a>
-  <a href="#flexbox">↔️ Flexbox布局</a>
-  <a href="#bg-border">🖼️ 背景与边框</a>
-  <a href="#practice">🚀 实战案例</a>
-  <a href="#lesson2-summary">✅ 第二节小结</a>
-</nav>
-
-<!-- 主内容 -->
-<div class="main">
-
-  <!-- Hero 封面 -->
-  <div class="hero">
-    <div class="hero-badge">网页设计课程 · CSS 专题</div>
-    <h1>CSS 入门<span>零基础到上手</span></h1>
-    <p>掌握网页样式的核心语言，让你的页面从黑白文字变成精美网站。</p>
-    <div class="hero-meta">
-      <div><div class="num">2</div><div class="label">节课时</div></div>
-      <div><div class="num">12</div><div class="label">核心知识点</div></div>
-      <div><div class="num">3</div><div class="label">实战案例</div></div>
-    </div>
-  </div>
-
-  <!-- ========== 第一节课 ========== -->
-  <div class="lesson-banner l1" id="lesson1">
-    <div class="lesson-num">01</div>
-    <div class="lesson-info">
-      <h2>第一节课：CSS 基础入门</h2>
-      <p>CSS是什么 · 三种引入方式 · 选择器 · 颜色字体 · 文字样式</p>
-    </div>
-  </div>
-
-  <!-- 1. CSS是什么 -->
-  <div class="section" id="what-is-css">
-    <div class="section-header">
-      <div class="section-icon icon-purple">💡</div>
-      <div>
-        <h2>CSS 是什么？</h2>
-        <p>Cascading Style Sheets — 层叠样式表</p>
-      </div>
-    </div>
-
-    <div class="card-grid">
-      <div class="card">
-        <h3>📄 HTML = 骨架</h3>
-        <p>负责网页的结构和内容，就像一个人的骨架，决定有哪些元素、放在哪里。</p>
-      </div>
-      <div class="card">
-        <h3>🎨 CSS = 外貌</h3>
-        <p>负责网页的样式和外观，决定颜色、字体、大小、位置、动画等一切视觉效果。</p>
-      </div>
-      <div class="card">
-        <h3>⚡ JS = 行为</h3>
-        <p>负责网页的交互和动态效果，让页面"活起来"，响应用户操作。</p>
-      </div>
-    </div>
-
-    <div class="tip info" style="margin-top:20px;">
-      <span class="tip-icon">💡</span>
-      <div>
-        <strong>类比理解：</strong>如果把网页比作一个人，HTML是骨架，CSS是穿衣打扮，JS是动作行为。同样的骨架，不同的CSS打扮，就是完全不同的网页风格。
-      </div>
-    </div>
-
-    <!-- CSS规则结构 -->
-    <div style="margin-top:24px;">
-      <h3 style="margin-bottom:16px; font-size:16px;">📐 CSS 规则基本结构</h3>
-      <div class="demo-box">
-        <div class="code-panel">
-          <div class="panel-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div> style.css</div>
-          <pre><span class="com">/* CSS 规则的基本格式 */</span>
-<span class="sel">选择器</span> {
-    <span class="kw">属性名</span>: <span class="val">属性值</span>;
-    <span class="kw">属性名</span>: <span class="val">属性值</span>;
-}
-
-<span class="com">/* 真实例子 */</span>
-<span class="sel">h1</span> {
-    <span class="kw">color</span>: <span class="val">red</span>;
-    <span class="kw">font-size</span>: <span class="val">32px</span>;
-    <span class="kw">text-align</span>: <span class="val">center</span>;
-}
-
-<span class="sel">p</span> {
-    <span class="kw">color</span>: <span class="val">#666666</span>;
-    <span class="kw">line-height</span>: <span class="val">1.8</span>;
-}</pre>
-        </div>
-        <div class="preview-panel">
-          <div class="panel-header"><div class="dot" style="background:#e5e7eb"></div> 预览效果</div>
-          <div class="preview-content">
-            <h1 style="color:red;font-size:32px;text-align:center">这是标题</h1>
-            <p style="color:#666;line-height:1.8;margin-top:10px">这是一段段落文字，CSS让它变成了深灰色，行间距也更舒适了。</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tip warn">
-      <span class="tip-icon">⚠️</span>
-      <div><strong>注意：</strong>每条属性后面必须用 <code class="inline">;</code> 分号结尾！花括号 <code class="inline">{ }</code> 必须配对。这是初学者最常见的错误。</div>
-    </div>
-  </div>
-
-  <!-- 2. 三种使用方式 -->
-  <div class="section" id="how-to-use">
-    <div class="section-header">
-      <div class="section-icon icon-cyan">🔗</div>
-      <div>
-        <h2>CSS 的三种使用方式</h2>
-        <p>内联样式 · 内部样式表 · 外部样式表</p>
-      </div>
-    </div>
-
-    <table class="compare-table">
-      <tr>
-        <th>方式</th>
-        <th>写法位置</th>
-        <th>优先级</th>
-        <th>适用场景</th>
-        <th>推荐度</th>
-      </tr>
-      <tr>
-        <td class="highlight">① 内联样式</td>
-        <td>写在 HTML 标签的 <code class="inline">style</code> 属性里</td>
-        <td>最高</td>
-        <td>临时修改单个元素</td>
-        <td>⭐（不推荐）</td>
-      </tr>
-      <tr>
-        <td class="highlight">② 内部样式表</td>
-        <td>写在 <code class="inline">&lt;style&gt;</code> 标签里（放在 head 中）</td>
-        <td>中等</td>
-        <td>单个 HTML 文件</td>
-        <td>⭐⭐⭐</td>
-      </tr>
-      <tr>
-        <td class="highlight">③ 外部样式表</td>
-        <td>单独的 <code class="inline">.css</code> 文件，用 link 引入</td>
-        <td>最低</td>
-        <td>多页面统一管理</td>
-        <td>⭐⭐⭐⭐⭐</td>
-      </tr>
-    </table>
-
-    <div class="demo-box" style="margin-top:20px;">
-      <div class="code-panel">
-        <div class="panel-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div> 三种写法示例</div>
-        <pre><span class="com">/* ① 内联样式（直接写在标签里）*/</span>
-<span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="str">"color: red; font-size: 18px;"</span><span class="tag">&gt;</span>
-    我是红色文字
-<span class="tag">&lt;/p&gt;</span>
-
-<span class="com">/* ② 内部样式表（在head里写style标签）*/</span>
-<span class="tag">&lt;head&gt;</span>
-  <span class="tag">&lt;style&gt;</span>
-    <span class="sel">p</span> { <span class="kw">color</span>: <span class="val">blue</span>; }
-  <span class="tag">&lt;/style&gt;</span>
-<span class="tag">&lt;/head&gt;</span>
-
-<span class="com">/* ③ 外部样式表（推荐！）*/</span>
-<span class="tag">&lt;head&gt;</span>
-  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span>
-        <span class="attr">href</span>=<span class="str">"style.css"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;/head&gt;</span></pre>
-      </div>
-      <div class="preview-panel">
-        <div class="panel-header"><div class="dot" style="background:#e5e7eb"></div> 说明</div>
-        <div class="preview-content">
-          <div style="font-size:13px;color:#333;">
-            <p style="margin-bottom:10px;color:red;">① 内联：只影响这一个元素</p>
-            <p style="margin-bottom:10px;color:blue;">② 内部：影响整个页面的同类元素</p>
-            <p style="color:#7c3aed;font-weight:bold;">③ 外部：可以给多个页面共享样式，修改一个CSS文件就能改所有页面！</p>
-            <div style="margin-top:12px;background:#fef3c7;border-left:3px solid #f59e0b;padding:8px;border-radius:4px;font-size:12px;">
-              💡 我们平时做项目都用外部样式表，就像 baidu 项目里的 styles.css 文件。
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 3. 选择器 -->
-  <div class="section" id="selectors">
-    <div class="section-header">
-      <div class="section-icon icon-amber">🎯</div>
-      <div>
-        <h2>CSS 选择器</h2>
-        <p>告诉浏览器：我要给哪些元素添加样式</p>
-      </div>
-    </div>
-
-    <div class="selector-row">
-      <div class="selector-name">标签选择器</div>
-      <div class="selector-desc">直接写 HTML 标签名，选中页面所有该标签</div>
-      <div class="selector-eg">p { } &nbsp; h1 { } &nbsp; div { }</div>
-    </div>
-    <div class="selector-row">
-      <div class="selector-name">.类选择器</div>
-      <div class="selector-desc">用 <code class="inline">.</code> 开头，选中 class 属性匹配的元素（最常用！）</div>
-      <div class="selector-eg">.box { } &nbsp; .title { }</div>
-    </div>
-    <div class="selector-row">
-      <div class="selector-name">#ID选择器</div>
-      <div class="selector-desc">用 <code class="inline">#</code> 开头，选中 id 属性匹配的元素（唯一）</div>
-      <div class="selector-eg">#header { } &nbsp; #nav { }</div>
-    </div>
-    <div class="selector-row">
-      <div class="selector-name">* 通配符</div>
-      <div class="selector-desc">选中页面所有元素，常用于统一重置样式</div>
-      <div class="selector-eg">* { margin: 0; }</div>
-    </div>
-    <div class="selector-row">
-      <div class="selector-name">后代选择器</div>
-      <div class="selector-desc">空格隔开，选中某元素内部的后代元素</div>
-      <div class="selector-eg">div p { } &nbsp; .nav a { }</div>
-    </div>
-
-    <div class="demo-box" style="margin-top:24px;">
-      <div class="code-panel">
-        <div class="panel-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div> 选择器对比</div>
-        <pre><span class="com">/* HTML 结构 */</span>
-<span class="tag">&lt;p&gt;</span>普通段落<span class="tag">&lt;/p&gt;</span>
-<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"red"</span><span class="tag">&gt;</span>红色段落<span class="tag">&lt;/p&gt;</span>
-<span class="tag">&lt;p</span> <span class="attr">id</span>=<span class="str">"big"</span><span class="tag">&gt;</span>大字段落<span class="tag">&lt;/p&gt;</span>
-
-<span class="com">/* CSS 样式 */</span>
-<span class="sel">p</span> {
-    <span class="kw">color</span>: <span class="val">#333</span>;          <span class="com">/* 所有p都变深灰 */</span>
-}
-<span class="sel">.red</span> {
-    <span class="kw">color</span>: <span class="val">red</span>;           <span class="com">/* 只有class=red变红 */</span>
-}
-<span class="sel">#big</span> {
-    <span class="kw">font-size</span>: <span class="val">24px</span>;    <span class="com">/* 只有id=big变大 */</span>
-}</pre>
-      </div>
-      <div class="preview-panel">
-        <div class="panel-header"><div class="dot" style="background:#e5e7eb"></div> 效果预览</div>
-        <div class="preview-content">
-          <p style="color:#333;margin-bottom:8px;">普通段落 — 深灰色</p>
-          <p style="color:red;margin-bottom:8px;">红色段落 — 只有这个是红色</p>
-          <p style="font-size:24px;color:#333;">大字段落 — 只有这个变大</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="tip good">
-      <span class="tip-icon">✅</span>
-      <div>
-        <strong>最佳实践：</strong>给元素添加 class 是最灵活的方式。同一个 class 可以给多个元素用，一个元素也可以有多个 class，比如：<code class="inline">&lt;div class="box red big"&gt;</code>
-      </div>
-    </div>
-  </div>
-
-  <!-- 4. 颜色与字体 -->
-  <div class="section" id="colors">
-    <div class="section-header">
-      <div class="section-icon icon-pink">🎨</div>
-      <div>
-        <h2>颜色与字体</h2>
-        <p>color · background-color · font-family · font-size</p>
-      </div>
-    </div>
-
-    <h3 style="margin-bottom:14px;font-size:16px;">🎨 CSS 中写颜色的4种方式</h3>
-    <div class="color-grid" style="margin-bottom:24px;">
-      <div class="color-item">
-        <div class="color-swatch" style="background:#e74c3c"></div>
-        <span>颜色名称</span>
-        <code>red / blue</code>
-      </div>
-      <div class="color-item">
-        <div class="color-swatch" style="background:#e74c3c"></div>
-        <span>十六进制</span>
-        <code>#e74c3c</code>
-      </div>
-      <div class="color-item">
-        <div class="color-swatch" style="background:rgb(231,76,60)"></div>
-        <span>RGB</span>
-        <code>rgb(231,76,60)</code>
-      </div>
-      <div class="color-item">
-        <div class="color-swatch" style="background:rgba(231,76,60,0.5)"></div>
-        <span>RGBA（透明）</span>
-        <code>rgba(231,76,60,.5)</code>
-      </div>
-    </div>
-
-    <div class="demo-box">
-      <div class="code-panel">
-        <div class="panel-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div> 颜色与字体写法</div>
-        <pre><span class="sel">.title</span> {
-    <span class="com">/* 文字颜色 */</span>
-    <span class="kw">color</span>: <span class="val">#2c3e50</span>;
-
-    <span class="com">/* 背景颜色 */</span>
-    <span class="kw">background-color</span>: <span class="val">#f0f0f0</span>;
-
-    <span class="com">/* 字体大小 */</span>
-    <span class="kw">font-size</span>: <span class="val">24px</span>;
-
-    <span class="com">/* 字体族（最后一个是兜底）*/</span>
-    <span class="kw">font-family</span>: <span class="val">'微软雅黑', sans-serif</span>;
-
-    <span class="com">/* 字体加粗（normal/bold/100-900）*/</span>
-    <span class="kw">font-weight</span>: <span class="val">bold</span>;
-
-    <span class="com">/* 斜体 */</span>
-    <span class="kw">font-style</span>: <span class="val">italic</span>;
-}</pre>
-      </div>
-      <div class="preview-panel">
-        <div class="panel-header"><div class="dot" style="background:#e5e7eb"></div> 效果</div>
-        <div class="preview-content">
-          <div style="color:#2c3e50;background:#f0f0f0;font-size:24px;font-family:Microsoft YaHei,sans-serif;font-weight:bold;padding:12px;border-radius:4px;margin-bottom:10px;">
-            加粗标题样式
-          </div>
-          <div style="color:#2c3e50;font-size:16px;font-style:italic;background:#f0f0f0;padding:10px;border-radius:4px;">
-            <em>斜体效果文字</em>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 5. 文字样式 -->
-  <div class="section" id="text-props">
-    <div class="section-header">
-      <div class="section-icon icon-green">✏️</div>
-      <div>
-        <h2>常用文字样式属性</h2>
-        <p>text-align · line-height · letter-spacing · text-decoration</p>
-      </div>
-    </div>
-
-    <div class="prop-grid">
-      <div class="prop-item">
-        <div class="prop-name">color</div>
-        <div class="prop-desc">文字颜色</div>
-        <div class="prop-example">color: #333;</div>
-      </div>
-      <div class="prop-item">
-        <div class="prop-name">font-size</div>
-        <div class="prop-desc">字体大小（px / em / rem）</div>
-        <div class="prop-example">font-size: 16px;</div>
-      </div>
-      <div class="prop-item">
-        <div class="prop-name">font-weight</div>
-        <div class="prop-desc">字体粗细</div>
-        <div class="prop-example">font-weight: bold;</div>
-      </div>
-      <div class="prop-item">
-        <div class="prop-name">text-align</div>
-        <div class="prop-desc">文字水平对齐</div>
-        <div class="prop-example">text-align: center;</div>
-      </div>
-      <div class="prop-item">
-        <div class="prop-name">line-height</div>
-        <div class="prop-desc">行间距（让文字不拥挤）</div>
-        <div class="prop-example">line-height: 1.8;</div>
-      </div>
-      <div class="prop-item">
-        <div class="prop-name">letter-spacing</div>
-        <div class="prop-desc">字符间距</div>
-        <div class="prop-example">letter-spacing: 2px;</div>
-      </div>
-      <div class="prop-item">
-        <div class="prop-name">text-decoration</div>
-        <div class="prop-desc">文字装饰（下划线等）</div>
-        <div class="prop-example">text-decoration: none;</div>
-      </div>
-      <div class="prop-item">
-        <div class="prop-name">text-shadow</div>
-        <div class="prop-desc">文字阴影</div>
-        <div class="prop-example">text-shadow: 1px 1px #000;</div>
-      </div>
-    </div>
-
-    <div class="demo-box" style="margin-top:20px;">
-      <div class="code-panel">
-        <div class="panel-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div> 文字属性综合示例</div>
-        <pre><span class="sel">.article</span> {
-    <span class="kw">font-size</span>: <span class="val">16px</span>;
-    <span class="kw">line-height</span>: <span class="val">2</span>;
-    <span class="kw">color</span>: <span class="val">#333</span>;
-    <span class="kw">letter-spacing</span>: <span class="val">1px</span>;
-    <span class="kw">text-indent</span>: <span class="val">2em</span>; <span class="com">/* 首行缩进 */</span>
-}
-
-<span class="sel">.title-center</span> {
-    <span class="kw">text-align</span>: <span class="val">center</span>;
-    <span class="kw">font-size</span>: <span class="val">28px</span>;
-    <span class="kw">font-weight</span>: <span class="val">bold</span>;
-    <span class="kw">color</span>: <span class="val">#1a1a1a</span>;
-}
-
-<span class="sel">a</span> {
-    <span class="kw">text-decoration</span>: <span class="val">none</span>; <span class="com">/* 去掉下划线 */</span>
-    <span class="kw">color</span>: <span class="val">#3498db</span>;
-}</pre>
-      </div>
-      <div class="preview-panel">
-        <div class="panel-header"><div class="dot" style="background:#e5e7eb"></div> 效果预览</div>
-        <div class="preview-content">
-          <h2 style="text-align:center;font-size:22px;font-weight:bold;color:#1a1a1a;margin-bottom:10px;">文章标题居中显示</h2>
-          <p style="font-size:15px;line-height:2;color:#333;letter-spacing:1px;text-indent:2em;">
-            这是文章内容区域，首行缩进了两个字符的距离，行间距设置为2，阅读起来更加舒适，不会让眼睛感到压迫。
-          </p>
-          <p style="margin-top:8px"><a href="#" style="text-decoration:none;color:#3498db;">这是一个没有下划线的链接</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 第一节小结 -->
-  <div class="section" id="lesson1-summary">
-    <div class="summary-bar">
-      <h3>📝 第一节课 · 学习小结</h3>
-      <div class="summary-item"><div class="check">✓</div> <div>CSS 是控制网页外观的样式语言，与 HTML 结构分离</div></div>
-      <div class="summary-item"><div class="check">✓</div> <div>掌握三种引入方式：内联、内部、<strong>外部样式表</strong>（最推荐）</div></div>
-      <div class="summary-item"><div class="check">✓</div> <div>会用标签选择器、<strong>.类选择器</strong>（最常用）、#ID选择器</div></div>
-      <div class="summary-item"><div class="check">✓</div> <div>掌握颜色4种写法：颜色名 / 十六进制 / rgb() / rgba()</div></div>
-      <div class="summary-item"><div class="check">✓</div> <div>熟悉 color、font-size、font-weight、text-align 等常用属性</div></div>
-    </div>
-  </div>
-
-  <!-- ========== 第二节课 ========== -->
-  <div class="lesson-banner l2" id="lesson2">
-    <div class="lesson-num">02</div>
-    <div class="lesson-info">
-      <h2>第二节课：布局与实战</h2>
-      <p>盒模型 · display · Flexbox · 背景边框 · 综合实战</p>
-    </div>
-  </div>
-
-  <!-- 6. 盒模型 -->
-  <div class="section" id="box-model">
-    <div class="section-header">
-      <div class="section-icon icon-amber">📦</div>
-      <div>
-        <h2>CSS 盒模型</h2>
-        <p>网页中每个元素都是一个"盒子"</p>
-      </div>
-    </div>
-
-    <div class="box-model-viz">
-      <div class="bm-margin">
-        <div class="bm-label">margin（外边距）</div>
-        <div class="bm-border">
-          <div class="bm-label">border（边框）</div>
-          <div class="bm-padding">
-            <div class="bm-label">padding（内边距）</div>
-            <div class="bm-content">
-              <div style="font-size:14px;font-weight:bold">content</div>
-              <div class="bm-label">内容区域</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;">
-      <div class="card" style="border-left:3px solid var(--green);">
-        <h3 style="color:var(--green)">📦 content（内容）</h3>
-        <p>实际显示文字或图片的区域，由 <code class="inline">width</code> 和 <code class="inline">height</code> 控制。</p>
-      </div>
-      <div class="card" style="border-left:3px solid var(--accent);">
-        <h3 style="color:var(--accent)">🔵 padding（内边距）</h3>
-        <p>内容到边框之间的距离，<code class="inline">padding: 10px 20px;</code> 上下10，左右20。</p>
-      </div>
-      <div class="card" style="border-left:3px solid var(--primary-light);">
-        <h3 style="color:var(--primary-light)">🟣 border（边框）</h3>
-        <p>元素周围的边框线。格式：<code class="inline">border: 1px solid #333;</code></p>
-      </div>
-      <div class="card" style="border-left:3px solid var(--accent2);">
-        <h3 style="color:var(--accent2)">🟡 margin（外边距）</h3>
-        <p>元素与外部元素的距离，<code class="inline">margin: 0 auto;</code> 可让块级元素水平居中！</p>
-      </div>
-    </div>
-
-    <div class="demo-box" style="margin-top:20px;">
-      <div class="code-panel">
-        <div class="panel-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div> 盒模型常见写法</div>
-        <pre><span class="sel">.box</span> {
-    <span class="kw">width</span>: <span class="val">300px</span>;
-    <span class="kw">height</span>: <span class="val">100px</span>;
-
-    <span class="com">/* padding: 上 右 下 左 */</span>
-    <span class="kw">padding</span>: <span class="val">10px 20px 10px 20px</span>;
-    <span class="com">/* 简写：上下10 左右20 */</span>
-    <span class="kw">padding</span>: <span class="val">10px 20px</span>;
-
-    <span class="com">/* border: 宽度 样式 颜色 */</span>
-    <span class="kw">border</span>: <span class="val">2px solid #333</span>;
-    <span class="kw">border-radius</span>: <span class="val">8px</span>; <span class="com">/* 圆角 */</span>
-
-    <span class="com">/* margin: 外边距 */</span>
-    <span class="kw">margin</span>: <span class="val">20px auto</span>; <span class="com">/* 水平居中 */</span>
-
-    <span class="com">/* 防止padding撑大元素 */</span>
-    <span class="kw">box-sizing</span>: <span class="val">border-box</span>;
-}</pre>
-      </div>
-      <div class="preview-panel">
-        <div class="panel-header"><div class="dot" style="background:#e5e7eb"></div> 效果</div>
-        <div class="preview-content">
-          <div style="width:240px;padding:16px 24px;border:2px solid #6366f1;border-radius:8px;margin:10px auto;background:#f5f3ff;font-size:14px;color:#4338ca;text-align:center;">
-            <p>这个盒子有：</p>
-            <p>padding: 16px 24px</p>
-            <p>border: 2px solid</p>
-            <p>border-radius: 8px</p>
-            <p>margin: 10px auto（居中）</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tip warn">
-      <span class="tip-icon">⚠️</span>
-      <div><strong>重要！</strong>建议在所有 CSS 开头写：<code class="inline">* { box-sizing: border-box; }</code>，这样 padding 和 border 不会撑大元素，布局更好控制。</div>
-    </div>
-  </div>
-
-  <!-- 7. display -->
-  <div class="section" id="display">
-    <div class="section-header">
-      <div class="section-icon icon-purple">🖥️</div>
-      <div>
-        <h2>display 属性</h2>
-        <p>控制元素的显示方式</p>
-      </div>
-    </div>
-
-    <table class="compare-table">
-      <tr>
-        <th>值</th>
-        <th>描述</th>
-        <th>典型标签</th>
-        <th>特点</th>
-      </tr>
-      <tr>
-        <td><code class="inline">block</code></td>
-        <td>块级元素</td>
-        <td>div, p, h1-h6, ul</td>
-        <td>独占一行，可设置宽高</td>
-      </tr>
-      <tr>
-        <td><code class="inline">inline</code></td>
-        <td>行内元素</td>
-        <td>span, a, strong, em</td>
-        <td>不独占行，宽高由内容决定</td>
-      </tr>
-      <tr>
-        <td><code class="inline">inline-block</code></td>
-        <td>行内块元素</td>
-        <td>img, input, button</td>
-        <td>不独占行，但可设置宽高</td>
-      </tr>
-      <tr>
-        <td><code class="inline">none</code></td>
-        <td>隐藏元素</td>
-        <td>—</td>
-        <td>完全隐藏，不占空间</td>
-      </tr>
-      <tr>
-        <td><code class="inline">flex</code></td>
-        <td>弹性布局</td>
-        <td>—</td>
-        <td>强大的现代布局方式（下节详讲）</td>
-      </tr>
-    </table>
-
-    <div class="tip info" style="margin-top:16px;">
-      <span class="tip-icon">💡</span>
-      <div><strong>记忆技巧：</strong><code class="inline">div</code> 默认是 block（块），<code class="inline">span</code> 默认是 inline（行内）。可以通过 CSS 任意改变，比如让 span 变成 block，让 div 变成 inline-block。</div>
-    </div>
-  </div>
-
-  <!-- 8. Flexbox -->
-  <div class="section" id="flexbox">
-    <div class="section-header">
-      <div class="section-icon icon-cyan">↔️</div>
-      <div>
-        <h2>Flexbox 弹性布局</h2>
-        <p>现代网页布局的主流方式</p>
-      </div>
-    </div>
-
-    <div class="tip good">
-      <span class="tip-icon">✅</span>
-      <div><strong>Flexbox 解决什么问题？</strong>传统 CSS 要让元素居中、排成一行、平均分布，代码很复杂。Flexbox 只需几行代码就能搞定！</div>
-    </div>
-
-    <div style="margin:24px 0 12px;font-size:15px;font-weight:600;color:var(--accent);">📐 父容器属性（控制子元素如何排列）</div>
-
-    <div class="demo-box">
-      <div class="code-panel">
-        <div class="panel-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div> Flex 父容器属性</div>
-        <pre><span class="sel">.container</span> {
-    <span class="kw">display</span>: <span class="val">flex</span>; <span class="com">/* 开启flex */</span>
-
-    <span class="com">/* 主轴方向 */</span>
-    <span class="kw">flex-direction</span>: <span class="val">row</span>;     <span class="com">/* 水平（默认）*/</span>
-    <span class="kw">flex-direction</span>: <span class="val">column</span>;  <span class="com">/* 垂直 */</span>
-
-    <span class="com">/* 主轴对齐（水平方向）*/</span>
-    <span class="kw">justify-content</span>: <span class="val">center</span>;         <span class="com">/* 居中 */</span>
-    <span class="kw">justify-content</span>: <span class="val">space-between</span>;  <span class="com">/* 两端对齐 */</span>
-    <span class="kw">justify-content</span>: <span class="val">space-around</span>;   <span class="com">/* 均匀分布 */</span>
-
-    <span class="com">/* 交叉轴对齐（垂直方向）*/</span>
-    <span class="kw">align-items</span>: <span class="val">center</span>;     <span class="com">/* 垂直居中 */</span>
-    <span class="kw">align-items</span>: <span class="val">flex-start</span>; <span class="com">/* 顶部对齐 */</span>
-
-    <span class="com">/* 换行 */</span>
-    <span class="kw">flex-wrap</span>: <span class="val">wrap</span>; <span class="com">/* 超出换行 */</span>
-
-    <span class="com">/* 间距（现代浏览器支持）*/</span>
-    <span class="kw">gap</span>: <span class="val">16px</span>;
-}</pre>
-      </div>
-      <div class="preview-panel">
-        <div class="panel-header"><div class="dot" style="background:#e5e7eb"></div> 效果演示</div>
-        <div class="preview-content" style="overflow:auto;">
-          <p style="font-size:12px;color:#666;margin-bottom:6px;">默认排列（row）：</p>
-          <div class="flex-demo" style="margin-bottom:10px;">
-            <div class="flex-item">A</div>
-            <div class="flex-item">B</div>
-            <div class="flex-item">C</div>
-          </div>
-          <p style="font-size:12px;color:#666;margin-bottom:6px;">justify-content: space-between：</p>
-          <div class="flex-demo jc-sb" style="margin-bottom:10px;">
-            <div class="flex-item">A</div>
-            <div class="flex-item">B</div>
-            <div class="flex-item">C</div>
-          </div>
-          <p style="font-size:12px;color:#666;margin-bottom:6px;">justify-content: center + gap:</p>
-          <div class="flex-demo jc-c" style="gap:8px;">
-            <div class="flex-item">A</div>
-            <div class="flex-item">B</div>
-            <div class="flex-item">C</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin:20px 0 12px;font-size:15px;font-weight:600;color:var(--accent);">🌟 最实用：水平垂直居中</div>
-
-    <div class="demo-box">
-      <div class="code-panel">
-        <div class="panel-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div> 完美居中</div>
-        <pre><span class="sel">.center-box</span> {
-    <span class="kw">display</span>: <span class="val">flex</span>;
-    <span class="kw">justify-content</span>: <span class="val">center</span>; <span class="com">/* 水平居中 */</span>
-    <span class="kw">align-items</span>: <span class="val">center</span>;    <span class="com">/* 垂直居中 */</span>
-    <span class="kw">height</span>: <span class="val">200px</span>;
-    <span class="kw">background</span>: <span class="val">#f0f0f0</span>;
-}
-
-<span class="com">/* 这3行代码是面试常考题！
-   以前实现垂直居中很麻烦，
-   flex让它变得超简单。*/</span></pre>
-      </div>
-      <div class="preview-panel">
-        <div class="panel-header"><div class="dot" style="background:#e5e7eb"></div> 效果</div>
-        <div class="preview-content" style="padding:0;">
-          <div style="display:flex;justify-content:center;align-items:center;height:160px;background:#f3f4f6;">
-            <div style="background:#6366f1;color:white;padding:14px 28px;border-radius:8px;font-size:14px;font-weight:bold;">
-              我在正中央 🎯
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 9. 背景与边框 -->
-  <div class="section" id="bg-border">
-    <div class="section-header">
-      <div class="section-icon icon-green">🖼️</div>
-      <div>
-        <h2>背景与边框</h2>
-        <p>background · border · border-radius · box-shadow</p>
-      </div>
-    </div>
-
-    <div class="prop-grid" style="margin-bottom:20px;">
-      <div class="prop-item">
-        <div class="prop-name">background-color</div>
-        <div class="prop-desc">背景颜色</div>
-        <div class="prop-example">background-color: #fff;</div>
-      </div>
-      <div class="prop-item">
-        <div class="prop-name">background-image</div>
-        <div class="prop-desc">背景图片</div>
-        <div class="prop-example">background-image: url(bg.jpg);</div>
-      </div>
-      <div class="prop-item">
-        <div class="prop-name">background-size</div>
-        <div class="prop-desc">背景图尺寸</div>
-        <div class="prop-example">background-size: cover;</div>
-      </div>
-      <div class="prop-item">
-        <div class="prop-name">border-radius</div>
-        <div class="prop-desc">圆角（50%变圆形）</div>
-        <div class="prop-example">border-radius: 8px;</div>
-      </div>
-      <div class="prop-item">
-        <div class="prop-name">box-shadow</div>
-        <div class="prop-desc">盒子阴影</div>
-        <div class="prop-example">box-shadow: 0 4px 8px rgba(0,0,0,.1);</div>
-      </div>
-      <div class="prop-item">
-        <div class="prop-name">opacity</div>
-        <div class="prop-desc">透明度（0~1）</div>
-        <div class="prop-example">opacity: 0.8;</div>
-      </div>
-    </div>
-
-    <div class="demo-box">
-      <div class="code-panel">
-        <div class="panel-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div> 背景综合示例</div>
-        <pre><span class="sel">.banner</span> {
-    <span class="com">/* 渐变背景 */</span>
-    <span class="kw">background</span>: <span class="val">linear-gradient(135deg,
-        #667eea, #764ba2)</span>;
-    <span class="kw">color</span>: <span class="val">white</span>;
-    <span class="kw">padding</span>: <span class="val">30px</span>;
-    <span class="kw">border-radius</span>: <span class="val">12px</span>;
-    <span class="kw">box-shadow</span>: <span class="val">0 8px 32px rgba(0,0,0,.2)</span>;
-}
-
-<span class="sel">.avatar</span> {
-    <span class="kw">width</span>: <span class="val">80px</span>;
-    <span class="kw">height</span>: <span class="val">80px</span>;
-    <span class="kw">border-radius</span>: <span class="val">50%</span>; <span class="com">/* 变圆形 */</span>
-    <span class="kw">border</span>: <span class="val">3px solid white</span>;
-}</pre>
-      </div>
-      <div class="preview-panel">
-        <div class="panel-header"><div class="dot" style="background:#e5e7eb"></div> 效果</div>
-        <div class="preview-content">
-          <div style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:20px;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.2);margin-bottom:12px;">
-            <p style="font-size:14px;font-weight:bold;">渐变背景 + 圆角 + 阴影</p>
-            <p style="font-size:12px;opacity:.8;">这是卡片效果</p>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,.2);"></div>
-            <span style="font-size:13px;color:#333;">border-radius:50% → 圆形头像</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 10. 实战案例 -->
-  <div class="section" id="practice">
-    <div class="section-header">
-      <div class="section-icon icon-pink">🚀</div>
-      <div>
-        <h2>实战案例</h2>
-        <p>将所学 CSS 知识应用到真实项目中</p>
-      </div>
-    </div>
-
-    <!-- 案例1：搜索框 -->
-    <div class="case-wrap" style="margin-bottom:20px;">
-      <div class="case-header">
-        <span style="color:var(--accent)">案例①</span> 仿百度搜索框（参考你们上学期做的 baidu 项目）
-      </div>
-      <div class="case-body">
-        <div class="demo-box">
-          <div class="code-panel">
-            <div class="panel-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div> 搜索框 CSS</div>
-            <pre><span class="sel">#search-container</span> {
-    <span class="kw">display</span>: <span class="val">flex</span>;
-    <span class="kw">width</span>: <span class="val">580px</span>;
-}
-
-<span class="sel">#wd</span> {  <span class="com">/* 输入框 */</span>
-    <span class="kw">flex-grow</span>: <span class="val">1</span>;
-    <span class="kw">height</span>: <span class="val">44px</span>;
-    <span class="kw">border</span>: <span class="val">2px solid #4e6ef2</span>;
-    <span class="kw">border-right</span>: <span class="val">none</span>;
-    <span class="kw">border-radius</span>: <span class="val">10px 0 0 10px</span>;
-    <span class="kw">padding</span>: <span class="val">0 16px</span>;
-    <span class="kw">font-size</span>: <span class="val">16px</span>;
-    <span class="kw">outline</span>: <span class="val">none</span>;
-}
-
-<span class="sel">#button</span> {  <span class="com">/* 搜索按钮 */</span>
-    <span class="kw">width</span>: <span class="val">108px</span>;
-    <span class="kw">height</span>: <span class="val">44px</span>;
-    <span class="kw">background</span>: <span class="val">#4e6ef2</span>;
-    <span class="kw">color</span>: <span class="val">white</span>;
-    <span class="kw">border</span>: <span class="val">none</span>;
-    <span class="kw">border-radius</span>: <span class="val">0 10px 10px 0</span>;
-    <span class="kw">font-size</span>: <span class="val">15px</span>;
-    <span class="kw">cursor</span>: <span class="val">pointer</span>;
-}</pre>
-          </div>
-          <div class="preview-panel">
-            <div class="panel-header"><div class="dot" style="background:#e5e7eb"></div> 效果</div>
-            <div class="preview-content" style="display:flex;justify-content:center;align-items:center;min-height:100px;">
-              <div style="display:flex;width:380px;">
-                <input type="text" placeholder="百度一下，你就知道" style="flex-grow:1;height:40px;border:2px solid #4e6ef2;border-right:none;border-radius:10px 0 0 10px;padding:0 14px;font-size:14px;outline:none;font-family:Microsoft YaHei,sans-serif;">
-                <button style="width:90px;height:40px;background:#4e6ef2;color:white;border:none;border-radius:0 10px 10px 0;font-size:14px;cursor:pointer;">百度一下</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="tip info">
-          <span class="tip-icon">💡</span>
-          <div><strong>关键技巧：</strong>输入框和按钮组合使用 flex，输入框设置 <code class="inline">flex-grow: 1</code> 自动填满剩余空间，两者用 <code class="inline">border-radius</code> 分别只设置左/右圆角，拼成一个整体。</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 案例2：卡片组件 -->
-    <div class="case-wrap" style="margin-bottom:20px;">
-      <div class="case-header">
-        <span style="color:var(--accent)">案例②</span> 个人信息卡片
-      </div>
-      <div class="case-body">
-        <div class="demo-box">
-          <div class="code-panel">
-            <div class="panel-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div> 卡片 CSS</div>
-            <pre><span class="sel">.profile-card</span> {
-    <span class="kw">width</span>: <span class="val">280px</span>;
-    <span class="kw">background</span>: <span class="val">white</span>;
-    <span class="kw">border-radius</span>: <span class="val">16px</span>;
-    <span class="kw">box-shadow</span>: <span class="val">0 4px 20px rgba(0,0,0,.1)</span>;
-    <span class="kw">overflow</span>: <span class="val">hidden</span>;
-    <span class="kw">text-align</span>: <span class="val">center</span>;
-}
-
-<span class="sel">.card-top</span> {
-    <span class="kw">background</span>: <span class="val">linear-gradient(135deg,
-        #667eea, #764ba2)</span>;
-    <span class="kw">padding</span>: <span class="val">30px 20px 50px</span>;
-}
-
-<span class="sel">.avatar</span> {
-    <span class="kw">width</span>: <span class="val">80px</span>; <span class="kw">height</span>: <span class="val">80px</span>;
-    <span class="kw">border-radius</span>: <span class="val">50%</span>;
-    <span class="kw">border</span>: <span class="val">3px solid white</span>;
-    <span class="kw">margin</span>: <span class="val">0 auto</span>;
-}
-
-<span class="sel">.card-bottom</span> {
-    <span class="kw">padding</span>: <span class="val">20px</span>;
-}
-
-<span class="sel">.card-bottom h2</span> {
-    <span class="kw">font-size</span>: <span class="val">20px</span>;
-    <span class="kw">color</span>: <span class="val">#333</span>;
-    <span class="kw">margin-bottom</span>: <span class="val">6px</span>;
-}
-
-<span class="sel">.card-bottom p</span> {
-    <span class="kw">color</span>: <span class="val">#888</span>;
-    <span class="kw">font-size</span>: <span class="val">14px</span>;
-}</pre>
-          </div>
-          <div class="preview-panel">
-            <div class="panel-header"><div class="dot" style="background:#e5e7eb"></div> 效果</div>
-            <div class="preview-content" style="display:flex;justify-content:center;padding:10px;">
-              <div style="width:220px;background:white;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.12);overflow:hidden;text-align:center;">
-                <div style="background:linear-gradient(135deg,#667eea,#764ba2);padding:20px 20px 36px;">
-                  <div style="width:70px;height:70px;border-radius:50%;background:#fbbf24;border:3px solid white;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:28px;">🧑</div>
-                </div>
-                <div style="padding:16px;">
-                  <h2 style="font-size:18px;color:#333;margin-bottom:4px;">张三</h2>
-                  <p style="color:#888;font-size:13px;margin-bottom:10px;">计算机科学 · 大三</p>
-                  <p style="color:#666;font-size:12px;line-height:1.6">努力不一定成功，但放弃一定失败。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 案例3：导航栏 -->
-    <div class="case-wrap">
-      <div class="case-header">
-        <span style="color:var(--accent)">案例③</span> 网页顶部导航栏
-      </div>
-      <div class="case-body">
-        <div class="demo-box">
-          <div class="code-panel">
-            <div class="panel-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div> 导航栏 CSS</div>
-            <pre><span class="sel">nav</span> {
-    <span class="kw">display</span>: <span class="val">flex</span>;
-    <span class="kw">justify-content</span>: <span class="val">space-between</span>;
-    <span class="kw">align-items</span>: <span class="val">center</span>;
-    <span class="kw">background</span>: <span class="val">#1a1a2e</span>;
-    <span class="kw">padding</span>: <span class="val">0 40px</span>;
-    <span class="kw">height</span>: <span class="val">60px</span>;
-}
-
-<span class="sel">.logo</span> {
-    <span class="kw">color</span>: <span class="val">white</span>;
-    <span class="kw">font-size</span>: <span class="val">20px</span>;
-    <span class="kw">font-weight</span>: <span class="val">bold</span>;
-}
-
-<span class="sel">.nav-links</span> {
-    <span class="kw">display</span>: <span class="val">flex</span>;
-    <span class="kw">gap</span>: <span class="val">24px</span>;
-    <span class="kw">list-style</span>: <span class="val">none</span>; <span class="com">/* 去掉圆点 */</span>
-}
-
-<span class="sel">.nav-links a</span> {
-    <span class="kw">color</span>: <span class="val">#ccc</span>;
-    <span class="kw">text-decoration</span>: <span class="val">none</span>;
-    <span class="kw">font-size</span>: <span class="val">14px</span>;
-    <span class="kw">transition</span>: <span class="val">color .2s</span>; <span class="com">/* 过渡效果 */</span>
-}
-
-<span class="sel">.nav-links a:hover</span> {
-    <span class="kw">color</span>: <span class="val">white</span>; <span class="com">/* 悬停变白 */</span>
-}</pre>
-          </div>
-          <div class="preview-panel">
-            <div class="panel-header"><div class="dot" style="background:#e5e7eb"></div> 效果</div>
-            <div class="preview-content" style="padding:0;">
-              <nav style="display:flex;justify-content:space-between;align-items:center;background:#1a1a2e;padding:0 20px;height:52px;">
-                <div style="color:white;font-size:17px;font-weight:bold;">🌟 我的网站</div>
-                <ul style="display:flex;gap:16px;list-style:none;margin:0;padding:0;">
-                  <li><a href="#" style="color:#ccc;text-decoration:none;font-size:13px;">首页</a></li>
-                  <li><a href="#" style="color:#ccc;text-decoration:none;font-size:13px;">关于</a></li>
-                  <li><a href="#" style="color:#ccc;text-decoration:none;font-size:13px;">作品</a></li>
-                  <li><a href="#" style="color:white;text-decoration:none;font-size:13px;background:#6366f1;padding:5px 12px;border-radius:6px;">联系我</a></li>
-                </ul>
-              </nav>
-              <div style="padding:16px;font-size:12px;color:#666;">↑ 导航栏效果：logo在左，链接在右，flex实现两端对齐</div>
-            </div>
-          </div>
-        </div>
-        <div class="tip good">
-          <span class="tip-icon">✅</span>
-          <div><strong>CSS伪类：</strong><code class="inline">:hover</code> 是鼠标悬停时触发的样式，配合 <code class="inline">transition</code> 过渡属性，可以实现平滑的交互效果，让网页更有质感。</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 第二节小结 -->
-  <div class="section" id="lesson2-summary">
-    <div class="summary-bar">
-      <h3>📝 第二节课 · 学习小结</h3>
-      <div class="summary-item"><div class="check">✓</div> <div>理解盒模型：content → padding → border → margin（由内到外）</div></div>
-      <div class="summary-item"><div class="check">✓</div> <div>掌握 <code class="inline">box-sizing: border-box</code>，防止 padding 撑大元素</div></div>
-      <div class="summary-item"><div class="check">✓</div> <div>理解 display 四种值：block / inline / inline-block / none</div></div>
-      <div class="summary-item"><div class="check">✓</div> <div>会用 Flexbox 实现水平垂直居中、两端对齐等常用布局</div></div>
-      <div class="summary-item"><div class="check">✓</div> <div>能使用 border-radius、box-shadow、渐变等美化页面</div></div>
-      <div class="summary-item"><div class="check">✓</div> <div>完成3个实战案例：搜索框、个人卡片、导航栏</div></div>
-    </div>
-
-    <!-- 后续学习方向 -->
-    <div style="margin-top:24px;">
-      <h3 style="font-size:16px;margin-bottom:14px;color:var(--primary-light)">🗺️ 后续学习方向</h3>
-      <div class="card-grid">
-        <div class="card" style="border-left:3px solid var(--primary-light);">
-          <h3>📱 响应式设计</h3>
-          <p>用 <code class="inline">@media</code> 媒体查询让网页在手机和电脑上都好看。</p>
-        </div>
-        <div class="card" style="border-left:3px solid var(--accent);">
-          <h3>🎞️ CSS 动画</h3>
-          <p>用 <code class="inline">animation</code> 和 <code class="inline">@keyframes</code> 让元素动起来。</p>
-        </div>
-        <div class="card" style="border-left:3px solid var(--green);">
-          <h3>⚡ JavaScript 入门</h3>
-          <p>配合 CSS 实现更丰富的交互效果，让页面真正活起来。</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">
-    <p>🎓 网页设计课程 · CSS 入门专题 &nbsp;|&nbsp; 本课件共涵盖 2 节课 · 12 个核心知识点 · 3 个实战案例</p>
-    <p style="margin-top:6px;font-size:12px;">掌握 CSS，让你的每一行代码都绽放出色彩 ✨</p>
-  </div>
-
+<div class="slide-container">
+
+<!-- ==================== 第1页：封面 ==================== -->
+<div class="slide cover-slide">
+    <h1 class="slide-title">网页设计实践课</h1>
+    <p class="cover-subtitle">🌐 个人主页（Personal Homepage）制作项目</p>
+    <p>从零开始，用HTML + CSS构建你的第一个完整网站！</p>
+    <p class="cover-info">
+        适用对象：网页设计初学者<br>
+        预计课时：4-6课时 | 难度：⭐⭐⭐☆☆
+    </p>
 </div>
 
-<script>
-  // 侧边栏滚动高亮
-  const sections = document.querySelectorAll('[id]');
-  const navLinks = document.querySelectorAll('.sidebar a');
+<!-- ==================== 第2页：项目概述 ==================== -->
+<div class="slide">
+    <h1 class="slide-title">一、项目概述</h1>
 
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 120) current = s.id;
-    });
-    navLinks.forEach(a => {
-      a.classList.remove('active');
-      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
-    });
-  });
-</script>
+    <h2>📋 我们要做什么？</h2>
+    <p>本项目将带领大家完成一个<strong>个人主页网站</strong>的制作。通过这个综合练习，你将掌握HTML和CSS的核心知识，并学会如何将它们组合起来创建一个完整的、美观的网页。</p>
+
+    <div class="two-col" style="margin-top:20px;">
+        <div>
+            <h3>🎯 学习目标</h3>
+            <ol>
+                <li>掌握<strong>语义化HTML标签</strong>的正确使用</li>
+                <li>熟练运用<strong>CSS选择器</strong>与常用属性</li>
+                <li>学会使用<strong>Flex弹性布局</strong></li>
+                <li>了解<strong>CSS动画与过渡效果</strong></li>
+                <li>实现<strong>响应式设计</strong>（适配手机端）</li>
+            </ol>
+        </div>
+        <div>
+            <h3>📄 最终成果</h3>
+            <ul>
+                <li>一个包含<strong>5个板块</strong>的个人主页</li>
+                <li><strong>固定导航栏</strong>（滚动时保持在顶部）</li>
+                <li>精美的<strong>渐变背景</strong>和<strong>卡片效果</strong></li>
+                <li>带有动画效果的<strong>技能进度条</strong></li>
+                <li>一个可用的<strong>留言表单</strong></li>
+                <li>支持<strong>手机/平板</strong>自适应显示</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="tip-box info" style="margin-top:18px;">
+        <span class="tip-icon">💡</span>
+        <strong>提示：</strong>本项目的所有知识点都来自我们之前学习的HTML和CSS内容。遇到不熟悉的地方，可以随时翻阅前面的笔记哦！
+    </div>
+    <span class="page-num">2 / 11</span>
+</div>
+
+<!-- ==================== 第3页：HTML结构讲解 ==================== -->
+<div class="slide">
+    <h1 class="slide-title">二、HTML 结构详解</h1>
+
+    <h2>🏗️ 页面整体骨架</h2>
+    <p>一个完整的HTML文档由以下基本结构组成：</p>
+    <pre><code><span class="cmt">&lt;!-- 文档类型声明 --&gt;</span>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"zh-CN"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+    <span class="cmt">&lt;!-- 头部信息：字符编码、视口、标题、引入CSS --&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;title&gt;</span>我的个人主页<span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+    <span class="cmt">&lt;!-- 页面的所有可见内容都放在这里 --&gt;</span>
+    &lt;nav&gt;...导航栏...&lt;/nav&gt;
+    &lt;section&gt;...内容区块...&lt;/section&gt;
+    &lt;footer&gt;...页脚...&lt;/footer&gt;
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+
+    <div class="tip-box warning">
+        <span class="tip-icon">⚠️</span>
+        <strong>注意要点：</strong>
+        <ul style="margin-top:8px;margin-bottom:0;padding-left:18px;">
+            <li><code>&lt;meta charset="UTF-8"&gt;</code> 声明编码为 UTF-8，确保中文正常显示</li>
+            <li><code>viewport</code> 元标签是响应式设计的关键，必须加上！</li>
+            <li><code>&lt;link&gt;</code> 用于引入外部CSS文件</li>
+        </ul>
+    </div>
+    <span class="page-num">3 / 11</span>
+</div>
+
+<!-- ==================== 第4页：HTML语义化标签 ==================== -->
+<div class="slide">
+    <h1 class="slide-title">三、HTML 语义化标签</h1>
+
+    <h2>📖 什么是语义化？为什么要用？</h2>
+    <p><strong>语义化</strong>就是用最恰当的HTML标签来表达内容的含义，而不仅仅是为了展示效果。</p>
+
+    <table style="margin-top:15px;">
+        <tr>
+            <th>标签</th>
+            <th>含义</th>
+            <th>在项目中的用法</th>
+        </tr>
+        <tr>
+            <td><code>&lt;header&gt;</code> 或 <code>&lt;nav&gt;</code></td>
+            <td>导航区域</td>
+            <td>页面顶部的固定导航栏</td>
+        </tr>
+        <tr>
+            <td><code>&lt;section&gt;</code></td>
+            <td>独立的章节/区块</td>
+            <td>每个内容板块（关于我、技能等）</td>
+        </tr>
+        <tr>
+            <td><code>&lt;article&gt;</code></td>
+            <td>独立的内容文章</td>
+            <td>博客文章、新闻条目</td>
+        </tr>
+        <tr>
+            <td><code>&lt;footer&gt;</code></td>
+            <td>页脚区域</td>
+            <td>版权信息、备案号等</td>
+        </tr>
+        <tr>
+            <td><code>&lt;main&gt;</code></td>
+            <td>主要内容区</td>
+            <td>包裹页面的核心内容</td>
+        </tr>
+        <tr>
+            <td><code>&lt;aside&gt;</code></td>
+            <td>侧边栏/辅助信息</td>
+            <td>相关推荐、广告位</td>
+        </tr>
+    </table>
+
+    <div class="tip-box info" style="margin-top:15px;">
+        <span class="tip-icon">💡</span>
+        <strong>语义化的好处：</strong>① 让搜索引擎更好地理解你的网页（SEO友好）<br>
+        &nbsp;&nbsp;&nbsp;② 方便屏幕阅读器为视障人士朗读内容<br>
+        &nbsp;&nbsp;&nbsp;③ 代码更易读、易维护
+    </div>
+    <span class="page-num">4 / 11</span>
+</div>
+
+<!-- ==================== 第5页：核心CSS技术点 ==================== -->
+<div class="slide">
+    <h1 class="slide-title">四、核心 CSS 技术详解</h1>
+
+    <h2>🎨 本项目用到的关键CSS技术</h2>
+
+    <!-- 盒模型 -->
+    <h3><span class="tag-label tag-css">基础</span>盒模型 (Box Model)</h3>
+    <pre><code><span class="cmt">/* 盒模型 = 内容(content) + 内边距(padding) + 边框(border) + 外边距(margin) */</span>
+<span class="sel">*</span> {
+    <span class="prop">box-sizing</span>: border-box;  <span class="cmt">/* ★★★ 关键设置！让边框和内边距包含在宽高内 */</span>
+}</code></pre>
+    <p>使用 <code>border-box</code> 后，元素的 <code>width</code> 和 <code>height</code> 就包含了 padding 和 border，计算布局时更加方便。</p>
+
+    <!-- Flex布局 -->
+    <h3><span class="tag-label tag-css">重点</span>Flex 弹性布局</h3>
+    <pre><code><span class="cmt">/* Flex 是现代CSS布局的核心技术，非常强大且好用 */</span>
+<span class="sel">.navbar</span> {
+    <span class="prop">display</span>: flex;                      <span class="cmt">/* 开启弹性布局 */</span>
+    <span class="prop">justify-content</span>: space-between;    <span class="cmt">/* 子元素两端对齐 */</span>
+    <span class="prop">align-items</span>: center;              <span class="cmt">/* 子元素垂直居中 */</span>
+}
+
+<span class="sel">.about-content</span> {
+    <span class="prop">display</span>: flex;
+    <span class="prop">gap</span>: 40px;                        <span class="cmt">/* 子元素之间的间距 */</span>
+}
+<span class="sel">.about-text</span> { <span class="prop">flex</span>: 1.5; }  <span class="cmt">/* 占1.5份空间 */</span>
+<span class="sel">.about-card</span>  { <span class="prop">flex</span>: 1; }   <span class="cmt">/* 占1份空间 */</span></code></pre>
+
+    <span class="page-num">5 / 11</span>
+</div>
+
+<!-- ==================== 第6页：更多CSS技术 ==================== -->
+<div class="slide">
+    <h1 class="slide-title">四（续）- 更多 CSS 技术</h1>
+
+    <h3><span class="tag-label tag-css">进阶</span>CSS Grid 网格布局</h3>
+    <pre><code><span class="cmt">/* Grid用于二维布局（行+列），适合做卡片网格 */</span>
+<span class="sel">.skills-grid</span> {
+    <span class="prop">display</span>: grid;
+    <span class="prop">grid-template-columns</span>: repeat(<span class="kw">auto-fit</span>, <span class="kw">minmax</span>(230px, <span class="val">1fr</span>));
+    <span class="cmt">/* 解释：每列最小230px，自动适应容器宽度，列数自适应 */</span>
+    <span class="prop">gap</span>: 25px;              <span class="cmt">/* 网格间距 */</span>
+}</code></pre>
+
+    <h3><span class="tag-label tag-css">美化</span>渐变背景 & 阴影</h3>
+    <pre><code><span class="cmt">/* 渐变背景：linear-gradient(方向, 颜色1, 颜色2, ...) */</span>
+<span class="sel">.hero</span> {
+    <span class="prop">background</span>: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+<span class="cmt">/* 盒子阴影：x偏移 y偏移 模糊半径 扩散半径 颜色 */</span>
+<span class="sel">.skill-card</span> {
+    <span class="prop">box-shadow</span>: 0 3px 15px rgba(0,0,0,0.08);
+}
+
+<span class="cmt">/* 圆角：数值越大越圆 */</span>
+<span class="sel">.skill-card</span> { <span class="prop">border-radius</span>: 12px; }</code></pre>
+
+    <h3><span class="tag-label tag-css">交互</span>过渡与悬停效果</h3>
+    <pre><code><span class="sel">.btn</span> {
+    <span class="prop">transition</span>: all 0.3s ease;  <span class="cmt">/* 所有属性变化都有0.3秒的平滑过渡 */</span>
+}
+<span class="sel">.btn:hover</span> {
+    <span class="prop">transform</span>: translateY(-3px);  <span class="cmt">/* 鼠标悬停时向上移动3px */</span>
+    <span class="prop">box-shadow</span>: 0 8px 25px rgba(0,0,0,0.3);
+}</code></pre>
+    <span class="page-num">6 / 11</span>
+</div>
+
+<!-- ==================== 第7页：各模块详细拆解 ==================== -->
+<div class="slide">
+    <h1 class="slide-title">五、页面模块拆解</h1>
+
+    <h2>🧩 个人主页的五大模块</h2>
+
+    <table>
+        <tr>
+            <th>模块</th>
+            <th>HTML标签</th>
+            <th>CSS核心技术</th>
+            <th>功能说明</th>
+        </tr>
+        <tr>
+            <td>🧭 导航栏</td>
+            <td><code>&lt;nav&gt;</code></td>
+            <td><code>position:fixed</code> + <code>flex</code></td>
+            <td>固定在顶部，含Logo和导航链接</td>
+        </tr>
+        <tr>
+            <td>🏠 首页横幅</td>
+            <td><code>&lt;section id="home"&gt;</code></td>
+            <td><code>100vh高度</code> + <code>渐变背景</code> + <code>flex居中</code></td>
+            <td>全屏欢迎区域，第一印象</td>
+        </tr>
+        <tr>
+            <td>👤 关于我</td>
+            <td><code>&lt;section id="about"&gt;</code></td>
+            <td><code>flex左右分栏</code> + <code>卡片样式</code> + <code>表格</code></td>
+            <td>个人信息介绍</td>
+        </tr>
+        <tr>
+            <td>💪 技能特长</td>
+            <td><code>&lt;section id="skills"&gt;</code></td>
+            <td><code>Grid网格</code> + <code>进度条</code> + <code>悬停动画</code></td>
+            <td>技能展示，带可视化进度条</td>
+        </tr>
+        <tr>
+            <td>📬 联系我</td>
+            <td><code>&lt;section id="contact"&gt;</code></td>
+            <td><code>表单样式</code> + <code>focus状态</code> + <code>按钮渐变</code></td>
+            <td>联系信息和留言表单</td>
+        </tr>
+    </table>
+
+    <div class="tip-box info" style="margin-top:15px;">
+        <span class="tip-icon">💡</span>
+        <strong>设计思路：</strong>每个模块都用 <code>&lt;section id="名称"&gt;</code> 包裹，配合导航栏里的 <code>&lt;a href="#名称"&gt;</code> 实现页面内锚点跳转。
+    </div>
+    <span class="page-num">7 / 11</span>
+</div>
+
+<!-- ==================== 第8页：表单与动画 ==================== -->
+<div class="slide">
+    <h1 class="slide-title">六、表单与动画效果</h1>
+
+    <h2>📝 表单元素的使用</h2>
+    <pre><code><span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="val">"#"</span> <span class="attr">method</span>=<span class="val">"post"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"name"</span> <span class="attr">placeholder</span>=<span class="val">"你的名字"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"email"</span> <span class="attr">name</span>=<span class="val">"email"</span> <span class="attr">placeholder</span>=<span class="val">"你的邮箱"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;textarea</span> <span class="attr">name</span>=<span class="val">"message"</span> <span class="attr">rows</span>=<span class="val">"5"</span> <span class="attr">placeholder</span>=<span class="val">"想说的话..."</span> <span class="attr">required</span><span class="tag">&gt;&lt;/textarea&gt;</span>
+    <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"submit"</span><span class="tag">&gt;</span>发送留言<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+
+    <div class="two-col">
+        <div>
+            <h3>🔑 表单重要属性</h3>
+            <ul>
+                <li><code>required</code> — 必填项验证</li>
+                <li><code>placeholder</code> — 占位提示文字</li>
+                <li><code>type="email"</code> — 自动校验邮箱格式</li>
+            </ul>
+        </div>
+        <div>
+            <h3>✨ CSS动画 — 关键帧</h3>
+            <pre style="padding:14px;"><code><span class="cmt">/* 定义动画关键帧 */</span>
+<span class="kw">@keyframes</span> fadeInUp {
+    <span class="kw">from</span> { opacity:0; transform:translateY(30px); }
+    <span class="kw">to</span>   { opacity:1; transform:translateY(0); }
+}
+<span class="cmt">/* 使用动画 */</span>
+<span class="selector">h1</span> { animation: fadeInUp 1s ease; }</code></pre>
+        </div>
+    </div>
+    <span class="page-num">8 / 11</span>
+</div>
+
+<!-- ==================== 第9页：响应式设计 ==================== -->
+<div class="slide">
+    <h1 class="slide-title">七、响应式设计（适配移动端）</h1>
+
+    <h2>📱 什么是响应式设计？</h2>
+    <p>响应式设计的核心理念：<strong>同一个网页，在不同设备上都能良好地显示</strong>。电脑端看是横排多列，手机端就变成竖排单列。</p>
+
+    <h3>🔧 实现方法：媒体查询 (Media Query)</h3>
+    <pre><code><span class="cmt">/* 当屏幕宽度 ≤ 768px 时（平板及以下），应用以下规则 */</span>
+<span class="kw">@media</span> (max-width: 768px) {
+    
+    <span class="cmt">/* 导航栏改为垂直排列 */</span>
+    <span class="sel">.navbar</span> {
+        <span class="prop">flex-direction</span>: column;
+        <span class="prop">padding</span>: 12px 20px;
+    }
+    
+    <span class="cmt">/* 多列布局改为单列堆叠 */</span>
+    <span class="sel">.about-content</span>,
+    <span class="sel">.contact-content</span> {
+        <span class="prop">flex-direction</span>: column;
+    }
+    
+    <span class="cmt">/* Grid改为单列 */</span>
+    <span class="sel">.skills-grid</span> {
+        <span class="prop">grid-template-columns</span>: 1fr;
+    }
+    
+    <span class="cmt">/* 标题字号调小以适应小屏幕 */</span>
+    <span class="sel">.hero-content h1</span> { <span class="prop">font-size</span>: 32px; }
+}</code></pre>
+
+    <div class="tip-box warning">
+        <span class="tip-icon">⚠️</span>
+        <strong>别忘了：</strong>做响应式设计前，必须在 <code>&lt;head&gt;</code> 中添加 <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code>，否则媒体查询不会生效！
+    </div>
+    <span class="page-num">9 / 11</span>
+</div>
+
+<!-- ==================== 第10页：练习任务清单 ==================== -->
+<div class="slide">
+    <h1 class="slide-title">八、课后练习任务</h1>
+
+    <h2>✅ 分级练习任务</h2>
+
+    <div class="two-col">
+        <div>
+            <h3>⭐ 基础必做</h3>
+            <ol>
+                <li>按照源码<strong>完整抄写一遍</strong> index.html 和 style.css</li>
+                <li>修改<strong>个人信息</strong>为你自己的真实信息</li>
+                <li>更换<strong>头像图片</strong>（用你自己的照片）</li>
+                <li>修改<strong>技能项</strong>，列出你真正掌握的技能</li>
+            </ol>
+            
+            <h3>⭐⭐ 进阶挑战</h3>
+            <ol start="5">
+                <li><strong>修改配色方案</strong>：把紫色主题换成蓝色或绿色</li>
+                <li><strong>新增一个模块</strong>：比如"作品集"展示区</li>
+                <li>给导航栏加<strong>滚动变色效果</strong></li>
+            </ol>
+        </div>
+        <div>
+            <h3>⭐⭐⭐ 高手挑战</h3>
+            <ol start="8">
+                <li>加入<strong>JavaScript</strong>实现：
+                    <ul style="margin-top:5px;padding-left:20px;">
+                        <li>点击导航链接时平滑滚动到对应位置</li>
+                        <li>回到顶部按钮（滚动一定距离后出现）</li>
+                    </ul>
+                </li>
+                <li>给页面加<strong>暗黑模式切换</strong>开关</li>
+                <li>尝试用 <code>@keyframes</code> 给Hero区域的文字做一个<strong>打字机效果</strong></li>
+            </ol>
+
+            <div class="tip-box" style="margin-top:18px;">
+                <span class="tip-icon">📝</span>
+                <strong>作业提交要求：</strong><br>
+                • 将完成的文件打包成zip<br>
+                • 文件命名格式：<code>学号_姓名_个人主页.zip</code><br>
+                • 截图一张运行效果附在里面
+            </div>
+        </div>
+    </div>
+    <span class="page-num">10 / 11</span>
+</div>
+
+<!-- ==================== 第11页：知识点总结 ==================== -->
+<div class="slide">
+    <h1 class="slide-title">九、知识点总结</h1>
+
+    <h2>📚 本次项目涉及的全部知识点一览</h2>
+
+    <table>
+        <tr>
+            <th>分类</th>
+            <th>知识点</th>
+            <th>掌握程度要求</th>
+        </tr>
+        <tr>
+            <td rowspan="5"><span class="tag-label tag-html">HTML</span></td>
+            <td>HTML文档基本结构（DOCTYPE、html、head、body）</td>
+            <td>⭐⭐⭐ 必会</td>
+        </tr>
+        <tr>
+            <td>语义化标签（nav、section、footer、article）</td>
+            <td>⭐⭐⭐ 必会</td>
+        </tr>
+        <tr>
+            <td>文本标签（h1~h6、p、strong、em、span）</td>
+            <td>⭐⭐⭐ 必会</td>
+        </tr>
+        <tr>
+            <td>表单标签（form、input、textarea、button）</td>
+            <td>⭐⭐ 掌握</td>
+        </tr>
+        <tr>
+            <td>列表与表格（ul/ol/li、table/tr/th/td）</td>
+            <td>⭐⭐ 掌握</td>
+        </tr>
+        <tr>
+            <td rowspan="8"><span class="tag-label tag-css">CSS</span></td>
+            <td>盒模型（content/padding/border/margin）</td>
+            <td>⭐⭐⭐ 必会</td>
+        </tr>
+        <tr>
+            <td>选择器（元素、类、ID、伪类:hover/:focus）</td>
+            <td>⭐⭐⭐ 必会</td>
+        </tr>
+        <tr>
+            <td>Flex 弹性布局（justify/align/flex/gap）</td>
+            <td>⭐⭐⭐ 重点</td>
+        </tr>
+        <tr>
+            <td>Grid 网格布局（grid-template-columns/gap/auto-fit）</td>
+            <td>⭐⭐ 了解</td>
+        </tr>
+        <tr>
+            <td>定位方式（static/relative/fixed）</td>
+            <td>⭐⭐ 掌握</td>
+        </tr>
+        <tr>
+            <td>渐变、圆角、阴影（gradient/radius/shadow）</td>
+            <td>⭐⭐ 掌握</td>
+        </tr>
+        <tr>
+            <td>过渡与动画（transition/@keyframes）</td>
+            <td>⭐ 了解</td>
+        </tr>
+        <tr>
+            <td>响应式设计（viewport + media query）</td>
+            <td>⭐⭐ 重点</td>
+        </tr>
+    </table>
+
+    <div class="tip-box" style="background:linear-gradient(135deg,#f3e5f5,#fce4ec);border-left-color:#e91e63;margin-top:18px;text-align:center;">
+        <strong>🎉 恭喜完成本次学习！动手实践是最好的学习方法，快去写代码吧！</strong>
+    </div>
+    <span class="page-num">11 / 11</span>
+</div>
+
+</div><!-- end slide-container -->
 </body>
 </html>
