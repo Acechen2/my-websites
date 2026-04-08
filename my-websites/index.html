@@ -3,666 +3,426 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>网页设计课程课件 - 个人主页制作</title>
-    <style>
-        /* ==================== 课件全局样式 ==================== */
-        * { margin:0; padding:0; box-sizing:border-box; }
-        
-        body {
-            font-family: "Microsoft YaHei","微软雅黑",Arial,sans-serif;
-            line-height: 1.8;
-            color: #2c3e50;
-            background: #f5f7fa;
-        }
-
-        .slide-container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 40px 30px;
-        }
-
-        /* 幻灯片页面样式 */
-        .slide {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-            padding: 50px 45px;
-            margin-bottom: 35px;
-            page-break-after: always;
-            position: relative;
-            overflow: hidden;
-        }
-        .slide::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0;
-            width: 6px; height: 100%;
-            border-radius: 16px 0 0 16px;
-        }
-        .slide:nth-child(1)::before { background: linear-gradient(#667eea,#764ba2); }
-        .slide:nth-child(2)::before { background: linear-gradient(#e44d26,#f16529); }
-        .slide:nth-child(3)::before { background: linear-gradient(#264de4,#2965f1); }
-        .slide:nth-child(4)::before { background: linear-gradient(#3498db,#2ecc71); }
-        .slide:nth-child(5)::before { background: linear-gradient(#9b59b6,#e74c3c); }
-        .slide:nth-child(6)::before { background: linear-gradient(#f39c12,#e67e22); }
-        .slide:nth-child(7)::before { background: linear-gradient(#1abc9c,#16a085); }
-        .slide:nth-child(8)::before { background: linear-gradient(#e74c3c,#c0392b); }
-        .slide:nth-child(9)::before { background: linear-gradient(#34495e,#2c3e50); }
-        .slide:nth-child(10)::before { background: linear-gradient(#27ae60,#2ecc71); }
-        .slide:nth-child(11)::before { background: linear-gradient(#8e44ad,#9b59b6); }
-
-        h1.slide-title {
-            font-size: 38px;
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 25px;
-            position: relative;
-        }
-        h1.slide-title::after {
-            content:"";
-            display:block;width:80px;height:4px;background:#3498db;margin:12px auto 0;border-radius:2px;
-        }
-
-        h2 {
-            font-size: 26px;
-            color: #2c3e50;
-            margin: 25px 0 15px;
-            padding-left: 14px;
-            border-left: 4px solid #3498db;
-        }
-
-        h3 {
-            font-size: 20px;
-            color: #555;
-            margin: 18px 0 10px;
-        }
-
-        p { margin-bottom: 12px; font-size: 17px; }
-
-        ul, ol { padding-left: 24px; margin-bottom: 15px; }
-        li { margin-bottom: 8px; font-size: 16px; line-height: 1.7; }
-
-        /* 代码块样式 */
-        pre {
-            background: #282c34;
-            color: #abb2bf;
-            padding: 20px 24px;
-            border-radius: 10px;
-            overflow-x: auto;
-            margin: 15px 0;
-            font-family: "Consolas","Courier New",monospace;
-            font-size: 14px;
-            line-height: 1.65;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
-        }
-        code { font-family: "Consolas","Courier New",monospace; }
-
-        /* 语法高亮 */
-        .tag { color: #e06c75; }      /* 标签名 - 红色 */
-        .attr { color: #d19a66; }     /* 属性名 - 橙色 */
-        .val  { color: #98c379; }      /* 属性值 - 绿色 */
-        .sel  { color: #61afef; }      /* CSS选择器 - 蓝色 */
-        .prop { color: #e06c75; }      /* CSS属性 - 红色 */
-        .cmt  { color: #5c6370;font-style:italic; } /* 注释 - 灰色斜体 */
-        .kw   { color: #c678dd; }      /* 关键字 - 紫色 */
-
-        /* 提示框 */
-        .tip-box {
-            background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
-            border-left: 4px solid #4caf50;
-            padding: 16px 20px;
-            border-radius: 0 10px 10px 0;
-            margin: 15px 0;
-        }
-        .tip-box.warning {
-            background: linear-gradient(135deg, #fff3e0, #fff8e1);
-            border-left-color: #ff9800;
-        }
-        .tip-box.info {
-            background: linear-gradient(135deg, #e3f2fd, #e8f4fd);
-            border-left-color: #2196f3;
-        }
-        .tip-box strong { color: #333; }
-        .tip-icon { margin-right: 8px; }
-
-        /* 对比表格 */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-            font-size: 15px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 11px 15px;
-            text-align: left;
-        }
-        th { background: #3498db; color: white; }
-        tr:nth-child(even) { background: #f8f9fa; }
-
-        /* 知识点标签 */
-        .tag-label {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-            margin-right: 6px;
-        }
-        .tag-html { background: #ffebee; color: #d32f2f; }
-        .tag-css { background: #e3f2fd; color: #1976d2; }
-        .tag-js { background: #fff3e0; color: #e65100; }
-
-        /* 封面页特殊样式 */
-        .cover-slide {
-            text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white !important;
-            min-height: 500px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .cover-slide h1 {
-            color: white !important;
-            font-size: 46px !important;
-            margin-bottom: 15px;
-        }
-        .cover-slide h1::after { background: white !important; width: 120px !important; height: 5px !important; }
-        .cover-slide p { color: rgba(255,255,255,0.9) !important; font-size: 20px !important; }
-        .cover-subtitle { font-size: 22px !important; opacity: 0.95; margin-top: 20px !important; }
-        .cover-info { 
-            margin-top: 40px !important; 
-            font-size: 16px !important; 
-            opacity: 0.8;
-        }
-        .cover-slide::before { display:none; }
-
-        /* 页码标记 */
-        .page-num {
-            position: absolute;
-            bottom: 15px;
-            right: 25px;
-            font-size: 13px;
-            color: #aaa;
-        }
-
-        /* 两栏布局 */
-        .two-col {
-            display: flex;
-            gap: 25px;
-        }
-        .two-col > div { flex: 1; }
-
-        @media (max-width:768px) {
-            .two-col { flex-direction: column; }
-            .slide { padding: 30px 20px; }
-            h1.slide-title { font-size: 28px; }
-        }
-    </style>
+    <title>插花艺术入门教程 - 零基础学插花</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="slide-container">
 
-<!-- ==================== 第1页：封面 ==================== -->
-<div class="slide cover-slide">
-    <h1 class="slide-title">网页设计实践课</h1>
-    <p class="cover-subtitle">🌐 个人主页（Personal Homepage）制作项目</p>
-    <p>从零开始，用HTML + CSS构建你的第一个完整网站！</p>
-    <p class="cover-info">
-        适用对象：网页设计初学者<br>
-        预计课时：4-6课时 | 难度：⭐⭐⭐☆☆
-    </p>
-</div>
-
-<!-- ==================== 第2页：项目概述 ==================== -->
-<div class="slide">
-    <h1 class="slide-title">一、项目概述</h1>
-
-    <h2>📋 我们要做什么？</h2>
-    <p>本项目将带领大家完成一个<strong>个人主页网站</strong>的制作。通过这个综合练习，你将掌握HTML和CSS的核心知识，并学会如何将它们组合起来创建一个完整的、美观的网页。</p>
-
-    <div class="two-col" style="margin-top:20px;">
-        <div>
-            <h3>🎯 学习目标</h3>
-            <ol>
-                <li>掌握<strong>语义化HTML标签</strong>的正确使用</li>
-                <li>熟练运用<strong>CSS选择器</strong>与常用属性</li>
-                <li>学会使用<strong>Flex弹性布局</strong></li>
-                <li>了解<strong>CSS动画与过渡效果</strong></li>
-                <li>实现<strong>响应式设计</strong>（适配手机端）</li>
-            </ol>
-        </div>
-        <div>
-            <h3>📄 最终成果</h3>
-            <ul>
-                <li>一个包含<strong>5个板块</strong>的个人主页</li>
-                <li><strong>固定导航栏</strong>（滚动时保持在顶部）</li>
-                <li>精美的<strong>渐变背景</strong>和<strong>卡片效果</strong></li>
-                <li>带有动画效果的<strong>技能进度条</strong></li>
-                <li>一个可用的<strong>留言表单</strong></li>
-                <li>支持<strong>手机/平板</strong>自适应显示</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="tip-box info" style="margin-top:18px;">
-        <span class="tip-icon">💡</span>
-        <strong>提示：</strong>本项目的所有知识点都来自我们之前学习的HTML和CSS内容。遇到不熟悉的地方，可以随时翻阅前面的笔记哦！
-    </div>
-    <span class="page-num">2 / 11</span>
-</div>
-
-<!-- ==================== 第3页：HTML结构讲解 ==================== -->
-<div class="slide">
-    <h1 class="slide-title">二、HTML 结构详解</h1>
-
-    <h2>🏗️ 页面整体骨架</h2>
-    <p>一个完整的HTML文档由以下基本结构组成：</p>
-    <pre><code><span class="cmt">&lt;!-- 文档类型声明 --&gt;</span>
-<span class="tag">&lt;!DOCTYPE html&gt;</span>
-<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"zh-CN"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;head&gt;</span>
-    <span class="cmt">&lt;!-- 头部信息：字符编码、视口、标题、引入CSS --&gt;</span>
-    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span>
-    <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
-    <span class="tag">&lt;title&gt;</span>我的个人主页<span class="tag">&lt;/title&gt;</span>
-    <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;/head&gt;</span>
-<span class="tag">&lt;body&gt;</span>
-    <span class="cmt">&lt;!-- 页面的所有可见内容都放在这里 --&gt;</span>
-    &lt;nav&gt;...导航栏...&lt;/nav&gt;
-    &lt;section&gt;...内容区块...&lt;/section&gt;
-    &lt;footer&gt;...页脚...&lt;/footer&gt;
-<span class="tag">&lt;/body&gt;</span>
-<span class="tag">&lt;/html&gt;</span></code></pre>
-
-    <div class="tip-box warning">
-        <span class="tip-icon">⚠️</span>
-        <strong>注意要点：</strong>
-        <ul style="margin-top:8px;margin-bottom:0;padding-left:18px;">
-            <li><code>&lt;meta charset="UTF-8"&gt;</code> 声明编码为 UTF-8，确保中文正常显示</li>
-            <li><code>viewport</code> 元标签是响应式设计的关键，必须加上！</li>
-            <li><code>&lt;link&gt;</code> 用于引入外部CSS文件</li>
+    <!-- ==================== 导航栏 ==================== -->
+    <nav class="navbar">
+        <div class="logo">🌸 花间物语</div>
+        <ul class="nav-links">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#intro">什么是插花</a></li>
+            <li><a href="#tools">工具准备</a></li>
+            <li><a href="#steps">入门步骤</a></li>
+            <li><a href="#styles">花型介绍</a></li>
+            <li><a href="#tips">小技巧</a></li>
         </ul>
-    </div>
-    <span class="page-num">3 / 11</span>
-</div>
+        <!-- 移动端菜单按钮 -->
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </nav>
 
-<!-- ==================== 第4页：HTML语义化标签 ==================== -->
-<div class="slide">
-    <h1 class="slide-title">三、HTML 语义化标签</h1>
-
-    <h2>📖 什么是语义化？为什么要用？</h2>
-    <p><strong>语义化</strong>就是用最恰当的HTML标签来表达内容的含义，而不仅仅是为了展示效果。</p>
-
-    <table style="margin-top:15px;">
-        <tr>
-            <th>标签</th>
-            <th>含义</th>
-            <th>在项目中的用法</th>
-        </tr>
-        <tr>
-            <td><code>&lt;header&gt;</code> 或 <code>&lt;nav&gt;</code></td>
-            <td>导航区域</td>
-            <td>页面顶部的固定导航栏</td>
-        </tr>
-        <tr>
-            <td><code>&lt;section&gt;</code></td>
-            <td>独立的章节/区块</td>
-            <td>每个内容板块（关于我、技能等）</td>
-        </tr>
-        <tr>
-            <td><code>&lt;article&gt;</code></td>
-            <td>独立的内容文章</td>
-            <td>博客文章、新闻条目</td>
-        </tr>
-        <tr>
-            <td><code>&lt;footer&gt;</code></td>
-            <td>页脚区域</td>
-            <td>版权信息、备案号等</td>
-        </tr>
-        <tr>
-            <td><code>&lt;main&gt;</code></td>
-            <td>主要内容区</td>
-            <td>包裹页面的核心内容</td>
-        </tr>
-        <tr>
-            <td><code>&lt;aside&gt;</code></td>
-            <td>侧边栏/辅助信息</td>
-            <td>相关推荐、广告位</td>
-        </tr>
-    </table>
-
-    <div class="tip-box info" style="margin-top:15px;">
-        <span class="tip-icon">💡</span>
-        <strong>语义化的好处：</strong>① 让搜索引擎更好地理解你的网页（SEO友好）<br>
-        &nbsp;&nbsp;&nbsp;② 方便屏幕阅读器为视障人士朗读内容<br>
-        &nbsp;&nbsp;&nbsp;③ 代码更易读、易维护
-    </div>
-    <span class="page-num">4 / 11</span>
-</div>
-
-<!-- ==================== 第5页：核心CSS技术点 ==================== -->
-<div class="slide">
-    <h1 class="slide-title">四、核心 CSS 技术详解</h1>
-
-    <h2>🎨 本项目用到的关键CSS技术</h2>
-
-    <!-- 盒模型 -->
-    <h3><span class="tag-label tag-css">基础</span>盒模型 (Box Model)</h3>
-    <pre><code><span class="cmt">/* 盒模型 = 内容(content) + 内边距(padding) + 边框(border) + 外边距(margin) */</span>
-<span class="sel">*</span> {
-    <span class="prop">box-sizing</span>: border-box;  <span class="cmt">/* ★★★ 关键设置！让边框和内边距包含在宽高内 */</span>
-}</code></pre>
-    <p>使用 <code>border-box</code> 后，元素的 <code>width</code> 和 <code>height</code> 就包含了 padding 和 border，计算布局时更加方便。</p>
-
-    <!-- Flex布局 -->
-    <h3><span class="tag-label tag-css">重点</span>Flex 弹性布局</h3>
-    <pre><code><span class="cmt">/* Flex 是现代CSS布局的核心技术，非常强大且好用 */</span>
-<span class="sel">.navbar</span> {
-    <span class="prop">display</span>: flex;                      <span class="cmt">/* 开启弹性布局 */</span>
-    <span class="prop">justify-content</span>: space-between;    <span class="cmt">/* 子元素两端对齐 */</span>
-    <span class="prop">align-items</span>: center;              <span class="cmt">/* 子元素垂直居中 */</span>
-}
-
-<span class="sel">.about-content</span> {
-    <span class="prop">display</span>: flex;
-    <span class="prop">gap</span>: 40px;                        <span class="cmt">/* 子元素之间的间距 */</span>
-}
-<span class="sel">.about-text</span> { <span class="prop">flex</span>: 1.5; }  <span class="cmt">/* 占1.5份空间 */</span>
-<span class="sel">.about-card</span>  { <span class="prop">flex</span>: 1; }   <span class="cmt">/* 占1份空间 */</span></code></pre>
-
-    <span class="page-num">5 / 11</span>
-</div>
-
-<!-- ==================== 第6页：更多CSS技术 ==================== -->
-<div class="slide">
-    <h1 class="slide-title">四（续）- 更多 CSS 技术</h1>
-
-    <h3><span class="tag-label tag-css">进阶</span>CSS Grid 网格布局</h3>
-    <pre><code><span class="cmt">/* Grid用于二维布局（行+列），适合做卡片网格 */</span>
-<span class="sel">.skills-grid</span> {
-    <span class="prop">display</span>: grid;
-    <span class="prop">grid-template-columns</span>: repeat(<span class="kw">auto-fit</span>, <span class="kw">minmax</span>(230px, <span class="val">1fr</span>));
-    <span class="cmt">/* 解释：每列最小230px，自动适应容器宽度，列数自适应 */</span>
-    <span class="prop">gap</span>: 25px;              <span class="cmt">/* 网格间距 */</span>
-}</code></pre>
-
-    <h3><span class="tag-label tag-css">美化</span>渐变背景 & 阴影</h3>
-    <pre><code><span class="cmt">/* 渐变背景：linear-gradient(方向, 颜色1, 颜色2, ...) */</span>
-<span class="sel">.hero</span> {
-    <span class="prop">background</span>: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-<span class="cmt">/* 盒子阴影：x偏移 y偏移 模糊半径 扩散半径 颜色 */</span>
-<span class="sel">.skill-card</span> {
-    <span class="prop">box-shadow</span>: 0 3px 15px rgba(0,0,0,0.08);
-}
-
-<span class="cmt">/* 圆角：数值越大越圆 */</span>
-<span class="sel">.skill-card</span> { <span class="prop">border-radius</span>: 12px; }</code></pre>
-
-    <h3><span class="tag-label tag-css">交互</span>过渡与悬停效果</h3>
-    <pre><code><span class="sel">.btn</span> {
-    <span class="prop">transition</span>: all 0.3s ease;  <span class="cmt">/* 所有属性变化都有0.3秒的平滑过渡 */</span>
-}
-<span class="sel">.btn:hover</span> {
-    <span class="prop">transform</span>: translateY(-3px);  <span class="cmt">/* 鼠标悬停时向上移动3px */</span>
-    <span class="prop">box-shadow</span>: 0 8px 25px rgba(0,0,0,0.3);
-}</code></pre>
-    <span class="page-num">6 / 11</span>
-</div>
-
-<!-- ==================== 第7页：各模块详细拆解 ==================== -->
-<div class="slide">
-    <h1 class="slide-title">五、页面模块拆解</h1>
-
-    <h2>🧩 个人主页的五大模块</h2>
-
-    <table>
-        <tr>
-            <th>模块</th>
-            <th>HTML标签</th>
-            <th>CSS核心技术</th>
-            <th>功能说明</th>
-        </tr>
-        <tr>
-            <td>🧭 导航栏</td>
-            <td><code>&lt;nav&gt;</code></td>
-            <td><code>position:fixed</code> + <code>flex</code></td>
-            <td>固定在顶部，含Logo和导航链接</td>
-        </tr>
-        <tr>
-            <td>🏠 首页横幅</td>
-            <td><code>&lt;section id="home"&gt;</code></td>
-            <td><code>100vh高度</code> + <code>渐变背景</code> + <code>flex居中</code></td>
-            <td>全屏欢迎区域，第一印象</td>
-        </tr>
-        <tr>
-            <td>👤 关于我</td>
-            <td><code>&lt;section id="about"&gt;</code></td>
-            <td><code>flex左右分栏</code> + <code>卡片样式</code> + <code>表格</code></td>
-            <td>个人信息介绍</td>
-        </tr>
-        <tr>
-            <td>💪 技能特长</td>
-            <td><code>&lt;section id="skills"&gt;</code></td>
-            <td><code>Grid网格</code> + <code>进度条</code> + <code>悬停动画</code></td>
-            <td>技能展示，带可视化进度条</td>
-        </tr>
-        <tr>
-            <td>📬 联系我</td>
-            <td><code>&lt;section id="contact"&gt;</code></td>
-            <td><code>表单样式</code> + <code>focus状态</code> + <code>按钮渐变</code></td>
-            <td>联系信息和留言表单</td>
-        </tr>
-    </table>
-
-    <div class="tip-box info" style="margin-top:15px;">
-        <span class="tip-icon">💡</span>
-        <strong>设计思路：</strong>每个模块都用 <code>&lt;section id="名称"&gt;</code> 包裹，配合导航栏里的 <code>&lt;a href="#名称"&gt;</code> 实现页面内锚点跳转。
-    </div>
-    <span class="page-num">7 / 11</span>
-</div>
-
-<!-- ==================== 第8页：表单与动画 ==================== -->
-<div class="slide">
-    <h1 class="slide-title">六、表单与动画效果</h1>
-
-    <h2>📝 表单元素的使用</h2>
-    <pre><code><span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="val">"#"</span> <span class="attr">method</span>=<span class="val">"post"</span><span class="tag">&gt;</span>
-    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">name</span>=<span class="val">"name"</span> <span class="attr">placeholder</span>=<span class="val">"你的名字"</span> <span class="attr">required</span><span class="tag">&gt;</span>
-    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="val">"email"</span> <span class="attr">name</span>=<span class="val">"email"</span> <span class="attr">placeholder</span>=<span class="val">"你的邮箱"</span> <span class="attr">required</span><span class="tag">&gt;</span>
-    <span class="tag">&lt;textarea</span> <span class="attr">name</span>=<span class="val">"message"</span> <span class="attr">rows</span>=<span class="val">"5"</span> <span class="attr">placeholder</span>=<span class="val">"想说的话..."</span> <span class="attr">required</span><span class="tag">&gt;&lt;/textarea&gt;</span>
-    <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="val">"submit"</span><span class="tag">&gt;</span>发送留言<span class="tag">&lt;/button&gt;</span>
-<span class="tag">&lt;/form&gt;</span></code></pre>
-
-    <div class="two-col">
-        <div>
-            <h3>🔑 表单重要属性</h3>
-            <ul>
-                <li><code>required</code> — 必填项验证</li>
-                <li><code>placeholder</code> — 占位提示文字</li>
-                <li><code>type="email"</code> — 自动校验邮箱格式</li>
-            </ul>
+    <!-- ==================== 首页横幅 ==================== -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-badge">🌿 零基础友好 · 保姆级教程</span>
+            <h1>从零开始<br>学会<span class="highlight">插花艺术</span></h1>
+            <p>用一束鲜花，装点生活的每一个角落</p>
+            <p class="hero-sub">不需要天赋 · 不需要经验 · 只要你愿意开始</p>
+            <a href="#intro" class="btn btn-primary">开始学习 →</a>
         </div>
-        <div>
-            <h3>✨ CSS动画 — 关键帧</h3>
-            <pre style="padding:14px;"><code><span class="cmt">/* 定义动画关键帧 */</span>
-<span class="kw">@keyframes</span> fadeInUp {
-    <span class="kw">from</span> { opacity:0; transform:translateY(30px); }
-    <span class="kw">to</span>   { opacity:1; transform:translateY(0); }
-}
-<span class="cmt">/* 使用动画 */</span>
-<span class="selector">h1</span> { animation: fadeInUp 1s ease; }</code></pre>
-        </div>
-    </div>
-    <span class="page-num">8 / 11</span>
-</div>
+        <div class="scroll-hint">↓ 向下滑动探索 ↓</div>
+    </section>
 
-<!-- ==================== 第9页：响应式设计 ==================== -->
-<div class="slide">
-    <h1 class="slide-title">七、响应式设计（适配移动端）</h1>
-
-    <h2>📱 什么是响应式设计？</h2>
-    <p>响应式设计的核心理念：<strong>同一个网页，在不同设备上都能良好地显示</strong>。电脑端看是横排多列，手机端就变成竖排单列。</p>
-
-    <h3>🔧 实现方法：媒体查询 (Media Query)</h3>
-    <pre><code><span class="cmt">/* 当屏幕宽度 ≤ 768px 时（平板及以下），应用以下规则 */</span>
-<span class="kw">@media</span> (max-width: 768px) {
-    
-    <span class="cmt">/* 导航栏改为垂直排列 */</span>
-    <span class="sel">.navbar</span> {
-        <span class="prop">flex-direction</span>: column;
-        <span class="prop">padding</span>: 12px 20px;
-    }
-    
-    <span class="cmt">/* 多列布局改为单列堆叠 */</span>
-    <span class="sel">.about-content</span>,
-    <span class="sel">.contact-content</span> {
-        <span class="prop">flex-direction</span>: column;
-    }
-    
-    <span class="cmt">/* Grid改为单列 */</span>
-    <span class="sel">.skills-grid</span> {
-        <span class="prop">grid-template-columns</span>: 1fr;
-    }
-    
-    <span class="cmt">/* 标题字号调小以适应小屏幕 */</span>
-    <span class="sel">.hero-content h1</span> { <span class="prop">font-size</span>: 32px; }
-}</code></pre>
-
-    <div class="tip-box warning">
-        <span class="tip-icon">⚠️</span>
-        <strong>别忘了：</strong>做响应式设计前，必须在 <code>&lt;head&gt;</code> 中添加 <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code>，否则媒体查询不会生效！
-    </div>
-    <span class="page-num">9 / 11</span>
-</div>
-
-<!-- ==================== 第10页：练习任务清单 ==================== -->
-<div class="slide">
-    <h1 class="slide-title">八、课后练习任务</h1>
-
-    <h2>✅ 分级练习任务</h2>
-
-    <div class="two-col">
-        <div>
-            <h3>⭐ 基础必做</h3>
-            <ol>
-                <li>按照源码<strong>完整抄写一遍</strong> index.html 和 style.css</li>
-                <li>修改<strong>个人信息</strong>为你自己的真实信息</li>
-                <li>更换<strong>头像图片</strong>（用你自己的照片）</li>
-                <li>修改<strong>技能项</strong>，列出你真正掌握的技能</li>
-            </ol>
+    <!-- ==================== 什么是插花 ==================== -->
+    <section id="intro" class="section">
+        <div class="container">
+            <h2 class="section-title">🌺 一、什么是插花？</h2>
             
-            <h3>⭐⭐ 进阶挑战</h3>
-            <ol start="5">
-                <li><strong>修改配色方案</strong>：把紫色主题换成蓝色或绿色</li>
-                <li><strong>新增一个模块</strong>：比如"作品集"展示区</li>
-                <li>给导航栏加<strong>滚动变色效果</strong></li>
-            </ol>
-        </div>
-        <div>
-            <h3>⭐⭐⭐ 高手挑战</h3>
-            <ol start="8">
-                <li>加入<strong>JavaScript</strong>实现：
-                    <ul style="margin-top:5px;padding-left:20px;">
-                        <li>点击导航链接时平滑滚动到对应位置</li>
-                        <li>回到顶部按钮（滚动一定距离后出现）</li>
-                    </ul>
-                </li>
-                <li>给页面加<strong>暗黑模式切换</strong>开关</li>
-                <li>尝试用 <code>@keyframes</code> 给Hero区域的文字做一个<strong>打字机效果</strong></li>
-            </ol>
-
-            <div class="tip-box" style="margin-top:18px;">
-                <span class="tip-icon">📝</span>
-                <strong>作业提交要求：</strong><br>
-                • 将完成的文件打包成zip<br>
-                • 文件命名格式：<code>学号_姓名_个人主页.zip</code><br>
-                • 截图一张运行效果附在里面
+            <div class="intro-content">
+                <div class="intro-text">
+                    <p><strong>插花（Ikebana / Flower Arrangement）</strong>是将剪切下来的植物枝、叶、花、果等作为素材，经过一定的技术处理和艺术构思，配置成一件精美作品的一种造型艺术。</p>
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">✨</span>
+                            <div>
+                                <h4>美化环境</h4>
+                                <p>让家居空间充满自然气息与生机活力</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🧘</span>
+                            <div>
+                                <h4>修身养性</h4>
+                                <p>静心专注的过程，是最好的心灵疗愈</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🎁</span>
+                            <div>
+                                <h4>表达心意</h4>
+                                <p>亲手制作的花艺作品，是最有温度的礼物</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="intro-card">
+                    <div class="card-floral">
+                        <div class="floral-circle">🌷</div>
+                        <h3>你知道吗？</h3>
+                        <p>中国是东方插花艺术的发源地，距今已有1500多年的历史。传统插花讲究<strong>"天人合一"</strong>的理念，追求自然之美。</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <span class="page-num">10 / 11</span>
-</div>
+    </section>
 
-<!-- ==================== 第11页：知识点总结 ==================== -->
-<div class="slide">
-    <h1 class="slide-title">九、知识点总结</h1>
+    <!-- ==================== 工具准备 ==================== -->
+    <section id="tools" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">🛠️ 二、新手必备工具清单</h2>
+            <p class="section-desc">别担心，初学者只需要这几样东西就能开始！</p>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">🫙</div>
+                    <h3>花器（花瓶）</h3>
+                    <p class="tool-desc">推荐：透明玻璃瓶或白色陶瓷瓶</p>
+                    <div class="tool-detail">
+                        <strong>💡 选瓶技巧：</strong>
+                        <ul>
+                            <li>口径不宜太大（5-10cm最佳）</li>
+                            <li>高度建议15-25cm</li>
+                            <li>新手选直筒型最容易操作</li>
+                        </ul>
+                    </div>
+                    <span class="tool-price">参考价：¥15 - ¥50</span>
+                </div>
 
-    <h2>📚 本次项目涉及的全部知识点一览</h2>
+                <div class="tool-card">
+                    <div class="tool-icon">✂️</div>
+                    <h3>花剪 / 园艺剪</h3>
+                    <p class="tool-desc">用来修剪花材的长度和形状</p>
+                    <div class="tool-detail">
+                        <strong>💡 使用要点：</strong>
+                        <ul>
+                            <li>刀口锋利，剪口要平整</li>
+                            <li>粗枝用斜剪增加吸水面积</li>
+                            <li>每次使用后擦干防锈</li>
+                        </ul>
+                    </div>
+                    <span class="tool-price">参考价：¥10 - ¥30</span>
+                </div>
 
-    <table>
-        <tr>
-            <th>分类</th>
-            <th>知识点</th>
-            <th>掌握程度要求</th>
-        </tr>
-        <tr>
-            <td rowspan="5"><span class="tag-label tag-html">HTML</span></td>
-            <td>HTML文档基本结构（DOCTYPE、html、head、body）</td>
-            <td>⭐⭐⭐ 必会</td>
-        </tr>
-        <tr>
-            <td>语义化标签（nav、section、footer、article）</td>
-            <td>⭐⭐⭐ 必会</td>
-        </tr>
-        <tr>
-            <td>文本标签（h1~h6、p、strong、em、span）</td>
-            <td>⭐⭐⭐ 必会</td>
-        </tr>
-        <tr>
-            <td>表单标签（form、input、textarea、button）</td>
-            <td>⭐⭐ 掌握</td>
-        </tr>
-        <tr>
-            <td>列表与表格（ul/ol/li、table/tr/th/td）</td>
-            <td>⭐⭐ 掌握</td>
-        </tr>
-        <tr>
-            <td rowspan="8"><span class="tag-label tag-css">CSS</span></td>
-            <td>盒模型（content/padding/border/margin）</td>
-            <td>⭐⭐⭐ 必会</td>
-        </tr>
-        <tr>
-            <td>选择器（元素、类、ID、伪类:hover/:focus）</td>
-            <td>⭐⭐⭐ 必会</td>
-        </tr>
-        <tr>
-            <td>Flex 弹性布局（justify/align/flex/gap）</td>
-            <td>⭐⭐⭐ 重点</td>
-        </tr>
-        <tr>
-            <td>Grid 网格布局（grid-template-columns/gap/auto-fit）</td>
-            <td>⭐⭐ 了解</td>
-        </tr>
-        <tr>
-            <td>定位方式（static/relative/fixed）</td>
-            <td>⭐⭐ 掌握</td>
-        </tr>
-        <tr>
-            <td>渐变、圆角、阴影（gradient/radius/shadow）</td>
-            <td>⭐⭐ 掌握</td>
-        </tr>
-        <tr>
-            <td>过渡与动画（transition/@keyframes）</td>
-            <td>⭐ 了解</td>
-        </tr>
-        <tr>
-            <td>响应式设计（viewport + media query）</td>
-            <td>⭐⭐ 重点</td>
-        </tr>
-    </table>
+                <div class="tool-card">
+                    <div class="tool-icon">💧</div>
+                    <h3>清水 + 养护剂</h3>
+                    <p class="tool-desc">保持花朵新鲜的关键</p>
+                    <div class="tool-detail">
+                        <strong>💡 换水频率：</strong>
+                        <ul>
+                            <li>夏季每天换水一次</li>
+                            <li>冬季每2-3天换水</li>
+                            <li>没有养护剂可加一滴漂白水</li>
+                        </ul>
+                    </div>
+                    <span class="tool-price">参考价：免费 / 养护剂¥5</span>
+                </div>
 
-    <div class="tip-box" style="background:linear-gradient(135deg,#f3e5f5,#fce4ec);border-left-color:#e91e63;margin-top:18px;text-align:center;">
-        <strong>🎉 恭喜完成本次学习！动手实践是最好的学习方法，快去写代码吧！</strong>
-    </div>
-    <span class="page-num">11 / 11</span>
-</div>
+                <div class="tool-card">
+                    <div class="tool-icon">🌹</div>
+                    <h3>新鲜花材</h3>
+                    <p class="tool-desc">初学者推荐这几种"好养活"的花</p>
+                    <div class="tool-detail">
+                        <strong>🌟 新手友好花材：</strong>
+                        <ul>
+                            <li>🌻 向日葵 — 坚挺耐放</li>
+                            <li>🌷 郁金香 — 简单大方</li>
+                            <li>🌼 洋甘菊 — 自然随性</li>
+                            <li>🌸 尤加利叶 — 百搭叶材</li>
+                        </ul>
+                    </div>
+                    <span class="tool-price">参考价：¥20 - ¥50/束</span>
+                </div>
+            </div>
 
-</div><!-- end slide-container -->
+            <div class="tip-box tip-warn">
+                <span class="tip-icon">⚠️</span>
+                <strong>新手避坑提醒：</strong>第一次不要买太多种类的花！<strong>3-5种</strong>足够了，多了容易乱。
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 入门步骤（核心！）==================== -->
+    <section id="steps" class="section steps-section">
+        <div class="container">
+            <h2 class="section-title">📋 三、手把手教你完成第一件作品</h2>
+            <p class="section-desc">跟着这6个步骤走，你也能做出漂亮的花艺作品！</p>
+
+            <!-- 步骤1 -->
+            <div class="step-row">
+                <div class="step-num"><span>1</span></div>
+                <div class="step-content">
+                    <h3>🌱 第一步：准备花材</h3>
+                    <p>将买回来的花材取出，去掉多余的叶子和刺（保留靠近花朵的几片叶子即可）。用剪刀将花茎底部<strong>斜剪45°</strong>，这样能增大吸水面积，让花开得更久。</p>
+                    <div class="step-img-placeholder">
+                        <span>📷 斜剪花茎示意图</span>
+                    </div>
+                    <div class="step-tips">
+                        <span class="tip-tag">关键点</span> 斜剪角度约45°，剪掉2-3厘米即可
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤2 -->
+            <div class="step-row">
+                <div class="step-num"><span>2</span></div>
+                <div class="step-content">
+                    <h3>📐 第二步：确定骨架</h3>
+                    <p>这是最重要的一步！先选出<strong>最高、最挺拔</strong>的那支花作为<strong>"主花"</strong>（通常是玫瑰、向日葵或百合），插入花瓶中央偏后的位置。<strong>主花高度 = 花瓶高度 × 1.5倍</strong>。</p>
+                    <div class="formula-box">
+                        📏 <strong>黄金比例公式：</strong> 主花高度 = 瓶高 × 1.5
+                    </div>
+                    <div class="step-tips">
+                        <span class="tip-tag">记忆口诀</span> "一瓶高一半"，主花不能太矮也不能太高
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤3 -->
+            <div class="step-row">
+                <div class="step-num"><span>3</span></div>
+                <div class="step-content">
+                    <h3>🌿 第三步：添加配叶/填充花</h3>
+                    <p>在主花的周围插入<strong>叶材</strong>（如尤加利叶、满天星、蓬莱松），作用有两个：① 衬托主花，让作品有层次感 ② 填充空隙，不让作品看起来空洞。</p>
+                    <div class="step-tips">
+                        <span class="tip-tag">搭配原则</span> 叶材高度为主花的 2/3 ~ 3/4，分布要"前低后高"
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤4 -->
+            <div class="step-row">
+                <div class="step-num"><span>4</span></div>
+                <div class="step-content">
+                    <h3>🎨 第四步：插入焦点花</h3>
+                    <p>在作品的<strong>视觉中心</strong>位置（通常是整体高度的1/3处）插入颜色最鲜艳、形态最美的花，这就是"焦点花"。它是整个作品的<strong>眼睛</strong>，吸引观者的目光。</p>
+                    <div class="step-img-placeholder">
+                        <span>👁️ 焦点花位置示意</span>
+                    </div>
+                    <div class="step-tips">
+                        <span class="tip-tag">定位法</span> 看着花瓶正前方，视线自然落下的位置就是焦点
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤5 -->
+            <div class="step-row">
+                <div class="step-num"><span>5</span></div>
+                <div class="step-content">
+                    <h3>⚖️ 第五步：平衡与调整</h3>
+                    <p>退后两三步，从正面、侧面、上面三个角度观察你的作品：<br>
+                    • 有没有一边重一边轻？→ 移动花的位置来平衡<br>
+                    • 有没有哪个方向太空？→ 加一点叶材填补<br>
+                    • 花朵之间有没有挤在一起？→ 适当拉开间距</p>
+                    <div class="checklist-box">
+                        <strong>🔍 自检清单：</strong>
+                        <label><input type="checkbox"> 高度比例协调</label>
+                        <label><input type="checkbox"> 左右大致对称</label>
+                        <label><input type="checkbox"> 有层次感（前后错落）</label>
+                        <label><input type="checkbox"> 颜色不超3种主色</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤6 -->
+            <div class="step-row step-last">
+                <div class="step-num"><span>6</span></div>
+                <div class="step-content">
+                    <h3>📸 第六步：欣赏与养护</h3>
+                    <p>恭喜你完成了人生中第一件插花作品！🎉 记得拍照留念哦~</p>
+                    
+                    <table class="care-table">
+                        <tr><th>日常养护</th><th>做法</th></tr>
+                        <tr><td>📍 摆放位置</td><td>避免阳光直射和空调出风口</td></tr>
+                        <tr><td>💧 换水</td><td>每天/隔天换清水，重新斜剪根部</td></tr>
+                        <tr><td>🗑️ 清理</td><td>及时摘除凋谢的花瓣和叶子</td></tr>
+                        <tr><td>⏳ 寿命</td><td>一般鲜切花可保存 5-7 天</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 花型介绍 ==================== -->
+    <section id="styles" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">🌸 四、经典花型一览</h2>
+            
+            <div class="styles-grid">
+                <div class="style-card">
+                    <div class="style-badge">入门首选</div>
+                    <div class="style-icon">🏺</div>
+                    <h3>半球形插花</h3>
+                    <p class="style-level">难度：⭐</p>
+                    <p>最经典的入门花型，外形像一个圆球。适合放在餐桌中央做桌花，四面观赏都好看。</p>
+                    <div class="style-tags">
+                        <span>圆形</span><span>对称</span><span>饱满</span>
+                    </div>
+                </div>
+
+                <div class="style-card">
+                    <div class="style-badge">进阶挑战</div>
+                    <div class="style-icon">🌙</div>
+                    <h3>L形 / 三角形插花</h3>
+                    <p class="style-level">难度：⭐⭐</p>
+                    <p>轮廓呈现三角形或L形，有明确的高低层次感，适合靠墙摆放或放在角落装饰。</p>
+                    <div class="style-tags">
+                        <span>线条感</span><span>不对称</span><span>现代风</span>
+                    </div>
+                </div>
+
+                <div class="style-card">
+                    <div class="style-badge">中式美学</div>
+                    <div class="style-icon">🎋</div>
+                    <h3>直立式（中国传统）</h3>
+                    <p class="style-level">难度：⭐⭐⭐</p>
+                    <p>讲究"天地人"三位一体，线条简洁流畅，留白多，追求意境美而非繁复堆砌。</p>
+                    <div class="style-tags">
+                        <span>极简</span><span>意境</span><span>禅意</span>
+                    </div>
+                </div>
+
+                <div class="style-card">
+                    <div class="style-badge">浪漫风格</div>
+                    <div class="style-icon">💐</div>
+                    <h3>自然田园式</h3>
+                    <p class="style-level">难度：⭐⭐</p>
+                    <p>模仿自然界花草自由生长的状态，看起来随意却精心设计，最适合家庭日常插花。</p>
+                    <div class="style-tags">
+                        <span>随意</span><span>温馨</span><span>生活化</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 小技巧 ==================== -->
+    <section id="tips" class="section">
+        <div class="container">
+            <h2 class="section-title">💡 五、新手必知的实用小技巧</h2>
+            
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-number">01</div>
+                    <h4>颜色不超过3种</h4>
+                    <p>新手最容易犯的错误就是颜色太多。记住：<strong>1种主色 + 2种辅色</strong>就够了。同色系深浅搭配永远不会出错。</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">02</div>
+                    <h4>奇数法则</h4>
+                    <p>同一品种的花用<strong>奇数支</strong>（3支、5支、7支）比偶数支看起来更自然和谐。这是经过无数人验证的美学规律！</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">03</div>
+                    <h4>高低错落</h4>
+                    <p>千万不要把所有花剪成一样高度！<strong>有高有低、有前有后</strong>才能产生立体感和层次感。</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">04</div>
+                    <h4>花不要太满</h4>
+                    <p><strong>"疏可走马，密不透风"</strong>是中国传统美学智慧。适当留白反而更显高级感，给花朵呼吸的空间。</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">05</div>
+                    <h4>叶材是好帮手</h4>
+                    <p>尤加利叶、蓬莱松、满天星这些叶材是新手最好的朋友。它们便宜又百搭，能瞬间提升作品的完整度。</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">06</div>
+                    <h4>先加水再插花</h4>
+                    <p>在花瓶里先加七八分水，然后再开始插花。这样可以随时观察水位变化，也避免插好后不好调整。</p>
+                </div>
+            </div>
+
+            <!-- 总结卡片 -->
+            <div class="summary-card">
+                <h3>📝 今日课程总结</h3>
+                <div class="summary-list">
+                    <span class="summary-item">✅ 了解什么是插花及它的价值</span>
+                    <span class="summary-item">✅ 准备4样必备工具（花瓶+剪刀+水+花材）</span>
+                    <span class="summary-item">✅ 掌握6步插花流程（准备→骨架→配叶→焦点→平衡→养护）</span>
+                    <span class="summary-item">✅ 认识4种经典花型</span>
+                    <span class="summary-item">✅ 学会6个实用小技巧</span>
+                </div>
+                <p class="summary-end">现在，去买束花试试吧！每一次动手都是进步 🌼</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 页脚 ==================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="footer-logo">🌸 花间物语</span>
+                    <p>让每个人都能享受插花的乐趣</p>
+                </div>
+                <div class="footer-links">
+                    <h4>快速导航</h4>
+                    <a href="#intro">什么是插花</a>
+                    <a href="#tools">工具准备</a>
+                    <a href="#steps">入门步骤</a>
+                    <a href="#styles">花型介绍</a>
+                    <a href="#tips">实用技巧</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 花间物语 · 插花艺术入门教程 | 本页面为网页设计练习项目</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 回到顶部按钮 -->
+    <button id="backToTop" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+
+    <!-- 简单交互脚本 -->
+    <script>
+        // 导航栏滚动变色
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.navbar');
+            const backTop = document.getElementById('backToTop');
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+                backTop.classList.add('show');
+            } else {
+                nav.classList.remove('scrolled');
+                backTop.classList.remove('show');
+            }
+        });
+
+        // 移动端菜单切换
+        function toggleMenu() {
+            const links = document.querySelector('.nav-links');
+            links.classList.toggle('active');
+        }
+
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // 关闭移动端菜单
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
