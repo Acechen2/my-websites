@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人主页 - 网页设计练习</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ==================== 导航栏 ==================== -->
+    <nav class="navbar">
+        <div class="logo">我的主页</div>
+        <ul class="nav-links">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#about">关于我</a></li>
+            <li><a href="#skills">技能特长</a></li>
+            <li><a href="#hobbies">兴趣爱好</a></li>
+            <li><a href="#contact">联系我</a></li>
+        </ul>
+    </nav>
+
+    <!-- ==================== 首页横幅区域 ==================== -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>你好，我是<span class="highlight">张三</span></h1>
+            <p>一名热爱网页设计的学生 | 用代码编织梦想</p>
+            <a href="#about" class="btn btn-primary">了解更多 →</a>
+        </div>
+    </section>
+
+    <!-- ==================== 关于我 ==================== -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">关于我</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>大家好！我是来自信息工程系的一名学生。我对<strong>网页设计</strong>和<strong>前端开发</strong>有着浓厚的兴趣。</p>
+                    <p>在学习网页设计的过程中，我掌握了HTML、CSS等基础知识，并不断探索新的技术和创意。我相信好的网页不仅要美观，更要有良好的用户体验。</p>
+                    <p>我的座右铭是：<em>"学无止境，勇攀高峰"</em>。</p>
+                </div>
+                <div class="about-card">
+                    <div class="avatar-placeholder">
+                        👨‍💻
+                    </div>
+                    <table class="info-table">
+                        <tr><td>📛 姓名：</td><td>张三</td></tr>
+                        <tr><td>🏫 学校：</td><td>信阳技师学院</td></tr>
+                        <tr><td>📚 专业：</td><td>计算机应用</td></tr>
+                        <tr><td>🎂 生日：</td><td>2008年6月1日</td></tr>
+                        <tr><td>📍 家乡：</td><td>河南信阳</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 技能特长 ==================== -->
+    <section id="skills" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">技能特长</h2>
+            <div class="skills-grid">
+                <!-- 技能卡片1：HTML -->
+                <div class="skill-card">
+                    <div class="skill-icon">🌐</div>
+                    <h3>HTML</h3>
+                    <p>掌握HTML5标签语义化、表单元素、多媒体标签的使用</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 85%;"></div>
+                    </div>
+                    <span class="skill-percent">85%</span>
+                </div>
+
+                <!-- 技能卡片2：CSS -->
+                <div class="skill-card">
+                    <div class="skill-icon">🎨</div>
+                    <h3>CSS</h3>
+                    <p>熟练使用盒模型、Flexbox布局、CSS动画与过渡效果</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 75%;"></div>
+                    </div>
+                    <span class="skill-percent">75%</span>
+                </div>
+
+                <!-- 技能卡片3：JavaScript -->
+                <div class="skill-card">
+                    <div class="skill-icon">⚡</div>
+                    <h3>JavaScript</h3>
+                    <p>了解基础语法、DOM操作、事件处理和简单交互效果</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 50%;"></div>
+                    </div>
+                    <span class="skill-percent">50%</span>
+                </div>
+
+                <!-- 技能卡片4：Photoshop -->
+                <div class="skill-card">
+                    <div class="skill-icon">📷</div>
+                    <h3>Photoshop</h3>
+                    <p>能够进行图片处理、网页切图、简单UI设计制作</p>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 60%;"></div>
+                    </div>
+                    <span class="skill-percent">60%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 兴趣爱好 ==================== -->
+    <section id="hobbies" class="section">
+        <div class="container">
+            <h2 class="section-title">兴趣爱好</h2>
+            <div class="hobbies-list">
+                <div class="hobby-item">
+                    <span class="hobby-emoji">🎮</span>
+                    <h4>打游戏</h4>
+                    <p>喜欢玩各种类型的游戏，尤其是策略类和竞技类游戏。</p>
+                </div>
+                <div class="hobby-item">
+                    <span class="hobby-emoji">📚</span>
+                    <h4>看书学习</h4>
+                    <p>热爱阅读技术书籍和科幻小说，不断充实自己。</p>
+                </div>
+                <div class="hobby-item">
+                    <span class="hobby-emoji">🏀</span>
+                    <h4>打篮球</h4>
+                    <p>周末喜欢和同学一起打球，锻炼身体放松心情。</p>
+                </div>
+                <div class="hobby-item">
+                    <span class="hobby-emoji">🎵</span>
+                    <h4>听音乐</h4>
+                    <p>喜欢流行音乐和轻音乐，写代码时喜欢听歌陪伴。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 联系我 ==================== -->
+    <section id="contact" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">联系我</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span>邮箱：zhangsan@example.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>微信：zhangsan_2025</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <span>地址：河南省信阳市</span>
+                    </div>
+                </div>
+                
+                <!-- 留言表单 -->
+                <form class="contact-form" action="#" method="post">
+                    <h3>给我留言</h3>
+                    <input type="text" name="name" placeholder="你的名字" required>
+                    <input type="email" name="email" placeholder="你的邮箱" required>
+                    <textarea name="message" rows="5" placeholder="想说的话..." required></textarea>
+                    <button type="submit" class="btn btn-primary">发送留言</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 页脚 ==================== -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 张三的个人主页 | 网页设计课程作业</p>
+            <p class="footer-note">本页面为网页设计课程练习作品</p>
+        </div>
+    </footer>
+</body>
+</html>
