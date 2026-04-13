@@ -3,426 +3,1109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>插花艺术入门教程 - 零基础学插花</title>
+    <title>🐍 Python贪吃蛇游戏 - 从零开始制作你的第一个游戏！</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- ==================== 导航栏 ==================== -->
-    <nav class="navbar">
-        <div class="logo">🌸 花间物语</div>
-        <ul class="nav-links">
-            <li><a href="#home">首页</a></li>
-            <li><a href="#intro">什么是插花</a></li>
-            <li><a href="#tools">工具准备</a></li>
-            <li><a href="#steps">入门步骤</a></li>
-            <li><a href="#styles">花型介绍</a></li>
-            <li><a href="#tips">小技巧</a></li>
-        </ul>
-        <!-- 移动端菜单按钮 -->
-        <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    </nav>
+<!-- ===== 导航栏 ===== -->
+<nav class="navbar">
+    <div class="nav-brand">🐍 贪吃蛇Python课</div>
+    <ul class="nav-links">
+        <li><a href="#hero">首页</a></li>
+        <li><a href="#game">🎮 玩游戏</a></li>
+        <li><a href="#intro">什么是贪吃蛇</a></li>
+        <li><a href="#steps">📚 制作教程</a></li>
+        <li><a href="#code">💻 完整代码</a></li>
+        <li><a href="#tips">💡 进阶技巧</a></li>
+        <li><a href="#quiz">✏️ 小测验</a></li>
+    </ul>
+</nav>
 
-    <!-- ==================== 首页横幅 ==================== -->
-    <section id="home" class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <span class="hero-badge">🌿 零基础友好 · 保姆级教程</span>
-            <h1>从零开始<br>学会<span class="highlight">插花艺术</span></h1>
-            <p>用一束鲜花，装点生活的每一个角落</p>
-            <p class="hero-sub">不需要天赋 · 不需要经验 · 只要你愿意开始</p>
-            <a href="#intro" class="btn btn-primary">开始学习 →</a>
+<!-- ===== 首页横幅 ===== -->
+<section id="hero" class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">
+            <span class="snake-emoji">🐍</span>
+            用 <span class="highlight">Python</span> 做一个<br>
+            <span class="typing-text">贪 吃 蛇 游 戏 ！</span>
+        </h1>
+        <p class="hero-subtitle">从零开始，手把手教你写出人生第一款游戏 🎮</p>
+        <div class="hero-buttons">
+            <a href="#game" class="btn btn-primary">🎮 先玩一把试试！</a>
+            <a href="#steps" class="btn btn-secondary">📖 开始学习</a>
         </div>
-        <div class="scroll-hint">↓ 向下滑动探索 ↓</div>
-    </section>
+        <div class="hero-stats">
+            <div class="stat-item">⏱️ 约 30 分钟</div>
+            <div class="stat-item">📝 80 行代码</div>
+            <div class="stat-item">🧑‍🎓 适合初中生</div>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="floating-snake">
+            <pre>
+    ████████████   🍎
+   ██          ██  🍎
+   ██  🔥  🔥  ██
+    ████████████
+            </pre>
+        </div>
+    </div>
+</section>
 
-    <!-- ==================== 什么是插花 ==================== -->
-    <section id="intro" class="section">
-        <div class="container">
-            <h2 class="section-title">🌺 一、什么是插花？</h2>
+<!-- ===== 可玩游戏区域 ===== -->
+<section id="game" class="game-section">
+    <div class="section-header">
+        <h2>🎮 先来玩一把贪吃蛇吧！</h2>
+        <p>用键盘 ⬆️ ⬇️ ➡️ ⬅️ 方向键控制蛇的移动，吃到苹果得分，别撞墙也别撞自己哦！</p>
+    </div>
+    <div class="game-container">
+        <div class="game-panel">
+            <div class="game-info-bar">
+                <div class="score-display">🏆 分数：<span id="score">0</span></div>
+                <div class="high-score-display">👑 最高分：<span id="highScore">0</span></div>
+                <button id="startBtn" class="game-btn start-btn">▶ 开始游戏</button>
+            </div>
+            <canvas id="snakeCanvas" width="400" height="400"></canvas>
+            <div class="game-controls-hint">
+                <span class="key">↑</span>
+                <span class="key">↓</span>
+                <span class="key">←</span>
+                <span class="key">→</span>
+                <span>或</span>
+                <span class="key">W</span>
+                <span class="key">A</span>
+                <span class="key">S</span>
+                <span class="key">D</span>
+            </div>
+        </div>
+        <div class="game-rules">
+            <h3>📜 游戏规则</h3>
+            <ul>
+                <li>🍎 每吃到一个苹果得 <strong>10分</strong>，蛇身变长一节</li>
+                <li>🧱 撞到<strong>墙壁</strong> = 游戏结束 💀</li>
+                <li>🐍 撞到<strong>自己的身体</strong> = 游戏结束 💀</li>
+                <li>🏆 分数越高越厉害，看看你能拿多少分！</li>
+            </ul>
+            <div class="tip-box">
+                <strong>💡 小技巧：</strong>不要急着一口气吃很多苹果，稳扎稳打才能拿高分哦！
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 什么是贪吃蛇 ===== -->
+<section id="intro" class="intro-section">
+    <div class="section-header">
+        <h2>🐍 什么是贪吃蛇？</h2>
+        <p>认识我们的主角——一条永远吃不饱的小蛇</p>
+    </div>
+    <div class="cards-grid">
+        <div class="card card-history">
+            <div class="card-icon">📜</div>
+            <h3>历史小知识</h3>
+            <p>贪吃蛇游戏最早出现在 <strong>1976年</strong> 的街机游戏中。后来在诺基亚手机上大火——你爸妈那个年代的人应该都玩过！它是最经典的游戏之一。</p>
+        </div>
+        <div class="card card-concept">
+            <div class="card-icon">🧠</div>
+            <h3>核心原理</h3>
+            <p>其实贪吃蛇的逻辑超级简单：</p>
+            <ol>
+                <li>蛇一直往一个方向走（自动移动）</li>
+                <li>玩家控制方向（上下左右）</li>
+                <li>吃到食物 → 身体变长 + 得分</li>
+                <li>撞墙或撞自己 → 游戏结束</li>
+            </ol>
+        </div>
+        <div class="card card-python">
+            <div class="card-icon">🐍</div>
+            <h3>为什么用 Python？</h3>
+            <p>Python 是最适合新手的编程语言！代码简洁易读，而且我们用到的 <code>turtle</code> 库是 Python 自带的，<strong>不用安装任何东西</strong> 就能画图和做动画！</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 全流程教程 ===== -->
+<section id="steps" class="tutorial-section">
+    <div class="section-header">
+        <h2>📚 手把手制作教程（6步搞定）</h2>
+        <p>跟着下面的步骤，一步步把游戏写出来！</p>
+    </div>
+
+    <!-- 步骤1：准备工作 -->
+    <div class="step-card step-1">
+        <div class="step-number">Step 1</div>
+        <div class="step-content">
+            <h3>🛠️ 准备工作 —— 安装环境</h3>
+            <p>好消息！我们用的 <code>turtle</code> 库是 Python <strong>自带</strong> 的，不需要额外安装任何东西！</p>
             
-            <div class="intro-content">
-                <div class="intro-text">
-                    <p><strong>插花（Ikebana / Flower Arrangement）</strong>是将剪切下来的植物枝、叶、花、果等作为素材，经过一定的技术处理和艺术构思，配置成一件精美作品的一种造型艺术。</p>
-                    
-                    <div class="feature-list">
-                        <div class="feature-item">
-                            <span class="feature-icon">✨</span>
-                            <div>
-                                <h4>美化环境</h4>
-                                <p>让家居空间充满自然气息与生机活力</p>
-                            </div>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">🧘</span>
-                            <div>
-                                <h4>修身养性</h4>
-                                <p>静心专注的过程，是最好的心灵疗愈</p>
-                            </div>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">🎁</span>
-                            <div>
-                                <h4>表达心意</h4>
-                                <p>亲手制作的花艺作品，是最有温度的礼物</p>
-                            </div>
-                        </div>
+            <div class="step-detail">
+                <h4>✅ 你需要做的只有两件事：</h4>
+                <div class="checklist">
+                    <label><input type="checkbox"> 1. 安装 Python（去 python.org 下载）</label>
+                    <label><input type="checkbox"> 2. 打开编辑器（推荐 VS Code 或 IDLE）</label>
+                </div>
+            </div>
+            
+            <div class="step-code">
+                <h4>新建文件</h4>
+                <p>创建一个新文件，命名为：<code class="filename">snake_game.py</code></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 步骤2：导入库和基本设置 -->
+    <div class="step-card step-2">
+        <div class="step-number">Step 2</div>
+        <div class="step-content">
+            <h3>📦 导入库和基本设置</h3>
+            <p>首先我们需要导入需要的工具，就像做饭前要准备好锅碗瓢盆一样 👨‍🍳</p>
+            
+            <div class="step-code">
+                <h4>代码：</h4>
+<pre class="code-block"><code class="python"># ========== 第1部分：导入工具包 ==========
+import turtle           # 画图工具（用来画蛇、食物、界面）
+import time             # 时间工具（用来控制速度）
+import random           # 随机数工具（随机生成食物位置）
+
+# ========== 第2部分：初始化窗口 ==========
+window = turtle.Screen()       # 创建游戏窗口
+window.title("🐍 贪吃蛇大作战")  # 窗口标题
+window.bgcolor("black")        # 背景颜色：黑色
+window.setup(width=600, height=600)  # 窗口大小
+window.tracer(0)               # 关闭自动刷新（手动刷新更流畅）</code></pre>
+            </div>
+            
+            <div class="step-explain">
+                <h4>🔍 逐行解释：</h4>
+                <table class="explain-table">
+                    <tr><th>代码</th><th>作用</th><th>生活比喻</th></tr>
+                    <tr><td><code>import turtle</code></td><td>导入画图工具</td><td>拿出画笔和画纸</td></tr>
+                    <tr><td><code>window = turtle.Screen()</code></td><td>创建游戏窗口</td><td>铺开一张画布</td></tr>
+                    <tr><td><code>window.bgcolor("black")</code></td><td>设置背景黑色</td><td>给画布刷上黑色底色</td></tr>
+                    <tr><td><code>window.setup(600,600)</code></td><td>窗口大小600x600像素</td><td>决定画布多大</td></tr>
+                    <tr><td><code>window.tracer(0)</code></td><td>关闭自动刷新</td><td>先画完再一起显示，避免闪烁</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 步骤3：创建蛇头和食物 -->
+    <div class="step-card step-3">
+        <div class="step-number">Step 3</div>
+        <div class="step-content">
+            <h3>🐍 创建蛇头和食物</h3>
+            <p>现在我们来画出游戏的主角——小蛇的头，还有它的美食——苹果 🍎</p>
+            
+            <div class="step-code">
+                <h4>代码：</h4>
+<pre class="code-block"><code class="python"># ========== 第3部分：创建蛇头 ==========
+head = turtle.Turtle()     # 创建一个小海龟（就是蛇头）
+head.shape("square")       # 形状：正方形
+head.color("#00FF00")      # 颜色：绿色
+head.penup()               # 抬起笔（移动时不画线）
+head.goto(0, 0)            # 初始位置：画面中央
+head.direction = "stop"    # 初始方向：停止不动
+
+# ========== 第4部分：创建食物 ==========
+food = turtle.Turtle()     # 创建另一个小海龟（当食物）
+food.shape("circle")       # 形状：圆形（像苹果）
+food.color("red")          # 颜色：红色
+food.penup()               # 抬起笔
+food.goto(0, 100)          # 初始位置：稍微偏上一点</code></pre>
+            </div>
+            
+            <div class="step-explain">
+                <h4>🔍 关键概念解释：</h4>
+                <div class="concept-cards">
+                    <div class="concept">
+                        <strong>Turtle 海龟绘图</strong>
+                        <p>Python 内置的画图模块，想象一只小海龟在屏幕上爬，爬过的轨迹就形成图形。我们用它来画蛇头、蛇身、食物等所有元素。</p>
                     </div>
+                    <div class="concept">
+                        <strong>shape() 形状</strong>
+                        <p><code>"square"</code> 正方形（蛇）、<code>"circle"</code> 圆形（苹果）、<code>"triangle"</code> 三角形等，turtle 提供多种预设形状。</p>
+                    </div>
+                    <div class="concept">
+                        <strong>penup() 抬笔</strong>
+                        <p><code>penup()</code> = 抬起画笔，移动不留痕迹；<code>pendown()</code> = 放下画笔，移动时画线。</p>
+                    </div>
+                    <div class="concept">
+                        <strong>goto(x,y) 坐标定位</strong>
+                        <p>屏幕是一个坐标系，中心点 (0,0)，往右 x 增加、往上 y 增加。<code>goto(0,0)</code> 就是去画面正中间。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 步骤4：让蛇动起来 -->
+    <div class="step-card step-4">
+        <div class="step-number">Step 4</div>
+        <div class="step-content">
+            <h3>🏃 让蛇动起来 —— 键盘控制和移动</h3>
+            <p>这是最关键的一步！我们要实现两个功能：<br>
+               ① 键盘按方向键能改变蛇的方向 &nbsp; ② 蛇会自动往前走</p>
+            
+            <div class="step-code">
+                <h4>代码：</h4>
+<pre class="code-block"><code class="python"># ========== 第5部分：定义方向控制函数 ==========
+def go_up():
+    if head.direction != "down":  # 不能直接掉头！
+        head.direction = "up"
+
+def go_down():
+    if head.direction != "up":
+        head.direction = "down"
+
+def go_left():
+    if head.direction != "right":
+        head.direction = "left"
+
+def go_right():
+    if head.direction != "left":
+        head.direction = "right"
+
+# 绑定键盘按键
+window.listen()                          # 开始监听键盘
+window.onkeypress(go_up, "Up")           # ↑键 -> 往上
+window.onkeypress(go_down, "Down")       # ↓键 -> 往下
+window.onkeypress(go_left, "Left")       # ←键 -> 往左
+window.onkeypress(go_right, "Right")     # →键 -> 往右
+
+# ========== 第6部分：让蛇真正移动 ==========
+def move():
+    if head.direction == "up":         # 如果方向是上
+        y = head.ycor()                # 获取当前y坐标
+        head.sety(y + 20)              # y+20 = 向上移动20像素
+    
+    if head.direction == "down":       # 如果方向是下
+        y = head.ycor()
+        head.sety(y - 20)              # y-20 = 向下移动
+    
+    if head.direction == "left":       # 如果方向是左
+        x = head.xcor()
+        head.setx(x - 20)              # x-20 = 向左移动
+    
+    if head.direction == "right":      # 如果方向是右
+        x = head.xcor()
+        head.setx(x + 20)              # x+20 = 向右移动</code></pre>
+            </div>
+            
+            <div class="step-explain">
+                <h4>🔍 重点理解：</h4>
+                <div class="important-note">
+                    <strong>⚠️ 为什么不能直接掉头？</strong>
+                    <p>注意看每个方向函数里的 <code>if head.direction != "xxx"</code> 这个判断。如果蛇正在往下走，你不能直接按上键让它往上走（那样等于撞自己了！）。这个判断就是防止"180度掉头"的bug。</p>
+                </div>
+                <div class="important-note note-blue">
+                    <strong>💡 移动的原理</strong>
+                    <p>每次调用 <code>move()</code> 函数，蛇头就在当前方向上前进 <strong>20像素</strong>。我们通过循环不断调用 move()，蛇看起来就是在连续移动了。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 步骤5：身体和吃食物逻辑 -->
+    <div class="step-card step-5">
+        <div class="step-number">Step 5</div>
+        <div class="step-content">
+            <h3>🍎 吃食物 + 身体变长</h3>
+            <p>蛇吃到苹果要变长，还要在新的随机位置生成下一个苹果！</p>
+            
+            <div class="step-code">
+                <h4>代码：</h4>
+<pre class="code-block"><code class="python"># ========== 第7部分：蛇身数据 ==========
+segments = []    # 用列表存储蛇的身体每一节
+score = 0        # 当前分数
+
+# ========== 第8部分：碰撞检测函数 ==========
+# 检测是否吃到食物
+if head.distance(food) < 20:    # 如果蛇头和食物距离小于20像素
+    # 移动食物到随机位置
+    x = random.randint(-280, 280)
+    y = random.randint(-280, 280)
+    food.goto(x, y)
+    
+    # 增加一节身体
+    new_segment = turtle.Turtle()
+    new_segment.shape("square")
+    new_segment.color("#32CD32")   # 浅绿色（比头稍浅）
+    new_segment.penup()
+    segments.append(new_segment)   # 加入身体列表
+    
+    # 加分！
+    score += 10
+    print(f"当前分数: {score}")
+
+# ========== 第9部分：身体跟随移动 ==========
+# 新增的身体节要跟着前面的节走
+for index in range(len(segments) - 1, 0, -1):
+    x = segments[index-1].xcor()
+    y = segments[index-1].ycor()
+    segments[index].goto(x, y)
+
+# 第一节身体跟着头走
+if len(segments) > 0:
+    x = head.xcor()
+    y = head.ycor()
+    segments[0].goto(x, y)</code></pre>
+            </div>
+            
+            <div class="step-explain">
+                <h4>🔍 核心逻辑拆解：</h4>
+                <div class="logic-flow">
+                    <div class="flow-step">
+                        <span class="flow-num">1</span>
+                        <strong>distance() 测距离</strong> — turtle内置方法，算两个对象之间的距离。&lt;20说明碰到了
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <span class="flow-num">2</span>
+                        <strong>random.randint() 随机位置</strong> — 在 -280~280 之间随机取值，保证食物不会跑到外面
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <span class="flow-num">3</span>
+                        <strong>segments 列表存身体</strong> — 每吃一个食物，往列表里加一节
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <span class="flow-num">4</span>
+                        <strong>倒序跟随</strong> — 从尾巴到头，每节都移到前一节的位置（像毛毛虫蠕动）
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 步骤6：主游戏循环和边界检测 -->
+    <div class="step-card step-6">
+        <div class="step-number">Step 6</div>
+        <div class="step-content">
+            <h3>🔄 主游戏循环 —— 把所有内容串起来</h3>
+            <p>最后一步！写一个无限循环，不断执行：移动 → 检测碰撞 → 更新身体 → 刷新画面</p>
+            
+            <div class="step-code">
+                <h4>代码：</h4>
+<pre class="code-block"><code class="python"># ========== 第10部分：主游戏循环 ==========
+while True:
+    window.update()          # 刷新画面（因为tracer(0)关了自动刷新）
+    
+    # ---- 边界检测：撞墙则游戏结束 ----
+    if head.xcor() > 290 or head.xcor() < -290 or \
+       head.ycor() > 290 or head.ycor() < -290:
+        time.sleep(1)        # 停顿1秒让玩家看清
+        head.goto(0, 0)      # 蛇头回中心
+        head.direction = "stop"
+        
+        # 隐藏身体
+        for segment in segments:
+            segment.goto(1000, 1000)   # 移到屏幕外
+        segments.clear()       # 清空身体列表
+        
+        print("💀 撞墙了！游戏结束！")
+    
+    # ---- 吃食物检测 ----
+    if head.distance(food) < 20:
+        x = random.randint(-280, 280)
+        y = random.randint(-280, 280)
+        food.goto(x, y)
+        
+        new_segment = turtle.Turtle()
+        new_segment.shape("square")
+        new_segment.color("#32CD32")
+        new_segment.penup()
+        segments.append(new_segment)
+        
+        score += 10
+        delay -= 0.001         # 每次吃食物加速一点点！
+    
+    # ---- 身体跟随 ----
+    for index in range(len(segments)-1, 0, -1):
+        x = segments[index-1].xcor()
+        y = segments[index-1].ycor()
+        segments[index].goto(x, y)
+    
+    if len(segments) > 0:
+        x = head.xcor()
+        y = head.ycor()
+        segments[0].goto(x, y)
+    
+    # ---- 移动蛇头 ----
+    move()
+    
+    # ---- 检测是否撞到自己 ----
+    for segment in segments:
+        if segment.distance(head) < 20:
+            time.sleep(1)
+            head.goto(0, 0)
+            head.direction = "stop"
+            
+            for seg in segments:
+                seg.goto(1000, 1000)
+            segments.clear()
+            print("💀 撞到自己了！游戏结束！")
+    
+    time.sleep(delay)         # 控制游戏速度（延迟越小越快）
+    
+    # ---- 显示分数 ----
+    print(f"当前分数: {score}")</code></pre>
+            </div>
+            
+            <div class="step-explain">
+                <h4>🎯 主循环流程图：</h4>
+                <div class="flowchart">
+                    <div class="fc-node fc-start">开始循环</div>
+                    <div class="fc-arrow">↓</div>
+                    <div class="fc-node">刷新画面</div>
+                    <div class="fc-arrow">↓</div>
+                    <div class="fc-node fc-check">检测撞墙？</div>
+                    <div class="fc-split">
+                        <span class="fc-yes">是 → 结束重置</span>
+                        <span class="fc-no">否 ↓</span>
+                    </div>
+                    <div class="fc-node fc-check">检测吃食物？</div>
+                    <div class="fc-split">
+                        <span class="fc-yes">是 → 加长加分</span>
+                        <span class="fc-no">否 ↓</span>
+                    </div>
+                    <div class="fc-node">身体跟随移动</div>
+                    <div class="fc-arrow">↓</div>
+                    <div class="fc-node">蛇头前进一步</div>
+                    <div class="fc-arrow">↓</div>
+                    <div class="fc-node fc-check">检测撞自己？</div>
+                    <div class="fc-split">
+                        <span class="fc-yes">是 → 结束重置</span>
+                        <span class="fc-no">否 ↓</span>
+                    </div>
+                    <div class="fc-node">暂停一小会儿</div>
+                    <div class="fc-arrow">↓</div>
+                    <div class="fc-node fc-start">回到顶部循环</div>
                 </div>
                 
-                <div class="intro-card">
-                    <div class="card-floral">
-                        <div class="floral-circle">🌷</div>
-                        <h3>你知道吗？</h3>
-                        <p>中国是东方插花艺术的发源地，距今已有1500多年的历史。传统插花讲究<strong>"天人合一"</strong>的理念，追求自然之美。</p>
-                    </div>
+                <div class="important-note note-purple">
+                    <strong>🧠 关于 while True</strong>
+                    <p><code>while True</code> 表示"永远重复"，这就是游戏的主循环。每循环一次就是游戏的一帧（像电影一样一帧帧播放形成动画）。<code>time.sleep(delay)</code> 控制每帧之间的间隔时间，delay越小游戏越快！</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- ==================== 工具准备 ==================== -->
-    <section id="tools" class="section section-alt">
-        <div class="container">
-            <h2 class="section-title">🛠️ 二、新手必备工具清单</h2>
-            <p class="section-desc">别担心，初学者只需要这几样东西就能开始！</p>
+<!-- ===== 完整代码展示 ===== -->
+<section id="code" class="code-section">
+    <div class="section-header">
+        <h2>💻 完整源代码（复制就能跑）</h2>
+        <p>下面是全部代码整合在一起，复制粘贴到 <code>snake_game.py</code> 里就能运行！</p>
+    </div>
+    <div class="full-code-container">
+        <div class="code-toolbar">
+            <span class="toolbar-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </span>
+            <span class="file-name">snake_game.py</span>
+            <button class="copy-btn" onclick="copyCode()">📋 复制代码</button>
+        </div>
+        <pre class="code-full" id="fullCode"><code class="python">"""
+=====================================
+  🐍 贪吃蛇游戏 - Python完整版
+  作者：你的名字
+  适合：Python初学者 / 中学生
+=====================================
+"""
+
+import turtle
+import time
+import random
+
+# ==================== 初始化设置 ====================
+delay = 0.1  # 游戏速度（秒）
+
+# 创建窗口
+window = turtle.Screen()
+window.title("🐍 贪吃蛇大作战 - Python版")
+window.bgcolor("#1a1a2e")
+window.setup(width=600, height=600)
+window.tracer(0)
+
+# ==================== 创建蛇头 ====================
+head = turtle.Turtle()
+head.speed(0)
+head.shape("square")
+head.color("#00ff88")
+head.penup()
+head.goto(0, 0)
+head.direction = "stop"
+
+# ==================== 创建食物 ====================
+food = turtle.Turtle()
+food.speed(0)
+food.shape("circle")
+food.color("#ff4757")
+food.penup()
+food.goto(0, 100)
+
+# ==================== 分数显示 ====================
+pen = turtle.Turtle()
+pen.speed(0)
+pen.shape("square")
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 260)
+pen.write("分数: 0  最高分: 0", align="center", 
+          font=("Courier", 18, "bold"))
+
+# ==================== 蛇身列表 ====================
+segments = []
+score = 0
+high_score = 0
+
+# ==================== 控制函数 ====================
+def go_up():
+    if head.direction != "down":
+        head.direction = "up"
+
+def go_down():
+    if head.direction != "up":
+        head.direction = "down"
+
+def go_left():
+    if head.direction != "right":
+        head.direction = "left"
+
+def go_right():
+    if head.direction != "left":
+        head.direction = "right"
+
+def move():
+    if head.direction == "up":
+        y = head.ycor()
+        head.sety(y + 20)
+
+    if head.direction == "down":
+        y = head.ycor()
+        head.sety(y - 20)
+
+    if head.direction == "left":
+        x = head.xcor()
+        head.setx(x - 20)
+
+    if head.direction == "right":
+        x = head.xcor()
+        head.setx(x + 20)
+
+# ==================== 绑定键盘 ====================
+window.listen()
+window.onkeypress(go_up, "Up")
+window.onkeypress(go_down, "Down")
+window.onkeypress(go_left, "Left")
+window.onkeypress(go_right, "Right")
+
+# ==================== 主游戏循环 ====================
+while True:
+    window.update()
+
+    # 边界检测
+    if head.xcor() > 290 or head.xcor() < -290 or \
+       head.ycor() > 290 or head.ycor() < -290:
+        time.sleep(1)
+        head.goto(0, 0)
+        head.direction = "stop"
+        
+        for segment in segments:
+            segment.goto(1000, 1000)
+        segments.clear()
+        
+        score = 0
+        delay = 0.1
+        pen.clear()
+        pen.write(f"分数: {score}  最高分: {high_score}", 
+                  align="center", font=("Courier", 18, "bold"))
+
+    # 吃食物检测
+    if head.distance(food) < 20:
+        x = random.randint(-280, 280)
+        y = random.randint(-280, 280)
+        food.goto(x, y)
+        
+        new_segment = turtle.Turtle()
+        new_segment.speed(0)
+        new_segment.shape("square")
+        new_segment.color("#00cc66")
+        new_segment.penup()
+        segments.append(new_segment)
+        
+        delay -= 0.001
+        if delay < 0.05:
+            delay = 0.05  # 最快速度上限
+        
+        score += 10
+        if score > high_score:
+            high_score = score
             
-            <div class="tools-grid">
-                <div class="tool-card">
-                    <div class="tool-icon">🫙</div>
-                    <h3>花器（花瓶）</h3>
-                    <p class="tool-desc">推荐：透明玻璃瓶或白色陶瓷瓶</p>
-                    <div class="tool-detail">
-                        <strong>💡 选瓶技巧：</strong>
-                        <ul>
-                            <li>口径不宜太大（5-10cm最佳）</li>
-                            <li>高度建议15-25cm</li>
-                            <li>新手选直筒型最容易操作</li>
-                        </ul>
-                    </div>
-                    <span class="tool-price">参考价：¥15 - ¥50</span>
-                </div>
+        pen.clear()
+        pen.write(f"分数: {score}  最高分: {high_score}", 
+                  align="center", font=("Courier", 18, "bold"))
 
-                <div class="tool-card">
-                    <div class="tool-icon">✂️</div>
-                    <h3>花剪 / 园艺剪</h3>
-                    <p class="tool-desc">用来修剪花材的长度和形状</p>
-                    <div class="tool-detail">
-                        <strong>💡 使用要点：</strong>
-                        <ul>
-                            <li>刀口锋利，剪口要平整</li>
-                            <li>粗枝用斜剪增加吸水面积</li>
-                            <li>每次使用后擦干防锈</li>
-                        </ul>
-                    </div>
-                    <span class="tool-price">参考价：¥10 - ¥30</span>
-                </div>
+    # 身体移动（从后往前）
+    for index in range(len(segments) - 1, 0, -1):
+        x = segments[index-1].xcor()
+        y = segments[index-1].ycor()
+        segments[index].goto(x, y)
 
-                <div class="tool-card">
-                    <div class="tool-icon">💧</div>
-                    <h3>清水 + 养护剂</h3>
-                    <p class="tool-desc">保持花朵新鲜的关键</p>
-                    <div class="tool-detail">
-                        <strong>💡 换水频率：</strong>
-                        <ul>
-                            <li>夏季每天换水一次</li>
-                            <li>冬季每2-3天换水</li>
-                            <li>没有养护剂可加一滴漂白水</li>
-                        </ul>
-                    </div>
-                    <span class="tool-price">参考价：免费 / 养护剂¥5</span>
-                </div>
+    if len(segments) > 0:
+        x = head.xcor()
+        y = head.ycor()
+        segments[0].goto(x, y)
 
-                <div class="tool-card">
-                    <div class="tool-icon">🌹</div>
-                    <h3>新鲜花材</h3>
-                    <p class="tool-desc">初学者推荐这几种"好养活"的花</p>
-                    <div class="tool-detail">
-                        <strong>🌟 新手友好花材：</strong>
-                        <ul>
-                            <li>🌻 向日葵 — 坚挺耐放</li>
-                            <li>🌷 郁金香 — 简单大方</li>
-                            <li>🌼 洋甘菊 — 自然随性</li>
-                            <li>🌸 尤加利叶 — 百搭叶材</li>
-                        </ul>
-                    </div>
-                    <span class="tool-price">参考价：¥20 - ¥50/束</span>
-                </div>
-            </div>
+    move()
 
-            <div class="tip-box tip-warn">
-                <span class="tip-icon">⚠️</span>
-                <strong>新手避坑提醒：</strong>第一次不要买太多种类的花！<strong>3-5种</strong>足够了，多了容易乱。
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== 入门步骤（核心！）==================== -->
-    <section id="steps" class="section steps-section">
-        <div class="container">
-            <h2 class="section-title">📋 三、手把手教你完成第一件作品</h2>
-            <p class="section-desc">跟着这6个步骤走，你也能做出漂亮的花艺作品！</p>
-
-            <!-- 步骤1 -->
-            <div class="step-row">
-                <div class="step-num"><span>1</span></div>
-                <div class="step-content">
-                    <h3>🌱 第一步：准备花材</h3>
-                    <p>将买回来的花材取出，去掉多余的叶子和刺（保留靠近花朵的几片叶子即可）。用剪刀将花茎底部<strong>斜剪45°</strong>，这样能增大吸水面积，让花开得更久。</p>
-                    <div class="step-img-placeholder">
-                        <span>📷 斜剪花茎示意图</span>
-                    </div>
-                    <div class="step-tips">
-                        <span class="tip-tag">关键点</span> 斜剪角度约45°，剪掉2-3厘米即可
-                    </div>
-                </div>
-            </div>
-
-            <!-- 步骤2 -->
-            <div class="step-row">
-                <div class="step-num"><span>2</span></div>
-                <div class="step-content">
-                    <h3>📐 第二步：确定骨架</h3>
-                    <p>这是最重要的一步！先选出<strong>最高、最挺拔</strong>的那支花作为<strong>"主花"</strong>（通常是玫瑰、向日葵或百合），插入花瓶中央偏后的位置。<strong>主花高度 = 花瓶高度 × 1.5倍</strong>。</p>
-                    <div class="formula-box">
-                        📏 <strong>黄金比例公式：</strong> 主花高度 = 瓶高 × 1.5
-                    </div>
-                    <div class="step-tips">
-                        <span class="tip-tag">记忆口诀</span> "一瓶高一半"，主花不能太矮也不能太高
-                    </div>
-                </div>
-            </div>
-
-            <!-- 步骤3 -->
-            <div class="step-row">
-                <div class="step-num"><span>3</span></div>
-                <div class="step-content">
-                    <h3>🌿 第三步：添加配叶/填充花</h3>
-                    <p>在主花的周围插入<strong>叶材</strong>（如尤加利叶、满天星、蓬莱松），作用有两个：① 衬托主花，让作品有层次感 ② 填充空隙，不让作品看起来空洞。</p>
-                    <div class="step-tips">
-                        <span class="tip-tag">搭配原则</span> 叶材高度为主花的 2/3 ~ 3/4，分布要"前低后高"
-                    </div>
-                </div>
-            </div>
-
-            <!-- 步骤4 -->
-            <div class="step-row">
-                <div class="step-num"><span>4</span></div>
-                <div class="step-content">
-                    <h3>🎨 第四步：插入焦点花</h3>
-                    <p>在作品的<strong>视觉中心</strong>位置（通常是整体高度的1/3处）插入颜色最鲜艳、形态最美的花，这就是"焦点花"。它是整个作品的<strong>眼睛</strong>，吸引观者的目光。</p>
-                    <div class="step-img-placeholder">
-                        <span>👁️ 焦点花位置示意</span>
-                    </div>
-                    <div class="step-tips">
-                        <span class="tip-tag">定位法</span> 看着花瓶正前方，视线自然落下的位置就是焦点
-                    </div>
-                </div>
-            </div>
-
-            <!-- 步骤5 -->
-            <div class="step-row">
-                <div class="step-num"><span>5</span></div>
-                <div class="step-content">
-                    <h3>⚖️ 第五步：平衡与调整</h3>
-                    <p>退后两三步，从正面、侧面、上面三个角度观察你的作品：<br>
-                    • 有没有一边重一边轻？→ 移动花的位置来平衡<br>
-                    • 有没有哪个方向太空？→ 加一点叶材填补<br>
-                    • 花朵之间有没有挤在一起？→ 适当拉开间距</p>
-                    <div class="checklist-box">
-                        <strong>🔍 自检清单：</strong>
-                        <label><input type="checkbox"> 高度比例协调</label>
-                        <label><input type="checkbox"> 左右大致对称</label>
-                        <label><input type="checkbox"> 有层次感（前后错落）</label>
-                        <label><input type="checkbox"> 颜色不超3种主色</label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 步骤6 -->
-            <div class="step-row step-last">
-                <div class="step-num"><span>6</span></div>
-                <div class="step-content">
-                    <h3>📸 第六步：欣赏与养护</h3>
-                    <p>恭喜你完成了人生中第一件插花作品！🎉 记得拍照留念哦~</p>
-                    
-                    <table class="care-table">
-                        <tr><th>日常养护</th><th>做法</th></tr>
-                        <tr><td>📍 摆放位置</td><td>避免阳光直射和空调出风口</td></tr>
-                        <tr><td>💧 换水</td><td>每天/隔天换清水，重新斜剪根部</td></tr>
-                        <tr><td>🗑️ 清理</td><td>及时摘除凋谢的花瓣和叶子</td></tr>
-                        <tr><td>⏳ 寿命</td><td>一般鲜切花可保存 5-7 天</td></tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== 花型介绍 ==================== -->
-    <section id="styles" class="section section-alt">
-        <div class="container">
-            <h2 class="section-title">🌸 四、经典花型一览</h2>
+    # 撞自己检测
+    for segment in segments:
+        if segment.distance(head) < 20:
+            time.sleep(1)
+            head.goto(0, 0)
+            head.direction = "stop"
             
-            <div class="styles-grid">
-                <div class="style-card">
-                    <div class="style-badge">入门首选</div>
-                    <div class="style-icon">🏺</div>
-                    <h3>半球形插花</h3>
-                    <p class="style-level">难度：⭐</p>
-                    <p>最经典的入门花型，外形像一个圆球。适合放在餐桌中央做桌花，四面观赏都好看。</p>
-                    <div class="style-tags">
-                        <span>圆形</span><span>对称</span><span>饱满</span>
-                    </div>
-                </div>
-
-                <div class="style-card">
-                    <div class="style-badge">进阶挑战</div>
-                    <div class="style-icon">🌙</div>
-                    <h3>L形 / 三角形插花</h3>
-                    <p class="style-level">难度：⭐⭐</p>
-                    <p>轮廓呈现三角形或L形，有明确的高低层次感，适合靠墙摆放或放在角落装饰。</p>
-                    <div class="style-tags">
-                        <span>线条感</span><span>不对称</span><span>现代风</span>
-                    </div>
-                </div>
-
-                <div class="style-card">
-                    <div class="style-badge">中式美学</div>
-                    <div class="style-icon">🎋</div>
-                    <h3>直立式（中国传统）</h3>
-                    <p class="style-level">难度：⭐⭐⭐</p>
-                    <p>讲究"天地人"三位一体，线条简洁流畅，留白多，追求意境美而非繁复堆砌。</p>
-                    <div class="style-tags">
-                        <span>极简</span><span>意境</span><span>禅意</span>
-                    </div>
-                </div>
-
-                <div class="style-card">
-                    <div class="style-badge">浪漫风格</div>
-                    <div class="style-icon">💐</div>
-                    <h3>自然田园式</h3>
-                    <p class="style-level">难度：⭐⭐</p>
-                    <p>模仿自然界花草自由生长的状态，看起来随意却精心设计，最适合家庭日常插花。</p>
-                    <div class="style-tags">
-                        <span>随意</span><span>温馨</span><span>生活化</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== 小技巧 ==================== -->
-    <section id="tips" class="section">
-        <div class="container">
-            <h2 class="section-title">💡 五、新手必知的实用小技巧</h2>
+            for seg in segments:
+                seg.goto(1000, 1000)
+            segments.clear()
             
-            <div class="tips-grid">
-                <div class="tip-card">
-                    <div class="tip-number">01</div>
-                    <h4>颜色不超过3种</h4>
-                    <p>新手最容易犯的错误就是颜色太多。记住：<strong>1种主色 + 2种辅色</strong>就够了。同色系深浅搭配永远不会出错。</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-number">02</div>
-                    <h4>奇数法则</h4>
-                    <p>同一品种的花用<strong>奇数支</strong>（3支、5支、7支）比偶数支看起来更自然和谐。这是经过无数人验证的美学规律！</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-number">03</div>
-                    <h4>高低错落</h4>
-                    <p>千万不要把所有花剪成一样高度！<strong>有高有低、有前有后</strong>才能产生立体感和层次感。</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-number">04</div>
-                    <h4>花不要太满</h4>
-                    <p><strong>"疏可走马，密不透风"</strong>是中国传统美学智慧。适当留白反而更显高级感，给花朵呼吸的空间。</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-number">05</div>
-                    <h4>叶材是好帮手</h4>
-                    <p>尤加利叶、蓬莱松、满天星这些叶材是新手最好的朋友。它们便宜又百搭，能瞬间提升作品的完整度。</p>
-                </div>
-                <div class="tip-card">
-                    <div class="tip-number">06</div>
-                    <h4>先加水再插花</h4>
-                    <p>在花瓶里先加七八分水，然后再开始插花。这样可以随时观察水位变化，也避免插好后不好调整。</p>
-                </div>
-            </div>
+            score = 0
+            delay = 0.1
+            pen.clear()
+            pen.write(f"分数: {score}  最高分: {high_score}", 
+                      align="center", font=("Courier", 18, "bold"))
 
-            <!-- 总结卡片 -->
-            <div class="summary-card">
-                <h3>📝 今日课程总结</h3>
-                <div class="summary-list">
-                    <span class="summary-item">✅ 了解什么是插花及它的价值</span>
-                    <span class="summary-item">✅ 准备4样必备工具（花瓶+剪刀+水+花材）</span>
-                    <span class="summary-item">✅ 掌握6步插花流程（准备→骨架→配叶→焦点→平衡→养护）</span>
-                    <span class="summary-item">✅ 认识4种经典花型</span>
-                    <span class="summary-item">✅ 学会6个实用小技巧</span>
-                </div>
-                <p class="summary-end">现在，去买束花试试吧！每一次动手都是进步 🌼</p>
-            </div>
+    time.sleep(delay)</code></pre>
+    </div>
+    <div class="code-footer-tip">
+        💡 <strong>提示：</strong>总共不到 120 行代码！保存文件后在终端运行 <code>python snake_game.py</code> 即可开始游戏
+    </div>
+</section>
+
+<!-- ===== 进阶技巧 ===== -->
+<section id="tips" class="tips-section">
+    <div class="section-header">
+        <h2>💡 进阶玩法 —— 让游戏更好玩</h2>
+        <p>学会了基础版之后，试试这些升级改造吧！</p>
+    </div>
+    <div class="tips-grid">
+        <div class="tip-card tip-easy">
+            <div class="tip-level">⭐ 入门级</div>
+            <h3>🎨 给游戏加上音效</h3>
+            <p>用 <code>winsound</code> 模块（Windows）或 <code>playsound</code> 库添加背景音乐和音效。</p>
+            <pre class="mini-code"><code># 吃食物时发出声音
+import winsound
+winsound.Beep(800, 100)  # 800Hz频率，持续100毫秒</code></pre>
         </div>
-    </section>
-
-    <!-- ==================== 页脚 ==================== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="footer-logo">🌸 花间物语</span>
-                    <p>让每个人都能享受插花的乐趣</p>
-                </div>
-                <div class="footer-links">
-                    <h4>快速导航</h4>
-                    <a href="#intro">什么是插花</a>
-                    <a href="#tools">工具准备</a>
-                    <a href="#steps">入门步骤</a>
-                    <a href="#styles">花型介绍</a>
-                    <a href="#tips">实用技巧</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2026 花间物语 · 插花艺术入门教程 | 本页面为网页设计练习项目</p>
-            </div>
+        <div class="tip-card tip-medium">
+            <div class="tip-level">⭐⭐ 进阶级</div>
+            <h3>🏆 加入难度等级选择</h3>
+            <p>游戏开始前让玩家选难度：简单/普通/困难/地狱模式，不同难度对应不同的初始速度。</p>
+            <pre class="mini-code"><code># 难度字典
+difficulty = {
+    "简单": 0.15,
+    "普通": 0.1,
+    "困难": 0.06,
+    "地狱": 0.03
+}
+delay = difficulty["普通"]</code></pre>
         </div>
-    </footer>
+        <div class="tip-card tip-hard">
+            <div class="tip-level">⭐⭐⭐ 高手级</div>
+            <h3>🎯 加入特殊道具系统</h3>
+            <p>除了普通苹果，还可以加入：⚡ 闪电苹果（加速减分）、❄️ 冰冻苹果（减速）、💫 金苹果（+50分但出现障碍物）</p>
+            <pre class="mini-code"><code># 特殊食物类
+class SpecialFood:
+    def __init__(self, food_type):
+        self.type = food_type  # "speed", "freeze", "gold"
+        self.colors = {
+            "speed": "#ffd700",
+            "freeze": "#00bfff",
+            "gold": "#ff69b4"
+        }</code></pre>
+        </div>
+        <div class="tip-card tip-pro">
+            <div class="tip-level">🔥 大神级</div>
+            <h3>🖼️ 用 Pygame 重写（专业版）</h3>
+            <p>turtle 适合入门学习，但要做出真正的商业级游戏，需要学习 <strong>Pygame</strong> 库！它支持图片、动画、粒子特效...</p>
+            <pre class="mini-code"><code># Pygame 版本框架
+import pygame
+pygame.init()
+screen = pygame.display.set_mode((600, 600))
+clock = pygame.time.Clock()
+# ... 更多精彩等你探索！</code></pre>
+        </div>
+    </div>
+</section>
 
-    <!-- 回到顶部按钮 -->
-    <button id="backToTop" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
+<!-- ===== 知识总结 ===== -->
+<section id="summary" class="summary-section">
+    <div class="section-header">
+        <h2>📝 本课知识点总结</h2>
+    </div>
+    <div class="summary-grid">
+        <div class="summary-item">
+            <div class="sum-icon">📦</div>
+            <h4>import 导入模块</h4>
+            <p>导入 turtle/time/random 三个内置模块</p>
+        </div>
+        <div class="summary-item">
+            <div class="sum-icon">🐢</div>
+            <h4>Turtle 图形绘制</h4>
+            <p>创建画布、形状、颜色、位置控制</p>
+        </div>
+        <div class="summary-item">
+            <div class="sum-icon">⌨️</div>
+            <h4>键盘事件监听</h4>
+            <p>onkeypress() 绑定按键与函数</p>
+        </div>
+        <div class="summary-item">
+            <div class="sum-icon">🔄</div>
+            <h4>while 无限循环</h4>
+            <p>游戏主循环，驱动动画持续运行</p>
+        </div>
+        <div class="summary-item">
+            <div class="sum-icon">📋</div>
+            <h4>list 列表操作</h4>
+            <p>用 list 存储和管理蛇身多节</p>
+        </div>
+        <div class="summary-item">
+            <div class="sum-icon">📏</div>
+            <h4>distance 距离检测</h4>
+            <p>判断碰撞的核心方法</p>
+        </div>
+        <div class="summary-item">
+            <div class="sum-icon">🎲</div>
+            <h4>random 随机数</h4>
+            <p>生成随机食物位置</p>
+        </div>
+        <div class="summary-item">
+            <div class="sum-icon">⏱️</div>
+            <h4>time.sleep 延时</h4>
+            <p>控制游戏运行速度</p>
+        </div>
+    </div>
+</section>
 
-    <!-- 简单交互脚本 -->
-    <script>
-        // 导航栏滚动变色
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('.navbar');
-            const backTop = document.getElementById('backToTop');
-            if (window.scrollY > 100) {
-                nav.classList.add('scrolled');
-                backTop.classList.add('show');
-            } else {
-                nav.classList.remove('scrolled');
-                backTop.classList.remove('show');
-            }
-        });
+<!-- ===== 小测验 ===== -->
+<section id="quiz" class="quiz-section">
+    <div class="section-header">
+        <h2>✏️ 小测验 —— 你学会了吗？</h2>
+        <p>考考自己对贪吃蛇的理解程度</p>
+    </div>
+    <div class="quiz-container">
+        <div class="quiz-question" data-answer="c">
+            <h4>Q1. 下面哪个是用来创建游戏窗口的代码？</h4>
+            <label><input type="radio" name="q1" value="a"> A. turtle.Turtle()</label>
+            <label><input type="radio" name="q1" value="b"> B. import turtle</label>
+            <label><input type="radio" name="q1" value="c"> C. turtle.Screen()</label>
+            <label><input type="radio" name="q1" value="d"> D. turtle.window()</label>
+            <div class="answer-reveal" onclick="showAnswer(this, 'C. turtle.Screen() —— 它负责创建游戏窗口/画布')">查看答案 👉</div>
+        </div>
+        <div class="quiz-question" data-answer="b">
+            <h4>Q2. penup() 的作用是什么？</h4>
+            <label><input type="radio" name="q2" value="a"> A. 加快移动速度</label>
+            <label><input type="radio" name="q2" value="b"> B. 抬起画笔，移动不画线</label>
+            <label><input type="radio" name="q2" value="c"> C. 改变画笔颜色</label>
+            <label><input type="radio" name="q2" value="d"> D. 旋转画笔方向</label>
+            <div class="answer-reveal" onclick="showAnswer(this, 'B. penup() = 抬起画笔（pen up），这样移动的时候就不会留下痕迹')">查看答案 👉</div>
+        </div>
+        <div class="quiz-question" data-answer="d">
+            <h4>Q3. 为什么方向切换时要检查不能180度掉头？（如往上走时不能按↓）</h4>
+            <label><input type="radio" name="q3" value="a"> A. 代码会报错</label>
+            <label><input type="radio" name="q3" value="b"> B. 游戏会卡死</label>
+            <label><input type="radio" name="q3" value="c"> C. 蛇的速度会变慢</label>
+            <label><input type="radio" name="q3" value="d"> D. 会立刻撞到自己的身体导致游戏结束</label>
+            <div class="answer-reveal" onclick="showAnswer(this, 'D. 因为蛇头的下一帧位置会和第一节身体重合，触发撞自己的判定')">查看答案 👉</div>
+        </div>
+        <div class="quiz-question" data-answer="a">
+            <h4>Q4. segments 列表的作用是什么？</h4>
+            <label><input type="radio" name="q4" value="a"> A. 存储蛇身体的每一节</label>
+            <label><input type="radio" name="q4" value="b"> B. 存储玩家的按键记录</label>
+            <label><input type="radio" name="q4" value="c"> C. 存储所有食物的位置</label>
+            <label><input type="radio" name="q4" value="d"> D. 存储游戏的分数</label>
+            <div class="answer-reveal" onclick="showAnswer(this, 'A. segments 是一个列表(list)，每次吃食物就 append 一节新的 Turtle 对象进去')">查看答案 👉</div>
+        </div>
+        <div class="quiz-question" data-answer="c">
+            <h4>Q5. time.sleep(delay) 在游戏循环中的作用是？</h4>
+            label><input type="radio" name="q5" value="a"> A. 让玩家休息一下</label>
+            <label><input type="radio" name="q5" value="b"> B. 保存游戏进度</label>
+            <label><input type="radio" name="q5" value="c"> C. 控制游戏运行速度/帧率</label>
+            <label><input type="radio" name="q5" value="d"> D. 检测游戏是否结束</label>
+            <div class="answer-reveal" onclick="showAnswer(this, 'C. delay越小循环越快=游戏越快；delay越大=游戏越慢')">查看答案 👉</div>
+        </div>
+        <button class="btn btn-primary quiz-submit" onclick="submitQuiz()">提交答案</button>
+        <div id="quizResult" class="quiz-result"></div>
+    </div>
+</section>
 
-        // 移动端菜单切换
-        function toggleMenu() {
-            const links = document.querySelector('.nav-links');
-            links.classList.toggle('active');
+<!-- ===== 页脚 ===== -->
+<footer class="footer">
+    <p>🐍 Python贪吃蛇教学课件 | 适用于中学生编程入门 | Made with ❤️ by AI</p>
+    <p class="footer-sub">本课件包含：可玩网页游戏 + 6步详细教程 + 完整源码 + 进阶挑战 + 在线测验</p>
+</footer>
+
+<script>
+// ========== 贪吃蛇游戏引擎（JavaScript版） ==========
+const canvas = document.getElementById('snakeCanvas');
+const ctx = canvas.getContext('2d');
+const gridSize = 20;
+const tileCount = canvas.width / gridSize;
+
+let score = 0;
+let highScore = localStorage.getItem('snakeHighScore') || 0;
+document.getElementById('highScore').textContent = highScore;
+
+let snake = [{x: 10, y: 10}];
+let food = {x: 15, y: 15};
+let dx = 0, dy = 0;
+let gameRunning = false;
+let gameLoop;
+
+// 绘制游戏
+function drawGame() {
+    // 清空画布
+    ctx.fillStyle = '#1a1a2e';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // 画网格线（淡淡的）
+    ctx.strokeStyle = '#252545';
+    ctx.lineWidth = 0.5;
+    for(let i = 0; i <= tileCount; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * gridSize, 0);
+        ctx.lineTo(i * gridSize, canvas.height);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, i * gridSize);
+        ctx.lineTo(canvas.width, i * gridSize);
+        ctx.stroke();
+    }
+    
+    // 画食物（苹果效果）
+    ctx.save();
+    ctx.translate(food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2);
+    ctx.beginPath();
+    ctx.arc(0, 0, gridSize/2 - 2, 0, Math.PI * 2);
+    ctx.fillStyle = '#ff4757';
+    ctx.fill();
+    // 苹果高光
+    ctx.beginPath();
+    ctx.arc(-3, -3, 3, 0, Math.PI * 2);
+    ctx.fillStyle = '#ff8a8a';
+    ctx.fill();
+    // 苹果梗
+    ctx.fillStyle = '#5d8a3e';
+    ctx.fillRect(-1, -gridSize/2, 2, 5);
+    ctx.restore();
+    
+    // 画蛇
+    snake.forEach((segment, index) => {
+        const isHead = index === 0;
+        
+        // 蛇身渐变色
+        const greenValue = Math.max(100, 200 - index * 8);
+        ctx.fillStyle = isHead ? '#00ff88' : `rgb(0, ${greenValue}, ${Math.floor(greenValue*0.6)})`;
+        
+        // 圆角矩形
+        const padding = isHead ? 1 : 2;
+        roundRect(ctx, 
+            segment.x * gridSize + padding, 
+            segment.y * gridSize + padding, 
+            gridSize - padding*2, 
+            gridSize - padding*2, 
+            isHead ? 6 : 4);
+        ctx.fill();
+        
+        // 蛇头眼睛
+        if(isHead && (dx !== 0 || dy !== 0)) {
+            ctx.fillStyle = 'white';
+            let eyeOffsetX = 0, eyeOffsetY = 0;
+            if(dx === 1) eyeOffsetX = 4;
+            else if(dx === -1) eyeOffsetX = -4;
+            else if(dy === 1) eyeOffsetY = 4;
+            else if(dy === -1) eyeOffsetY = -4;
+            
+            ctx.beginPath();
+            ctx.arc(segment.x*gridSize + gridSize/2 + eyeOffsetX - 3, segment.y*gridSize + gridSize/2 + eyeOffsetY - 2, 2.5, 0, Math.PI*2);
+            ctx.arc(segment.x*gridSize + gridSize/2 + eyeOffsetX + 3, segment.y*gridSize + gridSize/2 + eyeOffsetY - 2, 2.5, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = '#1a1a2e';
+            ctx.beginPath();
+            ctx.arc(segment.x*gridSize + gridSize/2 + eyeOffsetX - 3, segment.y*gridSize + gridSize/2 + eyeOffsetY - 2, 1.2, 0, Math.PI*2);
+            ctx.arc(segment.x*gridSize + gridSize/2 + eyeOffsetX + 3, segment.y*gridSize + gridSize/2 + eyeOffsetY - 2, 1.2, 0, Math.PI*2);
+            ctx.fill();
         }
+    });
+}
 
-        // 平滑滚动到锚点
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // 关闭移动端菜单
-                    document.querySelector('.nav-links').classList.remove('active');
-                }
-            });
+function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.lineTo(x+w-r, y);
+    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+    ctx.lineTo(x+w, y+h-r);
+    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+    ctx.lineTo(x+r, y+h);
+    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+    ctx.lineTo(x, y+r);
+    ctx.quadraticCurveTo(x, y, x+r, y);
+    ctx.closePath();
+}
+
+function updateGame() {
+    // 移动蛇头
+    const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+    
+    // 穿墙模式（从一边出来到另一边）
+    if(head.x < 0) head.x = tileCount - 1;
+    if(head.x >= tileCount) head.x = 0;
+    if(head.y < 0) head.y = tileCount - 1;
+    if(head.y >= tileCount) head.y = 0;
+    
+    // 撞自己检测
+    for(let i = 0; i < snake.length; i++) {
+        if(head.x === snake[i].x && head.y === snake[i].y) {
+            gameOver();
+            return;
+        }
+    }
+    
+    snake.unshift(head);
+    
+    // 吃食物
+    if(head.x === food.x && head.y === food.y) {
+        score += 10;
+        document.getElementById('score').textContent = score;
+        if(score > highScore) {
+            highScore = score;
+            document.getElementById('highScore').textContent = highScore;
+            localStorage.setItem('snakeHighScore', highScore);
+        }
+        placeFood();
+        // 加速
+        if(gameLoop) clearInterval(gameLoop);
+        gameLoop = setInterval(gameStep, Math.max(60, 150 - score));
+    } else {
+        snake.pop();
+    }
+    
+    drawGame();
+}
+
+function placeFood() {
+    food = {
+        x: Math.floor(Math.random() * tileCount),
+        y: Math.floor(Math.random() * tileCount)
+    };
+    // 确保食物不在蛇身上
+    for(let s of snake) {
+        if(s.x === food.x && s.y === food.y) {
+            placeFood();
+            break;
+        }
+    }
+}
+
+function gameOver() {
+    gameRunning = false;
+    clearInterval(gameLoop);
+    document.getElementById('startBtn').textContent = '🔄 重新开始';
+    
+    // Game Over 效果
+    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ff4757';
+    ctx.font = 'bold 30px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('💀 GAME OVER', canvas.width/2, canvas.height/2 - 15);
+    ctx.fillStyle = '#fff';
+    ctx.font = '18px Arial';
+    ctx.fillText(`得分: ${score}`, canvas.width/2, canvas.height/2 + 20);
+}
+
+function gameStep() {
+    updateGame();
+}
+
+// 控制
+document.addEventListener('keydown', (e) => {
+    if(!gameRunning) return;
+    switch(e.key) {
+        case 'ArrowUp': case 'w': case 'W':
+            if(dy !== 1) { dx = 0; dy = -1; } break;
+        case 'ArrowDown': case 's': case 'S':
+            if(dy !== -1) { dx = 0; dy = 1; } break;
+        case 'ArrowLeft': case 'a': case 'A':
+            if(dx !== 1) { dx = -1; dy = 0; } break;
+        case 'ArrowRight': case 'd': case 'D':
+            if(dx !== -1) { dx = 1; dy = 0; } break;
+    }
+});
+
+document.getElementById('startBtn').addEventListener('click', () => {
+    snake = [{x: 10, y: 10}];
+    dx = 1; dy = 0;
+    score = 0;
+    document.getElementById('score').textContent = 0;
+    placeFood();
+    gameRunning = true;
+    clearInterval(gameLoop);
+    gameLoop = setInterval(gameStep, 150);
+    document.getElementById('startBtn').textContent = '🎮 运行中...';
+});
+
+// 初始绘制
+drawGame();
+
+// ========== 复制代码 ==========
+function copyCode() {
+    const code = document.getElementById('fullCode').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = '✅ 已复制！';
+        setTimeout(() => btn.textContent = '📋 复制代码', 2000);
+    });
+}
+
+// ========== 测验功能 ==========
+function showAnswer(el, answer) {
+    el.textContent = '✅ ' + answer;
+    el.classList.add('shown');
+}
+
+function submitQuiz() {
+    let correct = 0;
+    const answers = ['c', 'b', 'd', 'a', 'c'];
+    answers.forEach((ans, i) => {
+        const selected = document.querySelector(`input[name="q${i+1}"]:checked`);
+        if(selected && selected.value === ans) correct++;
+    });
+    const resultEl = document.getElementById('quizResult');
+    let msg = '';
+    if(correct === 5) msg = '🎉 太棒了！满分！你是贪吃蛇大师！';
+    else if(correct >= 3) msg = '👍 不错哦！再复习一下错题就能全对啦！';
+    else msg = '💪 别灰心，回去再看一遍教程吧！';
+    resultEl.innerHTML = `<strong>你的成绩：${correct}/5</strong><br>${msg}`;
+    resultEl.style.display = 'block';
+}
+
+// ========== 平滑滚动 ==========
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
         });
-    </script>
+    });
+});
+</script>
+
 </body>
 </html>
