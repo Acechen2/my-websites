@@ -48,1786 +48,1474 @@ a{color:var(--green);text-decoration:none}
 .lesson-num{font-size:.8rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
 .lesson-title{font-size:1.1rem;font-weight:600;margin:5px 0}
 .lesson-meta{font-size:.8rem;color:var(--text2)}
-.lesson-progress{margin-top:10px;height:4px;background:var(--bg);border-radius:2px;overflow:hidden}
+.lesson-progress{height:4px;background:var(--bg2);border-radius:2px;margin-top:10px}
 .lesson-progress-fill{height:100%;border-radius:2px;transition:width .5s}
+.lesson-card:nth-child(1) .lesson-progress-fill{background:var(--green)}
+.lesson-card:nth-child(2) .lesson-progress-fill{background:var(--purple)}
+.lesson-card:nth-child(3) .lesson-progress-fill{background:var(--orange)}
+.lesson-card:nth-child(4) .lesson-progress-fill{background:var(--pink)}
 .lesson-content{display:none}
 .lesson-content.active{display:block}
-.sub-section{margin-bottom:30px}
-.sub-title{font-size:1.3rem;color:var(--green);margin-bottom:15px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.code-block{background:#0d0d24;border:1px solid var(--border);border-radius:8px;padding:18px;margin:15px 0;overflow-x:auto;font-family:'Consolas','Courier New',monospace;font-size:.9rem;line-height:1.7;position:relative}
-.code-block .line-num{color:#555;display:inline-block;width:30px;text-align:right;margin-right:15px;user-select:none}
-.code-keyword{color:#c792ea}
-.code-func{color:#82aaff}
-.code-string{color:#c3e88d}
-.code-comment{color:#546e7a;font-style:italic}
-.code-number{color:#f78c6c}
-.code-var{color:#ffcb6b}
-.code-param{color:#89ddff}
-.code-blank{background:rgba(255,145,0,.15);border:1px dashed var(--orange);border-radius:4px;padding:2px 8px;color:var(--orange);font-weight:600;min-width:60px;display:inline-block;text-align:center}
-.explain-box{background:rgba(0,230,118,.05);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:15px 20px;margin:15px 0}
-.explain-box .title{color:var(--green);font-weight:600;margin-bottom:8px}
-.explain-box p{color:var(--text2);font-size:.93rem}
-.explain-box code{background:rgba(0,230,118,.1);padding:2px 6px;border-radius:4px;color:var(--green);font-family:Consolas,monospace;font-size:.88rem}
-.metaphor-box{background:rgba(124,77,255,.08);border-left:3px solid var(--purple);border-radius:0 8px 8px 0;padding:15px 20px;margin:15px 0}
-.metaphor-box .title{color:var(--purple);font-weight:600;margin-bottom:8px}
-.metaphor-box p{color:var(--text2);font-size:.93rem}
-.warning-box{background:rgba(255,64,129,.08);border-left:3px solid var(--pink);border-radius:0 8px 8px 0;padding:15px 20px;margin:15px 0}
-.warning-box .title{color:var(--pink);font-weight:600;margin-bottom:8px}
-.warning-box p{color:var(--text2);font-size:.93rem}
-.fill-area{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:20px 0}
-.fill-area h4{color:var(--orange);margin-bottom:15px;font-size:1rem}
-.fill-question{margin-bottom:18px;padding-bottom:15px;border-bottom:1px solid rgba(51,51,102,.5)}
-.fill-question:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.fill-q-text{color:var(--text);margin-bottom:8px;font-size:.93rem;line-height:1.7}
-.fill-q-text code{background:rgba(255,145,0,.1);padding:1px 5px;border-radius:3px;color:var(--orange);font-family:Consolas,monospace;font-size:.88rem}
+h2.step-title{font-size:1.3rem;margin:30px 0 15px;padding-left:15px;border-left:4px solid var(--green);color:var(--green)}
+h2.step-title.purple{border-color:var(--purple);color:var(--purple)}
+h2.step-title.orange{border-color:var(--orange);color:var(--orange)}
+h2.step-title.pink{border-color:var(--pink);color:var(--pink)}
+.explain-box{background:var(--bg2);border-left:4px solid var(--blue);border-radius:0 var(--radius) var(--radius) 0;padding:15px 20px;margin:15px 0;font-size:.92rem;color:var(--text2)}
+.explain-box b{color:var(--text)}
+.explain-box code{background:rgba(0,230,118,.1);color:var(--green);padding:2px 6px;border-radius:4px;font-family:'Consolas','Courier New',monospace;font-size:.9rem}
+.code-block{background:#0d0d2b;border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin:15px 0;overflow-x:auto;font-family:'Consolas','Courier New',monospace;font-size:.9rem;line-height:1.6;position:relative;white-space:pre-wrap;word-break:break-all}
+.code-block .line-num{color:#555;margin-right:12px;user-select:none;display:inline-block;min-width:20px;text-align:right}
+.code-block .kw{color:#c792ea}
+.code-block .fn{color:#82aaff}
+.code-block .str{color:#c3e88d}
+.code-block .cm{color:#546e7a}
+.code-block .num{color:#f78c6c}
+.code-block .var{color:#89ddff}
+.code-block .op{color:#89ddff}
+.code-block .cls{color:#ffcb6b}
+.fill-area{background:var(--card2);border:2px dashed var(--border);border-radius:var(--radius);padding:20px;margin:20px 0}
+.fill-area h4{color:var(--green);margin-bottom:15px;font-size:1.05rem}
+.fill-question{margin-bottom:18px}
+.fill-q-text{color:var(--text);font-size:.95rem;margin-bottom:8px;line-height:1.8}
+.fill-q-text code{background:rgba(0,230,118,.1);color:var(--green);padding:2px 6px;border-radius:4px;font-family:'Consolas','Courier New',monospace;font-size:.88rem}
 .fill-input-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.fill-input{background:#0d0d24;border:2px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text);font-family:Consolas,monospace;font-size:.95rem;width:200px;transition:.3s;outline:none}
-.fill-input:focus{border-color:var(--orange)}
-.fill-input.correct{border-color:var(--correct);background:rgba(0,230,118,.05)}
-.fill-input.wrong{border-color:var(--wrong);background:rgba(255,23,68,.05)}
-.fill-check{padding:6px 16px;border:1px solid var(--orange);background:transparent;color:var(--orange);border-radius:20px;cursor:pointer;font-size:.85rem;transition:.3s}
-.fill-check:hover{background:rgba(255,145,0,.1)}
-.fill-hint{padding:6px 16px;border:1px solid var(--purple);background:transparent;color:var(--purple);border-radius:20px;cursor:pointer;font-size:.85rem;transition:.3s}
-.fill-hint:hover{background:rgba(124,77,255,.1)}
-.fill-result{font-size:.85rem;margin-left:5px;font-weight:600}
-.fill-result.correct{color:var(--correct)}
-.fill-result.wrong{color:var(--wrong)}
-.fill-hint-text{color:var(--purple);font-size:.85rem;margin-top:6px;display:none}
-.fill-hint-text.show{display:block}
-.quiz-area{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:20px 0}
-.quiz-area h4{color:var(--pink);margin-bottom:15px}
-.quiz-q{margin-bottom:18px}
-.quiz-q-text{color:var(--text);margin-bottom:10px;font-weight:500}
-.quiz-options{display:flex;flex-direction:column;gap:8px}
-.quiz-opt{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 15px;cursor:pointer;transition:.3s;font-size:.93rem}
-.quiz-opt:hover{border-color:var(--blue)}
-.quiz-opt.selected{border-color:var(--blue);background:rgba(68,138,255,.1)}
-.quiz-opt.correct{border-color:var(--correct);background:rgba(0,230,118,.1)}
-.quiz-opt.wrong{border-color:var(--wrong);background:rgba(255,23,68,.1)}
-.quiz-answer{color:var(--green);font-size:.88rem;margin-top:6px;display:none}
-.quiz-answer.show{display:block}
-.game-section{text-align:center}
-.game-wrapper{display:inline-block;background:#000;border:2px solid var(--green);border-radius:8px;padding:10px;position:relative}
-.game-wrapper canvas{display:block;border-radius:4px}
-.game-info{display:flex;justify-content:space-between;margin-top:10px;font-size:.9rem;color:var(--text2)}
-.game-controls{margin-top:15px;color:var(--text2);font-size:.85rem}
-.game-btn{padding:10px 30px;background:linear-gradient(135deg,var(--green),var(--green2));color:#000;border:none;border-radius:25px;font-size:1rem;font-weight:600;cursor:pointer;transition:.3s;margin:10px}
-.game-btn:hover{transform:scale(1.05);box-shadow:0 5px 20px rgba(0,230,118,.3)}
-.code-reveal{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:25px;margin:20px 0;position:relative}
-.code-reveal.locked{position:relative}
-.code-reveal.locked::after{content:'';position:absolute;inset:0;background:rgba(10,10,26,.85);border-radius:var(--radius);backdrop-filter:blur(4px)}
-.lock-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2}
-.lock-icon{font-size:3rem;margin-bottom:10px}
-.lock-text{color:var(--orange);font-size:1.1rem;font-weight:600}
-.lock-sub{color:var(--text2);font-size:.85rem;margin-top:5px}
-.copy-btn{padding:8px 20px;background:var(--green);color:#000;border:none;border-radius:20px;cursor:pointer;font-size:.9rem;font-weight:600;transition:.3s;margin-top:10px}
-.copy-btn:hover{background:var(--green2)}
-.copy-btn:disabled{background:var(--text2);cursor:not-allowed}
-.step-table{width:100%;border-collapse:collapse;margin:15px 0}
-.step-table th{background:var(--card2);color:var(--green);padding:10px;text-align:left;border:1px solid var(--border);font-size:.88rem}
-.step-table td{padding:10px;border:1px solid var(--border);color:var(--text2);font-size:.88rem}
-.step-table code{background:rgba(0,230,118,.1);padding:1px 5px;border-radius:3px;color:var(--green);font-family:Consolas,monospace}
-.knowledge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:15px 0}
-.knowledge-item{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:15px;text-align:center;transition:.3s}
-.knowledge-item:hover{border-color:var(--green);transform:translateY(-2px)}
-.knowledge-item .icon{font-size:2rem;margin-bottom:8px}
-.knowledge-item .name{color:var(--green);font-weight:600;font-size:.93rem}
-.knowledge-item .desc{color:var(--text2);font-size:.8rem;margin-top:5px}
-.lesson-summary{background:linear-gradient(135deg,rgba(0,230,118,.05),rgba(124,77,255,.05));border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:20px 0}
-.lesson-summary h4{color:var(--green);margin-bottom:10px}
-.lesson-summary li{color:var(--text2);margin-bottom:5px;font-size:.93rem}
-.footer{text-align:center;padding:40px 20px;color:var(--text2);font-size:.85rem;border-top:1px solid var(--border);margin-top:50px}
-.tab-bar{display:flex;gap:5px;margin-bottom:20px;flex-wrap:wrap}
-.tab-btn{padding:8px 18px;background:var(--card);border:1px solid var(--border);border-radius:20px;color:var(--text2);cursor:pointer;font-size:.88rem;transition:.3s}
-.tab-btn:hover,.tab-btn.active{border-color:var(--green);color:var(--green);background:rgba(0,230,118,.08)}
-.tab-content{display:none}
-.tab-content.active{display:block}
-.comparison{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:15px 0}
-.comparison>div{background:var(--card2);border-radius:8px;padding:15px}
-.comparison .wrong-code{border:1px solid rgba(255,23,68,.3)}
-.comparison .right-code{border:1px solid rgba(0,230,118,.3)}
-.comparison h5{margin-bottom:8px;font-size:.9rem}
-.comparison pre{font-family:Consolas,monospace;font-size:.85rem;line-height:1.6;overflow-x:auto}
-.flow-steps{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin:15px 0;justify-content:center}
-.flow-step{background:var(--card2);border:1px solid var(--border);border-radius:20px;padding:8px 16px;font-size:.85rem;color:var(--text)}
-.flow-arrow{color:var(--green);font-size:1.2rem}
-@media(max-width:768px){.comparison{grid-template-columns:1fr}.fill-input{width:150px}.nav{gap:4px}.nav-btn{padding:4px 10px;font-size:.78rem}.stats{gap:10px}.stat{min-width:90px;padding:10px 15px}.stat-num{font-size:1.3rem}}
+.fill-input{background:var(--bg);border:2px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--green);font-family:'Consolas','Courier New',monospace;font-size:.95rem;width:200px;outline:none;transition:.3s}
+.fill-input:focus{border-color:var(--green);box-shadow:0 0 10px rgba(0,230,118,.2)}
+.fill-input.correct{border-color:var(--correct);background:rgba(0,230,118,.08)}
+.fill-input.wrong{border-color:var(--wrong);background:rgba(255,23,68,.08);animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.fill-check{padding:6px 16px;background:transparent;border:1px solid var(--green);color:var(--green);border-radius:20px;cursor:pointer;font-size:.85rem;transition:.3s}
+.fill-check:hover{background:rgba(0,230,118,.15)}
+.fill-hint{padding:6px 16px;background:transparent;border:1px solid var(--orange);color:var(--orange);border-radius:20px;cursor:pointer;font-size:.85rem;transition:.3s}
+.fill-hint:hover{background:rgba(255,145,0,.15)}
+.fill-feedback{margin-top:6px;font-size:.85rem;min-height:20px}
+.fill-feedback.correct{color:var(--correct)}
+.fill-feedback.wrong{color:var(--wrong)}
+.fill-feedback.hint{color:var(--orange)}
+.vs-box{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:15px 0}
+.vs-col{background:var(--bg2);border-radius:var(--radius);padding:15px}
+.vs-col h4{font-size:.95rem;margin-bottom:8px}
+.vs-col.wrong-vs h4{color:var(--wrong)}
+.vs-col.right-vs h4{color:var(--correct)}
+.vs-col code{display:block;font-family:'Consolas','Courier New',monospace;font-size:.88rem;line-height:1.6;color:var(--text2)}
+.analogy-box{background:linear-gradient(135deg,rgba(124,77,255,.08),rgba(0,230,118,.08));border:1px solid var(--purple);border-radius:var(--radius);padding:18px;margin:15px 0}
+.analogy-box h4{color:var(--purple);margin-bottom:8px;font-size:1rem}
+.analogy-box p{color:var(--text2);font-size:.92rem}
+/* Code Lab - Manual typing area */
+.code-lab{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius);margin:25px 0;overflow:hidden}
+.code-lab-header{background:var(--card);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.code-lab-header h4{color:var(--green);font-size:1rem}
+.code-lab-header .lab-badge{padding:4px 12px;border-radius:12px;font-size:.8rem;font-weight:600}
+.code-lab-header .lab-badge.required{background:rgba(255,145,0,.15);color:var(--orange);border:1px solid var(--orange)}
+.code-lab-header .lab-badge.optional{background:rgba(0,230,118,.1);color:var(--green);border:1px solid var(--green)}
+.code-lab-desc{padding:15px 20px;color:var(--text2);font-size:.9rem;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2)}
+.code-lab-desc b{color:var(--text)}
+.code-lab-desc code{background:rgba(0,230,118,.1);color:var(--green);padding:1px 5px;border-radius:3px;font-family:'Consolas','Courier New',monospace;font-size:.88rem}
+.code-lab-editor{display:flex;border-bottom:1px solid var(--border)}
+.code-lab-lines{background:var(--card);padding:12px 0;min-width:40px;text-align:right;user-select:none;border-right:1px solid var(--border)}
+.code-lab-lines span{display:block;padding:0 8px;font-size:.85rem;color:#555;font-family:'Consolas','Courier New',monospace;line-height:1.7}
+.code-lab-textarea{width:100%;background:var(--bg);color:var(--green);border:none;outline:none;padding:12px 15px;font-family:'Consolas','Courier New',monospace;font-size:.9rem;line-height:1.7;resize:vertical;min-height:200px;tab-size:4}
+.code-lab-textarea::placeholder{color:#333}
+.code-lab-actions{padding:12px 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card)}
+.code-lab-btn{padding:8px 20px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;transition:.3s;border:none}
+.code-lab-btn.verify{background:var(--green);color:var(--bg)}
+.code-lab-btn.verify:hover{background:var(--green2)}
+.code-lab-btn.hint2{background:transparent;border:1px solid var(--orange);color:var(--orange)}
+.code-lab-btn.hint2:hover{background:rgba(255,145,0,.15)}
+.code-lab-btn.clear{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.code-lab-btn.clear:hover{border-color:var(--wrong);color:var(--wrong)}
+.code-lab-result{padding:0 20px 15px;font-size:.9rem;min-height:24px}
+.code-lab-result.pass{color:var(--correct)}
+.code-lab-result.fail{color:var(--wrong)}
+.code-lab-result.hint{color:var(--orange)}
+/* Quiz section */
+.quiz-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:15px 0}
+.quiz-card h4{color:var(--green);margin-bottom:12px}
+.quiz-option{display:block;padding:10px 16px;margin:6px 0;background:var(--bg2);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:.3s;color:var(--text2);font-size:.92rem}
+.quiz-option:hover{border-color:var(--green);background:rgba(0,230,118,.05)}
+.quiz-option.selected{border-color:var(--blue);background:rgba(68,138,255,.1);color:var(--text)}
+.quiz-option.correct-ans{border-color:var(--correct);background:rgba(0,230,118,.1);color:var(--correct)}
+.quiz-option.wrong-ans{border-color:var(--wrong);background:rgba(255,23,68,.1);color:var(--wrong)}
+.quiz-explain{margin-top:10px;padding:10px;background:var(--bg2);border-radius:8px;font-size:.88rem;color:var(--text2);display:none}
+.quiz-explain.show{display:block}
+/* Game */
+.game-wrapper{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:20px 0;text-align:center}
+.game-wrapper canvas{border:2px solid var(--border);border-radius:8px;background:#0a0a0a;max-width:100%}
+.game-controls{margin-top:15px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap}
+.game-btn{padding:8px 20px;background:var(--green);color:var(--bg);border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:.9rem;transition:.3s}
+.game-btn:hover{background:var(--green2)}
+.game-info{display:flex;justify-content:center;gap:30px;margin-top:12px;font-size:.95rem}
+.game-info span{color:var(--text2)}
+.game-info b{color:var(--green)}
+/* Full code unlock */
+.full-code-section{position:relative}
+.full-code-locked{text-align:center;padding:60px 20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)}
+.lock-icon{font-size:3rem;margin-bottom:15px}
+.full-code-locked h3{color:var(--text2);margin-bottom:10px}
+.full-code-locked p{color:var(--text2);font-size:.9rem}
+.full-code-progress{margin-top:20px;font-size:1.1rem;color:var(--green);font-weight:600}
+.full-code-unlocked{display:none;background:var(--card);border:2px solid var(--green);border-radius:var(--radius);padding:25px}
+.full-code-unlocked h3{color:var(--green);margin-bottom:15px}
+.full-code-unlocked .code-block{margin:0}
+.readonly-notice{background:rgba(0,230,118,.1);border:1px solid var(--green);border-radius:8px;padding:10px 15px;margin:15px 0;color:var(--green);font-size:.9rem;text-align:center}
+/* Knowledge cards */
+.knowledge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin:20px 0}
+.knowledge-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:.3s}
+.knowledge-card:hover{border-color:var(--green);transform:translateY(-2px)}
+.knowledge-card h4{color:var(--green);margin-bottom:8px;font-size:1rem}
+.knowledge-card p{color:var(--text2);font-size:.88rem}
+.knowledge-card code{background:rgba(0,230,118,.1);color:var(--green);padding:1px 5px;border-radius:3px;font-family:'Consolas','Courier New',monospace;font-size:.85rem}
+/* Table */
+.info-table{width:100%;border-collapse:collapse;margin:15px 0;font-size:.9rem}
+.info-table th{background:var(--card2);color:var(--green);padding:10px 14px;text-align:left;border:1px solid var(--border)}
+.info-table td{padding:10px 14px;border:1px solid var(--border);color:var(--text2)}
+.info-table code{background:rgba(0,230,118,.1);color:var(--green);padding:1px 5px;border-radius:3px;font-family:'Consolas','Courier New',monospace;font-size:.85rem}
+/* Responsive */
+@media(max-width:768px){
+.nav{padding:0 10px;gap:4px}
+.nav-brand{font-size:1rem}
+.nav-btn{padding:5px 10px;font-size:.78rem}
+.hero h1{font-size:1.8rem}
+.stats{gap:10px}
+.stat{min-width:90px;padding:10px 15px}
+.container{padding:15px}
+.vs-box{grid-template-columns:1fr}
+.lesson-nav{grid-template-columns:1fr 1fr}
+.knowledge-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+.lesson-nav{grid-template-columns:1fr}
+.nav-btn{padding:4px 8px;font-size:.75rem}
+}
 </style>
 </head>
 <body>
-
-<!-- 导航栏 -->
+<!-- Nav -->
 <nav class="nav">
-  <span class="nav-brand">🐍 Python贪吃蛇</span>
-  <button class="nav-btn active" onclick="scrollTo('hero')">首页</button>
-  <button class="nav-btn" onclick="scrollTo('lessons')">课程</button>
-  <button class="nav-btn" onclick="scrollTo('game')">试玩</button>
-  <button class="nav-btn" onclick="scrollTo('fullcode')">完整代码</button>
+<div class="nav-brand">🐍 贪吃蛇课件</div>
+<button class="nav-btn active" onclick="scrollTo('hero')">首页</button>
+<button class="nav-btn" onclick="scrollTo('game-section')">🎮 试玩</button>
+<button class="nav-btn" onclick="scrollTo('lessons')">📚 课程</button>
+<button class="nav-btn" onclick="scrollTo('full-code')">💻 源码</button>
 </nav>
 <div class="progress-bar"><div class="progress-fill" id="totalProgress" style="width:0%"></div></div>
 
-<!-- 首页横幅 -->
+<!-- Hero -->
 <section class="hero" id="hero">
-  <h1><span>🐍 Python贪吃蛇</span><br>四课时互动教学</span></h1>
-  <p>从零开始，4节课带你用Python写出经典贪吃蛇游戏！每课都有填空练习，真学真练真掌握！</p>
-  <div class="stats">
-    <div class="stat"><div class="stat-num">4</div><div class="stat-label">课时</div></div>
-    <div class="stat"><div class="stat-num">40+</div><div class="stat-label">填空练习</div></div>
-    <div class="stat"><div class="stat-num">120</div><div class="stat-label">行代码</div></div>
-    <div class="stat"><div class="stat-num">8</div><div class="stat-label">选择题</div></div>
-  </div>
+<h1><span>🐍 Python贪吃蛇</span></h1>
+<p>四课时互动教学课件 — 手敲代码，从零打造你的第一个游戏！</p>
+<div class="stats">
+<div class="stat"><div class="stat-num">4</div><div class="stat-label">课时</div></div>
+<div class="stat"><div class="stat-num">41</div><div class="stat-label">填空题</div></div>
+<div class="stat"><div class="stat-num">4</div><div class="stat-label">代码实战</div></div>
+<div class="stat"><div class="stat-num">8</div><div class="stat-label">选择题</div></div>
+</div>
 </section>
 
-<!-- 课程导航 -->
-<section class="container" id="lessons">
-  <div class="section-title"><span class="emoji">📚</span> 课程导航</div>
-  <div class="section-desc">点击进入对应课时，按顺序学习效果最佳。每课结束有练习，全对才能解锁完整代码！</div>
-  <div class="lesson-nav">
-    <div class="lesson-card" onclick="switchLesson(0)">
-      <div class="lesson-num">第 1 课</div>
-      <div class="lesson-title">🟢 Python基础入门</div>
-      <div class="lesson-meta">变量·数据类型·运算符 | 约40分钟</div>
-      <div class="lesson-progress"><div class="lesson-progress-fill" id="lp0" style="width:0%;background:var(--green)"></div></div>
-    </div>
-    <div class="lesson-card" onclick="switchLesson(1)">
-      <div class="lesson-num">第 2 课</div>
-      <div class="lesson-title">🟣 Turtle绘图世界</div>
-      <div class="lesson-meta">库·窗口·绘图·角色 | 约45分钟</div>
-      <div class="lesson-progress"><div class="lesson-progress-fill" id="lp1" style="width:0%;background:var(--purple)"></div></div>
-    </div>
-    <div class="lesson-card" onclick="switchLesson(2)">
-      <div class="lesson-num">第 3 课</div>
-      <div class="lesson-title">🟠 让蛇动起来</div>
-      <div class="lesson-meta">函数·列表·键盘·循环 | 约45分钟</div>
-      <div class="lesson-progress"><div class="lesson-progress-fill" id="lp2" style="width:0%;background:var(--orange)"></div></div>
-    </div>
-    <div class="lesson-card" onclick="switchLesson(3)">
-      <div class="lesson-num">第 4 课</div>
-      <div class="lesson-title">🔴 完整贪吃蛇</div>
-      <div class="lesson-meta">碰撞·得分·身体·游戏循环 | 约50分钟</div>
-      <div class="lesson-progress"><div class="lesson-progress-fill" id="lp3" style="width:0%;background:var(--pink)"></div></div>
-    </div>
-  </div>
-
-  <!-- ==================== 第1课 ==================== -->
-  <div class="lesson-content" id="lesson0">
-    <div class="section-title"><span class="emoji">🟢</span> 第1课：Python基础入门</div>
-    <div class="section-desc">万事开头难，但Python开头很简单！这节课我们认识Python，学会最基本的编程概念。</div>
-
-    <!-- 1.1 什么是Python -->
-    <div class="sub-section">
-      <div class="sub-title">1.1 认识Python 🐍</div>
-      <div class="card">
-        <h3>Python是什么？</h3>
-        <ul>
-          <li>🟢 <strong>最简单的编程语言</strong> — 代码读起来像英语句子</li>
-          <li>🟢 <strong>全球最火</strong> — 人工智能、网站、游戏都在用</li>
-          <li>🟢 <strong>自带画笔</strong> — 有个叫turtle的库，能直接画图</li>
-          <li>🟢 <strong>免费开源</strong> — 任何人都能用</li>
-        </ul>
-      </div>
-      <div class="metaphor-box">
-        <div class="title">🎯 生活比喻</div>
-        <p>学编程就像学做菜：Python是菜谱语言，变量是食材盒，函数是菜的做法，循环是重复翻炒。今天我们先认识"食材盒"！</p>
-      </div>
-    </div>
-
-    <!-- 1.2 安装Python -->
-    <div class="sub-section">
-      <div class="sub-title">1.2 安装Python与IDLE</div>
-      <div class="card">
-        <h3>📥 安装步骤</h3>
-        <ol style="padding-left:20px;color:var(--text2)">
-          <li>访问 <code>python.org</code> 下载Python 3.x</li>
-          <li>运行安装程序，<strong style="color:var(--pink)">⚠️ 必须勾选 "Add Python to PATH"</strong></li>
-          <li>点击 Install Now 完成安装</li>
-          <li>在开始菜单找到 <strong>IDLE</strong> — 这就是我们的编程工具</li>
-        </ol>
-      </div>
-      <div class="warning-box">
-        <div class="title">⚠️ 新手最容易犯的错</div>
-        <p>安装时<strong>一定要勾选 "Add Python to PATH"</strong>！不勾选的话，电脑找不到Python，后面所有代码都跑不起来。如果已经装了没勾选，卸载重装即可。</p>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 IDLE是什么？</div>
-        <p>IDLE是Python自带的编程编辑器，打开后有两个窗口：<br>
-        • <strong>Shell窗口</strong>（交互式）— 输入一行代码，立刻看到结果，适合测试<br>
-        • <strong>编辑器窗口</strong> — 写完整程序，按F5运行</p>
-      </div>
-    </div>
-
-    <!-- 1.3 变量 -->
-    <div class="sub-section">
-      <div class="sub-title">1.3 变量 — 数据的"盒子"</div>
-      <div class="card">
-        <h3>📦 变量：给数据取个名字</h3>
-        <p>变量就像一个贴了标签的盒子，里面可以装不同的东西：</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-var">name</span> = <span class="code-string">"小明"</span>       <span class="code-comment"># 字符串：用引号包起来的文字</span>
-<span class="line-num">2</span><span class="code-var">age</span> = <span class="code-number">14</span>            <span class="code-comment"># 整数：没有小数点的数字</span>
-<span class="line-num">3</span><span class="code-var">height</span> = <span class="code-number">1.65</span>        <span class="code-comment"># 浮点数：有小数点的数字</span>
-<span class="line-num">4</span><span class="code-var">is_student</span> = <span class="code-keyword">True</span>   <span class="code-comment"># 布尔值：只有 True 或 False</span>
-      </div>
-      <div class="metaphor-box">
-        <div class="title">🎯 生活比喻</div>
-        <p><code>name = "小明"</code> 就像在一个盒子上贴了"name"的标签，里面放了"小明"这张纸条。以后要找"小明"，直接说名字就行。</p>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 变量命名规则</div>
-        <p>• 只能用<strong>字母、数字、下划线</strong><br>
-        • <strong>不能</strong>以数字开头（❌ <code>2name</code>）<br>
-        • <strong>不能</strong>用Python关键字（❌ <code>if</code>、<code>for</code>、<code>while</code>）<br>
-        • 区分大小写（<code>Name</code> 和 <code>name</code> 是不同的变量）</p>
-      </div>
-    </div>
-
-    <!-- 1.4 数据类型详解 -->
-    <div class="sub-section">
-      <div class="sub-title">1.4 四大数据类型</div>
-      <table class="step-table">
-        <tr><th>类型</th><th>关键字</th><th>示例</th><th>比喻</th></tr>
-        <tr><td>字符串</td><td><code>str</code></td><td><code>"hello"</code></td><td>📝 一段文字</td></tr>
-        <tr><td>整数</td><td><code>int</code></td><td><code>42</code></td><td>🔢 完整的数</td></tr>
-        <tr><td>浮点数</td><td><code>float</code></td><td><code>3.14</code></td><td>🔢 带小数的数</td></tr>
-        <tr><td>布尔值</td><td><code>bool</code></td><td><code>True/False</code></td><td>💡 开/关</td></tr>
-      </table>
-      <div class="comparison">
-        <div class="wrong-code">
-          <h5>❌ 常见错误</h5>
-          <pre><code style="color:var(--wrong)">age = "14"      # 这是字符串！
-age + 1         # 报错！不能给文字加1</code></pre>
-        </div>
-        <div class="right-code">
-          <h5>✅ 正确写法</h5>
-          <pre><code style="color:var(--correct)">age = 14        # 这是整数
-age + 1         # 结果是15，正确！</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 1.5 运算符 -->
-    <div class="sub-section">
-      <div class="sub-title">1.5 运算符 — 计算的符号</div>
-      <table class="step-table">
-        <tr><th>运算符</th><th>含义</th><th>示例</th><th>结果</th></tr>
-        <tr><td><code>+</code></td><td>加法</td><td><code>3 + 5</code></td><td>8</td></tr>
-        <tr><td><code>-</code></td><td>减法</td><td><code>10 - 4</code></td><td>6</td></tr>
-        <tr><td><code>*</code></td><td>乘法</td><td><code>6 * 7</code></td><td>42</td></tr>
-        <tr><td><code>/</code></td><td>除法</td><td><code>15 / 4</code></td><td>3.75</td></tr>
-        <tr><td><code>//</code></td><td>整除</td><td><code>15 // 4</code></td><td>3</td></tr>
-        <tr><td><code>%</code></td><td>取余数</td><td><code>15 % 4</code></td><td>3</td></tr>
-        <tr><td><code>**</code></td><td>幂运算</td><td><code>2 ** 3</code></td><td>8</td></tr>
-      </table>
-      <div class="explain-box">
-        <div class="title">💡 在贪吃蛇中的应用</div>
-        <p>蛇每移动一步，坐标要加20像素：<code>x = x + 20</code><br>
-        判断蛇是否吃到食物，需要算距离：<code>distance = ((x1-x2)**2 + (y1-y2)**2) ** 0.5</code><br>
-        这些运算符在游戏里处处都要用到！</p>
-      </div>
-    </div>
-
-    <!-- 1.6 print函数 -->
-    <div class="sub-section">
-      <div class="sub-title">1.6 print() — 让电脑说话</div>
-      <div class="card">
-        <h3>🖨️ print是学编程的第一个函数</h3>
-        <p><code>print()</code> 的作用就是<strong>在屏幕上显示内容</strong>，就像让电脑"说话"一样。</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-func">print</span>(<span class="code-string">"Hello, World!"</span>)   <span class="code-comment"># 输出：Hello, World!</span>
-<span class="line-num">2</span><span class="code-func">print</span>(<span class="code-number">3 + 5</span>)              <span class="code-comment"># 输出：8</span>
-<span class="line-num">3</span><span class="code-var">score</span> = <span class="code-number">100</span>
-<span class="line-num">4</span><span class="code-func">print</span>(<span class="code-var">score</span>)              <span class="code-comment"># 输出：100</span>
-<span class="line-num">5</span><span class="code-func">print</span>(<span class="code-string">"得分是"</span>, <span class="code-var">score</span>)    <span class="code-comment"># 输出：得分是 100</span>
-      </div>
-    </div>
-
-    <!-- 第1课填空练习 -->
-    <div class="fill-area">
-      <h4>✏️ 第1课 · 填空练习（共9题）</h4>
-      <p style="color:var(--text2);font-size:.88rem;margin-bottom:15px">填入正确的代码，让程序正常运行。想不出来可以点"提示"哦！</p>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q1. 创建一个变量 <code>score</code>，赋值为 <code>0</code>（表示游戏初始分数为0）：</div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="score=0" data-lesson="0" placeholder="输入代码">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 变量名在左边，值在右边，中间用等号连接。变量名是score，值是0</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q2. Python中用来在屏幕上输出内容的函数是：<code>______("你好")</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="print" data-lesson="0" placeholder="输入函数名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 这个函数的英文意思是"打印"，是Python最常用的输出函数</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q3. 安装Python时必须勾选的选项是"Add Python to ____"</div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="PATH" data-lesson="0" placeholder="输入英文">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 PATH是"路径"的意思，把这个选项勾上，电脑才能找到Python</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q4. <code>"Hello"</code> 这种用引号包起来的数据类型叫____（填英文）</div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="str" data-lesson="0" placeholder="输入类型名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 string（字符串）的缩写，只有3个字母</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q5. 布尔值只有两个可能的值：<code>True</code> 和 ______</div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="False" data-lesson="0" placeholder="输入英文">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 和True相反，表示"假"或"否"，首字母要大写</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q6. 计算 <code>10 除以 3 的整数部分</code>，应该用运算符____</div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="//" data-lesson="0" placeholder="输入运算符">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 两个斜杠 // 是整除运算符，10 // 3 结果是 3</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q7. 在Python中，<code>2 的 10 次方</code>写作：<code>2 ____ 10</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="**" data-lesson="0" placeholder="输入运算符">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 两个星号 ** 是幂运算符，2**10 = 1024</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q8. 以下哪个变量名是<strong>不合法</strong>的？<br>A. <code>my_name</code> &nbsp; B. <code>score1</code> &nbsp; C. <code>2nd_place</code> &nbsp; D. <code>_count</code><br>答案是（填字母）：</div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="C" data-lesson="0" placeholder="输入字母">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 变量名不能以数字开头！2nd_place 以数字2开头，所以不合法</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q9. <code>15 % 4</code> 的结果是____（%是取余数运算符）</div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="3" data-lesson="0" placeholder="输入数字">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 15 ÷ 4 = 3 余 3，所以 15 % 4 = 3</div>
-      </div>
-    </div>
-
-    <!-- 第1课小结 -->
-    <div class="lesson-summary">
-      <h4>📋 第1课小结</h4>
-      <ul>
-        <li>✅ Python是最简单的编程语言，安装时记得勾选 PATH</li>
-        <li>✅ 变量 = 盒子，用 <code>=</code> 赋值，命名只能用字母/数字/下划线</li>
-        <li>✅ 四大数据类型：str（字符串）、int（整数）、float（浮点数）、bool（布尔值）</li>
-        <li>✅ 运算符：<code>+ - * / // % **</code>，游戏里到处都在用</li>
-        <li>✅ <code>print()</code> 是让电脑"说话"的函数</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- ==================== 第2课 ==================== -->
-  <div class="lesson-content" id="lesson1">
-    <div class="section-title"><span class="emoji">🟣</span> 第2课：Turtle绘图世界</div>
-    <div class="section-desc">这节课学习Python的绘图库turtle，它能画出贪吃蛇的游戏世界——窗口、蛇头、食物！</div>
-
-    <!-- 2.1 什么是库 -->
-    <div class="sub-section">
-      <div class="sub-title">2.1 什么是"库"？</div>
-      <div class="card">
-        <h3>📦 库 = 别人写好的工具箱</h3>
-        <p>Python有大量现成的"库"，就像工具箱一样，里面有各种现成的工具可以直接用。<br>我们做贪吃蛇要用的 <strong>turtle库</strong>，就是一个专门画图的工具箱。</p>
-      </div>
-      <div class="metaphor-box">
-        <div class="title">🎯 生活比喻</div>
-        <p>想象你要画画：不需要自己造颜料、做画笔，直接买一盒画具就行。<code>import turtle</code> 就是"打开画具箱"的意思。</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-keyword">import</span> <span class="code-var">turtle</span>       <span class="code-comment"># 导入turtle库，打开画具箱</span>
-      </div>
-    </div>
-
-    <!-- 2.2 创建窗口 -->
-    <div class="sub-section">
-      <div class="sub-title">2.2 创建游戏窗口</div>
-      <div class="card">
-        <h3>🪟 画画首先要有画布</h3>
-        <p>turtle库可以创建一个窗口，这就是我们游戏的"舞台"。</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-keyword">import</span> <span class="code-var">turtle</span>
-<span class="line-num">2</span>
-<span class="line-num">3</span><span class="code-var">wn</span> = <span class="code-var">turtle</span>.<span class="code-func">Screen</span>()       <span class="code-comment"># 创建一个窗口对象</span>
-<span class="line-num">4</span><span class="code-var">wn</span>.<span class="code-func">title</span>(<span class="code-string">"贪吃蛇"</span>)        <span class="code-comment"># 设置窗口标题</span>
-<span class="line-num">5</span><span class="code-var">wn</span>.<span class="code-func">bgcolor</span>(<span class="code-string">"black"</span>)       <span class="code-comment"># 设置背景颜色为黑色</span>
-<span class="line-num">6</span><span class="code-var">wn</span>.<span class="code-func">setup</span>(<span class="code-number">600</span>, <span class="code-number">600</span>)        <span class="code-comment"># 设置窗口大小 600×600</span>
-<span class="line-num">7</span><span class="code-var">wn</span>.<span class="code-func">tracer</span>(<span class="code-number">0</span>)              <span class="code-comment"># 关闭自动刷新（手动控制画面更新）</span>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 逐行详解</div>
-        <p>• <code>turtle.Screen()</code> — 创建窗口，就像搭了一个舞台<br>
-        • <code>wn.title()</code> — 给舞台挂上名字牌<br>
-        • <code>wn.bgcolor()</code> — 给舞台刷上背景色<br>
-        • <code>wn.setup(600, 600)</code> — 舞台宽600像素、高600像素<br>
-        • <code>wn.tracer(0)</code> — 关闭自动刷新，我们自己决定什么时候更新画面（让游戏更流畅）</p>
-      </div>
-    </div>
-
-    <!-- 2.3 Turtle角色 -->
-    <div class="sub-section">
-      <div class="sub-title">2.3 创建Turtle角色 — 蛇头</div>
-      <div class="card">
-        <h3>🐍 蛇头就是一个小方块</h3>
-        <p>turtle库里的"Turtle角色"就像一只小海龟，我们可以控制它的形状、颜色、位置。在贪吃蛇里，蛇头就是一个绿色的方块。</p>
-      </div>
-      <div class="code-block">
-<span class="line-num"> 1</span><span class="code-var">head</span> = <span class="code-var">turtle</span>.<span class="code-func">Turtle</span>()      <span class="code-comment"># 创建一个小海龟角色</span>
-<span class="line-num"> 2</span><span class="code-var">head</span>.<span class="code-func">speed</span>(<span class="code-number">0</span>)               <span class="code-comment"># 最快速度（0=最快）</span>
-<span class="line-num"> 3</span><span class="code-var">head</span>.<span class="code-func">shape</span>(<span class="code-string">"square"</span>)       <span class="code-comment"># 形状设为方块</span>
-<span class="line-num"> 4</span><span class="code-var">head</span>.<span class="code-func">color</span>(<span class="code-string">"green"</span>)         <span class="code-comment"># 颜色设为绿色</span>
-<span class="line-num"> 5</span><span class="code-var">head</span>.<span class="code-func">penup</span>()                <span class="code-comment"># 抬起画笔（移动时不画线）</span>
-<span class="line-num"> 6</span><span class="code-var">head</span>.<span class="code-func">goto</span>(<span class="code-number">0</span>, <span class="code-number">0</span>)             <span class="code-comment"># 移动到屏幕中心(0,0)</span>
-<span class="line-num"> 7</span><span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"stop"</span>     <span class="code-comment"># 自定义属性：初始方向为停止</span>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 关键方法详解</div>
-        <p>• <code>turtle.Turtle()</code> — 创建一个新的小海龟角色<br>
-        • <code>.speed(0)</code> — 0表示最快，动画速度共10级(1-10)，0是特殊值=无动画<br>
-        • <code>.shape("square")</code> — 形状可选："arrow"、"turtle"、"circle"、"square"等<br>
-        • <code>.penup()</code> — 抬笔！非常重要，不抬笔的话移动会留下痕迹<br>
-        • <code>.goto(x, y)</code> — 移动到坐标(x, y)，屏幕中心是(0,0)，右正左负，上正下负</p>
-      </div>
-      <div class="metaphor-box">
-        <div class="title">🎯 为什么需要penup()？</div>
-        <p>想象你在纸上用笔画线：<strong>落笔</strong>时移动会留下线条，<strong>抬笔</strong>时移动不留痕迹。贪吃蛇的蛇头只需要"瞬移"到新位置，不需要画线，所以必须先抬笔！</p>
-      </div>
-    </div>
-
-    <!-- 2.4 创建食物 -->
-    <div class="sub-section">
-      <div class="sub-title">2.4 创建食物角色</div>
-      <div class="card">
-        <h3>🍎 食物是一个红色圆形</h3>
-        <p>食物和蛇头的创建方式几乎一样，只是形状改成了圆形，颜色改成了红色。</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-keyword">import</span> <span class="code-var">random</span>                  <span class="code-comment"># 导入随机数库</span>
-<span class="line-num">2</span>
-<span class="line-num">3</span><span class="code-var">food</span> = <span class="code-var">turtle</span>.<span class="code-func">Turtle</span>()       <span class="code-comment"># 创建食物角色</span>
-<span class="line-num">4</span><span class="code-var">food</span>.<span class="code-func">speed</span>(<span class="code-number">0</span>)                <span class="code-comment"># 最快速度</span>
-<span class="line-num">5</span><span class="code-var">food</span>.<span class="code-func">shape</span>(<span class="code-string">"circle"</span>)        <span class="code-comment"># 形状设为圆形</span>
-<span class="line-num">6</span><span class="code-var">food</span>.<span class="code-func">color</span>(<span class="code-string">"red"</span>)            <span class="code-comment"># 颜色设为红色</span>
-<span class="line-num">7</span><span class="code-var">food</span>.<span class="code-func">penup</span>()                 <span class="code-comment"># 抬笔</span>
-<span class="line-num">8</span><span class="code-var">food</span>.<span class="code-func">goto</span>(<span class="code-number">0</span>, <span class="code-number">100</span>)            <span class="code-comment"># 食物初始位置在中心上方</span>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 坐标系统</div>
-        <p>turtle使用<strong>直角坐标系</strong>：<br>
-        • 中心点是 (0, 0)<br>
-        • 向右 x 增大，向左 x 减小<br>
-        • 向上 y 增大，向下 y 减小<br>
-        • 窗口600×600时，范围大约 x: -300到300，y: -300到300</p>
-      </div>
-    </div>
-
-    <!-- 2.5 形状和颜色 -->
-    <div class="sub-section">
-      <div class="sub-title">2.5 Turtle形状和颜色速查</div>
-      <table class="step-table">
-        <tr><th>属性</th><th>可选值</th><th>用途</th></tr>
-        <tr><td><code>shape</code></td><td><code>"arrow"</code> <code>"turtle"</code> <code>"circle"</code> <code>"square"</code> <code>"triangle"</code> <code>"classic"</code></td><td>设置角色外形</td></tr>
-        <tr><td><code>color</code></td><td><code>"red"</code> <code>"green"</code> <code>"blue"</code> <code>"yellow"</code> <code>"white"</code> 等英文颜色名</td><td>设置角色颜色</td></tr>
-        <tr><td><code>shapesize</code></td><td><code>shapesize(1, 1)</code> 默认，<code>shapesize(2, 2)</code> 两倍大</td><td>设置角色大小</td></tr>
-      </table>
-    </div>
-
-    <!-- 第2课填空 -->
-    <div class="fill-area">
-      <h4>✏️ 第2课 · 填空练习（共10题）</h4>
-      <p style="color:var(--text2);font-size:.88rem;margin-bottom:15px">这些填空直接对应贪吃蛇游戏中的关键代码，请仔细思考！</p>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q1. 导入turtle库的语句是：<code>______ turtle</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="import" data-lesson="1" placeholder="输入关键字">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 "import"是Python导入库的关键字，意思是"导入"</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q2. 创建游戏窗口对象：<code>wn = turtle.______()</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="Screen" data-lesson="1" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 Screen是"屏幕"的意思，turtle.Screen()创建一个屏幕/窗口</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q3. 设置窗口背景为黑色：<code>wn.______("black")</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="bgcolor" data-lesson="1" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 bg = background(背景)，color = 颜色，合起来就是bgcolor</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q4. 创建蛇头角色：<code>head = turtle.______()</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="Turtle" data-lesson="1" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 创建角色用turtle.Turtle()，注意首字母大写！Screen和Turtle都是大写开头</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q5. 设置蛇头为方块形状：<code>head.______("square")</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="shape" data-lesson="1" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 shape就是"形状"的英文，设置角色外形用的</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q6. 抬起画笔，移动不留痕迹：<code>head.______()</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="penup" data-lesson="1" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 pen(笔) + up(上) = 抬笔，对应的落笔方法是pendown()</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q7. 将蛇头移到坐标(0, 0)：<code>head.______(0, 0)</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="goto" data-lesson="1" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 "go to"的缩写，意思是"去到"某个坐标位置</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q8. 食物应该设为什么形状？<code>food.shape("______")</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="circle" data-lesson="1" placeholder="输入形状名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 食物通常是圆形的，circle就是"圆"的英文</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q9. 设置蛇移动速度为最快：<code>head.speed(______)</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="0" data-lesson="1" placeholder="输入数字">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 speed()中0表示最快速度（无动画延迟），1-10是从慢到快</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q10. 关闭窗口自动刷新（让游戏画面更流畅）：<code>wn.______(0)</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="tracer" data-lesson="1" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 tracer(0)关闭自动刷新，配合后面的wn.update()手动控制画面更新</div>
-      </div>
-    </div>
-
-    <div class="lesson-summary">
-      <h4>📋 第2课小结</h4>
-      <ul>
-        <li>✅ <code>import turtle</code> 导入画图库，<code>import random</code> 导入随机数库</li>
-        <li>✅ <code>turtle.Screen()</code> 创建窗口，用 <code>.title/.bgcolor/.setup/.tracer</code> 设置属性</li>
-        <li>✅ <code>turtle.Turtle()</code> 创建角色，用 <code>.shape/.color/.penup/.goto</code> 设置属性</li>
-        <li>✅ <code>penup()</code> 很重要！移动不留痕迹</li>
-        <li>✅ 坐标系：中心(0,0)，右正左负，上正下负</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- ==================== 第3课 ==================== -->
-  <div class="lesson-content" id="lesson2">
-    <div class="section-title"><span class="emoji">🟠</span> 第3课：让蛇动起来</div>
-    <div class="section-desc">这节课学习函数、列表、键盘事件和循环，让蛇真正能动起来！这是最关键的一课。</div>
-
-    <!-- 3.1 函数 -->
-    <div class="sub-section">
-      <div class="sub-title">3.1 函数 — 可复用的"菜谱"</div>
-      <div class="card">
-        <h3>📝 函数：打包一段代码，随时调用</h3>
-        <p>函数就像菜谱：写一次，做菜时按名字调用就行。不用每次都从头写步骤。</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-keyword">def</span> <span class="code-func">say_hello</span>():          <span class="code-comment"># 定义函数：def + 函数名 + 冒号</span>
-<span class="line-num">2</span>    <span class="code-func">print</span>(<span class="code-string">"你好！"</span>)            <span class="code-comment"># 函数体：缩进4个空格</span>
-<span class="line-num">3</span>
-<span class="line-num">4</span><span class="code-func">say_hello</span>()                  <span class="code-comment"># 调用函数：函数名 + 括号</span>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 函数四要素</div>
-        <p>1. <code>def</code> 关键字 — 告诉Python"我要定义一个函数"<br>
-        2. 函数名 — 自己取的名字，最好有含义（如 <code>go_up</code>、<code>move</code>）<br>
-        3. <code>()</code> 括号 — 可以放参数（后面会学），没有也必须有括号<br>
-        4. <code>:</code> 冒号 — 冒号下面的缩进代码都属于这个函数</p>
-      </div>
-      <div class="warning-box">
-        <div class="title">⚠️ 缩进是Python的灵魂</div>
-        <p>Python用<strong>缩进</strong>（4个空格）来表示代码归属关系。函数体内的代码必须缩进，否则会报错！这是Python和其他语言最大的区别。</p>
-      </div>
-      <div class="comparison">
-        <div class="wrong-code">
-          <h5>❌ 缩进错误</h5>
-          <pre><code style="color:var(--wrong)">def go_up():
-head.setheading(90)
-# 没有缩进！会报错！</code></pre>
-        </div>
-        <div class="right-code">
-          <h5>✅ 正确缩进</h5>
-          <pre><code style="color:var(--correct)">def go_up():
-    head.setheading(90)
-# 4个空格缩进，正确！</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3.2 方向函数 -->
-    <div class="sub-section">
-      <div class="sub-title">3.2 编写方向控制函数</div>
-      <div class="card">
-        <h3>🎮 上下左右四个方向函数</h3>
-        <p>蛇要能朝四个方向移动，我们需要写4个函数。<code>setheading()</code> 设置蛇头的朝向角度。</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-keyword">def</span> <span class="code-func">go_up</span>():
-<span class="line-num">2</span>    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> != <span class="code-string">"down"</span>:   <span class="code-comment"># 如果当前不是向下，才能向上</span>
-<span class="line-num">3</span>        <span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"up"</span>        <span class="code-comment"># 设置方向为上</span>
-<span class="line-num">4</span>
-<span class="line-num">5</span><span class="code-keyword">def</span> <span class="code-func">go_down</span>():
-<span class="line-num">6</span>    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> != <span class="code-string">"up"</span>:     <span class="code-comment"># 如果当前不是向上，才能向下</span>
-<span class="line-num">7</span>        <span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"down"</span>
-<span class="line-num">8</span>
-<span class="line-num">9</span><span class="code-keyword">def</span> <span class="code-func">go_left</span>():
-<span class="line-num">10</span>    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> != <span class="code-string">"right"</span>:  <span class="code-comment"># 如果当前不是向右，才能向左</span>
-<span class="line-num">11</span>        <span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"left"</span>
-<span class="line-num">12</span>
-<span class="line-num">13</span><span class="code-keyword">def</span> <span class="code-func">go_right</span>():
-<span class="line-num">14</span>    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> != <span class="code-string">"left"</span>:   <span class="code-comment"># 如果当前不是向左，才能向右</span>
-<span class="line-num">15</span>        <span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"right"</span>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 为什么要判断"不能反向"？</div>
-        <p>蛇正在向右走时，不能直接向左——否则蛇头会穿过自己的身体！这是贪吃蛇的经典规则：<strong>不能180度掉头</strong>，只能90度转弯。</p>
-      </div>
-      <div class="metaphor-box">
-        <div class="title">🎯 setheading角度</div>
-        <p>turtle的方向用角度表示，就像指南针：<br>
-        • <code>setheading(90)</code> = 向上 ⬆️<br>
-        • <code>setheading(270)</code> = 向下 ⬇️<br>
-        • <code>setheading(180)</code> = 向左 ⬅️<br>
-        • <code>setheading(0)</code> = 向右 ➡️</p>
-      </div>
-    </div>
-
-    <!-- 3.3 列表 -->
-    <div class="sub-section">
-      <div class="sub-title">3.3 列表(list) — 蛇的身体</div>
-      <div class="card">
-        <h3>🐍 蛇的身体是一串方块</h3>
-        <p>贪吃蛇的身体由多个方块组成，随着吃食物越来越长。Python的<strong>列表(list)</strong>正好能存储多个元素，完美模拟蛇身。</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-var">segments</span> = []                   <span class="code-comment"># 空列表，蛇一开始只有头</span>
-<span class="line-num">2</span>
-<span class="line-num">3</span><span class="code-comment"># 列表的基本操作：</span>
-<span class="line-num">4</span><span class="code-var">segments</span>.<span class="code-func">append</span>(<span class="code-string">"新方块"</span>)     <span class="code-comment"># 在末尾添加一个元素</span>
-<span class="line-num">5</span><span class="code-func">len</span>(<span class="code-var">segments</span>)                  <span class="code-comment"># 获取列表长度（元素个数）</span>
-<span class="line-num">6</span><span class="code-var">segments</span>[<span class="code-number">0</span>]                      <span class="code-comment"># 获取第1个元素（索引从0开始！）</span>
-<span class="line-num">7</span><span class="code-var">segments</span>[<span class="code-number">-1</span>]                     <span class="code-comment"># 获取最后一个元素</span>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 索引从0开始！</div>
-        <p>Python列表的索引（编号）从0开始：<br>
-        列表 <code>["A", "B", "C"]</code> 中：<br>
-        • <code>[0]</code> = "A"（第1个）<br>
-        • <code>[1]</code> = "B"（第2个）<br>
-        • <code>[2]</code> = "C"（第3个）<br>
-        • <code>[-1]</code> = "C"（最后一个）</p>
-      </div>
-    </div>
-
-    <!-- 3.4 键盘监听 -->
-    <div class="sub-section">
-      <div class="sub-title">3.4 键盘事件监听</div>
-      <div class="card">
-        <h3>🎹 让程序"听"你的按键</h3>
-        <p>turtle可以监听键盘按键，按下某个键时自动调用对应的函数。</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-var">wn</span>.<span class="code-func">listen</span>()                                    <span class="code-comment"># 开启键盘监听</span>
-<span class="line-num">2</span><span class="code-var">wn</span>.<span class="code-func">onkeypress</span>(<span class="code-var">go_up</span>, <span class="code-string">"Up"</span>)                    <span class="code-comment"># 按↑键 → 调用go_up函数</span>
-<span class="line-num">3</span><span class="code-var">wn</span>.<span class="code-func">onkeypress</span>(<span class="code-var">go_down</span>, <span class="code-string">"Down"</span>)                 <span class="code-comment"># 按↓键 → 调用go_down函数</span>
-<span class="line-num">4</span><span class="code-var">wn</span>.<span class="code-func">onkeypress</span>(<span class="code-var">go_left</span>, <span class="code-string">"Left"</span>)                 <span class="code-comment"># 按←键 → 调用go_left函数</span>
-<span class="line-num">5</span><span class="code-var">wn</span>.<span class="code-func">onkeypress</span>(<span class="code-var">go_right</span>, <span class="code-string">"Right"</span>)               <span class="code-comment"># 按→键 → 调用go_right函数</span>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 onkeypress参数详解</div>
-        <p><code>wn.onkeypress(函数名, "键名")</code><br>
-        • 第1个参数：<strong>函数名</strong>（不带括号！写 <code>go_up</code> 不是 <code>go_up()</code>）<br>
-        • 第2个参数：<strong>键名</strong>（字符串，如 "Up" "Down" "Left" "Right" "w" "a" "s" "d"）</p>
-      </div>
-      <div class="warning-box">
-        <div class="title">⚠️ 函数名 vs 函数调用</div>
-        <p><code>go_up</code> = 函数本身（一个人）<br>
-        <code>go_up()</code> = 调用函数（让这个人去干活）<br>
-        在 <code>onkeypress</code> 中写函数名<strong>不带括号</strong>，因为我们要告诉程序"按这个键时去调用"，而不是现在就调用！</p>
-      </div>
-    </div>
-
-    <!-- 3.5 移动函数 -->
-    <div class="sub-section">
-      <div class="sub-title">3.5 编写移动函数</div>
-      <div class="card">
-        <h3>🏃 根据方向移动蛇头</h3>
-        <p>蛇头每一步移动20像素（一个方块的大小）：</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-keyword">def</span> <span class="code-func">move</span>():
-<span class="line-num">2</span>    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> == <span class="code-string">"up"</span>:
-<span class="line-num">3</span>        <span class="code-var">y</span> = <span class="code-var">head</span>.<span class="code-func">ycor</span>()              <span class="code-comment"># 获取当前y坐标</span>
-<span class="line-num">4</span>        <span class="code-var">head</span>.<span class="code-func">sety</span>(<span class="code-var">y</span> + <span class="code-number">20</span>)           <span class="code-comment"># y坐标+20，向上移动</span>
-<span class="line-num">5</span>
-<span class="line-num">6</span>    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> == <span class="code-string">"down"</span>:
-<span class="line-num">7</span>        <span class="code-var">y</span> = <span class="code-var">head</span>.<span class="code-func">ycor</span>()
-<span class="line-num">8</span>        <span class="code-var">head</span>.<span class="code-func">sety</span>(<span class="code-var">y</span> - <span class="code-number">20</span>)           <span class="code-comment"># y坐标-20，向下移动</span>
-<span class="line-num">9</span>
-<span class="line-num">10</span>    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> == <span class="code-string">"left"</span>:
-<span class="line-num">11</span>        <span class="code-var">x</span> = <span class="code-var">head</span>.<span class="code-func">xcor</span>()              <span class="code-comment"># 获取当前x坐标</span>
-<span class="line-num">12</span>        <span class="code-var">head</span>.<span class="code-func">setx</span>(<span class="code-var">x</span> - <span class="code-number">20</span>)           <span class="code-comment"># x坐标-20，向左移动</span>
-<span class="line-num">13</span>
-<span class="line-num">14</span>    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> == <span class="code-string">"right"</span>:
-<span class="line-num">15</span>        <span class="code-var">x</span> = <span class="code-var">head</span>.<span class="code-func">xcor</span>()
-<span class="line-num">16</span>        <span class="code-var">head</span>.<span class="code-func">setx</span>(<span class="code-var">x</span> + <span class="code-number">20</span>)           <span class="code-comment"># x坐标+20，向右移动</span>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 坐标移动逻辑</div>
-        <p>• 向上：y + 20（y越大越往上）<br>
-        • 向下：y - 20（y越小越往下）<br>
-        • 向右：x + 20（x越大越往右）<br>
-        • 向左：x - 20（x越小越往左）<br>
-        <code>ycor()</code> 获取y坐标，<code>xcor()</code> 获取x坐标，<code>sety()</code> 设置y坐标，<code>setx()</code> 设置x坐标</p>
-      </div>
-    </div>
-
-    <!-- 3.6 while循环 -->
-    <div class="sub-section">
-      <div class="sub-title">3.6 while循环 — 游戏的心跳</div>
-      <div class="card">
-        <h3>🔄 游戏就是不停地重复</h3>
-        <p>贪吃蛇游戏的核心是一个<strong>无限循环</strong>：每秒重复很多次"移动→检查→更新画面"，就像心跳一样。</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-keyword">while</span> <span class="code-keyword">True</span>:                     <span class="code-comment"># 无限循环（游戏一直运行）</span>
-<span class="line-num">2</span>    <span class="code-var">wn</span>.<span class="code-func">update</span>()                 <span class="code-comment"># 更新画面</span>
-<span class="line-num">3</span>    <span class="code-func">move</span>()                         <span class="code-comment"># 移动蛇</span>
-<span class="line-num">4</span>    <span class="code-var">time</span>.<span class="code-func">sleep</span>(<span class="code-number">0.1</span>)               <span class="code-comment"># 暂停0.1秒（控制蛇的速度）</span>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 游戏循环三步</div>
-        <p>1. <code>wn.update()</code> — 刷新画面（因为之前tracer(0)关了自动刷新）<br>
-        2. <code>move()</code> — 让蛇移动一步<br>
-        3. <code>time.sleep(0.1)</code> — 暂停0.1秒，控制游戏速度。数字越小蛇越快！</p>
-      </div>
-      <div class="metaphor-box">
-        <div class="title">🎯 游戏循环 = 翻书动画</div>
-        <p>游戏就像翻书动画：每一页（每帧）画面稍有不同，快速翻动（循环）就产生了动的效果。<code>sleep(0.1)</code> 就是每页之间的间隔时间。</p>
-      </div>
-    </div>
-
-    <!-- 第3课填空 -->
-    <div class="fill-area">
-      <h4>✏️ 第3课 · 填空练习（共12题）</h4>
-      <p style="color:var(--text2);font-size:.88rem;margin-bottom:15px">这节课的填空最重要！函数和循环是整个游戏的骨架。</p>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q1. 定义函数的关键字是：<code>______ go_up():</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="def" data-lesson="2" placeholder="输入关键字">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 def 是 define（定义）的缩写，Python用def来定义函数</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q2. 获取蛇头的y坐标：<code>y = head.______()</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="ycor" data-lesson="2" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 y + coordinate(坐标) = ycor，对应的x坐标方法是xcor()</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q3. 设置蛇头的y坐标为新值：<code>head.______(y + 20)</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="sety" data-lesson="2" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 set + y = sety，设置y坐标。对应设置x坐标的方法是setx()</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q4. 创建空列表存储蛇的身体：<code>segments = ______</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="[]" data-lesson="2" placeholder="输入代码">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 空列表用一对方括号 [] 表示，里面没有元素</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q5. 在列表末尾添加一个新元素：<code>segments.______(new_segment)</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="append" data-lesson="2" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 append 意思是"追加"，在列表最后面加一个元素</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q6. 获取列表的长度（元素个数）：<code>len(______)</code>，括号里填什么？</div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="segments" data-lesson="2" placeholder="输入变量名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 segments是我们存储蛇身体的列表变量名</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q7. 开启键盘监听：<code>wn.______()</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="listen" data-lesson="2" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 listen 就是"听"的意思，让程序开始监听键盘事件</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q8. 绑定按键事件：<code>wn.______(go_up, "Up")</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="onkeypress" data-lesson="2" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 on + key + press = 当按键按下时，绑定按键和函数</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q9. 在onkeypress中，函数名应该带括号吗？<br>正确写法是 <code>onkeypress(go_up, "Up")</code> 还是 <code>onkeypress(go_up(), "Up")</code>？<br>回答"带括号"或"不带括号"：</div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="不带括号" data-lesson="2" placeholder="输入答案">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 不带括号！带括号会立刻执行函数，不带括号是传递函数引用，等按键时才执行</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q10. 游戏主循环用哪个关键字？<code>______ True:</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="while" data-lesson="2" placeholder="输入关键字">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 while True 表示"当条件为真时一直循环"，True永远为真，所以无限循环</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q11. 暂停0.1秒控制蛇速：<code>time.______(0.1)</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="sleep" data-lesson="2" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 sleep 意思是"睡觉"，让程序暂停（休息）一会儿</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q12. 手动刷新画面：<code>wn.______()</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="update" data-lesson="2" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 update 意思是"更新"，因为之前tracer(0)关了自动刷新，所以需要手动update</div>
-      </div>
-    </div>
-
-    <div class="lesson-summary">
-      <h4>📋 第3课小结</h4>
-      <ul>
-        <li>✅ <code>def</code> 定义函数，函数体必须缩进4个空格</li>
-        <li>✅ 方向函数要判断"不能反向"，<code>!=</code> 表示"不等于"</li>
-        <li>✅ 列表 <code>[]</code> 存储蛇身，<code>append()</code> 添加元素，<code>len()</code> 获取长度</li>
-        <li>✅ <code>wn.listen()</code> 开启监听，<code>wn.onkeypress(函数名, "键名")</code> 绑定按键</li>
-        <li>✅ <code>while True:</code> 游戏主循环，<code>time.sleep()</code> 控制速度，<code>wn.update()</code> 刷新画面</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- ==================== 第4课 ==================== -->
-  <div class="lesson-content" id="lesson3">
-    <div class="section-title"><span class="emoji">🔴</span> 第4课：完整贪吃蛇游戏</div>
-    <div class="section-desc">最后一节课！把吃食物、身体变长、碰撞检测等逻辑加进去，贪吃蛇就完成了！</div>
-
-    <!-- 4.1 吃食物 -->
-    <div class="sub-section">
-      <div class="sub-title">4.1 检测吃食物 + 食物随机刷新</div>
-      <div class="card">
-        <h3>🍎 蛇头碰到食物 = 吃到了！</h3>
-        <p>判断蛇头和食物的<strong>距离</strong>，如果距离小于20像素，就算吃到了。</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-func">distance</span>(<span class="code-var">food</span>) < <span class="code-number">20</span>:        <span class="code-comment"># 蛇头和食物距离小于20</span>
-<span class="line-num">2</span>    <span class="code-var">x</span> = <span class="code-var">random</span>.<span class="code-func">randint</span>(-<span class="code-number">270</span>, <span class="code-number">270</span>)  <span class="code-comment"># 随机x坐标（-270到270之间）</span>
-<span class="line-num">3</span>    <span class="code-var">y</span> = <span class="code-var">random</span>.<span class="code-func">randint</span>(-<span class="code-number">270</span>, <span class="code-number">270</span>)  <span class="code-comment"># 随机y坐标</span>
-<span class="line-num">4</span>    <span class="code-var">food</span>.<span class="code-func">goto</span>(<span class="code-var">x</span>, <span class="code-var">y</span>)               <span class="code-comment"># 食物移到新位置</span>
-<span class="line-num">5</span>    <span class="code-var">score</span> += <span class="code-number">10</span>                      <span class="code-comment"># 分数加10</span>
-<span class="line-num">6</span>    <span class="code-comment"># 添加一个新的身体段（下面会讲）</span>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 distance()方法</div>
-        <p><code>head.distance(food)</code> 计算蛇头和食物之间的<strong>直线距离</strong>（像素）。为什么用20？因为每个方块是20×20像素，距离20以内就算"碰到了"。</p>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 random.randint(a, b)</div>
-        <p>生成一个 a 到 b 之间的<strong>随机整数</strong>。食物出现在-270到270之间，因为窗口是600×600，边界大约是±300，留点边距不会贴墙。</p>
-      </div>
-    </div>
-
-    <!-- 4.2 身体变长 -->
-    <div class="sub-section">
-      <div class="sub-title">4.2 蛇身变长 — 添加新身体段</div>
-      <div class="card">
-        <h3>🐍 每吃一个食物，蛇多一节身体</h3>
-        <p>吃到食物时，创建一个新的方块添加到蛇身体列表中。</p>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-var">new_segment</span> = <span class="code-var">turtle</span>.<span class="code-func">Turtle</span>()   <span class="code-comment"># 创建新的身体方块</span>
-<span class="line-num">2</span><span class="code-var">new_segment</span>.<span class="code-func">speed</span>(<span class="code-number">0</span>)            <span class="code-comment"># 最快速度</span>
-<span class="line-num">3</span><span class="code-var">new_segment</span>.<span class="code-func">shape</span>(<span class="code-string">"square"</span>)    <span class="code-comment"># 方块形状（和蛇头一样）</span>
-<span class="line-num">4</span><span class="code-var">new_segment</span>.<span class="code-func">color</span>(<span class="code-string">"lightgreen"</span>) <span class="code-comment"># 浅绿色（和蛇头区分）</span>
-<span class="line-num">5</span><span class="code-var">new_segment</span>.<span class="code-func">penup</span>()             <span class="code-comment"># 抬笔</span>
-<span class="line-num">6</span><span class="code-var">segments</span>.<span class="code-func">append</span>(<span class="code-var">new_segment</span>)    <span class="code-comment"># 添加到身体列表</span>
-      </div>
-    </div>
-
-    <!-- 4.3 身体跟随 -->
-    <div class="sub-section">
-      <div class="sub-title">4.3 身体跟随蛇头 — 巧妙的移动逻辑</div>
-      <div class="card">
-        <h3>🤔 蛇身怎么跟着蛇头走？</h3>
-        <p>秘诀：<strong>每一节身体移到前一节的位置</strong>，从最后一节开始倒序移动！</p>
-      </div>
-      <div class="flow-steps">
-        <span class="flow-step">蛇头先移动</span>
-        <span class="flow-arrow">→</span>
-        <span class="flow-step">最后一节移到倒数第二节位置</span>
-        <span class="flow-arrow">→</span>
-        <span class="flow-step">倒数第二节移到倒数第三节位置</span>
-        <span class="flow-arrow">→</span>
-        <span class="flow-step">第二节移到蛇头旧位置</span>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-comment"># 身体跟随逻辑：从最后一节开始，每节移到前一节的位置</span>
-<span class="line-num">2</span><span class="code-keyword">for</span> <span class="code-var">i</span> <span class="code-keyword">in</span> <span class="code-func">range</span>(<span class="code-func">len</span>(<span class="code-var">segments</span>)-<span class="code-number">1</span>, <span class="code-number">0</span>, -<span class="code-number">1</span>):
-<span class="line-num">3</span>    <span class="code-var">x</span> = <span class="code-var">segments</span>[<span class="code-var">i</span>-<span class="code-number">1</span>].<span class="code-func">xcor</span>()
-<span class="line-num">4</span>    <span class="code-var">y</span> = <span class="code-var">segments</span>[<span class="code-var">i</span>-<span class="code-number">1</span>].<span class="code-func">ycor</span>()
-<span class="line-num">5</span>    <span class="code-var">segments</span>[<span class="code-var">i</span>].<span class="code-func">goto</span>(<span class="code-var">x</span>, <span class="code-var">y</span>)
-<span class="line-num">6</span>
-<span class="line-num">7</span><span class="code-comment"># 第0节（紧挨蛇头的那节）移到蛇头的旧位置</span>
-<span class="line-num">8</span><span class="code-keyword">if</span> <span class="code-func">len</span>(<span class="code-var">segments</span>) > <span class="code-number">0</span>:
-<span class="line-num">9</span>    <span class="code-var">x</span> = <span class="code-var">head</span>.<span class="code-func">xcor</span>()
-<span class="line-num">10</span>    <span class="code-var">y</span> = <span class="code-var">head</span>.<span class="code-func">ycor</span>()
-<span class="line-num">11</span>    <span class="code-var">segments</span>[<span class="code-number">0</span>].<span class="code-func">goto</span>(<span class="code-var">x</span>, <span class="code-var">y</span>)
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 range(len-1, 0, -1) 详解</div>
-        <p><code>range(3, 0, -1)</code> 生成序列 [3, 2, 1]：<br>
-        • 第1个参数：起始值（从最后一节开始）<br>
-        • 第2个参数：结束值（到1为止，不含0）<br>
-        • 第3个参数：步长（-1表示倒着数）<br>
-        这样就能<strong>从后往前</strong>依次移动每一节身体！</p>
-      </div>
-      <div class="metaphor-box">
-        <div class="title">🎯 排队前进</div>
-        <p>想象一队人手拉手前进：队长（蛇头）先走一步，然后<strong>从队尾开始</strong>，每个人移到前面那个人的旧位置。如果从队头开始移，所有人的目标位置就都被覆盖了！</p>
-      </div>
-    </div>
-
-    <!-- 4.4 碰撞检测 -->
-    <div class="sub-section">
-      <div class="sub-title">4.4 碰撞检测 — 游戏结束条件</div>
-      <div class="card">
-        <h3>💀 碰到边界或自己的身体 = 游戏结束</h3>
-        <p>贪吃蛇有两个死亡条件：</p>
-        <ul>
-          <li>🔴 <strong>碰墙</strong> — 蛇头超出窗口边界</li>
-          <li>🔴 <strong>碰自己</strong> — 蛇头碰到身体任何一节</li>
-        </ul>
-      </div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-comment"># 碰墙检测</span>
-<span class="line-num">2</span><span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-func">xcor</span>() > <span class="code-number">290</span> <span class="code-keyword">or</span> <span class="code-var">head</span>.<span class="code-func">xcor</span>() < -<span class="code-number">290</span> <span class="code-keyword">or</span> <span class="code-var">head</span>.<span class="code-func">ycor</span>() > <span class="code-number">290</span> <span class="code-keyword">or</span> <span class="code-var">head</span>.<span class="code-func">ycor</span>() < -<span class="code-number">290</span>:
-<span class="line-num">3</span>    <span class="code-var">time</span>.<span class="code-func">sleep</span>(<span class="code-number">1</span>)                 <span class="code-comment"># 暂停1秒</span>
-<span class="line-num">4</span>    <span class="code-var">head</span>.<span class="code-func">goto</span>(<span class="code-number">0</span>, <span class="code-number">0</span>)              <span class="code-comment"># 蛇头回到中心</span>
-<span class="line-num">5</span>    <span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"stop"</span>      <span class="code-comment"># 停止移动</span>
-<span class="line-num">6</span>
-<span class="line-num">7</span><span class="code-comment"># 碰自己检测</span>
-<span class="line-num">8</span><span class="code-keyword">for</span> <span class="code-var">segment</span> <span class="code-keyword">in</span> <span class="code-var">segments</span>:
-<span class="line-num">9</span>    <span class="code-keyword">if</span> <span class="code-var">segment</span>.<span class="code-func">distance</span>(<span class="code-var">head</span>) < <span class="code-number">20</span>:   <span class="code-comment"># 身体某节和蛇头距离小于20</span>
-<span class="line-num">10</span>        <span class="code-var">time</span>.<span class="code-func">sleep</span>(<span class="code-number">1</span>)             <span class="code-comment"># 暂停1秒</span>
-<span class="line-num">11</span>        <span class="code-var">head</span>.<span class="code-func">goto</span>(<span class="code-number">0</span>, <span class="code-number">0</span>)            <span class="code-comment"># 蛇头回到中心</span>
-<span class="line-num">12</span>        <span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"stop"</span>  <span class="code-comment"># 停止移动</span>
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 or 连接多个条件</div>
-        <p><code>or</code> 表示"或"，只要其中一个条件成立就执行。碰墙检测4个方向：<br>
-        • x > 290 — 超出右墙<br>
-        • x < -290 — 超出左墙<br>
-        • y > 290 — 超出上墙<br>
-        • y < -290 — 超出下墙</p>
-      </div>
-    </div>
-
-    <!-- 4.5 分数显示 -->
-    <div class="sub-section">
-      <div class="sub-title">4.5 分数显示</div>
-      <div class="code-block">
-<span class="line-num">1</span><span class="code-var">pen</span> = <span class="code-var">turtle</span>.<span class="code-func">Turtle</span>()          <span class="code-comment"># 创建一支"笔"用来写分数</span>
-<span class="line-num">2</span><span class="code-var">pen</span>.<span class="code-func">speed</span>(<span class="code-number">0</span>)                   <span class="code-comment"># 最快速度</span>
-<span class="line-num">3</span><span class="code-var">pen</span>.<span class="code-func">shape</span>(<span class="code-string">"square"</span>)           <span class="code-comment"># 形状（其实看不到，因为隐藏了）</span>
-<span class="line-num">4</span><span class="code-var">pen</span>.<span class="code-func">color</span>(<span class="code-string">"white"</span>)             <span class="code-comment"># 白色文字</span>
-<span class="line-num">5</span><span class="code-var">pen</span>.<span class="code-func">penup</span>()                    <span class="code-comment"># 抬笔</span>
-<span class="line-num">6</span><span class="code-var">pen</span>.<span class="code-func">hideturtle</span>()               <span class="code-comment"># 隐藏箭头形状（只显示文字）</span>
-<span class="line-num">7</span><span class="code-var">pen</span>.<span class="code-func">goto</span>(<span class="code-number">0</span>, <span class="code-number">260</span>)               <span class="code-comment"># 移到屏幕上方</span>
-<span class="line-num">8</span><span class="code-var">pen</span>.<span class="code-func">write</span>(<span class="code-string">"得分: 0"</span>, <span class="code-param">align</span>=<span class="code-string">"center"</span>, <span class="code-param">font</span>=(<span class="code-string">"Arial"</span>, <span class="code-number">24</span>, <span class="code-string">"normal"</span>))
-      </div>
-      <div class="explain-box">
-        <div class="title">💡 write()方法参数</div>
-        <p><code>pen.write("文字", align="对齐方式", font=("字体", 大小, "样式"))</code><br>
-        • align: "center"(居中)、"left"(左对齐)、"right"(右对齐)<br>
-        • font: 字体名、字号、"normal"(正常)/"bold"(粗体)/"italic"(斜体)</p>
-      </div>
-    </div>
-
-    <!-- 第4课填空 -->
-    <div class="fill-area">
-      <h4>✏️ 第4课 · 填空练习（共10题）</h4>
-      <p style="color:var(--text2);font-size:.88rem;margin-bottom:15px">最后10道题！全部答对后解锁完整可运行代码！</p>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q1. 计算蛇头和食物之间的距离：<code>head.______(food)</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="distance" data-lesson="3" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 distance 意思是"距离"，计算两个角色之间的直线距离（像素）</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q2. 生成-270到270之间的随机整数：<code>random.______(-270, 270)</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="randint" data-lesson="3" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 rand + int = randint，random模块中生成随机整数的函数</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q3. 蛇头和食物距离小于多少像素算"吃到"？<code>if head.distance(food) < ____:</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="20" data-lesson="3" placeholder="输入数字">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 每个方块是20×20像素，距离20以内就算重叠/碰到了</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q4. 在身体列表末尾添加新段：<code>segments.______(new_segment)</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="append" data-lesson="3" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 第3课学过的列表方法，在末尾"追加"一个元素</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q5. 身体跟随时，从后往前遍历：<code>range(len(segments)-1, 0, ____)</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="-1" data-lesson="3" placeholder="输入数字">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 range的第3个参数是步长，-1表示每次减1（倒着数），从后往前遍历</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q6. 判断碰墙：超出右边界290 <code>if head.xcor() > 290 ____ head.xcor() < -290 ...</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="or" data-lesson="3" placeholder="输入关键字">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 or 表示"或者"，多个条件中只要有一个成立就执行</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q7. 隐藏笔的箭头形状（只显示文字）：<code>pen.______()</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="hideturtle" data-lesson="3" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 hide + turtle = hideturtle，隐藏角色。对应的显示方法是showturtle()</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q8. 在屏幕上写文字：<code>pen.______("得分: 0", align="center", font=...)</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="write" data-lesson="3" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 write 意思是"写"，在turtle窗口中显示文字</div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q9. 游戏结束后让蛇停止：<code>head.direction = ______</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="stop" data-lesson="3" placeholder="输入字符串">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-hint-text">💡 我们在第2课设置了初始方向为"stop"，游戏结束后也回到这个状态</div>
-        </div>
-      </div>
-
-      <div class="fill-question">
-        <div class="fill-q-text">Q10. 判断蛇头是否碰到身体某节：<code>if segment.______(head) < 20:</code></div>
-        <div class="fill-input-row">
-          <input class="fill-input" data-answer="distance" data-lesson="3" placeholder="输入方法名">
-          <button class="fill-check" onclick="checkFill(this)">检查</button>
-          <button class="fill-hint" onclick="toggleHint(this)">提示</button>
-          <span class="fill-result"></span>
-        </div>
-        <div class="fill-hint-text">💡 和检测食物一样，用distance()计算距离，距离小于20就是碰到了</div>
-      </div>
-    </div>
-
-    <!-- 第4课选择题 -->
-    <div class="quiz-area">
-      <h4>📝 第4课 · 综合测验（8题）</h4>
-      <div class="quiz-q">
-        <div class="quiz-q-text">1. 蛇头每步移动多少像素？</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="selectQuiz(this, true)">A. 20像素</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">B. 10像素</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">C. 50像素</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">D. 100像素</div>
-        </div>
-        <div class="quiz-answer">✅ A。方块大小是20×20，每步移动一个方块的距离。</div>
-      </div>
-      <div class="quiz-q" style="margin-top:15px">
-        <div class="quiz-q-text">2. 为什么身体跟随要从最后一节开始移动？</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">A. 速度更快</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, true)">B. 从前开始会覆盖前一节的位置</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">C. 代码更短</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">D. 随便从哪开始都行</div>
-        </div>
-        <div class="quiz-answer">✅ B。如果从前开始移，第2节移到第1节的位置后，第3节就找不到第2节的旧位置了。从后往前就不会有这个问题。</div>
-      </div>
-      <div class="quiz-q" style="margin-top:15px">
-        <div class="quiz-q-text">3. 判断蛇吃到食物的条件是什么？</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">A. x坐标相同</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">B. y坐标相同</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, true)">C. 蛇头和食物距离小于20</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">D. 颜色相同</div>
-        </div>
-        <div class="quiz-answer">✅ C。用 distance() 计算距离，距离小于一个方块大小(20)就算吃到。</div>
-      </div>
-      <div class="quiz-q" style="margin-top:15px">
-        <div class="quiz-q-text">4. <code>random.randint(-270, 270)</code> 生成的是什么？</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">A. -270到270之间的小数</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, true)">B. -270到270之间的整数</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">C. 只能是-270或270</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">D. 0到270之间的整数</div>
-        </div>
-        <div class="quiz-answer">✅ B。randint(a,b) 生成a到b之间的随机整数，包含a和b。</div>
-      </div>
-      <div class="quiz-q" style="margin-top:15px">
-        <div class="quiz-q-text">5. 碰墙检测中，<code>or</code> 的作用是？</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">A. 所有条件必须同时成立</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, true)">B. 任意一个条件成立就执行</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">C. 取反条件</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">D. 循环执行</div>
-        </div>
-        <div class="quiz-answer">✅ B。or 表示"或"，4个方向碰墙任意一个成立就触发游戏结束。</div>
-      </div>
-      <div class="quiz-q" style="margin-top:15px">
-        <div class="quiz-q-text">6. <code>pen.hideturtle()</code> 的目的是？</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">A. 删除这个角色</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, true)">B. 隐藏箭头形状，只显示文字</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">C. 让文字也隐藏</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">D. 改变颜色</div>
-        </div>
-        <div class="quiz-answer">✅ B。hideturtle() 隐藏角色形状，但 write() 写出的文字仍然可见。</div>
-      </div>
-      <div class="quiz-q" style="margin-top:15px">
-        <div class="quiz-q-text">7. 蛇为什么不能180度掉头？</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="selectQuiz(this, true)">A. 会穿过自己的身体，违反游戏规则</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">B. 代码不允许</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">C. 速度太快</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">D. 没有这个按键</div>
-        </div>
-        <div class="quiz-answer">✅ A。贪吃蛇经典规则：蛇正在向右走时直接向左，蛇头就会重叠到第二节身体上，所以必须禁止。</div>
-      </div>
-      <div class="quiz-q" style="margin-top:15px">
-        <div class="quiz-q-text">8. 游戏速度由哪行代码控制？</div>
-        <div class="quiz-options">
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">A. head.speed(0)</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, true)">B. time.sleep(0.1)</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">C. wn.update()</div>
-          <div class="quiz-opt" onclick="selectQuiz(this, false)">D. wn.tracer(0)</div>
-        </div>
-        <div class="quiz-answer">✅ B。sleep的参数控制每帧之间的等待时间，0.1秒=100毫秒。改小=更快，改大=更慢。</div>
-      </div>
-    </div>
-
-    <div class="lesson-summary">
-      <h4>📋 第4课小结</h4>
-      <ul>
-        <li>✅ <code>head.distance(food) < 20</code> 判断吃食物</li>
-        <li>✅ <code>random.randint(-270, 270)</code> 随机刷新食物位置</li>
-        <li>✅ <code>segments.append(new_segment)</code> 蛇身变长</li>
-        <li>✅ 身体跟随：从后往前移，<code>range(len-1, 0, -1)</code></li>
-        <li>✅ 碰墙检测用 <code>or</code> 连接4个方向</li>
-        <li>✅ 碰自己检测用 <code>for</code> 遍历身体每节</li>
-        <li>✅ <code>pen.write()</code> 显示分数，<code>pen.hideturtle()</code> 隐藏笔</li>
-      </ul>
-    </div>
-  </div>
+<div class="container">
+
+<!-- Intro -->
+<section class="section">
+<h2 class="section-title"><span class="emoji">📖</span> 什么是贪吃蛇？</h2>
+<div class="card">
+<p>贪吃蛇是最经典的电子游戏之一！蛇在屏幕上移动，吃到食物后身体变长，碰到墙壁或自己就游戏结束。</p>
+<ul>
+<li>🕰️ <b>1976年</b> — 最早版本《Blockade》诞生</li>
+<li>📱 <b>1998年</b> — 诺基亚手机内置，风靡全球</li>
+<li>🐍 <b>今天</b> — 你要用 Python 自己做一个！</li>
+</ul>
+</div>
+<div class="card">
+<h3>为什么选 Python + turtle？</h3>
+<ul>
+<li>✅ Python 语法简洁，最适合初学者</li>
+<li>✅ turtle 是 Python 自带库，无需额外安装</li>
+<li>✅ 代码量约120行，4节课就能搞定</li>
+<li>✅ 学完能掌握：变量、列表、函数、循环、事件</li>
+</ul>
+</div>
 </section>
 
-<!-- 可玩游戏 -->
-<section class="container game-section" id="game">
-  <div class="section-title"><span class="emoji">🎮</span> 先来试玩一下！</div>
-  <div class="section-desc">体验一下你要做的游戏效果，用方向键控制蛇吃食物！</div>
-  <div class="game-wrapper">
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <div class="game-info">
-      <span>得分：<strong id="score">0</strong></span>
-      <span>最高分：<strong id="highScore">0</strong></span>
-    </div>
-  </div>
-  <div class="game-controls">
-    ⌨️ 方向键 或 WASD 控制方向 | 🔄 按 R 重新开始
-  </div>
-  <button class="game-btn" onclick="startGame()">🎮 开始游戏</button>
+<!-- Game -->
+<section class="section" id="game-section">
+<h2 class="section-title"><span class="emoji">🎮</span> 先来试玩一下</h2>
+<div class="section-desc">用方向键或WASD控制蛇的方向，吃到红色食物得分！</div>
+<div class="game-wrapper">
+<canvas id="gameCanvas" width="400" height="400"></canvas>
+<div class="game-info">
+<span>得分：<b id="score">0</b></span>
+<span>最高：<b id="highScore">0</b></span>
+</div>
+<div class="game-controls">
+<button class="game-btn" onclick="startGame()">开始游戏</button>
+<span style="color:var(--text2);font-size:.85rem;line-height:36px">方向键 / WASD 控制</span>
+</div>
+</div>
 </section>
 
-<!-- 完整代码 -->
-<section class="container" id="fullcode">
-  <div class="section-title"><span class="emoji">💻</span> 完整Python代码</div>
-  <div class="section-desc">完成全部 4 课的填空练习后解锁！每答对一题，进度条前进一点。</div>
-  <div style="text-align:center;margin:20px 0">
-    <div style="font-size:1.2rem;margin-bottom:8px">🔓 解锁进度：<strong id="unlockPercent">0%</strong></div>
-    <div style="background:var(--bg2);height:8px;border-radius:4px;overflow:hidden;max-width:400px;margin:0 auto">
-      <div id="unlockBar" style="height:100%;background:linear-gradient(90deg,var(--green),var(--purple));border-radius:4px;transition:width .5s;width:0%"></div>
-    </div>
-    <p style="color:var(--text2);font-size:.85rem;margin-top:8px" id="unlockHint">完成所有填空题即可解锁完整代码 📝</p>
-  </div>
-  <div class="code-reveal locked" id="codeReveal">
-    <div class="lock-overlay" id="lockOverlay">
-      <div class="lock-icon">🔒</div>
-      <div class="lock-text">代码已锁定</div>
-      <div class="lock-sub">完成全部填空练习后自动解锁</div>
-    </div>
-    <div class="code-block" id="fullCodeBlock" style="max-height:500px;overflow-y:auto">
-<span class="code-keyword">import</span> <span class="code-var">turtle</span>
-<span class="code-keyword">import</span> <span class="code-var">time</span>
-<span class="code-keyword">import</span> <span class="code-var">random</span>
+<!-- Lessons -->
+<section class="section" id="lessons">
+<h2 class="section-title"><span class="emoji">📚</span> 四课时学习路线</h2>
+<div class="section-desc">每课包含知识讲解 + 填空练习 + 代码实战（手敲代码），全部完成后解锁完整源码！</div>
+<div class="lesson-nav">
+<div class="lesson-card active" onclick="showLesson(0)">
+<div class="lesson-num">第1课</div>
+<div class="lesson-title">🟢 Python基础入门</div>
+<div class="lesson-meta">变量 · 数据类型 · 运算符</div>
+<div class="lesson-progress"><div class="lesson-progress-fill" id="lp0" style="width:0%;background:var(--green)"></div></div>
+</div>
+<div class="lesson-card" onclick="showLesson(1)">
+<div class="lesson-num">第2课</div>
+<div class="lesson-title">🟣 Turtle绘图世界</div>
+<div class="lesson-meta">画布 · 画笔 · 绘图命令</div>
+<div class="lesson-progress"><div class="lesson-progress-fill" id="lp1" style="width:0%;background:var(--purple)"></div></div>
+</div>
+<div class="lesson-card" onclick="showLesson(2)">
+<div class="lesson-num">第3课</div>
+<div class="lesson-title">🟠 让蛇动起来</div>
+<div class="lesson-meta">函数 · 列表 · 键盘控制</div>
+<div class="lesson-progress"><div class="lesson-progress-fill" id="lp2" style="width:0%;background:var(--orange)"></div></div>
+</div>
+<div class="lesson-card" onclick="showLesson(3)">
+<div class="lesson-num">第4课</div>
+<div class="lesson-title">🔴 完整贪吃蛇</div>
+<div class="lesson-meta">碰撞检测 · 游戏循环 · 计分</div>
+<div class="lesson-progress"><div class="lesson-progress-fill" id="lp3" style="width:0%;background:var(--pink)"></div></div>
+</div>
+</div>
 
-<span class="code-var">delay</span> = <span class="code-number">0.1</span>
-<span class="code-var">score</span> = <span class="code-number">0</span>
-<span class="code-var">high_score</span> = <span class="code-number">0</span>
-<span class="code-var">segments</span> = []
+<!-- ==================== LESSON 1 ==================== -->
+<div class="lesson-content active" id="lesson0">
 
-<span class="code-comment"># 设置窗口</span>
-<span class="code-var">wn</span> = <span class="code-var">turtle</span>.<span class="code-func">Screen</span>()
-<span class="code-var">wn</span>.<span class="code-func">title</span>(<span class="code-string">"贪吃蛇"</span>)
-<span class="code-var">wn</span>.<span class="code-func">bgcolor</span>(<span class="code-string">"black"</span>)
-<span class="code-var">wn</span>.<span class="code-func">setup</span>(<span class="code-number">600</span>, <span class="code-number">600</span>)
-<span class="code-var">wn</span>.<span class="code-func">tracer</span>(<span class="code-number">0</span>)
+<h2 class="step-title">1.1 什么是编程？什么是Python？</h2>
+<div class="explain-box">
+<b>编程</b>就是用计算机能懂的语言，告诉它该做什么。就像写菜谱一样——你把步骤写清楚，厨师（计算机）就照着做。<br><br>
+<b>Python</b>是目前最受欢迎的编程语言之一，语法非常接近英语，特别适合初学者。比如输出一句话：<br>
+<code>print("你好世界")</code> — 这就是一行Python代码！
+</div>
 
-<span class="code-comment"># 蛇头</span>
-<span class="code-var">head</span> = <span class="code-var">turtle</span>.<span class="code-func">Turtle</span>()
-<span class="code-var">head</span>.<span class="code-func">speed</span>(<span class="code-number">0</span>)
-<span class="code-var">head</span>.<span class="code-func">shape</span>(<span class="code-string">"square"</span>)
-<span class="code-var">head</span>.<span class="code-func">color</span>(<span class="code-string">"green"</span>)
-<span class="code-var">head</span>.<span class="code-func">penup</span>()
-<span class="code-var">head</span>.<span class="code-func">goto</span>(<span class="code-number">0</span>, <span class="code-number">0</span>)
-<span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"stop"</span>
+<h2 class="step-title">1.2 变量 — 给数据起名字</h2>
+<div class="explain-box">
+<b>变量</b>就像一个贴了标签的盒子，里面可以放数据。你给盒子起个名字，以后用名字就能找到里面的东西。<br><br>
+<b>生活比喻：</b>变量名 = 盒子标签，变量值 = 盒子里装的东西<br>
+<code>score = 0</code> → 意思是：在一个叫"score"的盒子里，放入数字0
+</div>
+<div class="card">
+<h3>创建变量的规则</h3>
+<table class="info-table">
+<tr><th>规则</th><th>正确 ✅</th><th>错误 ❌</th></tr>
+<tr><td>只能用字母、数字、下划线</td><td><code>my_score</code></td><td><code>my-score</code></td></tr>
+<tr><td>不能以数字开头</td><td><code>score1</code></td><td><code>1score</code></td></tr>
+<tr><td>不能有空格</td><td><code>high_score</code></td><td><code>high score</code></td></tr>
+<tr><td>区分大小写</td><td><code>Score ≠ score</code></td><td>—</td></tr>
+</table>
+</div>
 
-<span class="code-comment"># 食物</span>
-<span class="code-var">food</span> = <span class="code-var">turtle</span>.<span class="code-func">Turtle</span>()
-<span class="code-var">food</span>.<span class="code-func">speed</span>(<span class="code-number">0</span>)
-<span class="code-var">food</span>.<span class="code-func">shape</span>(<span class="code-string">"circle"</span>)
-<span class="code-var">food</span>.<span class="code-func">color</span>(<span class="code-string">"red"</span>)
-<span class="code-var">food</span>.<span class="code-func">penup</span>()
-<span class="code-var">food</span>.<span class="code-func">goto</span>(<span class="code-number">0</span>, <span class="code-number">100</span>)
+<div class="fill-area">
+<h4>✏️ 填空练习 — 变量</h4>
+<div class="fill-question">
+<div class="fill-q-text">1. 创建一个变量 <code>score</code>，初始值设为 0：<br><code>______ = 0</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="0" data-q="0" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">2. 把变量 <code>score</code> 的值改为 10：<br><code>score ______ 10</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="0" data-q="1" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">3. 创建变量 <code>name</code>，存入字符串 <code>"贪吃蛇"</code>：<br><code>name = ______</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="0" data-q="2" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
 
-<span class="code-comment"># 分数笔</span>
-<span class="code-var">pen</span> = <span class="code-var">turtle</span>.<span class="code-func">Turtle</span>()
-<span class="code-var">pen</span>.<span class="code-func">speed</span>(<span class="code-number">0</span>)
-<span class="code-var">pen</span>.<span class="code-func">shape</span>(<span class="code-string">"square"</span>)
-<span class="code-var">pen</span>.<span class="code-func">color</span>(<span class="code-string">"white"</span>)
-<span class="code-var">pen</span>.<span class="code-func">penup</span>()
-<span class="code-var">pen</span>.<span class="code-func">hideturtle</span>()
-<span class="code-var">pen</span>.<span class="code-func">goto</span>(<span class="code-number">0</span>, <span class="code-number">260</span>)
-<span class="code-var">pen</span>.<span class="code-func">write</span>(<span class="code-string">"得分: 0  最高分: 0"</span>, <span class="code-param">align</span>=<span class="code-string">"center"</span>, <span class="code-param">font</span>=(<span class="code-string">"Arial"</span>, <span class="code-number">24</span>, <span class="code-string">"normal"</span>))
+<h2 class="step-title">1.3 数据类型 — 数据有不同的"种类"</h2>
+<div class="explain-box">
+Python中的数据分几种类型，就像超市里商品分类一样：<br><br>
+• <b>整数 int</b>：没有小数点的数字，如 <code>0</code> <code>10</code> <code>-3</code><br>
+• <b>浮点数 float</b>：有小数点的数字，如 <code>3.14</code> <code>-0.5</code><br>
+• <b>字符串 str</b>：用引号括起来的文字，如 <code>"你好"</code> <code>'hello'</code><br>
+• <b>布尔值 bool</b>：只有 <code>True</code> 或 <code>False</code> 两个值
+</div>
 
-<span class="code-comment"># 方向函数</span>
-<span class="code-keyword">def</span> <span class="code-func">go_up</span>():
-    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> != <span class="code-string">"down"</span>:
-        <span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"up"</span>
+<div class="fill-area">
+<h4>✏️ 填空练习 — 数据类型</h4>
+<div class="fill-question">
+<div class="fill-q-text">4. 数字 <code>42</code> 的数据类型是：<code>______</code>（填英文类型名）</div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="0" data-q="3" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">5. <code>"Hello"</code> 的数据类型是：<code>______</code>（填英文类型名）</div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="0" data-q="4" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
 
-<span class="code-keyword">def</span> <span class="code-func">go_down</span>():
-    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> != <span class="code-string">"up"</span>:
-        <span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"down"</span>
+<h2 class="step-title">1.4 运算符 — 让计算机做计算</h2>
+<div class="card">
+<h3>Python常用运算符</h3>
+<table class="info-table">
+<tr><th>运算符</th><th>含义</th><th>示例</th><th>结果</th></tr>
+<tr><td><code>+</code></td><td>加法</td><td><code>3 + 2</code></td><td>5</td></tr>
+<tr><td><code>-</code></td><td>减法</td><td><code>5 - 1</code></td><td>4</td></tr>
+<tr><td><code>*</code></td><td>乘法</td><td><code>4 * 3</code></td><td>12</td></tr>
+<tr><td><code>/</code></td><td>除法</td><td><code>10 / 3</code></td><td>3.33</td></tr>
+<tr><td><code>//</code></td><td>整除</td><td><code>10 // 3</code></td><td>3</td></tr>
+<tr><td><code>%</code></td><td>取余</td><td><code>10 % 3</code></td><td>1</td></tr>
+<tr><td><code>==</code></td><td>等于</td><td><code>5 == 5</code></td><td>True</td></tr>
+<tr><td><code>!=</code></td><td>不等于</td><td><code>5 != 3</code></td><td>True</td></tr>
+</table>
+</div>
 
-<span class="code-keyword">def</span> <span class="code-func">go_left</span>():
-    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> != <span class="code-string">"right"</span>:
-        <span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"left"</span>
+<div class="fill-area">
+<h4>✏️ 填空练习 — 运算符</h4>
+<div class="fill-question">
+<div class="fill-q-text">6. 计算 10 除以 3 的整数部分：<code>10 ______ 3</code>（结果为3）</div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="0" data-q="5" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">7. 判断两个值是否相等，用：<code>score ______ 10</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="0" data-q="6" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
 
-<span class="code-keyword">def</span> <span class="code-func">go_right</span>():
-    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> != <span class="code-string">"left"</span>:
-        <span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"right"</span>
+<h2 class="step-title">1.5 print() — 让计算机说话</h2>
+<div class="explain-box">
+<code>print()</code> 是Python最常用的函数，功能是<strong>在屏幕上显示内容</strong>。<br><br>
+<b>生活比喻：</b>就像大声喊出你想说的话<br>
+<code>print("游戏开始！")</code> → 屏幕显示：游戏开始！<br>
+<code>print(score)</code> → 屏幕显示 score 变量的值
+</div>
 
-<span class="code-comment"># 移动函数</span>
-<span class="code-keyword">def</span> <span class="code-func">move</span>():
-    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> == <span class="code-string">"up"</span>:
-        <span class="code-var">y</span> = <span class="code-var">head</span>.<span class="code-func">ycor</span>()
-        <span class="code-var">head</span>.<span class="code-func">sety</span>(<span class="code-var">y</span> + <span class="code-number">20</span>)
-    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> == <span class="code-string">"down"</span>:
-        <span class="code-var">y</span> = <span class="code-var">head</span>.<span class="code-func">ycor</span>()
-        <span class="code-var">head</span>.<span class="code-func">sety</span>(<span class="code-var">y</span> - <span class="code-number">20</span>)
-    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> == <span class="code-string">"left"</span>:
-        <span class="code-var">x</span> = <span class="code-var">head</span>.<span class="code-func">xcor</span>()
-        <span class="code-var">head</span>.<span class="code-func">setx</span>(<span class="code-var">x</span> - <span class="code-number">20</span>)
-    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-var">direction</span> == <span class="code-string">"right"</span>:
-        <span class="code-var">x</span> = <span class="code-var">head</span>.<span class="code-func">xcor</span>()
-        <span class="code-var">head</span>.<span class="code-func">setx</span>(<span class="code-var">x</span> + <span class="code-number">20</span>)
+<div class="fill-area">
+<h4>✏️ 填空练习 — print</h4>
+<div class="fill-question">
+<div class="fill-q-text">8. 在屏幕上显示"Hello"：<code>______("Hello")</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="0" data-q="7" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
 
-<span class="code-comment"># 键盘绑定</span>
-<span class="code-var">wn</span>.<span class="code-func">listen</span>()
-<span class="code-var">wn</span>.<span class="code-func">onkeypress</span>(<span class="code-var">go_up</span>, <span class="code-string">"Up"</span>)
-<span class="code-var">wn</span>.<span class="code-func">onkeypress</span>(<span class="code-var">go_down</span>, <span class="code-string">"Down"</span>)
-<span class="code-var">wn</span>.<span class="code-func">onkeypress</span>(<span class="code-var">go_left</span>, <span class="code-string">"Left"</span>)
-<span class="code-var">wn</span>.<span class="code-func">onkeypress</span>(<span class="code-var">go_right</span>, <span class="code-string">"Right"</span>)
+<!-- CODE LAB 1 -->
+<div class="code-lab" id="codelab0">
+<div class="code-lab-header">
+<h4>⌨️ 第1课 · 代码实战</h4>
+<span class="lab-badge required">必做</span>
+</div>
+<div class="code-lab-desc">
+请<b>手动敲出</b>以下代码（不要复制粘贴！）：<br>
+1. 创建变量 <code>game_name</code>，赋值为 <code>"贪吃蛇"</code><br>
+2. 创建变量 <code>score</code>，赋值为 <code>0</code><br>
+3. 用 <code>print()</code> 输出 <code>game_name</code> 的值<br>
+4. 用 <code>print()</code> 输出 <code>score</code> 的值
+</div>
+<div class="code-lab-editor">
+<div class="code-lab-lines" id="lines0"></div>
+<textarea class="code-lab-textarea" id="editor0" placeholder="在这里手敲代码..." spellcheck="false"></textarea>
+</div>
+<div class="code-lab-actions">
+<button class="code-lab-btn verify" onclick="verifyCodeLab(0)">✅ 验证代码</button>
+<button class="code-lab-btn hint2" onclick="codeLabHint(0)">💡 提示</button>
+<button class="code-lab-btn clear" onclick="clearLab(0)">🗑️ 清空</button>
+<span class="code-lab-result" id="result0"></span>
+</div>
+</div>
 
-<span class="code-comment"># 主游戏循环</span>
-<span class="code-keyword">while</span> <span class="code-keyword">True</span>:
-    <span class="code-var">wn</span>.<span class="code-func">update</span>()
+</div>
 
-    <span class="code-comment"># 碰墙检测</span>
-    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-func">xcor</span>() > <span class="code-number">290</span> <span class="code-keyword">or</span> <span class="code-var">head</span>.<span class="code-func">xcor</span>() < -<span class="code-number">290</span> <span class="code-keyword">or</span> \
-       <span class="code-var">head</span>.<span class="code-func">ycor</span>() > <span class="code-number">290</span> <span class="code-keyword">or</span> <span class="code-var">head</span>.<span class="code-func">ycor</span>() < -<span class="code-number">290</span>:
-        <span class="code-var">time</span>.<span class="code-func">sleep</span>(<span class="code-number">1</span>)
-        <span class="code-var">head</span>.<span class="code-func">goto</span>(<span class="code-number">0</span>, <span class="code-number">0</span>)
-        <span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"stop"</span>
-        <span class="code-keyword">for</span> <span class="code-var">segment</span> <span class="code-keyword">in</span> <span class="code-var">segments</span>:
-            <span class="code-var">segment</span>.<span class="code-func">goto</span>(<span class="code-number">1000</span>, <span class="code-number">1000</span>)
-        <span class="code-var">segments</span>.<span class="code-func">clear</span>()
-        <span class="code-var">score</span> = <span class="code-number">0</span>
-        <span class="code-var">pen</span>.<span class="code-func">clear</span>()
-        <span class="code-var">pen</span>.<span class="code-func">write</span>(<span class="code-string">"得分: {}  最高分: {}"</span>.<span class="code-func">format</span>(<span class="code-var">score</span>, <span class="code-var">high_score</span>),
-                   <span class="code-param">align</span>=<span class="code-string">"center"</span>, <span class="code-param">font</span>=(<span class="code-string">"Arial"</span>, <span class="code-number">24</span>, <span class="code-string">"normal"</span>))
+<!-- ==================== LESSON 2 ==================== -->
+<div class="lesson-content" id="lesson1">
 
-    <span class="code-comment"># 吃食物</span>
-    <span class="code-keyword">if</span> <span class="code-var">head</span>.<span class="code-func">distance</span>(<span class="code-var">food</span>) < <span class="code-number">20</span>:
-        <span class="code-var">x</span> = <span class="code-var">random</span>.<span class="code-func">randint</span>(-<span class="code-number">270</span>, <span class="code-number">270</span>)
-        <span class="code-var">y</span> = <span class="code-var">random</span>.<span class="code-func">randint</span>(-<span class="code-number">270</span>, <span class="code-number">270</span>)
-        <span class="code-var">food</span>.<span class="code-func">goto</span>(<span class="code-var">x</span>, <span class="code-var">y</span>)
-        <span class="code-var">new_segment</span> = <span class="code-var">turtle</span>.<span class="code-func">Turtle</span>()
-        <span class="code-var">new_segment</span>.<span class="code-func">speed</span>(<span class="code-number">0</span>)
-        <span class="code-var">new_segment</span>.<span class="code-func">shape</span>(<span class="code-string">"square"</span>)
-        <span class="code-var">new_segment</span>.<span class="code-func">color</span>(<span class="code-string">"lightgreen"</span>)
-        <span class="code-var">new_segment</span>.<span class="code-func">penup</span>()
-        <span class="code-var">segments</span>.<span class="code-func">append</span>(<span class="code-var">new_segment</span>)
-        <span class="code-var">score</span> += <span class="code-number">10</span>
-        <span class="code-keyword">if</span> <span class="code-var">score</span> > <span class="code-var">high_score</span>:
-            <span class="code-var">high_score</span> = <span class="code-var">score</span>
-        <span class="code-var">pen</span>.<span class="code-func">clear</span>()
-        <span class="code-var">pen</span>.<span class="code-func">write</span>(<span class="code-string">"得分: {}  最高分: {}"</span>.<span class="code-func">format</span>(<span class="code-var">score</span>, <span class="code-var">high_score</span>),
-                   <span class="code-param">align</span>=<span class="code-string">"center"</span>, <span class="code-param">font</span>=(<span class="code-string">"Arial"</span>, <span class="code-number">24</span>, <span class="code-string">"normal"</span>))
+<h2 class="step-title purple">2.1 import — 借用别人的工具箱</h2>
+<div class="explain-box">
+<code>import</code> 的意思是"<b>导入</b>"——把别人写好的代码工具箱拿过来用。<br><br>
+<b>生活比喻：</b>就像你要画画，得先从工具箱里拿出画笔和颜料<br>
+<code>import turtle</code> → 把 turtle 画图工具箱拿出来<br>
+<code>import time</code> → 把 time 时间工具箱拿出来<br><br>
+<b>为什么需要导入？</b>Python核心功能很精简，更多功能打包在"库"里，用到时再导入，避免程序臃肿。
+</div>
 
-    <span class="code-comment"># 身体跟随</span>
-    <span class="code-keyword">for</span> <span class="code-var">i</span> <span class="code-keyword">in</span> <span class="code-func">range</span>(<span class="code-func">len</span>(<span class="code-var">segments</span>)-<span class="code-number">1</span>, <span class="code-number">0</span>, -<span class="code-number">1</span>):
-        <span class="code-var">x</span> = <span class="code-var">segments</span>[<span class="code-var">i</span>-<span class="code-number">1</span>].<span class="code-func">xcor</span>()
-        <span class="code-var">y</span> = <span class="code-var">segments</span>[<span class="code-var">i</span>-<span class="code-number">1</span>].<span class="code-func">ycor</span>()
-        <span class="code-var">segments</span>[<span class="code-var">i</span>].<span class="code-func">goto</span>(<span class="code-var">x</span>, <span class="code-var">y</span>)
-    <span class="code-keyword">if</span> <span class="code-func">len</span>(<span class="code-var">segments</span>) > <span class="code-number">0</span>:
-        <span class="code-var">x</span> = <span class="code-var">head</span>.<span class="code-func">xcor</span>()
-        <span class="code-var">y</span> = <span class="code-var">head</span>.<span class="code-func">ycor</span>()
-        <span class="code-var">segments</span>[<span class="code-number">0</span>].<span class="code-func">goto</span>(<span class="code-var">x</span>, <span class="code-var">y</span>)
+<div class="fill-area">
+<h4>✏️ 填空练习 — import</h4>
+<div class="fill-question">
+<div class="fill-q-text">1. 导入 turtle 库：<code>______ turtle</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="1" data-q="0" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">2. 导入 time 库：<code>______ time</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="1" data-q="1" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
 
-    <span class="code-func">move</span>()
+<h2 class="step-title purple">2.2 Screen() — 创建游戏画布</h2>
+<div class="explain-box">
+<code>turtle.Screen()</code> 用来创建一个画布窗口，游戏的一切都在这个窗口上显示。<br><br>
+<b>生活比喻：</b>就像画家要先铺好画布，才能在上面画画<br>
+<code>window = turtle.Screen()</code> → 铺好一块画布，取名叫 window<br>
+<code>window.title("贪吃蛇")</code> → 给画布窗口起个标题<br>
+<code>window.bgcolor("black")</code> → 把画布背景涂成黑色<br>
+<code>window.setup(width=600, height=600)</code> → 画布大小设为600×600像素
+</div>
 
-    <span class="code-comment"># 碰自己检测</span>
-    <span class="code-keyword">for</span> <span class="code-var">segment</span> <span class="code-keyword">in</span> <span class="code-var">segments</span>:
-        <span class="code-keyword">if</span> <span class="code-var">segment</span>.<span class="code-func">distance</span>(<span class="code-var">head</span>) < <span class="code-number">20</span>:
-            <span class="code-var">time</span>.<span class="code-func">sleep</span>(<span class="code-number">1</span>)
-            <span class="code-var">head</span>.<span class="code-func">goto</span>(<span class="code-number">0</span>, <span class="code-number">0</span>)
-            <span class="code-var">head</span>.<span class="code-var">direction</span> = <span class="code-string">"stop"</span>
-            <span class="code-keyword">for</span> <span class="code-var">segment</span> <span class="code-keyword">in</span> <span class="code-var">segments</span>:
-                <span class="code-var">segment</span>.<span class="code-func">goto</span>(<span class="code-number">1000</span>, <span class="code-number">1000</span>)
-            <span class="code-var">segments</span>.<span class="code-func">clear</span>()
-            <span class="code-var">score</span> = <span class="code-number">0</span>
-            <span class="code-var">pen</span>.<span class="code-func">clear</span>()
-            <span class="code-var">pen</span>.<span class="code-func">write</span>(<span class="code-string">"得分: {}  最高分: {}"</span>.<span class="code-func">format</span>(<span class="code-var">score</span>, <span class="code-var">high_score</span>),
-                       <span class="code-param">align</span>=<span class="code-string">"center"</span>, <span class="code-param">font</span>=(<span class="code-string">"Arial"</span>, <span class="code-number">24</span>, <span class="code-string">"normal"</span>))
+<div class="fill-area">
+<h4>✏️ 填空练习 — Screen</h4>
+<div class="fill-question">
+<div class="fill-q-text">3. 创建游戏窗口：<code>window = turtle.______()</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="1" data-q="2" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">4. 设置窗口背景为黑色：<code>window.______("black")</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="1" data-q="3" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
 
-    <span class="code-var">time</span>.<span class="code-func">sleep</span>(<span class="code-var">delay</span>)
-    </div>
-    <div style="text-align:center">
-      <button class="copy-btn" id="copyBtn" disabled onclick="copyCode()">📋 复制完整代码</button>
-    </div>
-  </div>
+<h2 class="step-title purple">2.3 Turtle() — 创建游戏角色</h2>
+<div class="explain-box">
+<code>turtle.Turtle()</code> 用来创建一个"角色"（小海龟），它可以在画布上移动和绘图。<br><br>
+<b>生活比喻：</b>Turtle就像画笔，Screen就像画纸。你拿着画笔在纸上画。<br>
+<code>head = turtle.Turtle()</code> → 创建一只小海龟，取名 head（蛇头）<br><br>
+创建后可以设置它的属性：<br>
+<code>head.shape("square")</code> → 形状设为方块<br>
+<code>head.color("green")</code> → 颜色设为绿色<br>
+<code>head.penup()</code> → 抬笔（移动时不画线）<br>
+<code>head.goto(0, 0)</code> → 移动到坐标(0,0)
+</div>
+
+<div class="analogy-box">
+<h4>🌍 坐标系比喻</h4>
+<p>画布中间是原点(0,0)，往右x增大，往上y增大，就像教室座位表——第几排第几列。<br>
+<code>goto(100, 0)</code> = 从中间向右走100步<br>
+<code>goto(0, -100)</code> = 从中间向下走100步</p>
+</div>
+
+<div class="fill-area">
+<h4>✏️ 填空练习 — Turtle</h4>
+<div class="fill-question">
+<div class="fill-q-text">5. 创建蛇头角色：<code>head = turtle.______()</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="1" data-q="4" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">6. 让蛇头移动时不画线：<code>head.______()</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="1" data-q="5" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">7. 把蛇头移动到坐标(0,0)：<code>head.______(0, 0)</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="1" data-q="6" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
+
+<h2 class="step-title purple">2.4 shape和color — 给角色打扮</h2>
+<div class="explain-box">
+<b>shape()</b> 设置角色形状，可选值：<code>"square"</code>方块、<code>"circle"</code>圆形、<code>"triangle"</code>三角形、<code>"arrow"</code>箭头<br><br>
+<b>color()</b> 设置角色颜色，可以用英文颜色名：<code>"green"</code>、<code>"red"</code>、<code>"blue"</code>、<code>"white"</code>等<br><br>
+<b>shapesize()</b> 设置大小：<code>head.shapesize(1, 1)</code> → 宽1格高1格
+</div>
+
+<div class="fill-area">
+<h4>✏️ 填空练习 — 形状和颜色</h4>
+<div class="fill-question">
+<div class="fill-q-text">8. 设置蛇头为方块形状：<code>head.______("square")</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="1" data-q="7" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">9. 设置蛇头颜色为绿色：<code>head.______("green")</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="1" data-q="8" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">10. 食物用圆形：<code>food.______("circle")</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="1" data-q="9" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
+
+<!-- CODE LAB 2 -->
+<div class="code-lab" id="codelab1">
+<div class="code-lab-header">
+<h4>⌨️ 第2课 · 代码实战</h4>
+<span class="lab-badge required">必做</span>
+</div>
+<div class="code-lab-desc">
+请<b>手动敲出</b>以下代码（不要复制粘贴！）：<br>
+1. 导入 <code>turtle</code> 库<br>
+2. 创建窗口 <code>window</code>，设置标题为"贪吃蛇"，背景色为"black"<br>
+3. 创建蛇头 <code>head</code>，形状为"square"，颜色为"green"，抬笔，移到(0,0)<br>
+4. 创建食物 <code>food</code>，形状为"circle"，颜色为"red"，抬笔，移到(100,0)
+</div>
+<div class="code-lab-editor">
+<div class="code-lab-lines" id="lines1"></div>
+<textarea class="code-lab-textarea" id="editor1" placeholder="在这里手敲代码..." spellcheck="false"></textarea>
+</div>
+<div class="code-lab-actions">
+<button class="code-lab-btn verify" onclick="verifyCodeLab(1)">✅ 验证代码</button>
+<button class="code-lab-btn hint2" onclick="codeLabHint(1)">💡 提示</button>
+<button class="code-lab-btn clear" onclick="clearLab(1)">🗑️ 清空</button>
+<span class="code-lab-result" id="result1"></span>
+</div>
+</div>
+
+</div>
+
+<!-- ==================== LESSON 3 ==================== -->
+<div class="lesson-content" id="lesson2">
+
+<h2 class="step-title orange">3.1 def — 定义函数（做菜谱）</h2>
+<div class="explain-box">
+<code>def</code> 是 <b>define</b>（定义）的缩写，用来创建函数。函数就是一段可以重复使用的代码。<br><br>
+<b>生活比喻：</b>函数就像菜谱——写一次，以后按名字调用就行<br>
+<code>def go_up():</code> → 定义一个叫"向上走"的菜谱<br>
+<code>    head.setheading(90)</code> → 菜谱内容：方向设为90度（向上）<br><br>
+⚠️ 注意：<code>def</code> 后面的代码要<b>缩进4个空格</b>，表示这些代码属于这个函数！
+</div>
+
+<div class="vs-box">
+<div class="vs-col wrong-vs">
+<h4>❌ 错误写法</h4>
+<code>def go_up():<br>head.setheading(90)  # 没有缩进！</code>
+</div>
+<div class="vs-col right-vs">
+<h4>✅ 正确写法</h4>
+<code>def go_up():<br>&nbsp;&nbsp;&nbsp;&nbsp;head.setheading(90)  # 缩进4空格</code>
+</div>
+</div>
+
+<div class="fill-area">
+<h4>✏️ 填空练习 — def</h4>
+<div class="fill-question">
+<div class="fill-q-text">1. 定义向上移动的函数：<code>______ go_up():</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="2" data-q="0" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">2. 设置蛇头方向为90度（向上）：<code>head.______(90)</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="2" data-q="1" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
+
+<h2 class="step-title orange">3.2 列表 list — 装东西的容器</h2>
+<div class="explain-box">
+<b>列表</b>是Python中最常用的数据结构，用方括号 <code>[]</code> 表示，可以存放多个数据。<br><br>
+<b>生活比喻：</b>列表就像一列火车，每节车厢装一个数据，车厢有编号（从0开始）<br>
+<code>segments = []</code> → 创建一列空火车<br>
+<code>segments.append(new_segment)</code> → 在火车末尾加一节车厢<br>
+<code>segments[0]</code> → 查看第1节车厢<br>
+<code>len(segments)</code> → 看看火车有几节车厢
+</div>
+
+<div class="fill-area">
+<h4>✏️ 填空练习 — 列表</h4>
+<div class="fill-question">
+<div class="fill-q-text">3. 创建一个空列表：<code>segments = ______</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="2" data-q="2" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">4. 在列表末尾添加一个元素：<code>segments.______(new_segment)</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="2" data-q="3" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">5. 获取列表长度（元素个数）：<code>______(segments)</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="2" data-q="4" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
+
+<h2 class="step-title orange">3.3 键盘监听 — 听你的指挥</h2>
+<div class="explain-box">
+让游戏窗口"听"键盘事件，按不同键执行不同函数：<br><br>
+<code>window.listen()</code> → 开始监听键盘<br>
+<code>window.onkeypress(go_up, "Up")</code> → 按上箭头时调用 go_up 函数<br>
+<code>window.onkeypress(go_down, "Down")</code> → 按下箭头时调用 go_down 函数<br><br>
+<b>⚠️ 重要：</b><code>onkeypress</code> 传的是函数名（不带括号！），不是调用函数的结果。
+</div>
+
+<div class="vs-box">
+<div class="vs-col wrong-vs">
+<h4>❌ 错误：带了括号</h4>
+<code>window.onkeypress(go_up(), "Up")<br># 这样会立即执行go_up！</code>
+</div>
+<div class="vs-col right-vs">
+<h4>✅ 正确：不带括号</h4>
+<code>window.onkeypress(go_up, "Up")<br># 按键时才执行go_up</code>
+</div>
+</div>
+
+<div class="fill-area">
+<h4>✏️ 填空练习 — 键盘监听</h4>
+<div class="fill-question">
+<div class="fill-q-text">6. 开始监听键盘：<code>window.______()</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="2" data-q="5" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">7. 按上箭头键触发go_up函数：<code>window.______(go_up, "Up")</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="2" data-q="6" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
+
+<h2 class="step-title orange">3.4 while循环 — 重复执行</h2>
+<div class="explain-box">
+<code>while</code> 循环让代码重复执行，只要条件为True就一直跑。<br><br>
+<b>生活比喻：</b>就像操场跑步——只要没喊停，就一直跑<br>
+<code>while True:</code> → 永远循环（游戏主循环）<br>
+<code>while score &lt; 10:</code> → 分数不到10就继续<br><br>
+<b>⚠️ 注意：</b>循环体内的代码也要缩进4个空格！
+</div>
+
+<div class="fill-area">
+<h4>✏️ 填空练习 — while循环</h4>
+<div class="fill-question">
+<div class="fill-q-text">8. 创建一个无限循环：<code>______ True:</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="2" data-q="7" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">9. 蛇头向上移动20像素：<code>head.______(head.xcor(), head.ycor() + 20)</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="2" data-q="8" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">10. 获取蛇头的y坐标：<code>y = head.______()</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="2" data-q="9" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">11. 获取蛇头的x坐标：<code>x = head.______()</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="2" data-q="10" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">12. 暂停0.1秒：<code>time.______(0.1)</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="2" data-q="11" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
+
+<!-- CODE LAB 3 -->
+<div class="code-lab" id="codelab2">
+<div class="code-lab-header">
+<h4>⌨️ 第3课 · 代码实战</h4>
+<span class="lab-badge required">必做</span>
+</div>
+<div class="code-lab-desc">
+请<b>手动敲出</b>以下代码（不要复制粘贴！）：<br>
+1. 定义函数 <code>go_up()</code>：设置蛇头方向为90度<br>
+2. 定义函数 <code>go_down()</code>：设置蛇头方向为270度<br>
+3. 定义函数 <code>go_left()</code>：设置蛇头方向为180度<br>
+4. 定义函数 <code>go_right()</code>：设置蛇头方向为0度<br>
+5. 键盘监听：按Up调用go_up，按Down调用go_down，按Left调用go_left，按Right调用go_right
+</div>
+<div class="code-lab-editor">
+<div class="code-lab-lines" id="lines2"></div>
+<textarea class="code-lab-textarea" id="editor2" placeholder="在这里手敲代码..." spellcheck="false"></textarea>
+</div>
+<div class="code-lab-actions">
+<button class="code-lab-btn verify" onclick="verifyCodeLab(2)">✅ 验证代码</button>
+<button class="code-lab-btn hint2" onclick="codeLabHint(2)">💡 提示</button>
+<button class="code-lab-btn clear" onclick="clearLab(2)">🗑️ 清空</button>
+<span class="code-lab-result" id="result2"></span>
+</div>
+</div>
+
+</div>
+
+<!-- ==================== LESSON 4 ==================== -->
+<div class="lesson-content" id="lesson3">
+
+<h2 class="step-title pink">4.1 distance() — 碰撞检测</h2>
+<div class="explain-box">
+<code>head.distance(food)</code> 计算蛇头到食物的距离。当距离很近时，就认为"吃到"了。<br><br>
+<b>生活比喻：</b>就像你和朋友的距离——如果小于1米，就算"碰到了"<br>
+<code>if head.distance(food) &lt; 20:</code> → 蛇头距食物不到20像素，就算吃到了<br><br>
+为什么是20？因为蛇头方块大小是20×20像素，食物也是20像素，所以距离小于20就算重叠。
+</div>
+
+<div class="fill-area">
+<h4>✏️ 填空练习 — 碰撞检测</h4>
+<div class="fill-question">
+<div class="fill-q-text">1. 检测蛇头是否吃到食物：<code>if head.______(food) &lt; 20:</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="3" data-q="0" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
+
+<h2 class="step-title pink">4.2 randint() — 随机生成食物位置</h2>
+<div class="explain-box">
+<code>random.randint(a, b)</code> 生成a到b之间的随机整数。<br><br>
+<b>生活比喻：</b>就像掷骰子——randint(1,6)就是掷一个1到6的骰子<br>
+<code>x = random.randint(-14, 14) * 20</code> → 在-280到280之间随机选一个位置<br><br>
+为什么要乘20？因为蛇每次移动20像素，食物必须出现在蛇能到达的位置上。<br>
+⚠️ 使用前需要先导入：<code>import random</code>
+</div>
+
+<div class="fill-area">
+<h4>✏️ 填空练习 — 随机数</h4>
+<div class="fill-question">
+<div class="fill-q-text">2. 生成1到100的随机整数：<code>n = random.______(1, 100)</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="3" data-q="1" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">3. 导入random库：<code>______ random</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="3" data-q="2" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
+
+<h2 class="step-title pink">4.3 吃食物 + 身体变长</h2>
+<div class="explain-box">
+蛇吃到食物后需要做三件事：<br>
+1. 🟢 分数+1<br>
+2. 🔴 食物随机移到新位置<br>
+3. 🟩 蛇身增加一节<br><br>
+蛇身怎么实现？每帧把蛇头当前位置添加到列表，然后用for循环画出所有身体段。如果没吃到食物，就删除列表最旧的坐标（保持长度不变）。
+</div>
+
+<div class="fill-area">
+<h4>✏️ 填空练习 — 身体变长</h4>
+<div class="fill-question">
+<div class="fill-q-text">4. 在列表末尾添加新身体段：<code>segments.______(new_segment)</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="3" data-q="3" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">5. 分数加1：<code>score ______ 1</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="3" data-q="4" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
+
+<h2 class="step-title pink">4.4 range倒序遍历 — 移动蛇身</h2>
+<div class="explain-box">
+蛇身的移动原理：每节身体跟随前一节的位置。<br><br>
+<b>必须倒序遍历！</b>从最后一节开始，每节移到前一节的位置：<br>
+<code>for i in range(len(segments)-1, 0, -1):</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;x = segments[i-1].xcor()</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;y = segments[i-1].ycor()</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;segments[i].goto(x, y)</code><br><br>
+<b>生活比喻：</b>就像排队——前面的人走了，后面的人依次往前挪一位。<b>必须从队尾开始挪</b>，否则位置会乱！
+</div>
+
+<div class="fill-area">
+<h4>✏️ 填空练习 — 倒序遍历</h4>
+<div class="fill-question">
+<div class="fill-q-text">6. 倒序遍历列表（从最后到第2个）：<code>for i in ______(len(segments)-1, 0, -1):</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="3" data-q="5" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
+
+<h2 class="step-title pink">4.5 边界检测 — 游戏结束</h2>
+<div class="explain-box">
+蛇超出画布边界时游戏结束：<br>
+<code>if head.xcor() &gt; 290 or head.xcor() &lt; -290:</code> → 左右出界<br>
+<code>if head.ycor() &gt; 290 or head.ycor() &lt; -290:</code> → 上下出界<br><br>
+蛇头碰到自己身体也游戏结束：遍历每个身体段，检查是否和蛇头重叠。
+</div>
+
+<div class="fill-area">
+<h4>✏️ 填空练习 — 边界检测</h4>
+<div class="fill-question">
+<div class="fill-q-text">7. 判断蛇头是否超出右边界（290）：<code>if head.xcor() ______ 290:</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="3" data-q="6" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">8. 判断蛇头是否碰到第i节身体：<code>if head.______(segments[i]) &lt; 10:</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="3" data-q="7" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
+
+<h2 class="step-title pink">4.6 游戏主循环 — 把所有代码串起来</h2>
+<div class="explain-box">
+游戏的主循环流程：<br>
+1. 🖥️ 更新窗口显示<br>
+2. ➡️ 移动蛇头<br>
+3. 🔗 移动蛇身（倒序跟随）<br>
+4. 🆕 第1节身体移到蛇头旧位置<br>
+5. 🍎 检测是否吃到食物<br>
+6. 💀 检测是否碰墙/碰自己<br>
+7. ⏱️ 暂停0.1秒（控制速度）<br>
+8. 🔁 回到步骤1
+</div>
+
+<div class="fill-area">
+<h4>✏️ 填空练习 — 主循环</h4>
+<div class="fill-question">
+<div class="fill-q-text">9. 更新窗口显示：<code>window.______()</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="3" data-q="8" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+<div class="fill-question">
+<div class="fill-q-text">10. 暂停0.1秒控制游戏速度：<code>time.______(0.1)</code></div>
+<div class="fill-input-row">
+<input class="fill-input" data-lesson="3" data-q="9" placeholder="输入答案...">
+<button class="fill-check" onclick="checkFill(this)">检查</button>
+<button class="fill-hint" onclick="showHint(this)">提示</button>
+</div>
+<div class="fill-feedback"></div>
+</div>
+</div>
+
+<!-- QUIZ -->
+<h2 class="step-title pink">📝 第4课测验</h2>
+<div class="quiz-card" id="quiz0">
+<h4>1. 检测蛇头碰到食物用什么方法？</h4>
+<div class="quiz-option" onclick="selectQuiz(this,0,0)">A. head.touch(food)</div>
+<div class="quiz-option" onclick="selectQuiz(this,0,1)">B. head.distance(food)</div>
+<div class="quiz-option" onclick="selectQuiz(this,0,2)">C. head.hit(food)</div>
+<div class="quiz-option" onclick="selectQuiz(this,0,3)">D. head.check(food)</div>
+<div class="quiz-explain">答案：B。distance()计算两个角色之间的像素距离，小于20就算碰到。</div>
+</div>
+<div class="quiz-card" id="quiz1">
+<h4>2. 为什么蛇身移动要倒序遍历？</h4>
+<div class="quiz-option" onclick="selectQuiz(this,1,0)">A. 正序倒序都一样</div>
+<div class="quiz-option" onclick="selectQuiz(this,1,1)">B. 倒序运行更快</div>
+<div class="quiz-option" onclick="selectQuiz(this,1,2)">C. 正序会导致位置覆盖，后面的身体段找不到前一节的原始位置</div>
+<div class="quiz-option" onclick="selectQuiz(this,1,3)">D. Python只支持倒序遍历</div>
+<div class="quiz-explain">答案：C。正序时，第1节先移到蛇头位置，第2节再移到第1节的新位置（而不是原始位置），位置就全乱了。</div>
+</div>
+
+<!-- CODE LAB 4 -->
+<div class="code-lab" id="codelab3">
+<div class="code-lab-header">
+<h4>⌨️ 第4课 · 代码实战</h4>
+<span class="lab-badge required">必做</span>
+</div>
+<div class="code-lab-desc">
+请<b>手动敲出</b>游戏主循环代码（不要复制粘贴！）：<br>
+1. <code>while True:</code> 无限循环<br>
+2. 更新窗口：<code>window.update()</code><br>
+3. 检测蛇头是否碰到食物（distance &lt; 20），如果碰到：食物随机移走、分数+1<br>
+4. 倒序遍历segments，每节移到前一节位置<br>
+5. 第1节身体移到蛇头位置<br>
+6. 移动蛇头（根据方向）<br>
+7. 检测是否碰墙或碰自己<br>
+8. 暂停0.1秒
+</div>
+<div class="code-lab-editor">
+<div class="code-lab-lines" id="lines3"></div>
+<textarea class="code-lab-textarea" id="editor3" placeholder="在这里手敲代码..." spellcheck="false"></textarea>
+</div>
+<div class="code-lab-actions">
+<button class="code-lab-btn verify" onclick="verifyCodeLab(3)">✅ 验证代码</button>
+<button class="code-lab-btn hint2" onclick="codeLabHint(3)">💡 提示</button>
+<button class="code-lab-btn clear" onclick="clearLab(3)">🗑️ 清空</button>
+<span class="code-lab-result" id="result3"></span>
+</div>
+</div>
+
+</div>
+
+<!-- ==================== FULL CODE ==================== -->
+<section class="section full-code-section" id="full-code">
+<h2 class="section-title"><span class="emoji">💻</span> 完整源代码</h2>
+<div class="full-code-locked" id="codeLocked">
+<div class="lock-icon">🔒</div>
+<h3>代码已锁定</h3>
+<p>完成全部 4 课的填空练习 + 4 个代码实战后才能查看完整代码</p>
+<div class="full-code-progress" id="unlockProgress">当前进度：0%</div>
+</div>
+<div class="full-code-unlocked" id="codeUnlocked">
+<h3>🎉 恭喜！所有课程已完成！</h3>
+<div class="readonly-notice">📌 这是只读代码展示，请在电脑上手动敲出完整代码来运行游戏！</div>
+<div class="code-block" id="fullCodeBlock"></div>
+</div>
 </section>
 
-<!-- 知识点总结 -->
-<section class="container">
-  <div class="section-title"><span class="emoji">📝</span> 知识点总览</div>
-  <div class="knowledge-grid">
-    <div class="knowledge-item"><div class="icon">📦</div><div class="name">import导入库</div><div class="desc">turtle画图、random随机、time计时</div></div>
-    <div class="knowledge-item"><div class="icon">🪟</div><div class="name">Screen窗口</div><div class="desc">title bgcolor setup tracer</div></div>
-    <div class="knowledge-item"><div class="icon">🐍</div><div class="name">Turtle角色</div><div class="desc">shape color penup goto speed</div></div>
-    <div class="knowledge-item"><div class="icon">📝</div><div class="name">def函数</div><div class="desc">定义可复用的代码块</div></div>
-    <div class="knowledge-item"><div class="icon">📋</div><div class="name">list列表</div><div class="desc">append len 索引</div></div>
-    <div class="knowledge-item"><div class="icon">🎹</div><div class="name">键盘事件</div><div class="desc">listen onkeypress</div></div>
-    <div class="knowledge-item"><div class="icon">🔄</div><div class="name">while循环</div><div class="desc">while True游戏主循环</div></div>
-    <div class="knowledge-item"><div class="icon">📏</div><div class="name">distance距离</div><div class="desc">碰撞检测的核心</div></div>
-  </div>
+<!-- Knowledge Summary -->
+<section class="section">
+<h2 class="section-title"><span class="emoji">📝</span> 知识点总结</h2>
+<div class="knowledge-grid">
+<div class="knowledge-card"><h4>📦 import</h4><p>导入外部库，如 <code>import turtle</code></p></div>
+<div class="knowledge-card"><h4>🖼️ Screen()</h4><p>创建画布窗口，设置大小和颜色</p></div>
+<div class="knowledge-card"><h4>🐢 Turtle()</h4><p>创建角色，设置形状颜色和位置</p></div>
+<div class="knowledge-card"><h4>📋 list列表</h4><p>用 <code>[]</code> 创建，<code>append()</code> 添加，<code>len()</code> 获取长度</p></div>
+<div class="knowledge-card"><h4>🔧 def函数</h4><p>用 <code>def</code> 定义可复用的代码块，注意缩进</p></div>
+<div class="knowledge-card"><h4>👂 键盘监听</h4><p><code>listen()</code> + <code>onkeypress()</code> 响应按键</p></div>
+<div class="knowledge-card"><h4>🔁 while循环</h4><p><code>while True:</code> 创建游戏主循环</p></div>
+<div class="knowledge-card"><h4>💥 碰撞检测</h4><p><code>distance()</code> 判断角色间距离</p></div>
+</div>
 </section>
 
-<div class="footer">
-  🐍 Python贪吃蛇四课时互动教学课件 | 从零开始学编程 | 填空式学习，真学真练真掌握
 </div>
 
 <script>
-// ===== 课时切换 =====
-function switchLesson(idx) {
-  document.querySelectorAll('.lesson-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.lesson-card').forEach(el => el.classList.remove('active'));
-  document.getElementById('lesson' + idx).classList.add('active');
-  document.querySelectorAll('.lesson-card')[idx].classList.add('active');
-  document.getElementById('lessons').scrollIntoView({behavior:'smooth', block:'start'});
-}
+// ===== FILL-IN ANSWERS =====
+const answers = [
+  // Lesson 0: 8 questions
+  ['score','=','"贪吃蛇"','int','str','//','==','print'],
+  // Lesson 1: 10 questions
+  ['import','import','Screen','bgcolor','Turtle','penup','goto','shape','color','shape'],
+  // Lesson 2: 12 questions
+  ['def','setheading','[]','append','len','listen','onkeypress','while','goto','ycor','xcor','sleep'],
+  // Lesson 3: 10 questions
+  ['distance','randint','import','append','+=','range','>','distance','update','sleep']
+];
+const hints = [
+  // Lesson 0
+  ['变量名就是score，直接写','赋值用什么符号？','字符串要用引号包裹','整数的英文缩写','字符串的英文缩写','整除用两个斜杠','判断相等用两个等号','输出函数的名字'],
+  // Lesson 1
+  ['导入库的关键字','和第一题一样的关键字','创建窗口的方法名','设置背景颜色的方法名','创建小海龟的方法名','抬笔（不画线）的方法','移动到指定坐标的方法','设置形状的方法','设置颜色的方法','和蛇头设置形状一样的方法'],
+  // Lesson 2
+  ['定义函数的关键字','设置方向的方法名','空列表就是一对方括号','在末尾添加元素的方法','获取长度的内置函数','开始监听的方法','绑定按键事件的方法','循环关键字','移动到坐标的方法','获取y坐标的方法','获取x坐标的方法','暂停的方法'],
+  // Lesson 3
+  ['计算距离的方法','生成随机整数的方法','导入库的关键字','在列表末尾添加元素','加等于，两个符号','生成整数序列的函数','大于号','计算距离的方法','更新窗口的方法','暂停的方法']
+];
+const fillState = [[],[],[],[]];
+const totalFills = 40; // 8+10+12+10
 
-// ===== 填空题检查 =====
-let fillResults = {}; // key: lesson_index, value: {correct: set, total: number}
+// Code lab state
+const codeLabPassed = [false,false,false,false];
+const codeLabHints = [
+  '参考格式：\ngame_name = "贪吃蛇"\nscore = 0\nprint(game_name)\nprint(score)',
+  '参考格式：\nimport turtle\nwindow = turtle.Screen()\nwindow.title("贪吃蛇")\nwindow.bgcolor("black")\nhead = turtle.Turtle()\nhead.shape("square")\nhead.color("green")\nhead.penup()\nhead.goto(0, 0)\nfood = turtle.Turtle()\nfood.shape("circle")\nfood.color("red")\nfood.penup()\nfood.goto(100, 0)',
+  '参考格式：\ndef go_up():\n    head.setheading(90)\ndef go_down():\n    head.setheading(270)\ndef go_left():\n    head.setheading(180)\ndef go_right():\n    head.setheading(0)\nwindow.listen()\nwindow.onkeypress(go_up, "Up")\nwindow.onkeypress(go_down, "Down")\nwindow.onkeypress(go_left, "Left")\nwindow.onkeypress(go_right, "Right")',
+  '参考格式：\nwhile True:\n    window.update()\n    if head.distance(food) < 20:\n        food.goto(random.randint(-14,14)*20, random.randint(-14,14)*20)\n        score += 1\n    for i in range(len(segments)-1, 0, -1):\n        x = segments[i-1].xcor()\n        y = segments[i-1].ycor()\n        segments[i].goto(x, y)\n    if len(segments) > 0:\n        segments[0].goto(head.xcor(), head.ycor())\n    head.forward(20)\n    time.sleep(0.1)'
+];
+const codeLabChecks = [
+  // Lab 0: check for variable creation and print
+  [{must:'game_name',msg:'缺少变量 game_name'},{must:'score',msg:'缺少变量 score'},{must:'print',msg:'缺少 print() 输出'}],
+  // Lab 1: import, Screen, Turtle, shape, color, penup, goto
+  [{must:'import turtle',msg:'缺少 import turtle'},{must:'Screen',msg:'缺少 Screen() 创建窗口'},{must:'Turtle',msg:'缺少 Turtle() 创建角色'},{must:'penup',msg:'缺少 penup() 抬笔'},{must:'goto',msg:'缺少 goto() 移动位置'}],
+  // Lab 2: def, setheading, listen, onkeypress
+  [{must:'def go_up',msg:'缺少 def go_up()'},{must:'def go_down',msg:'缺少 def go_down()'},{must:'def go_left',msg:'缺少 def go_left()'},{must:'def go_right',msg:'缺少 def go_right()'},{must:'setheading',msg:'缺少 setheading() 设置方向'},{must:'listen',msg:'缺少 listen() 监听'},{must:'onkeypress',msg:'缺少 onkeypress() 绑定按键'}],
+  // Lab 3: while, update, distance, for, range, sleep
+  [{must:'while',msg:'缺少 while 循环'},{must:'update',msg:'缺少 window.update()'},{must:'distance',msg:'缺少 distance() 碰撞检测'},{must:'for',msg:'缺少 for 循环遍历身体'},{must:'range',msg:'缺少 range() 倒序遍历'},{must:'sleep',msg:'缺少 time.sleep() 控制速度'}]
+];
 
-function normalize(s) {
-  return s.trim().replace(/\s+/g, '').replace(/['"]/g, '').toLowerCase();
-}
+// Quiz answers
+const quizAnswers = [1, 2]; // B, C
 
 function checkFill(btn) {
   const row = btn.parentElement;
   const input = row.querySelector('.fill-input');
-  const resultSpan = row.querySelector('.fill-result');
-  const answer = input.getAttribute('data-answer');
-  const lesson = input.getAttribute('data-lesson');
-  const userVal = normalize(input.value);
-  const correctVal = normalize(answer);
+  const feedback = row.parentElement.querySelector('.fill-feedback');
+  const lesson = parseInt(input.dataset.lesson);
+  const q = parseInt(input.dataset.q);
+  const userAns = input.value.trim();
+  const correctAns = answers[lesson][q];
 
-  if (!input.value.trim()) {
-    resultSpan.textContent = '请输入答案';
-    resultSpan.className = 'fill-result wrong';
-    return;
-  }
+  if (!userAns) { feedback.className='fill-feedback wrong'; feedback.textContent='请输入答案！'; return; }
 
-  if (userVal === correctVal) {
+  if (userAns === correctAns) {
     input.classList.remove('wrong');
     input.classList.add('correct');
-    resultSpan.textContent = '✅ 正确！';
-    resultSpan.className = 'fill-result correct';
-    input.disabled = true;
-    btn.disabled = true;
-    // Record
-    if (!fillResults[lesson]) fillResults[lesson] = {correct: new Set(), total: 0};
-    const qIdx = Array.from(input.closest('.fill-area').querySelectorAll('.fill-input')).indexOf(input);
-    fillResults[lesson].correct.add(qIdx);
-    updateProgress();
+    feedback.className='fill-feedback correct';
+    feedback.textContent='✅ 正确！';
+    if (!fillState[lesson][q]) { fillState[lesson][q] = true; }
   } else {
     input.classList.remove('correct');
     input.classList.add('wrong');
-    resultSpan.textContent = '❌ 再想想';
-    resultSpan.className = 'fill-result wrong';
-    setTimeout(() => input.classList.remove('wrong'), 1500);
+    feedback.className='fill-feedback wrong';
+    feedback.textContent='❌ 不对哦，再想想！';
   }
+  updateProgress();
 }
 
-function toggleHint(btn) {
-  const hintEl = btn.closest('.fill-question').querySelector('.fill-hint-text');
-  hintEl.classList.toggle('show');
+function showHint(btn) {
+  const row = btn.parentElement;
+  const input = row.querySelector('.fill-input');
+  const feedback = row.parentElement.querySelector('.fill-feedback');
+  const lesson = parseInt(input.dataset.lesson);
+  const q = parseInt(input.dataset.q);
+  feedback.className='fill-feedback hint';
+  feedback.textContent='💡 提示：' + hints[lesson][q];
 }
 
 function updateProgress() {
-  // Count total fill questions
-  const allInputs = document.querySelectorAll('.fill-input');
-  let total = allInputs.length;
-  let correct = 0;
-  allInputs.forEach(inp => { if (inp.classList.contains('correct')) correct++; });
-
-  // Total progress bar
-  const pct = Math.round((correct / total) * 100);
-  document.getElementById('totalProgress').style.width = pct + '%';
-
-  // Per lesson progress
-  for (let i = 0; i < 4; i++) {
-    const lessonInputs = document.querySelectorAll('#lesson' + i + ' .fill-input');
-    const lessonTotal = lessonInputs.length;
-    let lessonCorrect = 0;
-    lessonInputs.forEach(inp => { if (inp.classList.contains('correct')) lessonCorrect++; });
-    const lessonPct = lessonTotal > 0 ? Math.round((lessonCorrect / lessonTotal) * 100) : 0;
-    const bar = document.getElementById('lp' + i);
-    if (bar) bar.style.width = lessonPct + '%';
+  let total = 0, done = 0;
+  for (let l = 0; l < 4; l++) {
+    let lDone = 0, lTotal = answers[l].length;
+    for (let q = 0; q < lTotal; q++) {
+      if (fillState[l][q]) lDone++;
+    }
+    fillState[l].length = lTotal;
+    total += lTotal; done += lDone;
+    const pct = Math.round(lDone / lTotal * 100);
+    document.getElementById('lp' + l).style.width = pct + '%';
   }
+  // Add code lab progress (4 labs, each counts as much as ~5 fills)
+  let labDone = codeLabPassed.filter(x=>x).length;
+  let totalWithLabs = total + 20; // 4 labs × 5 weight each
+  let doneWithLabs = done + labDone * 5;
+  const overall = Math.round(doneWithLabs / totalWithLabs * 100);
+  document.getElementById('totalProgress').style.width = overall + '%';
+  document.getElementById('unlockProgress').textContent = '当前进度：' + overall + '%';
 
-  // Unlock code
-  document.getElementById('unlockPercent').textContent = pct + '%';
-  document.getElementById('unlockBar').style.width = pct + '%';
-
-  if (pct >= 100) {
-    document.getElementById('codeReveal').classList.remove('locked');
-    document.getElementById('lockOverlay').style.display = 'none';
-    document.getElementById('unlockHint').textContent = '🎉 恭喜！所有填空全部答对，代码已解锁！';
-    document.getElementById('copyBtn').disabled = false;
+  // Check unlock
+  if (overall >= 100) {
+    document.getElementById('codeLocked').style.display = 'none';
+    document.getElementById('codeUnlocked').style.display = 'block';
+    showFullCode();
   }
 }
 
-// ===== 选择题 =====
-function selectQuiz(opt, isCorrect) {
-  const parent = opt.closest('.quiz-q');
-  const opts = parent.querySelectorAll('.quiz-opt');
-  opts.forEach(o => { o.style.pointerEvents = 'none'; o.classList.remove('selected'); });
-  opt.classList.add('selected');
-  if (isCorrect) {
-    opt.classList.add('correct');
+function showLesson(idx) {
+  document.querySelectorAll('.lesson-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.lesson-card').forEach(el => el.classList.remove('active'));
+  document.getElementById('lesson' + idx).classList.add('active');
+  document.querySelectorAll('.lesson-card')[idx].classList.add('active');
+}
+
+// Code Lab
+function updateLineNumbers(idx) {
+  const textarea = document.getElementById('editor' + idx);
+  const linesDiv = document.getElementById('lines' + idx);
+  const lineCount = textarea.value.split('\n').length;
+  let html = '';
+  for (let i = 1; i <= Math.max(lineCount, 10); i++) {
+    html += '<span>' + i + '</span>';
+  }
+  linesDiv.innerHTML = html;
+}
+
+function verifyCodeLab(idx) {
+  const code = document.getElementById('editor' + idx).value;
+  const result = document.getElementById('result' + idx);
+  const checks = codeLabChecks[idx];
+  let allPassed = true;
+  let msgs = [];
+
+  for (let check of checks) {
+    if (!code.includes(check.must)) {
+      allPassed = false;
+      msgs.push(check.msg);
+    }
+  }
+
+  if (code.trim().length < 10) {
+    result.className = 'code-lab-result fail';
+    result.textContent = '❌ 代码太少了，请手动敲入完整代码！';
+    return;
+  }
+
+  if (allPassed) {
+    result.className = 'code-lab-result pass';
+    result.textContent = '✅ 代码验证通过！做得好！';
+    codeLabPassed[idx] = true;
   } else {
-    opt.classList.add('wrong');
-    // Highlight correct
-    opts.forEach(o => { if (o.onclick && o.onclick.toString().includes('true')) o.classList.add('correct'); });
+    result.className = 'code-lab-result fail';
+    result.textContent = '❌ 还需改进：' + msgs.join('；');
   }
-  parent.querySelector('.quiz-answer').classList.add('show');
+  updateProgress();
 }
 
-// ===== 复制代码 =====
-function copyCode() {
-  const codeBlock = document.getElementById('fullCodeBlock');
-  const text = codeBlock.innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById('copyBtn');
-    btn.textContent = '✅ 已复制！';
-    setTimeout(() => btn.textContent = '📋 复制完整代码', 2000);
+function codeLabHint(idx) {
+  const result = document.getElementById('result' + idx);
+  result.className = 'code-lab-result hint';
+  result.textContent = '💡 参考代码结构：\n' + codeLabHints[idx];
+}
+
+function clearLab(idx) {
+  document.getElementById('editor' + idx).value = '';
+  document.getElementById('result' + idx).textContent = '';
+  document.getElementById('result' + idx).className = 'code-lab-result';
+  updateLineNumbers(idx);
+}
+
+// Init editors
+for (let i = 0; i < 4; i++) {
+  const editor = document.getElementById('editor' + i);
+  editor.addEventListener('input', () => updateLineNumbers(i));
+  editor.addEventListener('scroll', function() {
+    document.getElementById('lines' + i).scrollTop = this.scrollTop;
   });
+  editor.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const start = this.selectionStart;
+      const end = this.selectionEnd;
+      this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+      this.selectionStart = this.selectionEnd = start + 4;
+      updateLineNumbers(i);
+    }
+  });
+  updateLineNumbers(i);
 }
 
-// ===== 滚动导航 =====
+// Full code display
+function showFullCode() {
+  const code = `import turtle
+import time
+import random
+
+delay = 0.1
+score = 0
+high_score = 0
+
+# 创建窗口
+window = turtle.Screen()
+window.title("贪吃蛇")
+window.bgcolor("black")
+window.setup(width=600, height=600)
+window.tracer(0)
+
+# 创建蛇头
+head = turtle.Turtle()
+head.shape("square")
+head.color("green")
+head.penup()
+head.goto(0, 0)
+head.direction = "stop"
+
+# 创建食物
+food = turtle.Turtle()
+food.shape("circle")
+food.color("red")
+food.penup()
+food.goto(100, 0)
+
+# 蛇身列表
+segments = []
+
+# 方向控制函数
+def go_up():
+    if head.direction != "down":
+        head.direction = "up"
+
+def go_down():
+    if head.direction != "up":
+        head.direction = "down"
+
+def go_left():
+    if head.direction != "right":
+        head.direction = "left"
+
+def go_right():
+    if head.direction != "left":
+        head.direction = "right"
+
+# 移动函数
+def move():
+    if head.direction == "up":
+        y = head.ycor()
+        head.sety(y + 20)
+    if head.direction == "down":
+        y = head.ycor()
+        head.sety(y - 20)
+    if head.direction == "left":
+        x = head.xcor()
+        head.setx(x - 20)
+    if head.direction == "right":
+        x = head.xcor()
+        head.setx(x + 20)
+
+# 键盘绑定
+window.listen()
+window.onkeypress(go_up, "Up")
+window.onkeypress(go_down, "Down")
+window.onkeypress(go_left, "Left")
+window.onkeypress(go_right, "Right")
+
+# 主游戏循环
+while True:
+    window.update()
+
+    # 碰撞检测 - 边界
+    if head.xcor() > 290 or head.xcor() < -290 or head.ycor() > 290 or head.ycor() < -290:
+        time.sleep(1)
+        head.goto(0, 0)
+        head.direction = "stop"
+        for segment in segments:
+            segment.goto(1000, 1000)
+        segments.clear()
+        score = 0
+
+    # 吃食物
+    if head.distance(food) < 20:
+        x = random.randint(-14, 14) * 20
+        y = random.randint(-14, 14) * 20
+        food.goto(x, y)
+        new_segment = turtle.Turtle()
+        new_segment.shape("square")
+        new_segment.color("light green")
+        new_segment.penup()
+        segments.append(new_segment)
+        score += 1
+        if score > high_score:
+            high_score = score
+
+    # 移动蛇身
+    for i in range(len(segments) - 1, 0, -1):
+        x = segments[i - 1].xcor()
+        y = segments[i - 1].ycor()
+        segments[i].goto(x, y)
+
+    if len(segments) > 0:
+        x = head.xcor()
+        y = head.ycor()
+        segments[0].goto(x, y)
+
+    move()
+
+    # 碰撞检测 - 自身
+    for segment in segments:
+        if segment.distance(head) < 10:
+            time.sleep(1)
+            head.goto(0, 0)
+            head.direction = "stop"
+            for segment in segments:
+                segment.goto(1000, 1000)
+            segments.clear()
+            score = 0
+
+    time.sleep(delay)`;
+
+  const block = document.getElementById('fullCodeBlock');
+  const lines = code.split('\n');
+  block.innerHTML = lines.map((line, i) => {
+    const num = String(i + 1).padStart(3, ' ');
+    let highlighted = line
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/(#.*)/g,'<span class="cm">$1</span>')
+      .replace(/\b(import|from|def|if|for|in|while|return|not|and|or|True|False|None)\b/g,'<span class="kw">$1</span>')
+      .replace(/\b(turtle|time|random)\b/g,'<span class="cls">$1</span>')
+      .replace(/(\"[^\"]*\")/g,'<span class="str">$1</span>')
+      .replace(/\b(\d+\.?\d*)\b/g,'<span class="num">$1</span>');
+    return `<span class="line-num">${num}</span>${highlighted}`;
+  }).join('\n');
+}
+
+// Quiz
+function selectQuiz(el, quizIdx, optIdx) {
+  const card = el.parentElement;
+  const options = card.querySelectorAll('.quiz-option');
+  options.forEach(o => { o.classList.remove('selected','correct-ans','wrong-ans'); o.onclick = null; });
+  if (optIdx === quizAnswers[quizIdx]) {
+    el.classList.add('correct-ans');
+  } else {
+    el.classList.add('wrong-ans');
+    options[quizAnswers[quizIdx]].classList.add('correct-ans');
+  }
+  card.querySelector('.quiz-explain').classList.add('show');
+}
+
+// Navigation
 function scrollTo(id) {
   document.getElementById(id).scrollIntoView({behavior:'smooth'});
 }
 
-// ===== 贪吃蛇JS游戏 =====
+// ===== SNAKE GAME =====
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const gridSize = 20;
-const tileCount = canvas.width / gridSize;
-let snake, food, dx, dy, gameScore, gameHigh, gameRunning, gameLoop;
+const GRID = 20;
+const COLS = canvas.width / GRID;
+const ROWS = canvas.height / GRID;
+let snake, food, dir, gameScore, highScore, gameLoop, gameRunning;
 
-function initGame() {
-  snake = [{x:10, y:10}];
-  dx = 0; dy = 0;
+highScore = parseInt(localStorage.getItem('snakeHigh') || '0');
+document.getElementById('highScore').textContent = highScore;
+
+function startGame() {
+  snake = [{x:10,y:10}];
+  dir = {x:1,y:0};
   gameScore = 0;
-  gameHigh = parseInt(localStorage.getItem('snakeHigh') || '0');
   document.getElementById('score').textContent = '0';
-  document.getElementById('highScore').textContent = gameHigh;
   placeFood();
-  gameRunning = false;
+  gameRunning = true;
+  if (gameLoop) clearInterval(gameLoop);
+  gameLoop = setInterval(gameTick, 120);
 }
 
 function placeFood() {
-  food = {x: Math.floor(Math.random()*tileCount), y: Math.floor(Math.random()*tileCount)};
-  // Avoid snake body
-  for (let s of snake) {
-    if (s.x === food.x && s.y === food.y) { placeFood(); return; }
-  }
+  food = {x: Math.floor(Math.random()*COLS), y: Math.floor(Math.random()*ROWS)};
 }
 
-function drawGame() {
-  // Background
-  ctx.fillStyle = '#111';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  // Grid
-  ctx.strokeStyle = '#1a1a2e';
-  for (let i = 0; i < tileCount; i++) {
-    ctx.beginPath(); ctx.moveTo(i*gridSize, 0); ctx.lineTo(i*gridSize, canvas.height); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(0, i*gridSize); ctx.lineTo(canvas.width, i*gridSize); ctx.stroke();
-  }
-  // Food
-  ctx.fillStyle = '#ff1744';
-  ctx.beginPath();
-  ctx.arc(food.x*gridSize+gridSize/2, food.y*gridSize+gridSize/2, gridSize/2-2, 0, Math.PI*2);
-  ctx.fill();
-  // Snake
-  snake.forEach((s, i) => {
-    ctx.fillStyle = i === 0 ? '#00e676' : '#69f0ae';
-    ctx.fillRect(s.x*gridSize+1, s.y*gridSize+1, gridSize-2, gridSize-2);
-    if (i === 0) {
-      // Eyes
-      ctx.fillStyle = '#000';
-      if (dx === 1) { ctx.fillRect(s.x*gridSize+14, s.y*gridSize+4, 3, 3); ctx.fillRect(s.x*gridSize+14, s.y*gridSize+13, 3, 3); }
-      else if (dx === -1) { ctx.fillRect(s.x*gridSize+3, s.y*gridSize+4, 3, 3); ctx.fillRect(s.x*gridSize+3, s.y*gridSize+13, 3, 3); }
-      else if (dy === -1) { ctx.fillRect(s.x*gridSize+4, s.y*gridSize+3, 3, 3); ctx.fillRect(s.x*gridSize+13, s.y*gridSize+3, 3, 3); }
-      else { ctx.fillRect(s.x*gridSize+4, s.y*gridSize+14, 3, 3); ctx.fillRect(s.x*gridSize+13, s.y*gridSize+14, 3, 3); }
-    }
-  });
-}
-
-function updateGame() {
-  if (!gameRunning) return;
-  const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+function gameTick() {
+  const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
   // Wrap
-  if (head.x < 0) head.x = tileCount - 1;
-  if (head.x >= tileCount) head.x = 0;
-  if (head.y < 0) head.y = tileCount - 1;
-  if (head.y >= tileCount) head.y = 0;
+  if (head.x < 0) head.x = COLS - 1;
+  if (head.x >= COLS) head.x = 0;
+  if (head.y < 0) head.y = ROWS - 1;
+  if (head.y >= ROWS) head.y = 0;
   // Self collision
   for (let s of snake) {
-    if (head.x === s.x && head.y === s.y) {
-      gameRunning = false;
-      if (gameScore > gameHigh) { gameHigh = gameScore; localStorage.setItem('snakeHigh', gameHigh); document.getElementById('highScore').textContent = gameHigh; }
-      ctx.fillStyle = 'rgba(0,0,0,0.7)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#ff1744';
-      ctx.font = 'bold 32px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('Game Over!', canvas.width/2, canvas.height/2-10);
-      ctx.fillStyle = '#fff';
-      ctx.font = '18px Arial';
-      ctx.fillText('按 R 重新开始', canvas.width/2, canvas.height/2+20);
-      return;
+    if (s.x === head.x && s.y === head.y) {
+      endGame(); return;
     }
   }
   snake.unshift(head);
   if (head.x === food.x && head.y === food.y) {
-    gameScore += 10;
+    gameScore++;
     document.getElementById('score').textContent = gameScore;
+    if (gameScore > highScore) {
+      highScore = gameScore;
+      localStorage.setItem('snakeHigh', highScore);
+      document.getElementById('highScore').textContent = highScore;
+    }
     placeFood();
   } else {
     snake.pop();
@@ -1835,32 +1523,80 @@ function updateGame() {
   drawGame();
 }
 
-function startGame() {
-  initGame();
-  gameRunning = true;
-  dx = 1; dy = 0;
-  if (gameLoop) clearInterval(gameLoop);
-  gameLoop = setInterval(updateGame, 100);
-  drawGame();
+function endGame() {
+  clearInterval(gameLoop);
+  gameRunning = false;
+  ctx.fillStyle = 'rgba(0,0,0,0.7)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#fff';
+  ctx.font = '24px Microsoft YaHei';
+  ctx.textAlign = 'center';
+  ctx.fillText('游戏结束！得分：' + gameScore, canvas.width/2, canvas.height/2);
+  ctx.font = '14px Microsoft YaHei';
+  ctx.fillText('点击"开始游戏"重新开始', canvas.width/2, canvas.height/2 + 30);
 }
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'r' || e.key === 'R') { startGame(); return; }
-  if (!gameRunning) return;
-  switch(e.key) {
-    case 'ArrowUp': case 'w': case 'W': if (dy !== 1) { dx=0; dy=-1; } break;
-    case 'ArrowDown': case 's': case 'S': if (dy !== -1) { dx=0; dy=1; } break;
-    case 'ArrowLeft': case 'a': case 'A': if (dx !== 1) { dx=-1; dy=0; } break;
-    case 'ArrowRight': case 'd': case 'D': if (dx !== -1) { dx=1; dy=0; } break;
+function drawGame() {
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // Grid lines
+  ctx.strokeStyle = '#111';
+  ctx.lineWidth = 0.5;
+  for (let i = 0; i <= COLS; i++) {
+    ctx.beginPath(); ctx.moveTo(i*GRID, 0); ctx.lineTo(i*GRID, canvas.height); ctx.stroke();
   }
-  e.preventDefault();
-});
+  for (let i = 0; i <= ROWS; i++) {
+    ctx.beginPath(); ctx.moveTo(0, i*GRID); ctx.lineTo(canvas.width, i*GRID); ctx.stroke();
+  }
+  // Snake
+  snake.forEach((s, i) => {
+    const gradient = ctx.createRadialGradient(s.x*GRID+GRID/2, s.y*GRID+GRID/2, 2, s.x*GRID+GRID/2, s.y*GRID+GRID/2, GRID/2);
+    if (i === 0) {
+      gradient.addColorStop(0, '#00ff88');
+      gradient.addColorStop(1, '#00aa55');
+    } else {
+      gradient.addColorStop(0, '#00cc66');
+      gradient.addColorStop(1, '#008844');
+    }
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.roundRect(s.x*GRID+1, s.y*GRID+1, GRID-2, GRID-2, 3);
+    ctx.fill();
+    // Eyes on head
+    if (i === 0) {
+      ctx.fillStyle = '#fff';
+      let ex1, ey1, ex2, ey2;
+      if (dir.x === 1) { ex1=s.x*GRID+13; ey1=s.y*GRID+5; ex2=s.x*GRID+13; ey2=s.y*GRID+13; }
+      else if (dir.x === -1) { ex1=s.x*GRID+5; ey1=s.y*GRID+5; ex2=s.x*GRID+5; ey2=s.y*GRID+13; }
+      else if (dir.y === -1) { ex1=s.x*GRID+5; ey1=s.y*GRID+5; ex2=s.x*GRID+13; ey2=s.y*GRID+5; }
+      else { ex1=s.x*GRID+5; ey1=s.y*GRID+13; ex2=s.x*GRID+13; ey2=s.y*GRID+13; }
+      ctx.beginPath(); ctx.arc(ex1, ey1, 2.5, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(ex2, ey2, 2.5, 0, Math.PI*2); ctx.fill();
+    }
+  });
+  // Food
+  const fGrad = ctx.createRadialGradient(food.x*GRID+GRID/2, food.y*GRID+GRID/2, 2, food.x*GRID+GRID/2, food.y*GRID+GRID/2, GRID/2);
+  fGrad.addColorStop(0, '#ff4444');
+  fGrad.addColorStop(1, '#aa0000');
+  ctx.fillStyle = fGrad;
+  ctx.beginPath();
+  ctx.arc(food.x*GRID+GRID/2, food.y*GRID+GRID/2, GRID/2-2, 0, Math.PI*2);
+  ctx.fill();
+}
 
-initGame();
+// Draw initial state
 drawGame();
 
-// Init first lesson view
-switchLesson(0);
+document.addEventListener('keydown', (e) => {
+  if (!gameRunning) return;
+  switch(e.key) {
+    case 'ArrowUp': case 'w': case 'W': if(dir.y!==1) dir={x:0,y:-1}; break;
+    case 'ArrowDown': case 's': case 'S': if(dir.y!==-1) dir={x:0,y:1}; break;
+    case 'ArrowLeft': case 'a': case 'A': if(dir.x!==1) dir={x:-1,y:0}; break;
+    case 'ArrowRight': case 'd': case 'D': if(dir.x!==-1) dir={x:1,y:0}; break;
+  }
+  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+});
 </script>
 </body>
 </html>
