@@ -3,1600 +3,824 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🐍 Python贪吃蛇 - 四课时互动教学课件</title>
+<title>🚀 Claude Code Windows 部署教程 - 零基础保姆级指南</title>
 <style>
-:root{--bg:#0a0a1a;--bg2:#12122a;--card:#1a1a3e;--card2:#222255;--green:#00e676;--green2:#00c853;--purple:#7c4dff;--purple2:#651fff;--orange:#ff9100;--orange2:#ff6d00;--pink:#ff4081;--blue:#448aff;--text:#e8e8f0;--text2:#a0a0c0;--border:#333366;--wrong:#ff1744;--correct:#00e676;--radius:12px}
+:root{--bg:#0f0f1a;--bg2:#161628;--card:#1c1c36;--card2:#242448;--accent:#f97316;--accent2:#ea580c;--green:#22c55e;--green2:#16a34a;--blue:#3b82f6;--blue2:#2563eb;--purple:#a855f7;--pink:#ec4899;--cyan:#06b6d4;--text:#e8e8f0;--text2:#9898b8;--border:#2d2d55;--code-bg:#12122a;--radius:12px;--shadow:0 4px 20px rgba(0,0,0,.3)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:'Segoe UI','Microsoft YaHei',sans-serif;line-height:1.8;overflow-x:hidden}
-a{color:var(--green);text-decoration:none}
-.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,26,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;height:56px;gap:8px}
-.nav-brand{font-size:1.2rem;font-weight:700;color:var(--green);margin-right:auto;white-space:nowrap}
-.nav-btn{padding:6px 14px;border:1px solid var(--border);background:transparent;color:var(--text2);border-radius:20px;cursor:pointer;font-size:.85rem;transition:.3s;white-space:nowrap}
-.nav-btn:hover,.nav-btn.active{border-color:var(--green);color:var(--green);background:rgba(0,230,118,.1)}
-.progress-bar{position:fixed;top:56px;left:0;right:0;height:4px;background:var(--bg2);z-index:999}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--purple));transition:width .5s;border-radius:0 2px 2px 0}
-.hero{text-align:center;padding:100px 20px 60px;background:linear-gradient(135deg,#0a0a1a 0%,#1a0a2e 50%,#0a1a0a 100%);position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(0,230,118,.05) 0%,transparent 50%),radial-gradient(circle at 70% 50%,rgba(124,77,255,.05) 0%,transparent 50%);animation:heroFloat 20s ease-in-out infinite}
-@keyframes heroFloat{0%,100%{transform:translate(0,0)}50%{transform:translate(-3%,2%)}}
-.hero h1{font-size:clamp(2rem,5vw,3.5rem);margin-bottom:15px;position:relative}
-.hero h1 span{background:linear-gradient(135deg,var(--green),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero p{font-size:1.2rem;color:var(--text2);max-width:600px;margin:0 auto 30px;position:relative}
-.stats{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;position:relative}
-.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:15px 25px;text-align:center;min-width:120px}
-.stat-num{font-size:1.8rem;font-weight:700;color:var(--green)}
-.stat-label{font-size:.85rem;color:var(--text2)}
-.container{max-width:900px;margin:0 auto;padding:20px}
+::selection{background:var(--accent);color:#fff}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,15,26,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;height:56px;gap:6px}
+.nav-brand{font-size:1.1rem;font-weight:700;margin-right:auto;white-space:nowrap}
+.nav-brand span{color:var(--accent)}
+.nav-btn{padding:6px 12px;border:1px solid var(--border);background:transparent;color:var(--text2);border-radius:20px;cursor:pointer;font-size:.82rem;transition:.3s;white-space:nowrap}
+.nav-btn:hover,.nav-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(249,115,22,.08)}
+.progress-bar{position:fixed;top:56px;left:0;right:0;height:3px;background:var(--bg2);z-index:999}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));transition:width .5s;border-radius:0 2px 2px 0}
+.hero{text-align:center;padding:100px 20px 60px;background:linear-gradient(135deg,#0f0f1a 0%,#1a0f2e 40%,#2a1a0a 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(249,115,22,.06) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(59,130,246,.04) 0%,transparent 50%);animation:heroFloat 25s ease-in-out infinite}
+@keyframes heroFloat{0%,100%{transform:translate(0,0)}50%{transform:translate(-2%,1%)}}
+.hero h1{font-size:clamp(1.8rem,5vw,3rem);margin-bottom:12px;position:relative}
+.hero h1 .emoji{font-size:clamp(1.5rem,4vw,2.5rem)}
+.hero h1 .hl{color:var(--accent)}
+.hero p{font-size:1.1rem;color:var(--text2);max-width:650px;margin:0 auto 30px;position:relative}
+.badges{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;position:relative}
+.badge{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--text2)}
+.badge b{color:var(--accent)}
+.container{max-width:880px;margin:0 auto;padding:20px}
 .section{margin-bottom:50px}
-.section-title{font-size:1.8rem;margin-bottom:8px;display:flex;align-items:center;gap:10px}
-.section-title .emoji{font-size:1.6rem}
-.section-desc{color:var(--text2);margin-bottom:25px;font-size:.95rem}
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:25px;margin-bottom:20px;transition:.3s}
-.card:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,230,118,.1)}
-.card h3{color:var(--green);margin-bottom:12px;font-size:1.2rem}
-.card p,.card li{color:var(--text2);font-size:.95rem}
-.card ul{padding-left:20px;margin:10px 0}
-.card ul li{margin-bottom:6px}
-.lesson-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-bottom:40px}
-.lesson-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;cursor:pointer;transition:.3s;position:relative;overflow:hidden}
-.lesson-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.lesson-card:nth-child(1)::before{background:var(--green)}
-.lesson-card:nth-child(2)::before{background:var(--purple)}
-.lesson-card:nth-child(3)::before{background:var(--orange)}
-.lesson-card:nth-child(4)::before{background:var(--pink)}
-.lesson-card:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,.3)}
-.lesson-card.active{border-color:var(--green)}
-.lesson-num{font-size:.8rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
-.lesson-title{font-size:1.1rem;font-weight:600;margin:5px 0}
-.lesson-meta{font-size:.8rem;color:var(--text2)}
-.lesson-progress{height:4px;background:var(--bg2);border-radius:2px;margin-top:10px}
-.lesson-progress-fill{height:100%;border-radius:2px;transition:width .5s}
-.lesson-card:nth-child(1) .lesson-progress-fill{background:var(--green)}
-.lesson-card:nth-child(2) .lesson-progress-fill{background:var(--purple)}
-.lesson-card:nth-child(3) .lesson-progress-fill{background:var(--orange)}
-.lesson-card:nth-child(4) .lesson-progress-fill{background:var(--pink)}
-.lesson-content{display:none}
-.lesson-content.active{display:block}
-h2.step-title{font-size:1.3rem;margin:30px 0 15px;padding-left:15px;border-left:4px solid var(--green);color:var(--green)}
-h2.step-title.purple{border-color:var(--purple);color:var(--purple)}
-h2.step-title.orange{border-color:var(--orange);color:var(--orange)}
-h2.step-title.pink{border-color:var(--pink);color:var(--pink)}
-.explain-box{background:var(--bg2);border-left:4px solid var(--blue);border-radius:0 var(--radius) var(--radius) 0;padding:15px 20px;margin:15px 0;font-size:.92rem;color:var(--text2)}
-.explain-box b{color:var(--text)}
-.explain-box code{background:rgba(0,230,118,.1);color:var(--green);padding:2px 6px;border-radius:4px;font-family:'Consolas','Courier New',monospace;font-size:.9rem}
-.code-block{background:#0d0d2b;border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin:15px 0;overflow-x:auto;font-family:'Consolas','Courier New',monospace;font-size:.9rem;line-height:1.6;position:relative;white-space:pre-wrap;word-break:break-all}
-.code-block .line-num{color:#555;margin-right:12px;user-select:none;display:inline-block;min-width:20px;text-align:right}
-.code-block .kw{color:#c792ea}
-.code-block .fn{color:#82aaff}
-.code-block .str{color:#c3e88d}
-.code-block .cm{color:#546e7a}
-.code-block .num{color:#f78c6c}
-.code-block .var{color:#89ddff}
-.code-block .op{color:#89ddff}
-.code-block .cls{color:#ffcb6b}
-.fill-area{background:var(--card2);border:2px dashed var(--border);border-radius:var(--radius);padding:20px;margin:20px 0}
-.fill-area h4{color:var(--green);margin-bottom:15px;font-size:1.05rem}
-.fill-question{margin-bottom:18px}
-.fill-q-text{color:var(--text);font-size:.95rem;margin-bottom:8px;line-height:1.8}
-.fill-q-text code{background:rgba(0,230,118,.1);color:var(--green);padding:2px 6px;border-radius:4px;font-family:'Consolas','Courier New',monospace;font-size:.88rem}
-.fill-input-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.fill-input{background:var(--bg);border:2px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--green);font-family:'Consolas','Courier New',monospace;font-size:.95rem;width:200px;outline:none;transition:.3s}
-.fill-input:focus{border-color:var(--green);box-shadow:0 0 10px rgba(0,230,118,.2)}
-.fill-input.correct{border-color:var(--correct);background:rgba(0,230,118,.08)}
-.fill-input.wrong{border-color:var(--wrong);background:rgba(255,23,68,.08);animation:shake .4s}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.fill-check{padding:6px 16px;background:transparent;border:1px solid var(--green);color:var(--green);border-radius:20px;cursor:pointer;font-size:.85rem;transition:.3s}
-.fill-check:hover{background:rgba(0,230,118,.15)}
-.fill-hint{padding:6px 16px;background:transparent;border:1px solid var(--orange);color:var(--orange);border-radius:20px;cursor:pointer;font-size:.85rem;transition:.3s}
-.fill-hint:hover{background:rgba(255,145,0,.15)}
-.fill-feedback{margin-top:6px;font-size:.85rem;min-height:20px}
-.fill-feedback.correct{color:var(--correct)}
-.fill-feedback.wrong{color:var(--wrong)}
-.fill-feedback.hint{color:var(--orange)}
-.vs-box{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:15px 0}
-.vs-col{background:var(--bg2);border-radius:var(--radius);padding:15px}
-.vs-col h4{font-size:.95rem;margin-bottom:8px}
-.vs-col.wrong-vs h4{color:var(--wrong)}
-.vs-col.right-vs h4{color:var(--correct)}
-.vs-col code{display:block;font-family:'Consolas','Courier New',monospace;font-size:.88rem;line-height:1.6;color:var(--text2)}
-.analogy-box{background:linear-gradient(135deg,rgba(124,77,255,.08),rgba(0,230,118,.08));border:1px solid var(--purple);border-radius:var(--radius);padding:18px;margin:15px 0}
-.analogy-box h4{color:var(--purple);margin-bottom:8px;font-size:1rem}
-.analogy-box p{color:var(--text2);font-size:.92rem}
-/* Code Lab - Manual typing area */
-.code-lab{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius);margin:25px 0;overflow:hidden}
-.code-lab-header{background:var(--card);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.code-lab-header h4{color:var(--green);font-size:1rem}
-.code-lab-header .lab-badge{padding:4px 12px;border-radius:12px;font-size:.8rem;font-weight:600}
-.code-lab-header .lab-badge.required{background:rgba(255,145,0,.15);color:var(--orange);border:1px solid var(--orange)}
-.code-lab-header .lab-badge.optional{background:rgba(0,230,118,.1);color:var(--green);border:1px solid var(--green)}
-.code-lab-desc{padding:15px 20px;color:var(--text2);font-size:.9rem;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2)}
-.code-lab-desc b{color:var(--text)}
-.code-lab-desc code{background:rgba(0,230,118,.1);color:var(--green);padding:1px 5px;border-radius:3px;font-family:'Consolas','Courier New',monospace;font-size:.88rem}
-.code-lab-editor{display:flex;border-bottom:1px solid var(--border)}
-.code-lab-lines{background:var(--card);padding:12px 0;min-width:40px;text-align:right;user-select:none;border-right:1px solid var(--border)}
-.code-lab-lines span{display:block;padding:0 8px;font-size:.85rem;color:#555;font-family:'Consolas','Courier New',monospace;line-height:1.7}
-.code-lab-textarea{width:100%;background:var(--bg);color:var(--green);border:none;outline:none;padding:12px 15px;font-family:'Consolas','Courier New',monospace;font-size:.9rem;line-height:1.7;resize:vertical;min-height:200px;tab-size:4}
-.code-lab-textarea::placeholder{color:#333}
-.code-lab-actions{padding:12px 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card)}
-.code-lab-btn{padding:8px 20px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;transition:.3s;border:none}
-.code-lab-btn.verify{background:var(--green);color:var(--bg)}
-.code-lab-btn.verify:hover{background:var(--green2)}
-.code-lab-btn.hint2{background:transparent;border:1px solid var(--orange);color:var(--orange)}
-.code-lab-btn.hint2:hover{background:rgba(255,145,0,.15)}
-.code-lab-btn.clear{background:transparent;border:1px solid var(--border);color:var(--text2)}
-.code-lab-btn.clear:hover{border-color:var(--wrong);color:var(--wrong)}
-.code-lab-result{padding:0 20px 15px;font-size:.9rem;min-height:24px}
-.code-lab-result.pass{color:var(--correct)}
-.code-lab-result.fail{color:var(--wrong)}
-.code-lab-result.hint{color:var(--orange)}
-/* Quiz section */
-.quiz-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:15px 0}
-.quiz-card h4{color:var(--green);margin-bottom:12px}
-.quiz-option{display:block;padding:10px 16px;margin:6px 0;background:var(--bg2);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:.3s;color:var(--text2);font-size:.92rem}
-.quiz-option:hover{border-color:var(--green);background:rgba(0,230,118,.05)}
-.quiz-option.selected{border-color:var(--blue);background:rgba(68,138,255,.1);color:var(--text)}
-.quiz-option.correct-ans{border-color:var(--correct);background:rgba(0,230,118,.1);color:var(--correct)}
-.quiz-option.wrong-ans{border-color:var(--wrong);background:rgba(255,23,68,.1);color:var(--wrong)}
-.quiz-explain{margin-top:10px;padding:10px;background:var(--bg2);border-radius:8px;font-size:.88rem;color:var(--text2);display:none}
-.quiz-explain.show{display:block}
-/* Game */
-.game-wrapper{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:20px 0;text-align:center}
-.game-wrapper canvas{border:2px solid var(--border);border-radius:8px;background:#0a0a0a;max-width:100%}
-.game-controls{margin-top:15px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap}
-.game-btn{padding:8px 20px;background:var(--green);color:var(--bg);border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:.9rem;transition:.3s}
-.game-btn:hover{background:var(--green2)}
-.game-info{display:flex;justify-content:center;gap:30px;margin-top:12px;font-size:.95rem}
-.game-info span{color:var(--text2)}
-.game-info b{color:var(--green)}
-/* Full code unlock */
-.full-code-section{position:relative}
-.full-code-locked{text-align:center;padding:60px 20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)}
-.lock-icon{font-size:3rem;margin-bottom:15px}
-.full-code-locked h3{color:var(--text2);margin-bottom:10px}
-.full-code-locked p{color:var(--text2);font-size:.9rem}
-.full-code-progress{margin-top:20px;font-size:1.1rem;color:var(--green);font-weight:600}
-.full-code-unlocked{display:none;background:var(--card);border:2px solid var(--green);border-radius:var(--radius);padding:25px}
-.full-code-unlocked h3{color:var(--green);margin-bottom:15px}
-.full-code-unlocked .code-block{margin:0}
-.readonly-notice{background:rgba(0,230,118,.1);border:1px solid var(--green);border-radius:8px;padding:10px 15px;margin:15px 0;color:var(--green);font-size:.9rem;text-align:center}
-/* Knowledge cards */
-.knowledge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin:20px 0}
-.knowledge-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:.3s}
-.knowledge-card:hover{border-color:var(--green);transform:translateY(-2px)}
-.knowledge-card h4{color:var(--green);margin-bottom:8px;font-size:1rem}
-.knowledge-card p{color:var(--text2);font-size:.88rem}
-.knowledge-card code{background:rgba(0,230,118,.1);color:var(--green);padding:1px 5px;border-radius:3px;font-family:'Consolas','Courier New',monospace;font-size:.85rem}
-/* Table */
-.info-table{width:100%;border-collapse:collapse;margin:15px 0;font-size:.9rem}
-.info-table th{background:var(--card2);color:var(--green);padding:10px 14px;text-align:left;border:1px solid var(--border)}
-.info-table td{padding:10px 14px;border:1px solid var(--border);color:var(--text2)}
-.info-table code{background:rgba(0,230,118,.1);color:var(--green);padding:1px 5px;border-radius:3px;font-family:'Consolas','Courier New',monospace;font-size:.85rem}
-/* Responsive */
+.section-title{font-size:1.6rem;margin-bottom:8px;display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:2px solid var(--border)}
+.section-title .emoji{font-size:1.4rem}
+.section-title .num{color:var(--accent);font-weight:800;font-size:1.3rem}
+.section-desc{color:var(--text2);margin-bottom:20px;font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:18px;transition:.3s}
+.card:hover{border-color:rgba(249,115,22,.4);box-shadow:var(--shadow)}
+.card h3{color:var(--accent);margin-bottom:10px;font-size:1.1rem}
+.card p,.card li{color:var(--text2);font-size:.92rem}
+.card ul{padding-left:20px;margin:8px 0}
+.card ul li{margin-bottom:5px}
+.warn-box{background:rgba(234,88,12,.08);border:1px solid var(--accent);border-radius:var(--radius);padding:16px 20px;margin:15px 0}
+.warn-box h4{color:var(--accent);margin-bottom:6px;font-size:.95rem}
+.warn-box p{color:var(--text2);font-size:.9rem}
+.tip-box{background:rgba(34,197,94,.08);border:1px solid var(--green);border-radius:var(--radius);padding:16px 20px;margin:15px 0}
+.tip-box h4{color:var(--green);margin-bottom:6px;font-size:.95rem}
+.tip-box p{color:var(--text2);font-size:.9rem}
+.info-box{background:rgba(59,130,246,.08);border:1px solid var(--blue);border-radius:var(--radius);padding:16px 20px;margin:15px 0}
+.info-box h4{color:var(--blue);margin-bottom:6px;font-size:.95rem}
+.info-box p{color:var(--text2);font-size:.9rem}
+.code-box{background:var(--code-bg);border:1px solid var(--border);border-radius:var(--radius);margin:15px 0;overflow:hidden}
+.code-box-header{background:var(--card2);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.code-box-header span{font-size:.82rem;color:var(--text2)}
+.code-box-header .lang{color:var(--accent);font-weight:600}
+.code-copy{padding:4px 12px;background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:6px;cursor:pointer;font-size:.78rem;transition:.3s}
+.code-copy:hover{border-color:var(--accent);color:var(--accent)}
+.code-box pre{padding:16px;overflow-x:auto;font-family:'Consolas','Courier New',monospace;font-size:.88rem;line-height:1.7;color:var(--text2)}
+.code-box pre .cm{color:#546e7a}
+.code-box pre .cmd{color:var(--green)}
+.code-box pre .flag{color:var(--accent)}
+.code-box pre .url{color:var(--cyan)}
+.code-box pre .str{color:#c3e88d}
+.step-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin:20px 0}
+.step-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden;transition:.3s}
+.step-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.step-card:nth-child(1)::before{background:var(--accent)}
+.step-card:nth-child(2)::before{background:var(--blue)}
+.step-card:nth-child(3)::before{background:var(--green)}
+.step-card:nth-child(4)::before{background:var(--purple)}
+.step-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.step-card .step-num{font-size:2rem;font-weight:800;color:var(--card2);line-height:1}
+.step-card h4{font-size:1rem;margin:5px 0;color:var(--text)}
+.step-card p{font-size:.85rem;color:var(--text2)}
+.method-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.method-tab{padding:10px 20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:.3s;font-size:.9rem;color:var(--text2)}
+.method-tab:hover{border-color:var(--accent);color:var(--text)}
+.method-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.method-content{display:none}
+.method-content.active{display:block}
+.sub-step{display:flex;gap:15px;margin:18px 0;align-items:flex-start}
+.sub-step-num{min-width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0}
+.sub-step-content{flex:1}
+.sub-step-content h4{font-size:1rem;margin-bottom:6px;color:var(--text)}
+.sub-step-content p{font-size:.9rem;color:var(--text2);margin-bottom:8px}
+.compare-table{width:100%;border-collapse:collapse;margin:15px 0;font-size:.88rem}
+.compare-table th{background:var(--card2);color:var(--accent);padding:10px 12px;text-align:left;border:1px solid var(--border)}
+.compare-table td{padding:10px 12px;border:1px solid var(--border);color:var(--text2)}
+.compare-table tr:hover td{background:rgba(249,115,22,.03)}
+.checklist{margin:15px 0}
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:10px 15px;margin:4px 0;background:var(--bg2);border-radius:8px;cursor:pointer;transition:.2s;font-size:.9rem;color:var(--text2)}
+.check-item:hover{background:var(--card2)}
+.check-item input{margin-top:4px;accent-color:var(--accent);width:18px;height:18px;cursor:pointer}
+.check-item.checked{color:var(--green);text-decoration:line-through;opacity:.6}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
+.faq-q{padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:.95rem;color:var(--text);transition:.2s}
+.faq-q:hover{color:var(--accent)}
+.faq-q .arrow{transition:.3s;font-size:.8rem;color:var(--text2)}
+.faq-q.open .arrow{transform:rotate(180deg)}
+.faq-a{padding:0 20px;max-height:0;overflow:hidden;transition:.3s;color:var(--text2);font-size:.9rem}
+.faq-a.open{padding:15px 20px;max-height:500px}
+.footer{text-align:center;padding:40px 20px;color:var(--text2);font-size:.85rem;border-top:1px solid var(--border);margin-top:40px}
 @media(max-width:768px){
 .nav{padding:0 10px;gap:4px}
-.nav-brand{font-size:1rem}
-.nav-btn{padding:5px 10px;font-size:.78rem}
-.hero h1{font-size:1.8rem}
-.stats{gap:10px}
-.stat{min-width:90px;padding:10px 15px}
-.container{padding:15px}
-.vs-box{grid-template-columns:1fr}
-.lesson-nav{grid-template-columns:1fr 1fr}
-.knowledge-grid{grid-template-columns:1fr}
-}
-@media(max-width:480px){
-.lesson-nav{grid-template-columns:1fr}
+.nav-brand{font-size:.95rem}
 .nav-btn{padding:4px 8px;font-size:.75rem}
+.hero h1{font-size:1.6rem}
+.step-grid{grid-template-columns:1fr}
+.method-tabs{flex-direction:column}
+.sub-step{flex-direction:column;gap:8px}
+.compare-table{font-size:.78rem}
+.compare-table th,.compare-table td{padding:6px 8px}
 }
 </style>
 </head>
 <body>
-<!-- Nav -->
-<nav class="nav">
-<div class="nav-brand">🐍 贪吃蛇课件</div>
-<button class="nav-btn active" onclick="scrollTo('hero')">首页</button>
-<button class="nav-btn" onclick="scrollTo('game-section')">🎮 试玩</button>
-<button class="nav-btn" onclick="scrollTo('lessons')">📚 课程</button>
-<button class="nav-btn" onclick="scrollTo('full-code')">💻 源码</button>
-</nav>
-<div class="progress-bar"><div class="progress-fill" id="totalProgress" style="width:0%"></div></div>
 
-<!-- Hero -->
+<nav class="nav">
+<div class="nav-brand">🚀 <span>Claude Code</span> 部署教程</div>
+<button class="nav-btn active" onclick="scrollTo('hero')">首页</button>
+<button class="nav-btn" onclick="scrollTo('what')">介绍</button>
+<button class="nav-btn" onclick="scrollTo('install')">安装</button>
+<button class="nav-btn" onclick="scrollTo('verify')">验证</button>
+<button class="nav-btn" onclick="scrollTo('faq')">FAQ</button>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="progressBar" style="width:0%"></div></div>
+
 <section class="hero" id="hero">
-<h1><span>🐍 Python贪吃蛇</span></h1>
-<p>四课时互动教学课件 — 手敲代码，从零打造你的第一个游戏！</p>
-<div class="stats">
-<div class="stat"><div class="stat-num">4</div><div class="stat-label">课时</div></div>
-<div class="stat"><div class="stat-num">41</div><div class="stat-label">填空题</div></div>
-<div class="stat"><div class="stat-num">4</div><div class="stat-label">代码实战</div></div>
-<div class="stat"><div class="stat-num">8</div><div class="stat-label">选择题</div></div>
+<h1><span class="emoji">🚀</span> 在 Windows 上部署 <span class="hl">Claude Code</span></h1>
+<p>零基础保姆级教程，手把手教你从零安装配置 Claude Code，每一步都有截图级说明</p>
+<div class="badges">
+<div class="badge">⏱️ 约 <b>15分钟</b></div>
+<div class="badge">💻 Windows 10/11</div>
+<div class="badge">👶 零基础友好</div>
+<div class="badge">🔄 2026年4月更新</div>
 </div>
 </section>
 
 <div class="container">
 
-<!-- Intro -->
-<section class="section">
-<h2 class="section-title"><span class="emoji">📖</span> 什么是贪吃蛇？</h2>
+<!-- WHAT -->
+<section class="section" id="what">
+<h2 class="section-title"><span class="emoji">🤖</span> <span class="num">01</span> Claude Code 是什么？</h2>
 <div class="card">
-<p>贪吃蛇是最经典的电子游戏之一！蛇在屏幕上移动，吃到食物后身体变长，碰到墙壁或自己就游戏结束。</p>
+<h3>一句话解释</h3>
+<p>Claude Code 是 Anthropic 公司推出的<strong style="color:var(--accent)">终端级 AI 编程助手</strong>——在命令行里跟 AI 对话，让它帮你写代码、改 Bug、读项目、操作 Git，就像身边坐了一个高级程序员。</p>
+</div>
+<div class="card">
+<h3>它能做什么？</h3>
 <ul>
-<li>🕰️ <b>1976年</b> — 最早版本《Blockade》诞生</li>
-<li>📱 <b>1998年</b> — 诺基亚手机内置，风靡全球</li>
-<li>🐍 <b>今天</b> — 你要用 Python 自己做一个！</li>
+<li>🧠 <b>理解整个项目</b> — 自动读取你的代码库，了解上下文</li>
+<li>✍️ <b>写代码 + 改代码</b> — 告诉它需求，直接生成或修改文件</li>
+<li>🐛 <b>找 Bug + 修 Bug</b> — 粘贴报错信息，它帮你定位并修复</li>
+<li>📋 <b>操作 Git</b> — 提交代码、创建分支、解决冲突</li>
+<li>💻 <b>执行命令</b> — 运行测试、安装依赖、启动服务</li>
+<li>📖 <b>解释代码</b> — 看不懂的代码丢给它，逐行解释</li>
 </ul>
 </div>
 <div class="card">
-<h3>为什么选 Python + turtle？</h3>
+<h3>和 ChatGPT/Copilot 有什么不同？</h3>
+<table class="compare-table">
+<tr><th>对比项</th><th>Claude Code</th><th>GitHub Copilot</th><th>ChatGPT</th></tr>
+<tr><td>工作方式</td><td>终端命令行</td><td>编辑器插件</td><td>网页聊天</td></tr>
+<tr><td>理解项目</td><td>✅ 整个项目</td><td>⚠️ 当前文件</td><td>❌ 需手动粘贴</td></tr>
+<tr><td>直接改文件</td><td>✅ 可以</td><td>✅ 可以</td><td>❌ 只能生成</td></tr>
+<tr><td>执行命令</td><td>✅ 可以</td><td>❌ 不行</td><td>❌ 不行</td></tr>
+<tr><td>费用</td><td>免费额度 / Pro $20/月</td><td>$10/月起</td><td>免费 / Plus $20/月</td></tr>
+</table>
+</div>
+</section>
+
+<!-- PREREQUISITES -->
+<section class="section" id="prereq">
+<h2 class="section-title"><span class="emoji">📋</span> <span class="num">02</span> 安装前准备</h2>
+<div class="section-desc">开始之前，确保你的电脑满足以下条件：</div>
+
+<div class="checklist" id="checklist">
+<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox"> Windows 10 (版本2004+) 或 Windows 11 系统</label>
+<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox"> 至少 4GB 可用磁盘空间</label>
+<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox"> 稳定的网络连接（国内可能需要科学上网）</label>
+<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox"> 一个 Anthropic 账号（或 Claude Pro/Max 订阅）</label>
+<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox"> 管理员权限（安装软件时需要）</label>
+</div>
+
+<div class="info-box">
+<h4>📌 关于网络环境</h4>
+<p>如果你在国内，访问 Anthropic 服务可能需要科学上网。如果没有条件，可以使用 <b>API Key 方式</b>（本教程后面会讲），配合国内代理使用。</p>
+</div>
+
+<div class="card">
+<h3>你需要先安装的软件</h3>
+<p>不管选哪种安装方式，以下两个软件都建议提前装好：</p>
+
+<div class="sub-step">
+<div class="sub-step-num">1</div>
+<div class="sub-step-content">
+<h4>安装 Git</h4>
+<p>版本控制工具，Claude Code 依赖它</p>
+<p>👉 下载地址：<a href="https://git-scm.com/downloads/win" target="_blank">https://git-scm.com/downloads/win</a></p>
+<p>安装时一路 Next 默认选项即可，不需要改任何设置</p>
+<div class="code-box">
+<div class="code-box-header"><span>验证是否安装成功 — 打开 CMD 或 PowerShell 输入：</span><span class="lang">cmd</span></div>
+<pre>git --version</pre>
+</div>
+<p>看到版本号就说明安装成功 ✅</p>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">2</div>
+<div class="sub-step-content">
+<h4>安装 Node.js（推荐安装）</h4>
+<p>虽然原生安装器不需要 Node.js，但有些功能可能依赖它，建议装上</p>
+<p>👉 下载地址：<a href="https://nodejs.org/" target="_blank">https://nodejs.org/</a> 选择 LTS（长期支持版）</p>
+<p>安装时勾选 <b>"Automatically install the necessary tools"</b> 选项</p>
+<div class="code-box">
+<div class="code-box-header"><span>验证安装</span><span class="lang">cmd</span></div>
+<pre>node --version
+npm --version</pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- INSTALL METHODS -->
+<section class="section" id="install">
+<h2 class="section-title"><span class="emoji">🔧</span> <span class="num">03</span> 选择安装方式</h2>
+<div class="section-desc">提供4种安装方式，推荐新手选择 <b style="color:var(--accent)">方式一（原生安装器）</b>，最简单！</div>
+
+<div class="compare-table" style="margin-bottom:25px">
+<table>
+<tr><th>安装方式</th><th>难度</th><th>功能完整性</th><th>推荐指数</th><th>适合谁</th></tr>
+<tr><td style="color:var(--accent);font-weight:600">方式一：原生安装器</td><td>⭐ 最简单</td><td>✅ 完整</td><td>⭐⭐⭐⭐⭐</td><td>🟢 新手首选</td></tr>
+<tr><td style="color:var(--blue)">方式二：WSL</td><td>⭐⭐⭐ 中等</td><td>✅ 100%</td><td>⭐⭐⭐⭐</td><td>🔵 专业开发者</td></tr>
+<tr><td style="color:var(--purple)">方式三：WinGet</td><td>⭐ 简单</td><td>✅ 完整</td><td>⭐⭐⭐</td><td>🟣 喜欢命令行的人</td></tr>
+<tr><td style="color:var(--cyan)">方式四：Git Bash</td><td>⭐⭐ 中等</td><td>⚠️ 部分受限</td><td>⭐⭐⭐</td><td>🔹 轻度使用</td></tr>
+</table>
+</div>
+
+<div class="method-tabs">
+<div class="method-tab active" onclick="showMethod(0)">⭐ 方式一：原生安装器</div>
+<div class="method-tab" onclick="showMethod(1)">🔵 方式二：WSL</div>
+<div class="method-tab" onclick="showMethod(2)">🟣 方式三：WinGet</div>
+<div class="method-tab" onclick="showMethod(3)">🔹 方式四：Git Bash</div>
+</div>
+
+<!-- Method 1: Native Installer -->
+<div class="method-content active" id="method0">
+<div class="tip-box">
+<h4>✅ 推荐新手使用此方式！</h4>
+<p>只需一条命令，30秒装完，最省心。</p>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">1</div>
+<div class="sub-step-content">
+<h4>以管理员身份打开 PowerShell</h4>
+<p>按 <b>Windows键</b> → 搜索 <b>"PowerShell"</b> → 右键 → <b>以管理员身份运行</b></p>
+<div class="warn-box">
+<h4>⚠️ 必须用管理员身份！</h4>
+<p>如果用普通权限打开，可能会安装失败或需要额外配置。</p>
+</div>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">2</div>
+<div class="sub-step-content">
+<h4>复制粘贴下面这条命令，按回车执行</h4>
+<div class="code-box">
+<div class="code-box-header"><span>PowerShell 安装命令</span><span class="lang">PowerShell</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>irm https://claude.ai/install.ps1 | iex</pre>
+</div>
+<p>等待安装完成，你会看到下载进度条和安装提示。如果出现安全提示，输入 <b>Y</b> 确认。</p>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">3</div>
+<div class="sub-step-content">
+<h4>关闭当前 PowerShell，重新打开一个新的</h4>
+<p>这一步很重要！安装后需要<strong style="color:var(--accent)">重新打开</strong> PowerShell 才能识别 <code>claude</code> 命令。</p>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">4</div>
+<div class="sub-step-content">
+<h4>验证安装</h4>
+<div class="code-box">
+<div class="code-box-header"><span>检查版本</span><span class="lang">PowerShell</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>claude --version</pre>
+</div>
+<p>看到版本号输出，就说明安装成功了！🎉</p>
+</div>
+</div>
+</div>
+
+<!-- Method 2: WSL -->
+<div class="method-content" id="method1">
+<div class="info-box">
+<h4>📌 WSL 方式功能最完整</h4>
+<p>WSL（Windows Subsystem for Linux）在 Windows 里运行 Linux 环境，Claude Code 在 Linux 下功能100%可用，适合专业开发者。</p>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">1</div>
+<div class="sub-step-content">
+<h4>启用 Windows 功能</h4>
+<p>按 <b>Windows键</b> → 搜索 <b>"启用或关闭 Windows 功能"</b> → 勾选：</p>
 <ul>
-<li>✅ Python 语法简洁，最适合初学者</li>
-<li>✅ turtle 是 Python 自带库，无需额外安装</li>
-<li>✅ 代码量约120行，4节课就能搞定</li>
-<li>✅ 学完能掌握：变量、列表、函数、循环、事件</li>
+<li>✅ 适用于 Linux 的 Windows 子系统</li>
+<li>✅ 虚拟机平台（Virtual Machine Platform）</li>
+</ul>
+<p>点击确定，<strong style="color:var(--accent)">重启电脑</strong></p>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">2</div>
+<div class="sub-step-content">
+<h4>安装 WSL 2 和 Ubuntu</h4>
+<p>以管理员身份打开 PowerShell，执行：</p>
+<div class="code-box">
+<div class="code-box-header"><span>安装WSL</span><span class="lang">PowerShell</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>wsl --install</pre>
+</div>
+<p>安装完成后设置默认版本为 WSL 2：</p>
+<div class="code-box">
+<div class="code-box-header"><span>设置默认版本</span><span class="lang">PowerShell</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>wsl --set-default-version 2</pre>
+</div>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">3</div>
+<div class="sub-step-content">
+<h4>配置 Ubuntu</h4>
+<p>从开始菜单启动 <b>Ubuntu</b>，首次启动需要创建用户名和密码。</p>
+<p>然后更新系统：</p>
+<div class="code-box">
+<div class="code-box-header"><span>更新系统</span><span class="lang">Bash</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>sudo apt update && sudo apt upgrade -y</pre>
+</div>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">4</div>
+<div class="sub-step-content">
+<h4>在 Ubuntu 中安装 Claude Code</h4>
+<div class="code-box">
+<div class="code-box-header"><span>安装 Claude Code</span><span class="lang">Bash</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>curl -fsSL https://claude.ai/install.sh | bash</pre>
+</div>
+<div class="warn-box">
+<h4>⚠️ 不要用 sudo 安装！</h4>
+<p>使用 <code>sudo</code> 安装会导致权限问题和安全风险。普通用户权限安装即可。</p>
+</div>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">5</div>
+<div class="sub-step-content">
+<h4>验证安装</h4>
+<div class="code-box">
+<div class="code-box-header"><span>检查版本</span><span class="lang">Bash</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>claude --version</pre>
+</div>
+</div>
+</div>
+
+<div class="tip-box">
+<h4>💡 WSL 访问 Windows 文件</h4>
+<p>在 Ubuntu 中，Windows 的 C 盘路径是 <code>/mnt/c/</code>，例如桌面路径：<code>/mnt/c/Users/你的用户名/Desktop</code></p>
+</div>
+</div>
+
+<!-- Method 3: WinGet -->
+<div class="method-content" id="method2">
+<div class="sub-step">
+<div class="sub-step-num">1</div>
+<div class="sub-step-content">
+<h4>打开 PowerShell 或 CMD</h4>
+<p>不需要管理员权限也可以</p>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">2</div>
+<div class="sub-step-content">
+<h4>执行安装命令</h4>
+<div class="code-box">
+<div class="code-box-header"><span>WinGet 安装</span><span class="lang">PowerShell</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>winget install Anthropic.ClaudeCode</pre>
+</div>
+<p>安装过程中如果弹出确认提示，输入 <b>Y</b> 确认。</p>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">3</div>
+<div class="sub-step-content">
+<h4>验证安装</h4>
+<div class="code-box">
+<div class="code-box-header"><span>检查版本</span><span class="lang">PowerShell</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>claude --version</pre>
+</div>
+</div>
+</div>
+
+<div class="warn-box">
+<h4>⚠️ WinGet 不会自动更新</h4>
+<p>需要手动执行更新命令：<code>winget upgrade Anthropic.ClaudeCode</code></p>
+</div>
+</div>
+
+<!-- Method 4: Git Bash -->
+<div class="method-content" id="method3">
+<div class="sub-step">
+<div class="sub-step-num">1</div>
+<div class="sub-step-content">
+<h4>安装 Git for Windows</h4>
+<p>如果还没装 Git，去 <a href="https://git-scm.com/downloads/win" target="_blank">git-scm.com</a> 下载安装，一路 Next 默认选项。</p>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">2</div>
+<div class="sub-step-content">
+<h4>打开 Git Bash</h4>
+<p>开始菜单 → 搜索 <b>"Git Bash"</b> → 打开</p>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">3</div>
+<div class="sub-step-content">
+<h4>安装 Claude Code</h4>
+<div class="code-box">
+<div class="code-box-header"><span>Git Bash 安装</span><span class="lang">Bash</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>curl -fsSL https://claude.ai/install.sh | bash</pre>
+</div>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">4</div>
+<div class="sub-step-content">
+<h4>验证安装</h4>
+<div class="code-box">
+<div class="code-box-header"><span>检查版本</span><span class="lang">Bash</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>claude --version</pre>
+</div>
+</div>
+</div>
+
+<div class="warn-box">
+<h4>⚠️ Git Bash 是精简环境</h4>
+<p>部分高级功能（如 Shell 集成、后台任务）可能受限，适合轻度使用。如需完整功能，建议用 WSL 方式。</p>
+</div>
+</div>
+</section>
+
+<!-- FIRST RUN -->
+<section class="section" id="verify">
+<h2 class="section-title"><span class="emoji">🎯</span> <span class="num">04</span> 首次运行 & 登录</h2>
+
+<div class="sub-step">
+<div class="sub-step-num">1</div>
+<div class="sub-step-content">
+<h4>启动 Claude Code</h4>
+<p>在终端中输入：</p>
+<div class="code-box">
+<div class="code-box-header"><span>启动</span><span class="lang">Shell</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>claude</pre>
+</div>
+<p>首次运行会进入<strong style="color:var(--accent)">登录引导</strong>流程。</p>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">2</div>
+<div class="sub-step-content">
+<h4>选择登录方式</h4>
+<p>你会看到3个选项：</p>
+<table class="compare-table">
+<tr><th>方式</th><th>说明</th><th>适合谁</th></tr>
+<tr><td style="color:var(--green)">Claude Console</td><td>通过 console.anthropic.com 的 OAuth 验证</td><td>有 Anthropic API 账号的开发者</td></tr>
+<tr><td style="color:var(--accent)">Claude Pro/Max</td><td>使用 Claude.ai 订阅账户登录</td><td>🟢 大多数人选这个！</td></tr>
+<tr><td style="color:var(--blue)">企业平台</td><td>通过 Amazon Bedrock / Google Vertex AI</td><td>企业用户</td></tr>
+</table>
+<div class="tip-box">
+<h4>💡 没有账号？</h4>
+<p>去 <a href="https://claude.ai" target="_blank">claude.ai</a> 注册一个免费账号，或者订阅 Claude Pro（$20/月）获取更多额度。</p>
+</div>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">3</div>
+<div class="sub-step-content">
+<h4>完成认证</h4>
+<p>选择登录方式后，终端会显示一个链接和验证码：</p>
+<div class="card">
+<p>1️⃣ 按住 <b>Ctrl</b> 点击链接（或复制链接到浏览器打开）</p>
+<p>2️⃣ 在浏览器中登录你的 Claude 账号</p>
+<p>3️⃣ 输入终端显示的验证码</p>
+<p>4️⃣ 回到终端，看到 ✅ 认证成功提示</p>
+</div>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">4</div>
+<div class="sub-step-content">
+<h4>第一次对话！</h4>
+<p>认证成功后，你就可以开始跟 Claude Code 对话了！试试输入：</p>
+<div class="code-box">
+<div class="code-box-header"><span>试试看</span><span class="lang">Claude Code</span></div>
+<pre>你好，请帮我创建一个 Python 的 Hello World 程序</pre>
+</div>
+<p>🎉 如果 Claude 回复了，恭喜你，安装成功！</p>
+</div>
+</div>
+</section>
+
+<!-- API KEY -->
+<section class="section" id="apikey">
+<h2 class="section-title"><span class="emoji">🔑</span> <span class="num">05</span> 使用 API Key 登录（国内用户推荐）</h2>
+<div class="section-desc">如果你在国内无法直接登录 Claude，可以用 API Key 方式接入。</div>
+
+<div class="sub-step">
+<div class="sub-step-num">1</div>
+<div class="sub-step-content">
+<h4>获取 API Key</h4>
+<p>前往 <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a> 注册并创建 API Key</p>
+<div class="warn-box">
+<h4>⚠️ API 是付费的</h4>
+<p>Anthropic API 按 Token 计费，新账号有 $5 免费额度。使用前请了解计费规则。</p>
+</div>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">2</div>
+<div class="sub-step-content">
+<h4>设置环境变量</h4>
+<p>在 PowerShell 中执行（将 <code>你的key</code> 替换为实际的 API Key）：</p>
+<div class="code-box">
+<div class="code-box-header"><span>设置API Key（临时）</span><span class="lang">PowerShell</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>$env:ANTHROPIC_API_KEY="sk-ant-你的key"</pre>
+</div>
+<p>如果想永久生效（推荐），用系统环境变量设置：</p>
+<div class="code-box">
+<div class="code-box-header"><span>永久设置（写入系统环境变量）</span><span class="lang">PowerShell</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>[System.Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", "sk-ant-你的key", "User")</pre>
+</div>
+<p>设置完后<strong style="color:var(--accent)">重新打开</strong> PowerShell 终端。</p>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">3</div>
+<div class="sub-step-content">
+<h4>直接启动即可</h4>
+<div class="code-box">
+<div class="code-box-header"><span>启动</span><span class="lang">PowerShell</span></div>
+<pre>claude</pre>
+</div>
+<p>设置了 API Key 后，启动时会自动识别，跳过登录流程。</p>
+</div>
+</div>
+
+<div class="tip-box">
+<h4>💡 国内网络加速方案</h4>
+<p>如果你在国内访问 API 不稳定，可以设置代理：</p>
+<div class="code-box">
+<div class="code-box-header"><span>设置代理（临时）</span><span class="lang">PowerShell</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>$env:HTTPS_PROXY="http://127.0.0.1:7890"</pre>
+</div>
+<p>将端口号改成你自己的代理端口。</p>
+</div>
+</section>
+
+<!-- COMMON COMMANDS -->
+<section class="section" id="commands">
+<h2 class="section-title"><span class="emoji">⌨️</span> <span class="num">06</span> 常用命令速查</h2>
+
+<table class="compare-table">
+<tr><th>命令</th><th>作用</th><th>示例</th></tr>
+<tr><td><code>claude</code></td><td>启动交互模式</td><td>直接输入 <code>claude</code></td></tr>
+<tr><td><code>claude "问题"</code></td><td>单次提问（不进入交互模式）</td><td><code>claude "解释这个项目"</code></td></tr>
+<tr><td><code>claude --version</code></td><td>查看版本号</td><td>—</td></tr>
+<tr><td><code>claude update</code></td><td>更新到最新版</td><td>—</td></tr>
+<tr><td><code>claude doctor</code></td><td>检查环境健康状况</td><td>—</td></tr>
+<tr><td><code>claude config</code></td><td>查看/修改配置</td><td>—</td></tr>
+<tr><td><code>claude mcp</code></td><td>管理 MCP 服务器</td><td>—</td></tr>
+<tr><td><code>/help</code></td><td>交互模式内查看帮助</td><td>启动后在对话中输入</td></tr>
+<tr><td><code>/clear</code></td><td>清空对话历史</td><td>启动后在对话中输入</td></tr>
+<tr><td><code>Ctrl+C</code></td><td>中断当前操作</td><td>—</td></tr>
+<tr><td><code>Ctrl+D</code></td><td>退出 Claude Code</td><td>—</td></tr>
+</table>
+
+<div class="tip-box">
+<h4>💡 在项目中使用效果最佳</h4>
+<p>先 <code>cd</code> 到你的项目文件夹，再启动 <code>claude</code>，这样它能自动读取项目代码，回答更准确！</p>
+<div class="code-box">
+<div class="code-box-header"><span>推荐用法</span><span class="lang">PowerShell</span><button class="code-copy" onclick="copyCode(this)">📋 复制</button></div>
+<pre>cd C:\Users\你的用户名\projects\my-app
+claude</pre>
+</div>
+</div>
+</section>
+
+<!-- VS CODE -->
+<section class="section" id="vscode">
+<h2 class="section-title"><span class="emoji">🧩</span> <span class="num">07</span> VS Code 集成（可选）</h2>
+<div class="section-desc">如果你用 VS Code 写代码，可以安装 Claude Code 扩展，获得更好的体验。</div>
+
+<div class="sub-step">
+<div class="sub-step-num">1</div>
+<div class="sub-step-content">
+<h4>安装扩展</h4>
+<p>打开 VS Code → 按 <b>Ctrl+Shift+X</b> → 搜索 <b>"Claude Code"</b> → 点击安装</p>
+<p>或者直接在扩展市场搜索：<a href="https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code" target="_blank">Anthropic Claude Code</a></p>
+</div>
+</div>
+
+<div class="sub-step">
+<div class="sub-step-num">2</div>
+<div class="sub-step-content">
+<h4>使用方式</h4>
+<p>安装后，在 VS Code 中按 <b>Ctrl+Shift+P</b> → 输入 <b>"Claude"</b> → 选择 <b>"Claude Code: Open"</b></p>
+<p>或者点击左侧活动栏的 Claude 图标 🤖</p>
+</div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+<h2 class="section-title"><span class="emoji">❓</span> <span class="num">08</span> 常见问题 FAQ</h2>
+
+<div class="faq-item">
+<div class="faq-q" onclick="toggleFaq(this)">
+<span>安装时提示"无法访问 claude.ai"怎么办？</span>
+<span class="arrow">▼</span>
+</div>
+<div class="faq-a">
+<p>这是网络问题，国内访问 Anthropic 服务需要科学上网。解决方案：</p>
+<ul>
+<li>使用 VPN/代理后重试</li>
+<li>改用 API Key 方式登录（见第05节）</li>
+<li>设置代理后安装：<code>$env:HTTPS_PROXY="http://127.0.0.1:7890"</code></li>
 </ul>
 </div>
-</section>
+</div>
 
-<!-- Game -->
-<section class="section" id="game-section">
-<h2 class="section-title"><span class="emoji">🎮</span> 先来试玩一下</h2>
-<div class="section-desc">用方向键或WASD控制蛇的方向，吃到红色食物得分！</div>
-<div class="game-wrapper">
-<canvas id="gameCanvas" width="400" height="400"></canvas>
-<div class="game-info">
-<span>得分：<b id="score">0</b></span>
-<span>最高：<b id="highScore">0</b></span>
+<div class="faq-item">
+<div class="faq-q" onclick="toggleFaq(this)">
+<span>输入 claude 命令提示"不是内部或外部命令"？</span>
+<span class="arrow">▼</span>
 </div>
-<div class="game-controls">
-<button class="game-btn" onclick="startGame()">开始游戏</button>
-<span style="color:var(--text2);font-size:.85rem;line-height:36px">方向键 / WASD 控制</span>
-</div>
-</div>
-</section>
-
-<!-- Lessons -->
-<section class="section" id="lessons">
-<h2 class="section-title"><span class="emoji">📚</span> 四课时学习路线</h2>
-<div class="section-desc">每课包含知识讲解 + 填空练习 + 代码实战（手敲代码），全部完成后解锁完整源码！</div>
-<div class="lesson-nav">
-<div class="lesson-card active" onclick="showLesson(0)">
-<div class="lesson-num">第1课</div>
-<div class="lesson-title">🟢 Python基础入门</div>
-<div class="lesson-meta">变量 · 数据类型 · 运算符</div>
-<div class="lesson-progress"><div class="lesson-progress-fill" id="lp0" style="width:0%;background:var(--green)"></div></div>
-</div>
-<div class="lesson-card" onclick="showLesson(1)">
-<div class="lesson-num">第2课</div>
-<div class="lesson-title">🟣 Turtle绘图世界</div>
-<div class="lesson-meta">画布 · 画笔 · 绘图命令</div>
-<div class="lesson-progress"><div class="lesson-progress-fill" id="lp1" style="width:0%;background:var(--purple)"></div></div>
-</div>
-<div class="lesson-card" onclick="showLesson(2)">
-<div class="lesson-num">第3课</div>
-<div class="lesson-title">🟠 让蛇动起来</div>
-<div class="lesson-meta">函数 · 列表 · 键盘控制</div>
-<div class="lesson-progress"><div class="lesson-progress-fill" id="lp2" style="width:0%;background:var(--orange)"></div></div>
-</div>
-<div class="lesson-card" onclick="showLesson(3)">
-<div class="lesson-num">第4课</div>
-<div class="lesson-title">🔴 完整贪吃蛇</div>
-<div class="lesson-meta">碰撞检测 · 游戏循环 · 计分</div>
-<div class="lesson-progress"><div class="lesson-progress-fill" id="lp3" style="width:0%;background:var(--pink)"></div></div>
+<div class="faq-a">
+<p>说明环境变量没有生效，尝试以下步骤：</p>
+<ul>
+<li>1. 关闭当前终端，重新打开一个新的（最重要！）</li>
+<li>2. 如果还不行，重启电脑</li>
+<li>3. 检查是否装了多个终端，确保在正确的终端中运行</li>
+<li>4. 手动添加 PATH：安装路径通常在 <code>%USERPROFILE%\.claude\bin</code></li>
+</ul>
 </div>
 </div>
 
-<!-- ==================== LESSON 1 ==================== -->
-<div class="lesson-content active" id="lesson0">
-
-<h2 class="step-title">1.1 什么是编程？什么是Python？</h2>
-<div class="explain-box">
-<b>编程</b>就是用计算机能懂的语言，告诉它该做什么。就像写菜谱一样——你把步骤写清楚，厨师（计算机）就照着做。<br><br>
-<b>Python</b>是目前最受欢迎的编程语言之一，语法非常接近英语，特别适合初学者。比如输出一句话：<br>
-<code>print("你好世界")</code> — 这就是一行Python代码！
+<div class="faq-item">
+<div class="faq-q" onclick="toggleFaq(this)">
+<span>Claude Code 免费吗？</span>
+<span class="arrow">▼</span>
 </div>
-
-<h2 class="step-title">1.2 变量 — 给数据起名字</h2>
-<div class="explain-box">
-<b>变量</b>就像一个贴了标签的盒子，里面可以放数据。你给盒子起个名字，以后用名字就能找到里面的东西。<br><br>
-<b>生活比喻：</b>变量名 = 盒子标签，变量值 = 盒子里装的东西<br>
-<code>score = 0</code> → 意思是：在一个叫"score"的盒子里，放入数字0
-</div>
-<div class="card">
-<h3>创建变量的规则</h3>
-<table class="info-table">
-<tr><th>规则</th><th>正确 ✅</th><th>错误 ❌</th></tr>
-<tr><td>只能用字母、数字、下划线</td><td><code>my_score</code></td><td><code>my-score</code></td></tr>
-<tr><td>不能以数字开头</td><td><code>score1</code></td><td><code>1score</code></td></tr>
-<tr><td>不能有空格</td><td><code>high_score</code></td><td><code>high score</code></td></tr>
-<tr><td>区分大小写</td><td><code>Score ≠ score</code></td><td>—</td></tr>
-</table>
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — 变量</h4>
-<div class="fill-question">
-<div class="fill-q-text">1. 创建一个变量 <code>score</code>，初始值设为 0：<br><code>______ = 0</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="0" data-q="0" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">2. 把变量 <code>score</code> 的值改为 10：<br><code>score ______ 10</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="0" data-q="1" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">3. 创建变量 <code>name</code>，存入字符串 <code>"贪吃蛇"</code>：<br><code>name = ______</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="0" data-q="2" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
+<div class="faq-a">
+<p>Claude Code 有免费额度，但有限制：</p>
+<ul>
+<li>🆓 <b>免费用户</b>：有每日使用额度限制，够日常轻量使用</li>
+<li>💰 <b>Claude Pro</b>：$20/月，额度大幅提升</li>
+<li>🔑 <b>API Key</b>：按使用量计费，新账号有 $5 免费额度</li>
+</ul>
 </div>
 </div>
 
-<h2 class="step-title">1.3 数据类型 — 数据有不同的"种类"</h2>
-<div class="explain-box">
-Python中的数据分几种类型，就像超市里商品分类一样：<br><br>
-• <b>整数 int</b>：没有小数点的数字，如 <code>0</code> <code>10</code> <code>-3</code><br>
-• <b>浮点数 float</b>：有小数点的数字，如 <code>3.14</code> <code>-0.5</code><br>
-• <b>字符串 str</b>：用引号括起来的文字，如 <code>"你好"</code> <code>'hello'</code><br>
-• <b>布尔值 bool</b>：只有 <code>True</code> 或 <code>False</code> 两个值
+<div class="faq-item">
+<div class="faq-q" onclick="toggleFaq(this)">
+<span>怎么更新 Claude Code？</span>
+<span class="arrow">▼</span>
 </div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — 数据类型</h4>
-<div class="fill-question">
-<div class="fill-q-text">4. 数字 <code>42</code> 的数据类型是：<code>______</code>（填英文类型名）</div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="0" data-q="3" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">5. <code>"Hello"</code> 的数据类型是：<code>______</code>（填英文类型名）</div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="0" data-q="4" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
+<div class="faq-a">
+<p>根据安装方式不同：</p>
+<ul>
+<li>原生安装器：<code>claude update</code></li>
+<li>WinGet：<code>winget upgrade Anthropic.ClaudeCode</code></li>
+<li>WSL/Git Bash：<code>curl -fsSL https://claude.ai/install.sh | bash</code></li>
+</ul>
 </div>
 </div>
 
-<h2 class="step-title">1.4 运算符 — 让计算机做计算</h2>
-<div class="card">
-<h3>Python常用运算符</h3>
-<table class="info-table">
-<tr><th>运算符</th><th>含义</th><th>示例</th><th>结果</th></tr>
-<tr><td><code>+</code></td><td>加法</td><td><code>3 + 2</code></td><td>5</td></tr>
-<tr><td><code>-</code></td><td>减法</td><td><code>5 - 1</code></td><td>4</td></tr>
-<tr><td><code>*</code></td><td>乘法</td><td><code>4 * 3</code></td><td>12</td></tr>
-<tr><td><code>/</code></td><td>除法</td><td><code>10 / 3</code></td><td>3.33</td></tr>
-<tr><td><code>//</code></td><td>整除</td><td><code>10 // 3</code></td><td>3</td></tr>
-<tr><td><code>%</code></td><td>取余</td><td><code>10 % 3</code></td><td>1</td></tr>
-<tr><td><code>==</code></td><td>等于</td><td><code>5 == 5</code></td><td>True</td></tr>
-<tr><td><code>!=</code></td><td>不等于</td><td><code>5 != 3</code></td><td>True</td></tr>
-</table>
+<div class="faq-item">
+<div class="faq-q" onclick="toggleFaq(this)">
+<span>为什么有些功能用不了？</span>
+<span class="arrow">▼</span>
 </div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — 运算符</h4>
-<div class="fill-question">
-<div class="fill-q-text">6. 计算 10 除以 3 的整数部分：<code>10 ______ 3</code>（结果为3）</div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="0" data-q="5" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">7. 判断两个值是否相等，用：<code>score ______ 10</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="0" data-q="6" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
+<div class="faq-a">
+<p>运行环境检查命令：</p>
+<code>claude doctor</code>
+<p>它会告诉你哪些功能可用、哪些缺失。常见问题：</p>
+<ul>
+<li>Git 未安装 → 安装 Git</li>
+<li>Node.js 未安装 → 安装 Node.js</li>
+<li>非 WSL 环境 → 部分高级 Shell 功能不可用</li>
+</ul>
 </div>
 </div>
 
-<h2 class="step-title">1.5 print() — 让计算机说话</h2>
-<div class="explain-box">
-<code>print()</code> 是Python最常用的函数，功能是<strong>在屏幕上显示内容</strong>。<br><br>
-<b>生活比喻：</b>就像大声喊出你想说的话<br>
-<code>print("游戏开始！")</code> → 屏幕显示：游戏开始！<br>
-<code>print(score)</code> → 屏幕显示 score 变量的值
+<div class="faq-item">
+<div class="faq-q" onclick="toggleFaq(this)">
+<span>Claude Code 会自动修改我的代码吗？</span>
+<span class="arrow">▼</span>
 </div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — print</h4>
-<div class="fill-question">
-<div class="fill-q-text">8. 在屏幕上显示"Hello"：<code>______("Hello")</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="0" data-q="7" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
+<div class="faq-a">
+<p>默认情况下，Claude Code 修改文件前会<b>先询问你确认</b>。你可以：</p>
+<ul>
+<li>输入 <code>y</code> 确认修改</li>
+<li>输入 <code>n</code> 拒绝修改</li>
+<li>建议先用 Git 管理项目，这样随时可以回退</li>
+</ul>
 </div>
 </div>
 
-<!-- CODE LAB 1 -->
-<div class="code-lab" id="codelab0">
-<div class="code-lab-header">
-<h4>⌨️ 第1课 · 代码实战</h4>
-<span class="lab-badge required">必做</span>
+<div class="faq-item">
+<div class="faq-q" onclick="toggleFaq(this)">
+<span>PowerShell 执行策略报错怎么办？</span>
+<span class="arrow">▼</span>
+</div>
+<div class="faq-a">
+<p>如果提示"无法加载文件，因为在此系统上禁止运行脚本"，执行：</p>
+<code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>
+<p>输入 <b>Y</b> 确认即可。这是 Windows 的安全策略，允许运行本地脚本。</p>
 </div>
-<div class="code-lab-desc">
-请<b>手动敲出</b>以下代码（不要复制粘贴！）：<br>
-1. 创建变量 <code>game_name</code>，赋值为 <code>"贪吃蛇"</code><br>
-2. 创建变量 <code>score</code>，赋值为 <code>0</code><br>
-3. 用 <code>print()</code> 输出 <code>game_name</code> 的值<br>
-4. 用 <code>print()</code> 输出 <code>score</code> 的值
-</div>
-<div class="code-lab-editor">
-<div class="code-lab-lines" id="lines0"></div>
-<textarea class="code-lab-textarea" id="editor0" placeholder="在这里手敲代码..." spellcheck="false"></textarea>
-</div>
-<div class="code-lab-actions">
-<button class="code-lab-btn verify" onclick="verifyCodeLab(0)">✅ 验证代码</button>
-<button class="code-lab-btn hint2" onclick="codeLabHint(0)">💡 提示</button>
-<button class="code-lab-btn clear" onclick="clearLab(0)">🗑️ 清空</button>
-<span class="code-lab-result" id="result0"></span>
-</div>
-</div>
-
-</div>
-
-<!-- ==================== LESSON 2 ==================== -->
-<div class="lesson-content" id="lesson1">
-
-<h2 class="step-title purple">2.1 import — 借用别人的工具箱</h2>
-<div class="explain-box">
-<code>import</code> 的意思是"<b>导入</b>"——把别人写好的代码工具箱拿过来用。<br><br>
-<b>生活比喻：</b>就像你要画画，得先从工具箱里拿出画笔和颜料<br>
-<code>import turtle</code> → 把 turtle 画图工具箱拿出来<br>
-<code>import time</code> → 把 time 时间工具箱拿出来<br><br>
-<b>为什么需要导入？</b>Python核心功能很精简，更多功能打包在"库"里，用到时再导入，避免程序臃肿。
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — import</h4>
-<div class="fill-question">
-<div class="fill-q-text">1. 导入 turtle 库：<code>______ turtle</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="1" data-q="0" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">2. 导入 time 库：<code>______ time</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="1" data-q="1" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<h2 class="step-title purple">2.2 Screen() — 创建游戏画布</h2>
-<div class="explain-box">
-<code>turtle.Screen()</code> 用来创建一个画布窗口，游戏的一切都在这个窗口上显示。<br><br>
-<b>生活比喻：</b>就像画家要先铺好画布，才能在上面画画<br>
-<code>window = turtle.Screen()</code> → 铺好一块画布，取名叫 window<br>
-<code>window.title("贪吃蛇")</code> → 给画布窗口起个标题<br>
-<code>window.bgcolor("black")</code> → 把画布背景涂成黑色<br>
-<code>window.setup(width=600, height=600)</code> → 画布大小设为600×600像素
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — Screen</h4>
-<div class="fill-question">
-<div class="fill-q-text">3. 创建游戏窗口：<code>window = turtle.______()</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="1" data-q="2" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">4. 设置窗口背景为黑色：<code>window.______("black")</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="1" data-q="3" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<h2 class="step-title purple">2.3 Turtle() — 创建游戏角色</h2>
-<div class="explain-box">
-<code>turtle.Turtle()</code> 用来创建一个"角色"（小海龟），它可以在画布上移动和绘图。<br><br>
-<b>生活比喻：</b>Turtle就像画笔，Screen就像画纸。你拿着画笔在纸上画。<br>
-<code>head = turtle.Turtle()</code> → 创建一只小海龟，取名 head（蛇头）<br><br>
-创建后可以设置它的属性：<br>
-<code>head.shape("square")</code> → 形状设为方块<br>
-<code>head.color("green")</code> → 颜色设为绿色<br>
-<code>head.penup()</code> → 抬笔（移动时不画线）<br>
-<code>head.goto(0, 0)</code> → 移动到坐标(0,0)
-</div>
-
-<div class="analogy-box">
-<h4>🌍 坐标系比喻</h4>
-<p>画布中间是原点(0,0)，往右x增大，往上y增大，就像教室座位表——第几排第几列。<br>
-<code>goto(100, 0)</code> = 从中间向右走100步<br>
-<code>goto(0, -100)</code> = 从中间向下走100步</p>
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — Turtle</h4>
-<div class="fill-question">
-<div class="fill-q-text">5. 创建蛇头角色：<code>head = turtle.______()</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="1" data-q="4" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">6. 让蛇头移动时不画线：<code>head.______()</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="1" data-q="5" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">7. 把蛇头移动到坐标(0,0)：<code>head.______(0, 0)</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="1" data-q="6" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<h2 class="step-title purple">2.4 shape和color — 给角色打扮</h2>
-<div class="explain-box">
-<b>shape()</b> 设置角色形状，可选值：<code>"square"</code>方块、<code>"circle"</code>圆形、<code>"triangle"</code>三角形、<code>"arrow"</code>箭头<br><br>
-<b>color()</b> 设置角色颜色，可以用英文颜色名：<code>"green"</code>、<code>"red"</code>、<code>"blue"</code>、<code>"white"</code>等<br><br>
-<b>shapesize()</b> 设置大小：<code>head.shapesize(1, 1)</code> → 宽1格高1格
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — 形状和颜色</h4>
-<div class="fill-question">
-<div class="fill-q-text">8. 设置蛇头为方块形状：<code>head.______("square")</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="1" data-q="7" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">9. 设置蛇头颜色为绿色：<code>head.______("green")</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="1" data-q="8" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">10. 食物用圆形：<code>food.______("circle")</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="1" data-q="9" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<!-- CODE LAB 2 -->
-<div class="code-lab" id="codelab1">
-<div class="code-lab-header">
-<h4>⌨️ 第2课 · 代码实战</h4>
-<span class="lab-badge required">必做</span>
-</div>
-<div class="code-lab-desc">
-请<b>手动敲出</b>以下代码（不要复制粘贴！）：<br>
-1. 导入 <code>turtle</code> 库<br>
-2. 创建窗口 <code>window</code>，设置标题为"贪吃蛇"，背景色为"black"<br>
-3. 创建蛇头 <code>head</code>，形状为"square"，颜色为"green"，抬笔，移到(0,0)<br>
-4. 创建食物 <code>food</code>，形状为"circle"，颜色为"red"，抬笔，移到(100,0)
-</div>
-<div class="code-lab-editor">
-<div class="code-lab-lines" id="lines1"></div>
-<textarea class="code-lab-textarea" id="editor1" placeholder="在这里手敲代码..." spellcheck="false"></textarea>
-</div>
-<div class="code-lab-actions">
-<button class="code-lab-btn verify" onclick="verifyCodeLab(1)">✅ 验证代码</button>
-<button class="code-lab-btn hint2" onclick="codeLabHint(1)">💡 提示</button>
-<button class="code-lab-btn clear" onclick="clearLab(1)">🗑️ 清空</button>
-<span class="code-lab-result" id="result1"></span>
-</div>
-</div>
-
-</div>
-
-<!-- ==================== LESSON 3 ==================== -->
-<div class="lesson-content" id="lesson2">
-
-<h2 class="step-title orange">3.1 def — 定义函数（做菜谱）</h2>
-<div class="explain-box">
-<code>def</code> 是 <b>define</b>（定义）的缩写，用来创建函数。函数就是一段可以重复使用的代码。<br><br>
-<b>生活比喻：</b>函数就像菜谱——写一次，以后按名字调用就行<br>
-<code>def go_up():</code> → 定义一个叫"向上走"的菜谱<br>
-<code>    head.setheading(90)</code> → 菜谱内容：方向设为90度（向上）<br><br>
-⚠️ 注意：<code>def</code> 后面的代码要<b>缩进4个空格</b>，表示这些代码属于这个函数！
-</div>
-
-<div class="vs-box">
-<div class="vs-col wrong-vs">
-<h4>❌ 错误写法</h4>
-<code>def go_up():<br>head.setheading(90)  # 没有缩进！</code>
-</div>
-<div class="vs-col right-vs">
-<h4>✅ 正确写法</h4>
-<code>def go_up():<br>&nbsp;&nbsp;&nbsp;&nbsp;head.setheading(90)  # 缩进4空格</code>
-</div>
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — def</h4>
-<div class="fill-question">
-<div class="fill-q-text">1. 定义向上移动的函数：<code>______ go_up():</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="2" data-q="0" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">2. 设置蛇头方向为90度（向上）：<code>head.______(90)</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="2" data-q="1" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<h2 class="step-title orange">3.2 列表 list — 装东西的容器</h2>
-<div class="explain-box">
-<b>列表</b>是Python中最常用的数据结构，用方括号 <code>[]</code> 表示，可以存放多个数据。<br><br>
-<b>生活比喻：</b>列表就像一列火车，每节车厢装一个数据，车厢有编号（从0开始）<br>
-<code>segments = []</code> → 创建一列空火车<br>
-<code>segments.append(new_segment)</code> → 在火车末尾加一节车厢<br>
-<code>segments[0]</code> → 查看第1节车厢<br>
-<code>len(segments)</code> → 看看火车有几节车厢
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — 列表</h4>
-<div class="fill-question">
-<div class="fill-q-text">3. 创建一个空列表：<code>segments = ______</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="2" data-q="2" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">4. 在列表末尾添加一个元素：<code>segments.______(new_segment)</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="2" data-q="3" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">5. 获取列表长度（元素个数）：<code>______(segments)</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="2" data-q="4" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<h2 class="step-title orange">3.3 键盘监听 — 听你的指挥</h2>
-<div class="explain-box">
-让游戏窗口"听"键盘事件，按不同键执行不同函数：<br><br>
-<code>window.listen()</code> → 开始监听键盘<br>
-<code>window.onkeypress(go_up, "Up")</code> → 按上箭头时调用 go_up 函数<br>
-<code>window.onkeypress(go_down, "Down")</code> → 按下箭头时调用 go_down 函数<br><br>
-<b>⚠️ 重要：</b><code>onkeypress</code> 传的是函数名（不带括号！），不是调用函数的结果。
-</div>
-
-<div class="vs-box">
-<div class="vs-col wrong-vs">
-<h4>❌ 错误：带了括号</h4>
-<code>window.onkeypress(go_up(), "Up")<br># 这样会立即执行go_up！</code>
-</div>
-<div class="vs-col right-vs">
-<h4>✅ 正确：不带括号</h4>
-<code>window.onkeypress(go_up, "Up")<br># 按键时才执行go_up</code>
-</div>
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — 键盘监听</h4>
-<div class="fill-question">
-<div class="fill-q-text">6. 开始监听键盘：<code>window.______()</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="2" data-q="5" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">7. 按上箭头键触发go_up函数：<code>window.______(go_up, "Up")</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="2" data-q="6" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<h2 class="step-title orange">3.4 while循环 — 重复执行</h2>
-<div class="explain-box">
-<code>while</code> 循环让代码重复执行，只要条件为True就一直跑。<br><br>
-<b>生活比喻：</b>就像操场跑步——只要没喊停，就一直跑<br>
-<code>while True:</code> → 永远循环（游戏主循环）<br>
-<code>while score &lt; 10:</code> → 分数不到10就继续<br><br>
-<b>⚠️ 注意：</b>循环体内的代码也要缩进4个空格！
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — while循环</h4>
-<div class="fill-question">
-<div class="fill-q-text">8. 创建一个无限循环：<code>______ True:</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="2" data-q="7" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">9. 蛇头向上移动20像素：<code>head.______(head.xcor(), head.ycor() + 20)</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="2" data-q="8" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">10. 获取蛇头的y坐标：<code>y = head.______()</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="2" data-q="9" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">11. 获取蛇头的x坐标：<code>x = head.______()</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="2" data-q="10" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">12. 暂停0.1秒：<code>time.______(0.1)</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="2" data-q="11" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<!-- CODE LAB 3 -->
-<div class="code-lab" id="codelab2">
-<div class="code-lab-header">
-<h4>⌨️ 第3课 · 代码实战</h4>
-<span class="lab-badge required">必做</span>
-</div>
-<div class="code-lab-desc">
-请<b>手动敲出</b>以下代码（不要复制粘贴！）：<br>
-1. 定义函数 <code>go_up()</code>：设置蛇头方向为90度<br>
-2. 定义函数 <code>go_down()</code>：设置蛇头方向为270度<br>
-3. 定义函数 <code>go_left()</code>：设置蛇头方向为180度<br>
-4. 定义函数 <code>go_right()</code>：设置蛇头方向为0度<br>
-5. 键盘监听：按Up调用go_up，按Down调用go_down，按Left调用go_left，按Right调用go_right
-</div>
-<div class="code-lab-editor">
-<div class="code-lab-lines" id="lines2"></div>
-<textarea class="code-lab-textarea" id="editor2" placeholder="在这里手敲代码..." spellcheck="false"></textarea>
-</div>
-<div class="code-lab-actions">
-<button class="code-lab-btn verify" onclick="verifyCodeLab(2)">✅ 验证代码</button>
-<button class="code-lab-btn hint2" onclick="codeLabHint(2)">💡 提示</button>
-<button class="code-lab-btn clear" onclick="clearLab(2)">🗑️ 清空</button>
-<span class="code-lab-result" id="result2"></span>
-</div>
-</div>
-
-</div>
-
-<!-- ==================== LESSON 4 ==================== -->
-<div class="lesson-content" id="lesson3">
-
-<h2 class="step-title pink">4.1 distance() — 碰撞检测</h2>
-<div class="explain-box">
-<code>head.distance(food)</code> 计算蛇头到食物的距离。当距离很近时，就认为"吃到"了。<br><br>
-<b>生活比喻：</b>就像你和朋友的距离——如果小于1米，就算"碰到了"<br>
-<code>if head.distance(food) &lt; 20:</code> → 蛇头距食物不到20像素，就算吃到了<br><br>
-为什么是20？因为蛇头方块大小是20×20像素，食物也是20像素，所以距离小于20就算重叠。
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — 碰撞检测</h4>
-<div class="fill-question">
-<div class="fill-q-text">1. 检测蛇头是否吃到食物：<code>if head.______(food) &lt; 20:</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="3" data-q="0" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<h2 class="step-title pink">4.2 randint() — 随机生成食物位置</h2>
-<div class="explain-box">
-<code>random.randint(a, b)</code> 生成a到b之间的随机整数。<br><br>
-<b>生活比喻：</b>就像掷骰子——randint(1,6)就是掷一个1到6的骰子<br>
-<code>x = random.randint(-14, 14) * 20</code> → 在-280到280之间随机选一个位置<br><br>
-为什么要乘20？因为蛇每次移动20像素，食物必须出现在蛇能到达的位置上。<br>
-⚠️ 使用前需要先导入：<code>import random</code>
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — 随机数</h4>
-<div class="fill-question">
-<div class="fill-q-text">2. 生成1到100的随机整数：<code>n = random.______(1, 100)</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="3" data-q="1" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">3. 导入random库：<code>______ random</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="3" data-q="2" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<h2 class="step-title pink">4.3 吃食物 + 身体变长</h2>
-<div class="explain-box">
-蛇吃到食物后需要做三件事：<br>
-1. 🟢 分数+1<br>
-2. 🔴 食物随机移到新位置<br>
-3. 🟩 蛇身增加一节<br><br>
-蛇身怎么实现？每帧把蛇头当前位置添加到列表，然后用for循环画出所有身体段。如果没吃到食物，就删除列表最旧的坐标（保持长度不变）。
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — 身体变长</h4>
-<div class="fill-question">
-<div class="fill-q-text">4. 在列表末尾添加新身体段：<code>segments.______(new_segment)</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="3" data-q="3" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">5. 分数加1：<code>score ______ 1</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="3" data-q="4" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<h2 class="step-title pink">4.4 range倒序遍历 — 移动蛇身</h2>
-<div class="explain-box">
-蛇身的移动原理：每节身体跟随前一节的位置。<br><br>
-<b>必须倒序遍历！</b>从最后一节开始，每节移到前一节的位置：<br>
-<code>for i in range(len(segments)-1, 0, -1):</code><br>
-<code>&nbsp;&nbsp;&nbsp;&nbsp;x = segments[i-1].xcor()</code><br>
-<code>&nbsp;&nbsp;&nbsp;&nbsp;y = segments[i-1].ycor()</code><br>
-<code>&nbsp;&nbsp;&nbsp;&nbsp;segments[i].goto(x, y)</code><br><br>
-<b>生活比喻：</b>就像排队——前面的人走了，后面的人依次往前挪一位。<b>必须从队尾开始挪</b>，否则位置会乱！
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — 倒序遍历</h4>
-<div class="fill-question">
-<div class="fill-q-text">6. 倒序遍历列表（从最后到第2个）：<code>for i in ______(len(segments)-1, 0, -1):</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="3" data-q="5" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<h2 class="step-title pink">4.5 边界检测 — 游戏结束</h2>
-<div class="explain-box">
-蛇超出画布边界时游戏结束：<br>
-<code>if head.xcor() &gt; 290 or head.xcor() &lt; -290:</code> → 左右出界<br>
-<code>if head.ycor() &gt; 290 or head.ycor() &lt; -290:</code> → 上下出界<br><br>
-蛇头碰到自己身体也游戏结束：遍历每个身体段，检查是否和蛇头重叠。
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — 边界检测</h4>
-<div class="fill-question">
-<div class="fill-q-text">7. 判断蛇头是否超出右边界（290）：<code>if head.xcor() ______ 290:</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="3" data-q="6" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">8. 判断蛇头是否碰到第i节身体：<code>if head.______(segments[i]) &lt; 10:</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="3" data-q="7" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<h2 class="step-title pink">4.6 游戏主循环 — 把所有代码串起来</h2>
-<div class="explain-box">
-游戏的主循环流程：<br>
-1. 🖥️ 更新窗口显示<br>
-2. ➡️ 移动蛇头<br>
-3. 🔗 移动蛇身（倒序跟随）<br>
-4. 🆕 第1节身体移到蛇头旧位置<br>
-5. 🍎 检测是否吃到食物<br>
-6. 💀 检测是否碰墙/碰自己<br>
-7. ⏱️ 暂停0.1秒（控制速度）<br>
-8. 🔁 回到步骤1
-</div>
-
-<div class="fill-area">
-<h4>✏️ 填空练习 — 主循环</h4>
-<div class="fill-question">
-<div class="fill-q-text">9. 更新窗口显示：<code>window.______()</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="3" data-q="8" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-<div class="fill-question">
-<div class="fill-q-text">10. 暂停0.1秒控制游戏速度：<code>time.______(0.1)</code></div>
-<div class="fill-input-row">
-<input class="fill-input" data-lesson="3" data-q="9" placeholder="输入答案...">
-<button class="fill-check" onclick="checkFill(this)">检查</button>
-<button class="fill-hint" onclick="showHint(this)">提示</button>
-</div>
-<div class="fill-feedback"></div>
-</div>
-</div>
-
-<!-- QUIZ -->
-<h2 class="step-title pink">📝 第4课测验</h2>
-<div class="quiz-card" id="quiz0">
-<h4>1. 检测蛇头碰到食物用什么方法？</h4>
-<div class="quiz-option" onclick="selectQuiz(this,0,0)">A. head.touch(food)</div>
-<div class="quiz-option" onclick="selectQuiz(this,0,1)">B. head.distance(food)</div>
-<div class="quiz-option" onclick="selectQuiz(this,0,2)">C. head.hit(food)</div>
-<div class="quiz-option" onclick="selectQuiz(this,0,3)">D. head.check(food)</div>
-<div class="quiz-explain">答案：B。distance()计算两个角色之间的像素距离，小于20就算碰到。</div>
-</div>
-<div class="quiz-card" id="quiz1">
-<h4>2. 为什么蛇身移动要倒序遍历？</h4>
-<div class="quiz-option" onclick="selectQuiz(this,1,0)">A. 正序倒序都一样</div>
-<div class="quiz-option" onclick="selectQuiz(this,1,1)">B. 倒序运行更快</div>
-<div class="quiz-option" onclick="selectQuiz(this,1,2)">C. 正序会导致位置覆盖，后面的身体段找不到前一节的原始位置</div>
-<div class="quiz-option" onclick="selectQuiz(this,1,3)">D. Python只支持倒序遍历</div>
-<div class="quiz-explain">答案：C。正序时，第1节先移到蛇头位置，第2节再移到第1节的新位置（而不是原始位置），位置就全乱了。</div>
-</div>
-
-<!-- CODE LAB 4 -->
-<div class="code-lab" id="codelab3">
-<div class="code-lab-header">
-<h4>⌨️ 第4课 · 代码实战</h4>
-<span class="lab-badge required">必做</span>
-</div>
-<div class="code-lab-desc">
-请<b>手动敲出</b>游戏主循环代码（不要复制粘贴！）：<br>
-1. <code>while True:</code> 无限循环<br>
-2. 更新窗口：<code>window.update()</code><br>
-3. 检测蛇头是否碰到食物（distance &lt; 20），如果碰到：食物随机移走、分数+1<br>
-4. 倒序遍历segments，每节移到前一节位置<br>
-5. 第1节身体移到蛇头位置<br>
-6. 移动蛇头（根据方向）<br>
-7. 检测是否碰墙或碰自己<br>
-8. 暂停0.1秒
-</div>
-<div class="code-lab-editor">
-<div class="code-lab-lines" id="lines3"></div>
-<textarea class="code-lab-textarea" id="editor3" placeholder="在这里手敲代码..." spellcheck="false"></textarea>
-</div>
-<div class="code-lab-actions">
-<button class="code-lab-btn verify" onclick="verifyCodeLab(3)">✅ 验证代码</button>
-<button class="code-lab-btn hint2" onclick="codeLabHint(3)">💡 提示</button>
-<button class="code-lab-btn clear" onclick="clearLab(3)">🗑️ 清空</button>
-<span class="code-lab-result" id="result3"></span>
-</div>
-</div>
-
-</div>
-
-<!-- ==================== FULL CODE ==================== -->
-<section class="section full-code-section" id="full-code">
-<h2 class="section-title"><span class="emoji">💻</span> 完整源代码</h2>
-<div class="full-code-locked" id="codeLocked">
-<div class="lock-icon">🔒</div>
-<h3>代码已锁定</h3>
-<p>完成全部 4 课的填空练习 + 4 个代码实战后才能查看完整代码</p>
-<div class="full-code-progress" id="unlockProgress">当前进度：0%</div>
-</div>
-<div class="full-code-unlocked" id="codeUnlocked">
-<h3>🎉 恭喜！所有课程已完成！</h3>
-<div class="readonly-notice">📌 这是只读代码展示，请在电脑上手动敲出完整代码来运行游戏！</div>
-<div class="code-block" id="fullCodeBlock"></div>
 </div>
 </section>
 
-<!-- Knowledge Summary -->
-<section class="section">
-<h2 class="section-title"><span class="emoji">📝</span> 知识点总结</h2>
-<div class="knowledge-grid">
-<div class="knowledge-card"><h4>📦 import</h4><p>导入外部库，如 <code>import turtle</code></p></div>
-<div class="knowledge-card"><h4>🖼️ Screen()</h4><p>创建画布窗口，设置大小和颜色</p></div>
-<div class="knowledge-card"><h4>🐢 Turtle()</h4><p>创建角色，设置形状颜色和位置</p></div>
-<div class="knowledge-card"><h4>📋 list列表</h4><p>用 <code>[]</code> 创建，<code>append()</code> 添加，<code>len()</code> 获取长度</p></div>
-<div class="knowledge-card"><h4>🔧 def函数</h4><p>用 <code>def</code> 定义可复用的代码块，注意缩进</p></div>
-<div class="knowledge-card"><h4>👂 键盘监听</h4><p><code>listen()</code> + <code>onkeypress()</code> 响应按键</p></div>
-<div class="knowledge-card"><h4>🔁 while循环</h4><p><code>while True:</code> 创建游戏主循环</p></div>
-<div class="knowledge-card"><h4>💥 碰撞检测</h4><p><code>distance()</code> 判断角色间距离</p></div>
+<!-- SUMMARY -->
+<section class="section" id="summary">
+<h2 class="section-title"><span class="emoji">✅</span> <span class="num">09</span> 安装完成清单</h2>
+<div class="checklist">
+<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox"> 已安装 Git</label>
+<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox"> 已安装 Node.js（可选）</label>
+<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox"> 已选择一种方式安装 Claude Code</label>
+<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox"> <code>claude --version</code> 能输出版本号</label>
+<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox"> 已完成登录认证（或配置 API Key）</label>
+<label class="check-item" onclick="toggleCheck(this)"><input type="checkbox"> 第一次对话成功 🎉</label>
 </div>
 </section>
+
+<div class="footer">
+<p>🚀 Claude Code Windows 部署教程 | 2026年4月更新 | 祝你编程愉快！</p>
+</div>
 
 </div>
 
 <script>
-// ===== FILL-IN ANSWERS =====
-const answers = [
-  // Lesson 0: 8 questions
-  ['score','=','"贪吃蛇"','int','str','//','==','print'],
-  // Lesson 1: 10 questions
-  ['import','import','Screen','bgcolor','Turtle','penup','goto','shape','color','shape'],
-  // Lesson 2: 12 questions
-  ['def','setheading','[]','append','len','listen','onkeypress','while','goto','ycor','xcor','sleep'],
-  // Lesson 3: 10 questions
-  ['distance','randint','import','append','+=','range','>','distance','update','sleep']
-];
-const hints = [
-  // Lesson 0
-  ['变量名就是score，直接写','赋值用什么符号？','字符串要用引号包裹','整数的英文缩写','字符串的英文缩写','整除用两个斜杠','判断相等用两个等号','输出函数的名字'],
-  // Lesson 1
-  ['导入库的关键字','和第一题一样的关键字','创建窗口的方法名','设置背景颜色的方法名','创建小海龟的方法名','抬笔（不画线）的方法','移动到指定坐标的方法','设置形状的方法','设置颜色的方法','和蛇头设置形状一样的方法'],
-  // Lesson 2
-  ['定义函数的关键字','设置方向的方法名','空列表就是一对方括号','在末尾添加元素的方法','获取长度的内置函数','开始监听的方法','绑定按键事件的方法','循环关键字','移动到坐标的方法','获取y坐标的方法','获取x坐标的方法','暂停的方法'],
-  // Lesson 3
-  ['计算距离的方法','生成随机整数的方法','导入库的关键字','在列表末尾添加元素','加等于，两个符号','生成整数序列的函数','大于号','计算距离的方法','更新窗口的方法','暂停的方法']
-];
-const fillState = [[],[],[],[]];
-const totalFills = 40; // 8+10+12+10
-
-// Code lab state
-const codeLabPassed = [false,false,false,false];
-const codeLabHints = [
-  '参考格式：\ngame_name = "贪吃蛇"\nscore = 0\nprint(game_name)\nprint(score)',
-  '参考格式：\nimport turtle\nwindow = turtle.Screen()\nwindow.title("贪吃蛇")\nwindow.bgcolor("black")\nhead = turtle.Turtle()\nhead.shape("square")\nhead.color("green")\nhead.penup()\nhead.goto(0, 0)\nfood = turtle.Turtle()\nfood.shape("circle")\nfood.color("red")\nfood.penup()\nfood.goto(100, 0)',
-  '参考格式：\ndef go_up():\n    head.setheading(90)\ndef go_down():\n    head.setheading(270)\ndef go_left():\n    head.setheading(180)\ndef go_right():\n    head.setheading(0)\nwindow.listen()\nwindow.onkeypress(go_up, "Up")\nwindow.onkeypress(go_down, "Down")\nwindow.onkeypress(go_left, "Left")\nwindow.onkeypress(go_right, "Right")',
-  '参考格式：\nwhile True:\n    window.update()\n    if head.distance(food) < 20:\n        food.goto(random.randint(-14,14)*20, random.randint(-14,14)*20)\n        score += 1\n    for i in range(len(segments)-1, 0, -1):\n        x = segments[i-1].xcor()\n        y = segments[i-1].ycor()\n        segments[i].goto(x, y)\n    if len(segments) > 0:\n        segments[0].goto(head.xcor(), head.ycor())\n    head.forward(20)\n    time.sleep(0.1)'
-];
-const codeLabChecks = [
-  // Lab 0: check for variable creation and print
-  [{must:'game_name',msg:'缺少变量 game_name'},{must:'score',msg:'缺少变量 score'},{must:'print',msg:'缺少 print() 输出'}],
-  // Lab 1: import, Screen, Turtle, shape, color, penup, goto
-  [{must:'import turtle',msg:'缺少 import turtle'},{must:'Screen',msg:'缺少 Screen() 创建窗口'},{must:'Turtle',msg:'缺少 Turtle() 创建角色'},{must:'penup',msg:'缺少 penup() 抬笔'},{must:'goto',msg:'缺少 goto() 移动位置'}],
-  // Lab 2: def, setheading, listen, onkeypress
-  [{must:'def go_up',msg:'缺少 def go_up()'},{must:'def go_down',msg:'缺少 def go_down()'},{must:'def go_left',msg:'缺少 def go_left()'},{must:'def go_right',msg:'缺少 def go_right()'},{must:'setheading',msg:'缺少 setheading() 设置方向'},{must:'listen',msg:'缺少 listen() 监听'},{must:'onkeypress',msg:'缺少 onkeypress() 绑定按键'}],
-  // Lab 3: while, update, distance, for, range, sleep
-  [{must:'while',msg:'缺少 while 循环'},{must:'update',msg:'缺少 window.update()'},{must:'distance',msg:'缺少 distance() 碰撞检测'},{must:'for',msg:'缺少 for 循环遍历身体'},{must:'range',msg:'缺少 range() 倒序遍历'},{must:'sleep',msg:'缺少 time.sleep() 控制速度'}]
-];
-
-// Quiz answers
-const quizAnswers = [1, 2]; // B, C
-
-function checkFill(btn) {
-  const row = btn.parentElement;
-  const input = row.querySelector('.fill-input');
-  const feedback = row.parentElement.querySelector('.fill-feedback');
-  const lesson = parseInt(input.dataset.lesson);
-  const q = parseInt(input.dataset.q);
-  const userAns = input.value.trim();
-  const correctAns = answers[lesson][q];
-
-  if (!userAns) { feedback.className='fill-feedback wrong'; feedback.textContent='请输入答案！'; return; }
-
-  if (userAns === correctAns) {
-    input.classList.remove('wrong');
-    input.classList.add('correct');
-    feedback.className='fill-feedback correct';
-    feedback.textContent='✅ 正确！';
-    if (!fillState[lesson][q]) { fillState[lesson][q] = true; }
-  } else {
-    input.classList.remove('correct');
-    input.classList.add('wrong');
-    feedback.className='fill-feedback wrong';
-    feedback.textContent='❌ 不对哦，再想想！';
-  }
-  updateProgress();
-}
-
-function showHint(btn) {
-  const row = btn.parentElement;
-  const input = row.querySelector('.fill-input');
-  const feedback = row.parentElement.querySelector('.fill-feedback');
-  const lesson = parseInt(input.dataset.lesson);
-  const q = parseInt(input.dataset.q);
-  feedback.className='fill-feedback hint';
-  feedback.textContent='💡 提示：' + hints[lesson][q];
-}
-
-function updateProgress() {
-  let total = 0, done = 0;
-  for (let l = 0; l < 4; l++) {
-    let lDone = 0, lTotal = answers[l].length;
-    for (let q = 0; q < lTotal; q++) {
-      if (fillState[l][q]) lDone++;
-    }
-    fillState[l].length = lTotal;
-    total += lTotal; done += lDone;
-    const pct = Math.round(lDone / lTotal * 100);
-    document.getElementById('lp' + l).style.width = pct + '%';
-  }
-  // Add code lab progress (4 labs, each counts as much as ~5 fills)
-  let labDone = codeLabPassed.filter(x=>x).length;
-  let totalWithLabs = total + 20; // 4 labs × 5 weight each
-  let doneWithLabs = done + labDone * 5;
-  const overall = Math.round(doneWithLabs / totalWithLabs * 100);
-  document.getElementById('totalProgress').style.width = overall + '%';
-  document.getElementById('unlockProgress').textContent = '当前进度：' + overall + '%';
-
-  // Check unlock
-  if (overall >= 100) {
-    document.getElementById('codeLocked').style.display = 'none';
-    document.getElementById('codeUnlocked').style.display = 'block';
-    showFullCode();
-  }
-}
-
-function showLesson(idx) {
-  document.querySelectorAll('.lesson-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.lesson-card').forEach(el => el.classList.remove('active'));
-  document.getElementById('lesson' + idx).classList.add('active');
-  document.querySelectorAll('.lesson-card')[idx].classList.add('active');
-}
-
-// Code Lab
-function updateLineNumbers(idx) {
-  const textarea = document.getElementById('editor' + idx);
-  const linesDiv = document.getElementById('lines' + idx);
-  const lineCount = textarea.value.split('\n').length;
-  let html = '';
-  for (let i = 1; i <= Math.max(lineCount, 10); i++) {
-    html += '<span>' + i + '</span>';
-  }
-  linesDiv.innerHTML = html;
-}
-
-function verifyCodeLab(idx) {
-  const code = document.getElementById('editor' + idx).value;
-  const result = document.getElementById('result' + idx);
-  const checks = codeLabChecks[idx];
-  let allPassed = true;
-  let msgs = [];
-
-  for (let check of checks) {
-    if (!code.includes(check.must)) {
-      allPassed = false;
-      msgs.push(check.msg);
-    }
-  }
-
-  if (code.trim().length < 10) {
-    result.className = 'code-lab-result fail';
-    result.textContent = '❌ 代码太少了，请手动敲入完整代码！';
-    return;
-  }
-
-  if (allPassed) {
-    result.className = 'code-lab-result pass';
-    result.textContent = '✅ 代码验证通过！做得好！';
-    codeLabPassed[idx] = true;
-  } else {
-    result.className = 'code-lab-result fail';
-    result.textContent = '❌ 还需改进：' + msgs.join('；');
-  }
-  updateProgress();
-}
-
-function codeLabHint(idx) {
-  const result = document.getElementById('result' + idx);
-  result.className = 'code-lab-result hint';
-  result.textContent = '💡 参考代码结构：\n' + codeLabHints[idx];
-}
-
-function clearLab(idx) {
-  document.getElementById('editor' + idx).value = '';
-  document.getElementById('result' + idx).textContent = '';
-  document.getElementById('result' + idx).className = 'code-lab-result';
-  updateLineNumbers(idx);
-}
-
-// Init editors
-for (let i = 0; i < 4; i++) {
-  const editor = document.getElementById('editor' + i);
-  editor.addEventListener('input', () => updateLineNumbers(i));
-  editor.addEventListener('scroll', function() {
-    document.getElementById('lines' + i).scrollTop = this.scrollTop;
-  });
-  editor.addEventListener('keydown', function(e) {
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      const start = this.selectionStart;
-      const end = this.selectionEnd;
-      this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
-      this.selectionStart = this.selectionEnd = start + 4;
-      updateLineNumbers(i);
-    }
-  });
-  updateLineNumbers(i);
-}
-
-// Full code display
-function showFullCode() {
-  const code = `import turtle
-import time
-import random
-
-delay = 0.1
-score = 0
-high_score = 0
-
-# 创建窗口
-window = turtle.Screen()
-window.title("贪吃蛇")
-window.bgcolor("black")
-window.setup(width=600, height=600)
-window.tracer(0)
-
-# 创建蛇头
-head = turtle.Turtle()
-head.shape("square")
-head.color("green")
-head.penup()
-head.goto(0, 0)
-head.direction = "stop"
-
-# 创建食物
-food = turtle.Turtle()
-food.shape("circle")
-food.color("red")
-food.penup()
-food.goto(100, 0)
-
-# 蛇身列表
-segments = []
-
-# 方向控制函数
-def go_up():
-    if head.direction != "down":
-        head.direction = "up"
-
-def go_down():
-    if head.direction != "up":
-        head.direction = "down"
-
-def go_left():
-    if head.direction != "right":
-        head.direction = "left"
-
-def go_right():
-    if head.direction != "left":
-        head.direction = "right"
-
-# 移动函数
-def move():
-    if head.direction == "up":
-        y = head.ycor()
-        head.sety(y + 20)
-    if head.direction == "down":
-        y = head.ycor()
-        head.sety(y - 20)
-    if head.direction == "left":
-        x = head.xcor()
-        head.setx(x - 20)
-    if head.direction == "right":
-        x = head.xcor()
-        head.setx(x + 20)
-
-# 键盘绑定
-window.listen()
-window.onkeypress(go_up, "Up")
-window.onkeypress(go_down, "Down")
-window.onkeypress(go_left, "Left")
-window.onkeypress(go_right, "Right")
-
-# 主游戏循环
-while True:
-    window.update()
-
-    # 碰撞检测 - 边界
-    if head.xcor() > 290 or head.xcor() < -290 or head.ycor() > 290 or head.ycor() < -290:
-        time.sleep(1)
-        head.goto(0, 0)
-        head.direction = "stop"
-        for segment in segments:
-            segment.goto(1000, 1000)
-        segments.clear()
-        score = 0
-
-    # 吃食物
-    if head.distance(food) < 20:
-        x = random.randint(-14, 14) * 20
-        y = random.randint(-14, 14) * 20
-        food.goto(x, y)
-        new_segment = turtle.Turtle()
-        new_segment.shape("square")
-        new_segment.color("light green")
-        new_segment.penup()
-        segments.append(new_segment)
-        score += 1
-        if score > high_score:
-            high_score = score
-
-    # 移动蛇身
-    for i in range(len(segments) - 1, 0, -1):
-        x = segments[i - 1].xcor()
-        y = segments[i - 1].ycor()
-        segments[i].goto(x, y)
-
-    if len(segments) > 0:
-        x = head.xcor()
-        y = head.ycor()
-        segments[0].goto(x, y)
-
-    move()
-
-    # 碰撞检测 - 自身
-    for segment in segments:
-        if segment.distance(head) < 10:
-            time.sleep(1)
-            head.goto(0, 0)
-            head.direction = "stop"
-            for segment in segments:
-                segment.goto(1000, 1000)
-            segments.clear()
-            score = 0
-
-    time.sleep(delay)`;
-
-  const block = document.getElementById('fullCodeBlock');
-  const lines = code.split('\n');
-  block.innerHTML = lines.map((line, i) => {
-    const num = String(i + 1).padStart(3, ' ');
-    let highlighted = line
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/(#.*)/g,'<span class="cm">$1</span>')
-      .replace(/\b(import|from|def|if|for|in|while|return|not|and|or|True|False|None)\b/g,'<span class="kw">$1</span>')
-      .replace(/\b(turtle|time|random)\b/g,'<span class="cls">$1</span>')
-      .replace(/(\"[^\"]*\")/g,'<span class="str">$1</span>')
-      .replace(/\b(\d+\.?\d*)\b/g,'<span class="num">$1</span>');
-    return `<span class="line-num">${num}</span>${highlighted}`;
-  }).join('\n');
-}
-
-// Quiz
-function selectQuiz(el, quizIdx, optIdx) {
-  const card = el.parentElement;
-  const options = card.querySelectorAll('.quiz-option');
-  options.forEach(o => { o.classList.remove('selected','correct-ans','wrong-ans'); o.onclick = null; });
-  if (optIdx === quizAnswers[quizIdx]) {
-    el.classList.add('correct-ans');
-  } else {
-    el.classList.add('wrong-ans');
-    options[quizAnswers[quizIdx]].classList.add('correct-ans');
-  }
-  card.querySelector('.quiz-explain').classList.add('show');
-}
-
-// Navigation
+// Scroll
 function scrollTo(id) {
   document.getElementById(id).scrollIntoView({behavior:'smooth'});
 }
 
-// ===== SNAKE GAME =====
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-const GRID = 20;
-const COLS = canvas.width / GRID;
-const ROWS = canvas.height / GRID;
-let snake, food, dir, gameScore, highScore, gameLoop, gameRunning;
-
-highScore = parseInt(localStorage.getItem('snakeHigh') || '0');
-document.getElementById('highScore').textContent = highScore;
-
-function startGame() {
-  snake = [{x:10,y:10}];
-  dir = {x:1,y:0};
-  gameScore = 0;
-  document.getElementById('score').textContent = '0';
-  placeFood();
-  gameRunning = true;
-  if (gameLoop) clearInterval(gameLoop);
-  gameLoop = setInterval(gameTick, 120);
-}
-
-function placeFood() {
-  food = {x: Math.floor(Math.random()*COLS), y: Math.floor(Math.random()*ROWS)};
-}
-
-function gameTick() {
-  const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
-  // Wrap
-  if (head.x < 0) head.x = COLS - 1;
-  if (head.x >= COLS) head.x = 0;
-  if (head.y < 0) head.y = ROWS - 1;
-  if (head.y >= ROWS) head.y = 0;
-  // Self collision
-  for (let s of snake) {
-    if (s.x === head.x && s.y === head.y) {
-      endGame(); return;
-    }
-  }
-  snake.unshift(head);
-  if (head.x === food.x && head.y === food.y) {
-    gameScore++;
-    document.getElementById('score').textContent = gameScore;
-    if (gameScore > highScore) {
-      highScore = gameScore;
-      localStorage.setItem('snakeHigh', highScore);
-      document.getElementById('highScore').textContent = highScore;
-    }
-    placeFood();
-  } else {
-    snake.pop();
-  }
-  drawGame();
-}
-
-function endGame() {
-  clearInterval(gameLoop);
-  gameRunning = false;
-  ctx.fillStyle = 'rgba(0,0,0,0.7)';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#fff';
-  ctx.font = '24px Microsoft YaHei';
-  ctx.textAlign = 'center';
-  ctx.fillText('游戏结束！得分：' + gameScore, canvas.width/2, canvas.height/2);
-  ctx.font = '14px Microsoft YaHei';
-  ctx.fillText('点击"开始游戏"重新开始', canvas.width/2, canvas.height/2 + 30);
-}
-
-function drawGame() {
-  ctx.fillStyle = '#0a0a0a';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  // Grid lines
-  ctx.strokeStyle = '#111';
-  ctx.lineWidth = 0.5;
-  for (let i = 0; i <= COLS; i++) {
-    ctx.beginPath(); ctx.moveTo(i*GRID, 0); ctx.lineTo(i*GRID, canvas.height); ctx.stroke();
-  }
-  for (let i = 0; i <= ROWS; i++) {
-    ctx.beginPath(); ctx.moveTo(0, i*GRID); ctx.lineTo(canvas.width, i*GRID); ctx.stroke();
-  }
-  // Snake
-  snake.forEach((s, i) => {
-    const gradient = ctx.createRadialGradient(s.x*GRID+GRID/2, s.y*GRID+GRID/2, 2, s.x*GRID+GRID/2, s.y*GRID+GRID/2, GRID/2);
-    if (i === 0) {
-      gradient.addColorStop(0, '#00ff88');
-      gradient.addColorStop(1, '#00aa55');
-    } else {
-      gradient.addColorStop(0, '#00cc66');
-      gradient.addColorStop(1, '#008844');
-    }
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.roundRect(s.x*GRID+1, s.y*GRID+1, GRID-2, GRID-2, 3);
-    ctx.fill();
-    // Eyes on head
-    if (i === 0) {
-      ctx.fillStyle = '#fff';
-      let ex1, ey1, ex2, ey2;
-      if (dir.x === 1) { ex1=s.x*GRID+13; ey1=s.y*GRID+5; ex2=s.x*GRID+13; ey2=s.y*GRID+13; }
-      else if (dir.x === -1) { ex1=s.x*GRID+5; ey1=s.y*GRID+5; ex2=s.x*GRID+5; ey2=s.y*GRID+13; }
-      else if (dir.y === -1) { ex1=s.x*GRID+5; ey1=s.y*GRID+5; ex2=s.x*GRID+13; ey2=s.y*GRID+5; }
-      else { ex1=s.x*GRID+5; ey1=s.y*GRID+13; ex2=s.x*GRID+13; ey2=s.y*GRID+13; }
-      ctx.beginPath(); ctx.arc(ex1, ey1, 2.5, 0, Math.PI*2); ctx.fill();
-      ctx.beginPath(); ctx.arc(ex2, ey2, 2.5, 0, Math.PI*2); ctx.fill();
-    }
-  });
-  // Food
-  const fGrad = ctx.createRadialGradient(food.x*GRID+GRID/2, food.y*GRID+GRID/2, 2, food.x*GRID+GRID/2, food.y*GRID+GRID/2, GRID/2);
-  fGrad.addColorStop(0, '#ff4444');
-  fGrad.addColorStop(1, '#aa0000');
-  ctx.fillStyle = fGrad;
-  ctx.beginPath();
-  ctx.arc(food.x*GRID+GRID/2, food.y*GRID+GRID/2, GRID/2-2, 0, Math.PI*2);
-  ctx.fill();
-}
-
-// Draw initial state
-drawGame();
-
-document.addEventListener('keydown', (e) => {
-  if (!gameRunning) return;
-  switch(e.key) {
-    case 'ArrowUp': case 'w': case 'W': if(dir.y!==1) dir={x:0,y:-1}; break;
-    case 'ArrowDown': case 's': case 'S': if(dir.y!==-1) dir={x:0,y:1}; break;
-    case 'ArrowLeft': case 'a': case 'A': if(dir.x!==1) dir={x:-1,y:0}; break;
-    case 'ArrowRight': case 'd': case 'D': if(dir.x!==-1) dir={x:1,y:0}; break;
-  }
-  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+// Progress bar
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = Math.round(window.scrollY / h * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
 });
+
+// Method tabs
+function showMethod(idx) {
+  document.querySelectorAll('.method-tab').forEach((t,i) => {
+    t.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.method-content').forEach((c,i) => {
+    c.classList.toggle('active', i === idx);
+  });
+}
+
+// Copy code
+function copyCode(btn) {
+  const pre = btn.closest('.code-box').querySelector('pre');
+  const text = pre.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✅ 已复制';
+    setTimeout(() => btn.textContent = '📋 复制', 1500);
+  });
+}
+
+// FAQ
+function toggleFaq(el) {
+  el.classList.toggle('open');
+  const ans = el.nextElementSibling;
+  ans.classList.toggle('open');
+}
+
+// Checklist
+function toggleCheck(label) {
+  const cb = label.querySelector('input');
+  // The checkbox toggles automatically from the click
+  setTimeout(() => {
+    if (cb.checked) {
+      label.classList.add('checked');
+    } else {
+      label.classList.remove('checked');
+    }
+  }, 10);
+}
 </script>
 </body>
 </html>
