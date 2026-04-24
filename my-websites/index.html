@@ -3,89 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>🏎️ 漂移竞速 Drift Racing</title>
+<title>⚔️ 火柴人闯关格斗</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0f;--card:rgba(15,15,30,.92);--accent:#ff3e3e;--cyan:#00e5ff;--gold:#ffd700;--green:#00e676;--text:#e8eaf6;--muted:#7986cb}
+:root{--bg:#0d0d1a;--card:rgba(20,20,40,.92);--accent:#ff3e3e;--cyan:#00e5ff;--gold:#ffd700;--green:#00e676;--purple:#a855f7;--text:#e8eaf6;--muted:#7986cb;--border:rgba(255,255,255,.1)}
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
-html,body{overflow:hidden;height:100%;width:100%;touch-action:none}
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;align-items:center;justify-content:center}
-canvas{display:block}
+html,body{overflow:hidden;height:100%;width:100%;touch-action:none;background:var(--bg)}
+body{color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;align-items:center;justify-content:center}
+canvas{display:block;image-rendering:pixelated}
 
 /* HUD */
-.hud{position:fixed;top:0;left:0;width:100%;pointer-events:none;z-index:10;padding:10px 14px}
-.hud-top{display:flex;justify-content:space-between;align-items:flex-start}
-.hud-box{background:var(--card);backdrop-filter:blur(8px);border:1px solid rgba(255,62,62,.25);border-radius:10px;padding:8px 14px;margin-bottom:6px;min-width:100px}
-.hud-label{font-size:.6em;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.hud-value{font-family:'Orbitron',monospace;font-size:1.4em;font-weight:700;color:var(--accent)}
-.hud-value.cyan{color:var(--cyan)}
-.hud-value.gold{color:var(--gold)}
-.speed-bar{width:100%;height:5px;background:rgba(255,255,255,.08);border-radius:3px;margin-top:4px;overflow:hidden}
-.speed-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--accent));border-radius:3px;transition:width .1s}
-.drift-indicator{font-family:'Orbitron',monospace;font-size:.95em;color:var(--gold);text-align:center;margin-top:3px;opacity:0;transition:opacity .15s}
-.drift-indicator.active{opacity:1;animation:driftPulse .25s infinite alternate}
-@keyframes driftPulse{from{text-shadow:0 0 8px var(--gold)}to{text-shadow:0 0 20px var(--gold),0 0 40px var(--accent)}}
+.hud{position:fixed;top:0;left:0;width:100%;z-index:10;pointer-events:none;padding:8px 12px}
+.hud-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.hud-box{background:var(--card);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:8px;padding:6px 10px;min-width:80px}
+.hud-label{font-size:.55em;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.hud-value{font-family:'Orbitron',monospace;font-size:1.1em;font-weight:700}
+.hud-hp{color:var(--accent)}.hud-gold{color:var(--gold)}.hud-wave{color:var(--cyan)}.hud-lv{color:var(--purple)}
 
-/* Touch hint */
-.touch-hint{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);z-index:15;color:var(--muted);font-size:.8em;text-align:center;pointer-events:none;animation:fadeHint 3s ease 2s forwards;opacity:.7}
-@keyframes fadeHint{to{opacity:0}}
+.hp-bar-wrap{width:100%;height:8px;background:rgba(255,255,255,.08);border-radius:4px;margin-top:3px;overflow:hidden}
+.hp-bar{height:100%;background:linear-gradient(90deg,var(--accent),#ff6b6b);border-radius:4px;transition:width .2s}
+.mp-bar{height:100%;background:linear-gradient(90deg,var(--cyan),#5eead4);border-radius:4px;transition:width .2s}
+.exp-bar{height:100%;background:linear-gradient(90deg,var(--purple),#c084fc);border-radius:4px;transition:width .2s}
 
-/* Brake button */
-.brake-zone{position:fixed;bottom:20px;right:20px;z-index:20;width:90px;height:90px;border-radius:50%;border:3px solid rgba(255,62,62,.4);background:rgba(255,62,62,.12);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:.7em;font-weight:700;color:var(--accent);-webkit-user-select:none;user-select:none;transition:all .1s;pointer-events:auto}
-.brake-zone:active,.brake-zone.pressed{background:rgba(255,62,62,.35);border-color:var(--accent);transform:scale(.93)}
+/* Skill bar */
+.skill-bar{position:fixed;bottom:8px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:6px;pointer-events:auto}
+.skill-btn{width:52px;height:52px;border-radius:10px;border:2px solid var(--border);background:var(--card);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:all .15s;-webkit-user-select:none;user-select:none}
+.skill-btn .key{font-family:'Orbitron',monospace;font-size:.65em;color:var(--muted)}
+.skill-btn .icon{font-size:1.2em}
+.skill-btn .cd-overlay{position:absolute;bottom:0;left:0;width:100%;background:rgba(0,0,0,.6);border-radius:0 0 8px 8px;transition:height .1s}
+.skill-btn:active,.skill-btn.pressed{transform:scale(.9);border-color:var(--cyan)}
+.skill-btn.ready{border-color:var(--cyan);box-shadow:0 0 8px rgba(0,229,255,.3)}
 
-/* Minimap */
-.minimap{position:fixed;bottom:16px;left:16px;z-index:10;border-radius:10px;border:1px solid rgba(255,62,62,.25);background:var(--card);backdrop-filter:blur(8px);padding:4px;pointer-events:none}
-.minimap canvas{border-radius:8px}
+/* Inventory */
+.inv-btn{position:fixed;top:8px;right:8px;z-index:12;width:40px;height:40px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--gold);font-size:1.3em;display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:auto}
+.inv-panel{position:fixed;top:0;right:-280px;width:280px;height:100%;z-index:20;background:var(--card);backdrop-filter:blur(10px);border-left:1px solid var(--border);padding:16px;overflow-y:auto;transition:right .3s}
+.inv-panel.open{right:0}
+.inv-panel h3{font-family:'Orbitron',monospace;font-size:1em;color:var(--gold);margin-bottom:10px}
+.equip-slot{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:8px;margin-bottom:6px;cursor:pointer;transition:all .2s}
+.equip-slot:hover{border-color:var(--cyan);background:rgba(0,229,255,.05)}
+.equip-slot .slot-name{font-size:.85em;font-weight:700}
+.equip-slot .slot-stat{font-size:.65em;color:var(--green)}
+.equip-slot .slot-type{font-size:.6em;color:var(--muted)}
+.equip-slot.legendary{border-color:var(--gold);box-shadow:0 0 8px rgba(255,215,0,.2)}
+.equip-slot.epic{border-color:var(--purple);box-shadow:0 0 8px rgba(168,85,247,.2)}
+.equip-slot.rare{border-color:var(--cyan)}
+.inv-close{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);font-size:1.3em;cursor:pointer}
+
+/* Floating text */
+.float-text{position:fixed;pointer-events:none;z-index:30;font-family:'Orbitron',monospace;font-weight:900;animation:floatUp .8s ease-out forwards}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-40px) scale(.7)}}
+
+/* Loot popup */
+.loot-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:25;background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:20px 28px;text-align:center;animation:popIn .3s;pointer-events:auto}
+@keyframes popIn{from{transform:translate(-50%,-50%) scale(.5);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.loot-popup .loot-name{font-family:'Orbitron',monospace;font-size:1.1em;margin-bottom:6px}
+.loot-popup .loot-stat{font-size:.8em;color:var(--green);margin:3px 0}
+.loot-popup .loot-btns{display:flex;gap:8px;justify-content:center;margin-top:10px}
+.loot-popup button{padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:.8em;transition:all .2s}
+.loot-popup button:hover{border-color:var(--accent)}
+.loot-popup button.equip{border-color:var(--green);color:var(--green)}
+.loot-popup legendality{color:var(--gold)}
 
 /* Start screen */
-.start-screen{position:fixed;top:0;left:0;width:100%;height:100%;z-index:100;background:rgba(10,10,15,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s}
+.start-screen{position:fixed;top:0;left:0;width:100%;height:100%;z-index:100;background:rgba(10,10,20,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s}
 .start-screen.hidden{opacity:0;pointer-events:none}
-.start-screen h1{font-family:'Orbitron',monospace;font-size:2.6em;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
-.start-screen .sub{color:var(--muted);font-size:.9em;letter-spacing:3px;margin-bottom:24px}
-.track-select{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;justify-content:center;padding:0 16px}
-.track-btn{background:var(--card);border:2px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 18px;color:var(--text);cursor:pointer;transition:all .3s;text-align:center}
-.track-btn:hover{border-color:var(--accent)}
-.track-btn.active{border-color:var(--accent);background:rgba(255,62,62,.12);box-shadow:0 0 20px rgba(255,62,62,.15)}
-.track-btn .name{font-family:'Orbitron',monospace;font-weight:700;font-size:.95em}
-.track-btn .desc{font-size:.65em;color:var(--muted);margin-top:3px}
-.start-btn{font-family:'Orbitron',monospace;font-size:1.1em;font-weight:700;padding:13px 36px;border-radius:14px;border:2px solid var(--accent);background:rgba(255,62,62,.12);color:var(--accent);cursor:pointer;transition:all .3s;letter-spacing:2px}
-.start-btn:hover{background:rgba(255,62,62,.25);transform:scale(1.05);box-shadow:0 0 25px rgba(255,62,62,.25)}
-.controls-hint{margin-top:18px;color:var(--muted);font-size:.75em;text-align:center;line-height:1.9;padding:0 20px}
-.controls-hint kbd{background:var(--card);border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:2px 6px;font-family:'Orbitron',monospace;font-size:.75em;color:var(--cyan)}
+.start-screen h1{font-family:'Orbitron',monospace;font-size:2.2em;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.start-screen .sub{color:var(--muted);font-size:.8em;letter-spacing:3px;margin-bottom:20px}
+.start-btn{font-family:'Orbitron',monospace;font-size:1em;font-weight:700;padding:12px 32px;border-radius:12px;border:2px solid var(--accent);background:rgba(255,62,62,.1);color:var(--accent);cursor:pointer;transition:all .3s}
+.start-btn:hover{background:rgba(255,62,62,.25);transform:scale(1.05)}
+.start-screen .controls-hint{margin-top:16px;color:var(--muted);font-size:.7em;text-align:center;line-height:1.8}
+.start-screen .controls-hint kbd{background:var(--card);border:1px solid var(--border);border-radius:3px;padding:1px 5px;font-family:'Orbitron',monospace;font-size:.75em;color:var(--cyan)}
 
-/* Countdown */
-.countdown{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:50;font-family:'Orbitron',monospace;font-size:4.5em;font-weight:900;color:var(--accent);text-shadow:0 0 40px rgba(255,62,62,.5);animation:countPop .4s ease;display:none}
-@keyframes countPop{from{transform:translate(-50%,-50%) scale(2);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+/* Game over */
+.gameover{position:fixed;top:0;left:0;width:100%;height:100%;z-index:80;background:rgba(10,10,20,.9);display:none;align-items:center;justify-content:center}
+.gameover.show{display:flex}
+.gameover-card{background:var(--card);border:2px solid var(--accent);border-radius:16px;padding:30px;text-align:center}
+.gameover-card h2{font-family:'Orbitron',monospace;color:var(--accent);font-size:1.5em;margin-bottom:8px}
+.gameover-card p{color:var(--muted);margin:4px 0;font-size:.85em}
+.gameover-card button{margin-top:12px;padding:10px 24px;border-radius:10px;border:2px solid var(--cyan);background:rgba(0,229,255,.1);color:var(--cyan);font-family:'Orbitron',monospace;cursor:pointer;font-size:.85em}
 
-/* Finish */
-.finish-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:80;background:rgba(10,10,15,.88);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center}
-.finish-overlay.show{display:flex}
-.finish-card{background:var(--card);border:2px solid var(--gold);border-radius:18px;padding:30px 40px;text-align:center;box-shadow:0 0 50px rgba(255,215,0,.2);animation:countPop .4s}
-.finish-card h2{font-family:'Orbitron',monospace;font-size:1.8em;color:var(--gold);margin-bottom:8px}
-.finish-card .time{font-family:'Orbitron',monospace;font-size:2.2em;color:var(--cyan);margin:8px 0}
-.finish-card .stats{color:var(--muted);margin:6px 0;font-size:.85em}
-.finish-card button{margin:6px;padding:11px 24px;border-radius:12px;border:2px solid var(--accent);background:rgba(255,62,62,.1);color:var(--accent);font-family:'Orbitron',monospace;cursor:pointer;transition:all .3s;font-size:.85em}
-.finish-card button:hover{background:rgba(255,62,62,.25);transform:scale(1.05)}
-
-/* Touch zone visual */
-.steer-zone{position:fixed;top:0;left:0;width:70%;height:100%;z-index:15;pointer-events:auto}
-.gas-zone{position:fixed;top:0;right:0;width:30%;height:70%;z-index:15;pointer-events:auto;display:flex;align-items:center;justify-content:center}
-.gas-label{font-family:'Orbitron',monospace;font-size:.7em;color:rgba(0,230,118,.3);letter-spacing:2px;pointer-events:none}
-
-@media(min-width:901px){
-  .steer-zone,.gas-zone,.brake-zone{display:none}
-}
-@media(max-width:900px){
-  .brake-zone{display:flex}
-}
-@media(max-width:400px){
-  .start-screen h1{font-size:1.8em}
-  .hud-box{padding:6px 10px;min-width:80px}
-  .hud-value{font-size:1.1em}
-  .track-btn{padding:10px 14px}
-  .track-btn .name{font-size:.8em}
-}
+/* Mobile controls */
+.mobile-dpad{position:fixed;bottom:70px;left:16px;z-index:15;display:grid;grid-template-columns:repeat(3,50px);grid-template-rows:repeat(2,44px);gap:3px;pointer-events:auto}
+.m-btn{border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.1em;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.m-btn:active,.m-btn.pressed{background:rgba(0,229,255,.15);border-color:var(--cyan)}
+.m-empty{visibility:hidden}
+@media(min-width:900px){.mobile-dpad{display:none}}
 </style>
 </head>
 <body>
@@ -94,542 +96,805 @@ canvas{display:block}
 
 <!-- HUD -->
 <div class="hud" id="hud" style="display:none">
-  <div class="hud-top">
+  <div class="hud-row">
     <div>
       <div class="hud-box">
-        <div class="hud-label">速度 km/h</div>
-        <div class="hud-value cyan" id="speedVal">0</div>
-        <div class="speed-bar"><div class="speed-fill" id="speedBar"></div></div>
+        <div class="hud-label">生命</div>
+        <div class="hud-value hud-hp" id="hpVal">100</div>
+        <div class="hp-bar-wrap"><div class="hp-bar" id="hpBar" style="width:100%"></div></div>
       </div>
       <div class="hud-box">
-        <div class="hud-label">圈数</div>
-        <div class="hud-value gold" id="lapVal">1/3</div>
+        <div class="hud-label">能量</div>
+        <div class="hud-value" style="color:var(--cyan)" id="mpVal">100</div>
+        <div class="hp-bar-wrap"><div class="mp-bar" id="mpBar" style="width:100%"></div></div>
       </div>
       <div class="hud-box">
-        <div class="hud-label">用时</div>
-        <div class="hud-value" id="timeVal">0:00.0</div>
+        <div class="hud-label">经验</div>
+        <div class="hp-bar-wrap"><div class="exp-bar" id="expBar" style="width:0%"></div></div>
       </div>
     </div>
     <div>
       <div class="hud-box" style="text-align:right">
-        <div class="hud-label">漂移分</div>
-        <div class="hud-value gold" id="driftScore">0</div>
+        <div class="hud-label">关卡</div>
+        <div class="hud-value hud-wave" id="waveVal">1</div>
       </div>
-      <div class="drift-indicator" id="driftInd">🔥 DRIFT!</div>
+      <div class="hud-box" style="text-align:right">
+        <div class="hud-label">等级</div>
+        <div class="hud-value hud-lv" id="lvVal">1</div>
+      </div>
+      <div class="hud-box" style="text-align:right">
+        <div class="hud-label">金币</div>
+        <div class="hud-value hud-gold" id="goldVal">0</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Minimap -->
-<div class="minimap" id="minimapWrap" style="display:none"><canvas id="minimap" width="120" height="120"></canvas></div>
+<!-- Skill bar -->
+<div class="skill-bar" id="skillBar" style="display:none"></div>
 
-<!-- Touch zones (mobile only) -->
-<div class="steer-zone" id="steerZone"></div>
-<div class="gas-zone" id="gasZone"><div class="gas-label">GAS</div></div>
-<div class="brake-zone" id="brakeZone">BRAKE</div>
-
-<!-- Touch hint -->
-<div class="touch-hint" id="touchHint">👆 左侧滑动转向 · 右侧按住加速 · 刹车键减速</div>
-
-<!-- Start Screen -->
-<div class="start-screen" id="startScreen">
-  <h1>DRIFT RACING</h1>
-  <div class="sub">漂 移 竞 速</div>
-  <div class="track-select" id="trackSelect"></div>
-  <button class="start-btn" onclick="startGame()">🚀 开始比赛</button>
-  <div class="controls-hint" id="controlsHint"></div>
+<!-- Inventory button -->
+<div class="inv-btn" id="invBtn" style="display:none" onclick="toggleInv()">🎒</div>
+<div class="inv-panel" id="invPanel">
+  <button class="inv-close" onclick="toggleInv()">✕</button>
+  <h3>🎒 装备栏</h3>
+  <div id="invList"></div>
 </div>
 
-<!-- Countdown -->
-<div class="countdown" id="countdown"></div>
+<!-- Mobile D-pad -->
+<div class="mobile-dpad" id="mobileDpad" style="display:none">
+  <div class="m-empty"></div>
+  <button class="m-btn" id="mUp">▲</button>
+  <div class="m-empty"></div>
+  <button class="m-btn" id="mLeft">◀</button>
+  <button class="m-btn" id="mDown">▼</button>
+  <button class="m-btn" id="mRight">▶</button>
+</div>
 
-<!-- Finish -->
-<div class="finish-overlay" id="finishOverlay">
-  <div class="finish-card">
-    <h2>🏆 完赛！</h2>
-    <div class="time" id="finishTime">0:00.0</div>
-    <div class="stats" id="finishStats"></div>
-    <button onclick="restartGame()">🔄 再来一局</button>
-    <button onclick="backToMenu()">📋 选择赛道</button>
+<!-- Start -->
+<div class="start-screen" id="startScreen">
+  <h1>STICK FIGHTER</h1>
+  <div class="sub">火 柴 人 闯 关 格 斗</div>
+  <button class="start-btn" onclick="startGame()">⚔️ 开始战斗</button>
+  <div class="controls-hint">
+    <kbd>A</kbd>/<kbd>D</kbd> 移动 &nbsp; <kbd>W</kbd> 跳跃 &nbsp; <kbd>J</kbd> 攻击<br>
+    <kbd>1</kbd> 旋风斩 &nbsp; <kbd>2</kbd> 雷电击 &nbsp; <kbd>3</kbd> 治疗 &nbsp; <kbd>4</kbd> 烈焰冲<br>
+    📱 手机：左侧方向键 + 底部技能按钮
+  </div>
+</div>
+
+<!-- Game Over -->
+<div class="gameover" id="gameover">
+  <div class="gameover-card">
+    <h2>💀 阵亡</h2>
+    <p id="goStats"></p>
+    <button onclick="restartGame()">🔄 再来一次</button>
   </div>
 </div>
 
 <script>
-// ========== CONFIG ==========
-const TRACKS = [
-  { name:"环形赛道", desc:"入门经典", points:genOval(), laps:3, width:110 },
-  { name:"发夹弯道", desc:"漂移天堂", points:genHairpin(), laps:3, width:105 },
-  { name:"城市街道", desc:"高速挑战", points:genCity(), laps:3, width:100 }
-];
-
-let selectedTrack = 0;
-let gameState = 'menu';
-
-// ========== TRACK GENERATORS ==========
-function genOval(){
-  const pts=[];
-  for(let i=0;i<60;i++){const a=i/60*Math.PI*2;pts.push({x:800+Math.cos(a)*300,y:500+Math.sin(a)*200})}
-  return pts;
-}
-function genHairpin(){
-  const k=[{x:200,y:150},{x:500,y:120},{x:680,y:200},{x:730,y:380},{x:600,y:460},{x:430,y:400},{x:330,y:480},{x:280,y:580},{x:380,y:660},{x:580,y:640},{x:750,y:520},{x:800,y:350},{x:780,y:190},{x:650,y:90},{x:380,y:80},{x:180,y:110},{x:110,y:220},{x:140,y:340}];
-  return interp(k,5);
-}
-function genCity(){
-  const k=[{x:150,y:120},{x:380,y:90},{x:600,y:120},{x:740,y:230},{x:780,y:400},{x:720,y:530},{x:550,y:570},{x:380,y:540},{x:270,y:610},{x:230,y:710},{x:370,y:770},{x:550,y:740},{x:700,y:660},{x:790,y:510},{x:810,y:340},{x:770,y:190},{x:620,y:100},{x:400,y:80},{x:180,y:100},{x:100,y:230},{x:110,y:380}];
-  return interp(k,4);
-}
-function interp(k,s){
-  const pts=[];
-  for(let i=0;i<k.length;i++){const a=k[i],b=k[(i+1)%k.length];for(let t=0;t<s;t++){const f=t/s;pts.push({x:a.x+(b.x-a.x)*f,y:a.y+(b.y-a.y)*f})}}
-  return pts;
-}
-
-// ========== STATE ==========
-const canvas=document.getElementById('game');
-const ctx=canvas.getContext('2d');
-const miniCanvas=document.getElementById('minimap');
-const miniCtx=miniCanvas.getContext('2d');
-
-let car={x:0,y:0,angle:0,speed:0,drifting:false,driftTimer:0,driftAngle:0,trail:[]};
-let camera={x:0,y:0};
-let keys={};
-let mobileSteer=0;       // -1 to 1
-let mobileGas=false;
-let mobileBrake=false;
-let raceTime=0,lapCount=0,totalDriftScore=0,currentDriftScore=0;
-let bestLapTime=Infinity,lapStartTime=0,lastCheckpoint=-1;
-let trackData=null;
-let particles=[],skidMarks=[];
-
-// Touch state
-let touchSteerId=null,touchSteerStartX=0;
-let touchGasId=null;
-
-// ========== RESIZE ==========
-function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+// ========== CANVAS ==========
+const C=document.getElementById('game'),X=C.getContext('2d');
+let W,H;
+function resize(){W=C.width=window.innerWidth;H=C.height=window.innerHeight}
 window.addEventListener('resize',resize);resize();
 
-// ========== BUILD TRACK ==========
-function buildTrack(idx){
-  const t=TRACKS[idx],pts=t.points,w=t.width;
-  const inner=[],outer=[];
-  for(let i=0;i<pts.length;i++){
-    const prev=pts[(i-1+pts.length)%pts.length],next=pts[(i+1)%pts.length];
-    const dx=next.x-prev.x,dy=next.y-prev.y,len=Math.sqrt(dx*dx+dy*dy)||1;
-    const nx=-dy/len,ny=dx/len;
-    inner.push({x:pts[i].x+nx*w/2,y:pts[i].y+ny*w/2});
-    outer.push({x:pts[i].x-nx*w/2,y:pts[i].y-ny*w/2});
+// ========== GAME STATE ==========
+let state='menu'; // menu, playing, paused, dead
+let wave=1, waveEnemies=0, waveCleared=false, waveDelay=0;
+let camX=0, camY=0;
+let particles=[],floatTexts=[],lootItems=[];
+let keys={},mobileInput={left:false,right:false,up:false};
+
+// ========== PLAYER ==========
+let P={
+  x:200,y:0,vx:0,vy:0,w:20,h:50,
+  hp:100,maxHp:100,mp:100,maxMp:100,
+  atk:12,def:3,spd:4,
+  lv:1,exp:0,expNext:30,gold:0,
+  onGround:false,facing:1,
+  attacking:false,attackTimer:0,attackDmg:0,
+  hurtTimer:0,invTimer:0,
+  equipment:{weapon:null,armor:null,accessory:null},
+  inventory:[],
+  skills:[
+    {name:'旋风斩',icon:'🌀',key:'1',cd:0,maxCd:3,mp:20,type:'whirl',color:'#00e5ff'},
+    {name:'雷电击',icon:'⚡',key:'2',cd:0,maxCd:5,mp:30,type:'lightning',color:'#ffd700'},
+    {name:'治疗术',icon:'💚',key:'3',cd:0,maxCd:8,mp:25,type:'heal',color:'#00e676'},
+    {name:'烈焰冲',icon:'🔥',key:'4',cd:0,maxCd:6,mp:35,type:'dash',color:'#ff3e3e'}
+  ]
+};
+
+// ========== ENEMIES ==========
+const ENEMY_TYPES=[
+  {name:'小兵',hp:40,atk:6,def:1,spd:1.5,w:18,h:45,color:'#aaa',exp:10,gold:5,attackRange:35},
+  {name:'刀客',hp:70,atk:10,def:2,spd:1.8,w:18,h:48,color:'#e57373',exp:18,gold:8,attackRange:40},
+  {name:'盾卫',hp:120,atk:8,def:6,spd:1,w:22,h:50,color:'#90caf9',exp:25,gold:12,attackRange:30},
+  {name:'法师',hp:50,atk:15,def:1,spd:1.2,w:18,h:45,color:'#ce93d8',exp:22,gold:10,attackRange:120,ranged:true},
+  {name:'精英',hp:200,atk:18,def:5,spd:2,w:22,h:55,color:'#ffd700',exp:50,gold:25,attackRange:45},
+  {name:'BOSS',hp:500,atk:25,def:8,spd:1.5,w:28,h:65,color:'#ff3e3e',exp:120,gold:60,attackRange:50}
+];
+
+let enemies=[];
+
+function spawnWave(){
+  enemies=[];waveCleared=false;
+  const count=Math.min(3+wave*2,15);
+  const bossEvery=5;
+  for(let i=0;i<count;i++){
+    let typeIdx=0;
+    if(wave>=2) typeIdx=Math.floor(Math.random()*2);
+    if(wave>=3) typeIdx=Math.floor(Math.random()*3);
+    if(wave>=5) typeIdx=Math.floor(Math.random()*4);
+    if(wave>=7) typeIdx=Math.floor(Math.random()*5);
+    const scale=1+wave*0.08;
+    const t=ENEMY_TYPES[typeIdx];
+    enemies.push(makeEnemy(t,scale,300+i*120+Math.random()*80));
   }
-  const sa=Math.atan2(pts[1].y-pts[0].y,pts[1].x-pts[0].x);
-  trackData={center:pts,inner,outer,width:w,startX:pts[0].x,startY:pts[0].y,startAngle:sa,totalLaps:t.laps,numPoints:pts.length};
-  car={x:trackData.startX,y:trackData.startY,angle:trackData.startAngle,speed:0,drifting:false,driftTimer:0,driftAngle:0,trail:[]};
-  lastCheckpoint=0;lapCount=0;raceTime=0;totalDriftScore=0;currentDriftScore=0;bestLapTime=Infinity;lapStartTime=0;
-  particles=[];skidMarks=[];mobileSteer=0;mobileGas=false;mobileBrake=false;
+  if(wave%bossEvery===0){
+    const t=ENEMY_TYPES[5];const scale=1+wave*0.1;
+    enemies.push(makeEnemy(t,scale,300+count*100));
+  }
+  waveEnemies=enemies.length;
 }
 
-// ========== CLOSEST TRACK POINT ==========
-function trackInfo(x,y){
-  let minD=Infinity,ci=0;
-  for(let i=0;i<trackData.center.length;i++){const dx=x-trackData.center[i].x,dy=y-trackData.center[i].y,d=dx*dx+dy*dy;if(d<minD){minD=d;ci=i}}
-  const di=Math.sqrt((x-trackData.inner[ci].x)**2+(y-trackData.inner[ci].y)**2);
-  const d_o=Math.sqrt((x-trackData.outer[ci].x)**2+(y-trackData.outer[ci].y)**2);
-  return{idx:ci,dist:Math.sqrt(minD),onTrack:di<trackData.width*.75&&d_o<trackData.width*.75};
+function makeEnemy(t,scale,xPos){
+  return{
+    x:xPos,y:H-100,vx:0,vy:0,w:t.w,h:t.h,
+    hp:Math.floor(t.hp*scale),maxHp:Math.floor(t.hp*scale),
+    atk:Math.floor(t.atk*scale),def:Math.floor(t.def*scale),
+    spd:t.spd,color:t.color,name:t.name,
+    exp:Math.floor(t.exp*scale),gold:Math.floor(t.gold*scale),
+    attackRange:t.attackRange,ranged:!!t.ranged,
+    onGround:false,facing:-1,
+    attacking:false,attackTimer:0,hurtTimer:0,
+    aiTimer:0,aiState:'chase',
+    shootTimer:0
+  };
+}
+
+// ========== EQUIPMENT TABLE ==========
+const EQUIP_DB=[
+  {name:'铁剑',type:'weapon',rarity:'common',atk:5,desc:'普通铁剑'},
+  {name:'钢刀',type:'weapon',rarity:'rare',atk:10,spd:1,desc:'锋利的钢刀'},
+  {name:'雷霆之刃',type:'weapon',rarity:'epic',atk:18,crit:15,desc:'附带雷电之力'},
+  {name:'屠龙剑',type:'weapon',rarity:'legendary',atk:30,crit:25,spd:2,desc:'传说中的神器'},
+  {name:'皮甲',type:'armor',rarity:'common',def:3,hp:20,desc:'基础皮甲'},
+  {name:'锁子甲',type:'armor',rarity:'rare',def:7,hp:50,desc:'坚固的锁甲'},
+  {name:'龙鳞铠',type:'armor',rarity:'epic',def:14,hp:100,desc:'龙鳞锻造'},
+  {name:'天神战甲',type:'armor',rarity:'legendary',def:22,hp:200,desc:'神级防御'},
+  {name:'铜戒',type:'accessory',rarity:'common',hp:15,mp:10,desc:'普通戒指'},
+  {name:'碧玉佩',type:'accessory',rarity:'rare',hp:30,mp:25,atk:3,desc:'温润碧玉'},
+  {name:'凤凰羽',type:'accessory',rarity:'epic',hp:80,mp:50,atk:8,desc:'凤凰涅槃之羽'},
+  {name:'混沌珠',type:'accessory',rarity:'legendary',hp:150,mp:80,atk:15,def:5,desc:'混沌之力'}
+];
+
+const RARITY_COLOR={common:'#aaa',rare:'#00e5ff',epic:'#a855f7',legendary:'#ffd700'};
+const RARITY_NAME={common:'普通',rare:'稀有',epic:'史诗',legendary:'传说'};
+
+function rollLoot(){
+  const r=Math.random();
+  let rarity;
+  if(r<.45) rarity='common';
+  else if(r<.75) rarity='rare';
+  else if(r<.92) rarity='epic';
+  else rarity='legendary';
+  const pool=EQUIP_DB.filter(e=>e.rarity===rarity);
+  return pool[Math.floor(Math.random()*pool.length)];
 }
 
 // ========== PHYSICS ==========
-const MAX_SPEED=9,ACCEL=.14,BRAKE_F=.16,FRICTION=.022,OFF_FRICTION=.09;
-const TURN_SPEED=.042,DRIFT_TURN=.065,DRIFT_FRICTION=.018;
-const AUTO_DRIFT_SPEED=4.5; // speed threshold for auto-drift
-const AUTO_DRIFT_TURN=.035;  // turn rate threshold for auto-drift
+const GRAVITY=0.6,GROUND_Y=H-60,JUMP_FORCE=-13;
 
-let currentTurnRate=0;
+function applyPhysics(e){
+  e.vy+=GRAVITY;
+  e.x+=e.vx;e.y+=e.vy;
+  const gy=GROUND_Y-e.h;
+  if(e.y>=gy){e.y=gy;e.vy=0;e.onGround=true}else e.onGround=false;
+}
 
-function updatePhysics(dt){
-  // Determine steering input
-  let steerInput=0;
-  if(keys['ArrowLeft']||keys['a']||keys['A']) steerInput-=1;
-  if(keys['ArrowRight']||keys['d']||keys['D']) steerInput+=1;
-  steerInput+=mobileSteer;
-  steerInput=Math.max(-1,Math.min(1,steerInput));
-  
-  // Gas / brake
-  let gasInput=keys['ArrowUp']||keys['w']||keys['W']||mobileGas;
-  let brakeInput=keys['ArrowDown']||keys['s']||keys['S']||mobileBrake;
-  
-  // Manual drift (space) or mobile drift button
-  let manualDrift=keys['Space']||keys[' '];
-  
-  // Acceleration
-  if(gasInput) car.speed+=ACCEL;
-  if(brakeInput) car.speed-=BRAKE_F;
-  
-  // Steering
-  const absSpeed=Math.abs(car.speed);
-  const speedFactor=Math.min(absSpeed/3.5,1);
-  
-  // Calculate turn rate
-  let turnRate=steerInput*TURN_SPEED*speedFactor*(car.speed>=0?1:-1);
-  
-  // AUTO-DRIFT: if turning sharply at high speed, auto engage drift
-  let isAutoDrift=absSpeed>AUTO_DRIFT_SPEED&&Math.abs(turnRate)>AUTO_DRIFT_TURN;
-  let isDrift=manualDrift&&absSpeed>2||isAutoDrift;
-  
-  if(isDrift){
-    turnRate=steerInput*DRIFT_TURN*speedFactor*(car.speed>=0?1:-1);
+// ========== PLAYER UPDATE ==========
+function updatePlayer(dt){
+  // Movement
+  let mx=0;
+  if(keys['a']||keys['A']||keys['ArrowLeft']||mobileInput.left) mx=-1;
+  if(keys['d']||keys['D']||keys['ArrowRight']||mobileInput.right) mx=1;
+  P.vx=mx*P.spd*(getEquipBonus('spd')||0+1);
+  if(mx!==0) P.facing=mx;
+
+  // Jump
+  if((keys['w']||keys['W']||keys['ArrowUp']||keys[' ']||mobileInput.up)&&P.onGround){
+    P.vy=JUMP_FORCE;P.onGround=false;
   }
-  
-  car.angle+=turnRate;
-  currentTurnRate=turnRate;
-  
-  // Friction
-  const info=trackInfo(car.x,car.y);
-  const fric=info.onTrack?(isDrift?DRIFT_FRICTION:FRICTION):OFF_FRICTION;
-  if(car.speed>0) car.speed=Math.max(0,car.speed-fric);
-  else if(car.speed<0) car.speed=Math.min(0,car.speed+fric);
-  
-  // Off-road penalty
-  if(!info.onTrack&&Math.abs(car.speed)>4) car.speed*=.97;
-  
-  car.speed=Math.max(-MAX_SPEED*.35,Math.min(MAX_SPEED,car.speed));
-  
-  // Move
-  car.x+=Math.cos(car.angle)*car.speed;
-  car.y+=Math.sin(car.angle)*car.speed;
-  
-  // Drift effects
-  car.drifting=isDrift;
-  if(isDrift&&absSpeed>2){
-    car.driftTimer+=dt;
-    currentDriftScore+=absSpeed*dt*12;
-    
-    if(Math.random()<.6) skidMarks.push({x:car.x,y:car.y,age:0});
-    if(skidMarks.length>300) skidMarks.shift();
-    
-    if(Math.random()<.5) particles.push({
-      x:car.x-Math.cos(car.angle)*14+(Math.random()-.5)*12,
-      y:car.y-Math.sin(car.angle)*14+(Math.random()-.5)*12,
-      vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,
-      life:.5+Math.random()*.5,maxLife:1,
-      color:Math.random()<.5?'#ff6b35':'#ffd700',
-      size:2+Math.random()*4
+
+  applyPhysics(P);
+
+  // Attack
+  if(P.attacking){P.attackTimer-=dt;if(P.attackTimer<=0)P.attacking=false}
+  if((keys['j']||keys['J']||keys['k']||keys['K'])&&!P.attacking){
+    P.attacking=true;P.attackTimer=0.3;
+    const totalAtk=P.atk+getEquipBonus('atk');
+    const critChance=getEquipBonus('crit')||0;
+    const isCrit=Math.random()*100<critChance;
+    const dmg=isCrit?Math.floor(totalAtk*1.8):totalAtk;
+    // Hit enemies in range
+    enemies.forEach(e=>{
+      if(e.hp<=0)return;
+      const dx=e.x-P.x,dy=e.y-P.y;
+      if(Math.abs(dx)<55&&Math.abs(dy)<40&&(P.facing>0&&dx>-10||P.facing<0&&dx<10)){
+        const finalDmg=Math.max(1,dmg-e.def);
+        e.hp-=finalDmg;e.hurtTimer=0.15;e.vx=P.facing*5;
+        spawnDmgText(e.x,e.y-20,finalDmg,isCrit);
+        spawnHitParticles(e.x,e.y,isCrit);
+        if(e.hp<=0) onEnemyKill(e);
+      }
     });
-    
-    // Extra smoke for auto-drift
-    if(isAutoDrift&&Math.random()<.3) particles.push({
-      x:car.x-Math.cos(car.angle)*10+(Math.random()-.5)*8,
-      y:car.y-Math.sin(car.angle)*10+(Math.random()-.5)*8,
-      vx:(Math.random()-.5)*1.5,vy:(Math.random()-.5)*1.5,
-      life:.4+Math.random()*.4,maxLife:.8,
-      color:'rgba(200,200,200,0.6)',size:3+Math.random()*5
+  }
+
+  // Skills
+  P.skills.forEach((sk,i)=>{
+    if(sk.cd>0) sk.cd-=dt;
+    const keyStr=String(i+1);
+    if(keys[keyStr]&&sk.cd<=0&&P.mp>=sk.mp&&!P.attacking){
+      useSkill(sk,i);
+    }
+  });
+
+  // Hurt invincibility
+  if(P.invTimer>0) P.invTimer-=dt;
+  if(P.hurtTimer>0) P.hurtTimer-=dt;
+
+  // MP regen
+  P.mp=Math.min(P.maxMp,P.mp+0.08);
+  
+  // Clamp position
+  P.x=Math.max(0,P.x);
+}
+
+function getEquipBonus(stat){
+  let total=0;
+  ['weapon','armor','accessory'].forEach(slot=>{
+    const e=P.equipment[slot];
+    if(e&&e[stat]) total+=e[stat];
+  });
+  return total;
+}
+
+function getTotalAtk(){return P.atk+getEquipBonus('atk')}
+function getTotalDef(){return P.def+getEquipBonus('def')}
+function getTotalHp(){return P.maxHp+getEquipBonus('hp')}
+function getTotalMp(){return P.maxMp+getEquipBonus('mp')}
+
+// ========== SKILLS ==========
+function useSkill(sk,idx){
+  P.mp-=sk.mp;sk.cd=sk.maxCd;
+  const totalAtk=getTotalAtk();
+  
+  if(sk.type==='whirl'){
+    // 360° slash
+    for(let i=0;i<12;i++) particles.push({
+      x:P.x+Math.cos(i/12*Math.PI*2)*30,
+      y:P.y+P.h/2+Math.sin(i/12*Math.PI*2)*30,
+      vx:Math.cos(i/12*Math.PI*2)*3,vy:Math.sin(i/12*Math.PI*2)*3,
+      life:.5,maxLife:.5,color:sk.color,size:4
     });
+    enemies.forEach(e=>{
+      if(e.hp<=0)return;
+      const dx=e.x-P.x;
+      if(Math.abs(dx)<80&&Math.abs(e.y-P.y)<50){
+        const dmg=Math.floor(totalAtk*1.5)-e.def;
+        if(dmg>0){e.hp-=dmg;e.hurtTimer=.15;e.vx=(dx>0?1:-1)*8;spawnDmgText(e.x,e.y-20,dmg,true)}
+        if(e.hp<=0) onEnemyKill(e);
+      }
+    });
+  }
+  else if(sk.type==='lightning'){
+    // Target nearest enemy
+    let target=null,minD=200;
+    enemies.forEach(e=>{if(e.hp<=0)return;const d=Math.abs(e.x-P.x);if(d<minD){minD=d;target=e}});
+    if(target){
+      const dmg=Math.floor(totalAtk*2)-target.def;
+      if(dmg>0){target.hp-=dmg;target.hurtTimer=.2;spawnDmgText(target.x,target.y-20,dmg,true)}
+      // Lightning bolt particles
+      for(let i=0;i<8;i++){
+        const t=i/8;
+        particles.push({x:P.x+(target.x-P.x)*t,y:P.y-50+(target.y-P.y-50)*t-H*0.3+Math.random()*30,
+          vx:0,vy:0,life:.3,maxLife:.3,color:'#ffd700',size:3+Math.random()*3});
+      }
+      if(target.hp<=0) onEnemyKill(target);
+    } else {P.mp+=sk.mp;sk.cd=0} // Refund if no target
+  }
+  else if(sk.type==='heal'){
+    const heal=30+P.lv*5;
+    P.hp=Math.min(getTotalHp(),P.hp+heal);
+    spawnDmgText(P.x,P.y-20,heal,false,true);
+    for(let i=0;i<10;i++) particles.push({
+      x:P.x+(Math.random()-.5)*30,y:P.y+P.h/2,
+      vx:(Math.random()-.5)*2,vy:-2-Math.random()*2,
+      life:.6,maxLife:.6,color:'#00e676',size:3+Math.random()*2
+    });
+  }
+  else if(sk.type==='dash'){
+    const dashDir=P.facing;
+    P.vx=dashDir*18;P.invTimer=0.4;
+    for(let i=0;i<15;i++) particles.push({
+      x:P.x-dashDir*i*3,y:P.y+P.h/2+(Math.random()-.5)*20,
+      vx:-dashDir*2,vy:(Math.random()-.5),life:.4,maxLife:.4,color:'#ff3e3e',size:3+Math.random()*3
+    });
+    enemies.forEach(e=>{
+      if(e.hp<=0)return;
+      const dx=e.x-P.x;
+      if(Math.abs(dx)<70&&Math.abs(e.y-P.y)<40){
+        const dmg=Math.floor(totalAtk*1.8)-e.def;
+        if(dmg>0){e.hp-=dmg;e.hurtTimer=.15;e.vx=dashDir*10;spawnDmgText(e.x,e.y-20,dmg,true)}
+        if(e.hp<=0) onEnemyKill(e);
+      }
+    });
+  }
+}
+
+// ========== ENEMY AI ==========
+function updateEnemy(e,dt){
+  if(e.hp<=0)return;
+  e.aiTimer-=dt;
+  if(e.hurtTimer>0){e.hurtTimer-=dt;e.vx*=.8;applyPhysics(e);return}
+  
+  const dx=P.x-e.x,dist=Math.abs(dx);
+  e.facing=dx>0?1:-1;
+
+  if(e.ranged){
+    // Ranged AI: keep distance, shoot
+    if(dist<80) e.vx=-e.facing*e.spd;
+    else if(dist>150) e.vx=e.facing*e.spd;
+    else e.vx=0;
+    
+    e.shootTimer-=dt;
+    if(e.shootTimer<=0){
+      e.shootTimer=1.5;
+      // Shoot projectile
+      particles.push({
+        x:e.x,y:e.y+e.h/2,vx:e.facing*7,vy:0,
+        life:1.5,maxLife:1.5,color:e.color,size:5,isProjectile:true,dmg:e.atk
+      });
+    }
   } else {
-    if(car.driftTimer>.2&&currentDriftScore>8) totalDriftScore+=Math.floor(currentDriftScore);
-    car.driftTimer=0;currentDriftScore=0;
-  }
-  
-  // Update particles
-  particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.life-=dt;p.vx*=.95;p.vy*=.95});
-  particles=particles.filter(p=>p.life>0);
-  skidMarks.forEach(s=>s.age+=dt);
-  skidMarks=skidMarks.filter(s=>s.age<10);
-  
-  car.trail.push({x:car.x,y:car.y});
-  if(car.trail.length>30) car.trail.shift();
-  
-  // Lap detection
-  if(info.idx>=0){
-    const half=Math.floor(trackData.numPoints/2);
-    if(info.idx>half-4&&info.idx<half+4&&lastCheckpoint===0) lastCheckpoint=1;
-    if(info.idx<4&&lastCheckpoint===1){
-      lapCount++;lastCheckpoint=0;
-      const lt=raceTime-lapStartTime;
-      if(lt<bestLapTime&&lapCount>1) bestLapTime=lt;
-      lapStartTime=raceTime;
-      if(lapCount>=trackData.totalLaps) finishRace();
+    // Melee AI: chase and attack
+    if(dist>e.attackRange){
+      e.vx=e.facing*e.spd;
+      e.attacking=false;
+    } else {
+      e.vx=0;
+      if(!e.attacking){
+        e.attacking=true;e.attackTimer=0.5;
+      }
+    }
+    
+    if(e.attacking){
+      e.attackTimer-=dt;
+      if(e.attackTimer<=0){
+        e.attacking=false;
+        // Hit player
+        if(dist<e.attackRange+10&&P.invTimer<=0){
+          const dmg=Math.max(1,e.atk-getTotalDef());
+          P.hp-=dmg;P.hurtTimer=.1;P.invTimer=.3;
+          P.vx=(P.x>e.x?1:-1)*5;
+          spawnDmgText(P.x,P.y-20,dmg,false,false,true);
+          if(P.hp<=0) playerDie();
+        }
+      }
     }
   }
+  
+  applyPhysics(e);
 }
 
-// ========== RENDERING ==========
-function drawGame(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  camera.x=car.x-canvas.width/2;
-  camera.y=car.y-canvas.height/2;
-  ctx.save();ctx.translate(-camera.x,-camera.y);
-  drawGround();drawSkidMarks();drawTrack();drawParticles();drawCar();
-  ctx.restore();
-}
-
-function drawGround(){
-  const gx=Math.floor(camera.x/80)*80,gy=Math.floor(camera.y/80)*80;
-  for(let x=gx-80;x<camera.x+canvas.width+80;x+=80){
-    for(let y=gy-80;y<camera.y+canvas.height+80;y+=80){
-      ctx.fillStyle=((Math.floor(x/80)+Math.floor(y/80))%2===0)?'#1a3d1a':'#1e4a1e';
-      ctx.fillRect(x,y,80,80);
-    }
+// ========== KILL / LOOT ==========
+function onEnemyKill(e){
+  P.exp+=e.exp;P.gold+=e.gold;
+  spawnDmgText(e.x,e.y-30,'+'+e.exp+' EXP',false,false,false,'#a855f7');
+  spawnDmgText(e.x+20,e.y-30,'+'+e.gold+' G',false,false,false,'#ffd700');
+  
+  // Death particles
+  for(let i=0;i<15;i++) particles.push({
+    x:e.x+(Math.random()-.5)*20,y:e.y+e.h/2,
+    vx:(Math.random()-.5)*6,vy:-Math.random()*5-2,
+    life:.5+Math.random()*.3,maxLife:.8,color:e.color,size:2+Math.random()*3
+  });
+  
+  // Equipment drop (30% chance)
+  if(Math.random()<0.3){
+    const loot=rollLoot();
+    lootItems.push({x:e.x,y:e.y,data:loot,timer:8});
+  }
+  
+  // Level up check
+  while(P.exp>=P.expNext){
+    P.exp-=P.expNext;P.lv++;
+    P.expNext=Math.floor(P.expNext*1.4);
+    P.atk+=2;P.def+=1;P.maxHp+=10;P.maxMp+=5;
+    P.hp=getTotalHp();P.mp=getTotalMp();
+    spawnDmgText(P.x,P.y-40,'⬆ LV.'+P.lv,false,false,false,'#ffd700');
+    for(let i=0;i<20;i++) particles.push({
+      x:P.x+(Math.random()-.5)*30,y:P.y+P.h/2,
+      vx:(Math.random()-.5)*4,vy:-3-Math.random()*3,
+      life:.6,maxLife:.6,color:'#ffd700',size:3+Math.random()*3
+    });
   }
 }
 
-function drawTrack(){
-  if(!trackData)return;
-  const pts=trackData.center;
+function playerDie(){
+  state='dead';
+  document.getElementById('goStats').innerHTML=
+    `到达第 ${wave} 关 · 等级 ${P.lv} · 金币 ${P.gold}<br>击杀 ${waveEnemies-enemies.filter(e=>e.hp>0).length} 个敌人`;
+  document.getElementById('gameover').classList.add('show');
+}
+
+// ========== PARTICLES / TEXT ==========
+function spawnDmgText(x,y,val,crit,heal,isPlayerDmg){
+  let color='#fff';
+  if(crit) color='#ffd700';
+  else if(heal) color='#00e676';
+  else if(isPlayerDmg) color='#ff3e3e';
+  else color='#ff6b6b';
+  const el=document.createElement('div');el.className='float-text';
+  el.style.left=(x-camX)+'px';el.style.top=(y-camY)+'px';
+  el.style.color=color;el.style.fontSize=crit?'1.4em':'1em';
+  el.textContent=(crit?'💥 ':'')+(heal?'+':'-')+val;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),800);
+}
+
+function spawnHitParticles(x,y,crit){
+  const n=crit?12:6;const c=crit?'#ffd700':'#ff6b6b';
+  for(let i=0;i<n;i++) particles.push({
+    x,y:y+20,vx:(Math.random()-.5)*6,vy:-Math.random()*4-1,
+    life:.3+Math.random()*.2,maxLife:.5,color:c,size:2+Math.random()*2
+  });
+}
+
+// ========== DRAWING ==========
+function draw(){
+  X.clearRect(0,0,W,H);
   
-  // Road base
-  ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);
-  for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
-  ctx.closePath();ctx.lineWidth=trackData.width;ctx.strokeStyle='#3a3a4a';ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();
+  // Background gradient
+  const bg=X.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,'#0d0d1a');bg.addColorStop(1,'#1a1a2e');
+  X.fillStyle=bg;X.fillRect(0,0,W,H);
   
-  // Road surface
-  ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);
-  for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
-  ctx.closePath();ctx.lineWidth=trackData.width-10;ctx.strokeStyle='#505068';ctx.stroke();
+  // Parallax mountains
+  drawMountains();
   
-  // Racing line markings
-  ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);
-  for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
-  ctx.closePath();ctx.lineWidth=2;ctx.setLineDash([20,20]);ctx.strokeStyle='rgba(255,255,255,.2)';ctx.stroke();ctx.setLineDash([]);
+  // Ground
+  X.fillStyle='#2a2a3e';
+  X.fillRect(0,GROUND_Y,W,60);
+  X.fillStyle='#3a3a52';
+  X.fillRect(0,GROUND_Y,W,4);
   
-  // Curbs
-  drawCurb(trackData.inner);drawCurb(trackData.outer);
+  // Loot items
+  lootItems.forEach(l=>{
+    const sx=l.x-camX,sy=l.y-camY;
+    const rc=RARITY_COLOR[l.data.rarity];
+    X.save();X.translate(sx,sy+10);
+    // Glow
+    X.fillStyle=rc+'33';X.beginPath();X.arc(0,0,16,0,Math.PI*2);X.fill();
+    // Box
+    X.fillStyle=rc;X.fillRect(-8,-8,16,16);
+    X.strokeStyle='#fff';X.lineWidth=1;X.strokeRect(-8,-8,16,16);
+    X.fillStyle='#fff';X.font='8px sans-serif';X.textAlign='center';X.fillText('?',0,3);
+    X.restore();
+  });
   
-  // Start/finish
-  const si=trackData.inner[0],so=trackData.outer[0];
-  ctx.beginPath();ctx.moveTo(si.x,si.y);ctx.lineTo(so.x,so.y);
-  ctx.lineWidth=8;ctx.strokeStyle='#fff';ctx.stroke();
-  // Checkers
-  const dx=so.x-si.x,dy=so.y-si.y;
-  for(let i=0;i<8;i++){
-    if(i%2===0){ctx.fillStyle='#222';ctx.fillRect(si.x+dx*i/8-3,si.y+dy*i/8-3,6,6)}
+  // Enemies
+  enemies.forEach(e=>{if(e.hp>0)drawFighter(e.x-camX,e.y-camY,e.w,e.h,e.color,e.facing,e.attacking,e.hurtTimer>0,e.name,e.hp,e.maxHp,e.ranged)});
+  
+  // Player
+  if(P.invTimer<=0||Math.floor(P.invTimer*10)%2===0){
+    drawFighter(P.x-camX,P.y-camY,P.w,P.h,'#fff',P.facing,P.attacking,P.hurtTimer>0);
+  }
+  
+  // Particles
+  particles.forEach(p=>{
+    X.globalAlpha=p.life/p.maxLife;
+    X.fillStyle=p.color;
+    X.beginPath();X.arc(p.x-camX,p.y-camY,p.size*(p.life/p.maxLife),0,Math.PI*2);X.fill();
+  });
+  X.globalAlpha=1;
+  
+  // Wave text
+  if(waveDelay>0){
+    X.fillStyle='#fff';X.font="bold 28px 'Orbitron',monospace";X.textAlign='center';
+    X.fillText(`⚔️ 第 ${wave} 关`,W/2,H/2-20);
+    X.font="14px sans-serif";X.fillStyle='#aaa';
+    X.fillText(`敌人: ${enemies.filter(e=>e.hp>0).length}`,W/2,H/2+10);
   }
 }
 
-function drawCurb(edge){
-  for(let i=0;i<edge.length;i++){
-    const n=edge[(i+1)%edge.length];
-    ctx.beginPath();ctx.moveTo(edge[i].x,edge[i].y);ctx.lineTo(n.x,n.y);
-    ctx.lineWidth=6;ctx.strokeStyle=i%2===0?'#ff3e3e':'#fff';ctx.stroke();
+function drawMountains(){
+  X.fillStyle='#151528';
+  X.beginPath();X.moveTo(0,GROUND_Y);
+  for(let x=0;x<=W;x+=40){
+    X.lineTo(x,GROUND_Y-60-Math.sin((x+camX*0.2)*0.01)*30-Math.sin((x+camX*0.1)*0.02)*20);
   }
-}
-
-function drawSkidMarks(){
-  skidMarks.forEach(s=>{const a=Math.max(0,1-s.age/10)*.35;ctx.fillStyle=`rgba(30,30,30,${a})`;ctx.beginPath();ctx.arc(s.x,s.y,3,0,Math.PI*2);ctx.fill()});
-}
-
-function drawParticles(){
-  particles.forEach(p=>{ctx.globalAlpha=p.life/p.maxLife;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size*(p.life/p.maxLife),0,Math.PI*2);ctx.fill()});
-  ctx.globalAlpha=1;
-}
-
-function drawCar(){
-  ctx.save();ctx.translate(car.x,car.y);ctx.rotate(car.angle);
+  X.lineTo(W,GROUND_Y);X.closePath();X.fill();
   
-  // Shadow
-  ctx.fillStyle='rgba(0,0,0,.35)';
-  ctx.beginPath();ctx.roundRect(-15,-9,30,18,4);ctx.fill();
+  X.fillStyle='#1a1a30';
+  X.beginPath();X.moveTo(0,GROUND_Y);
+  for(let x=0;x<=W;x+=30){
+    X.lineTo(x,GROUND_Y-30-Math.sin((x+camX*0.3)*0.015)*20);
+  }
+  X.lineTo(W,GROUND_Y);X.closePath();X.fill();
+}
+
+function drawFighter(sx,sy,w,h,color,facing,attacking,hurt,name,hp,maxHp,ranged){
+  X.save();X.translate(sx+w/2,sy);
+  if(facing<0) X.scale(-1,1);
+  
+  const headR=h*0.14, bodyH=h*0.35, legH=h*0.35, armH=h*0.3;
+  const bodyY=headR*2+2, legY=bodyY+bodyH;
+  
+  // Color
+  const c=hurt?'#fff':color;
+  X.strokeStyle=c;X.lineWidth=3;X.lineCap='round';
+  
+  // Head
+  X.beginPath();X.arc(0,headR,headR,0,Math.PI*2);X.stroke();
   
   // Body
-  const g=ctx.createLinearGradient(-13,0,13,0);
-  g.addColorStop(0,'#cc0000');g.addColorStop(.5,'#ff4444');g.addColorStop(1,'#cc0000');
-  ctx.fillStyle=g;ctx.beginPath();ctx.roundRect(-13,-8,26,16,3);ctx.fill();
+  X.beginPath();X.moveTo(0,headR*2+2);X.lineTo(0,bodyY+bodyH);X.stroke();
   
-  // Racing stripe
-  ctx.fillStyle='rgba(255,255,255,.15)';
-  ctx.fillRect(-10,-1.5,20,3);
+  // Legs
+  const legPhase=attacking?0:Math.sin(Date.now()*0.008)*8;
+  X.beginPath();X.moveTo(0,legY);X.lineTo(-8+legPhase,legY+legH);X.stroke();
+  X.beginPath();X.moveTo(0,legY);X.lineTo(8-legPhase,legY+legH);X.stroke();
   
-  // Windshield
-  ctx.fillStyle='rgba(100,200,255,.55)';ctx.fillRect(5,-6,5,12);
-  
-  // Headlights
-  ctx.fillStyle='#ffffcc';ctx.fillRect(12,-5,2,3);ctx.fillRect(12,2,2,3);
-  
-  // Taillights
-  ctx.fillStyle=car.brifting?'#ff0':'#f44';ctx.fillRect(-13,-5,2,3);ctx.fillRect(-13,2,2,3);
-  
-  // Drift smoke
-  if(car.drifting){
-    ctx.fillStyle='rgba(220,220,220,.35)';
-    for(let i=0;i<3;i++){
-      ctx.beginPath();ctx.arc(-16+Math.random()*4,-6+Math.random()*4,3+Math.random()*4,0,Math.PI*2);ctx.fill();
-      ctx.beginPath();ctx.arc(-16+Math.random()*4,6+Math.random()*4,3+Math.random()*4,0,Math.PI*2);ctx.fill();
-    }
+  // Arms
+  if(attacking){
+    // Attack pose
+    X.beginPath();X.moveTo(0,bodyY+5);X.lineTo(25,bodyY-5);X.stroke();
+    // Weapon
+    X.strokeStyle='#ffd700';X.lineWidth=2;
+    X.beginPath();X.moveTo(25,bodyY-5);X.lineTo(40,bodyY-15);X.stroke();
+    X.strokeStyle=c;X.lineWidth=3;
+    // Other arm
+    X.beginPath();X.moveTo(0,bodyY+5);X.lineTo(-12,bodyY+armH);X.stroke();
+  } else if(ranged){
+    // Ranged pose
+    X.beginPath();X.moveTo(0,bodyY+5);X.lineTo(15,bodyY);X.stroke();
+    X.beginPath();X.moveTo(0,bodyY+5);X.lineTo(-10,bodyY+armH);X.stroke();
+  } else {
+    X.beginPath();X.moveTo(0,bodyY+5);X.lineTo(-10,bodyY+armH);X.stroke();
+    X.beginPath();X.moveTo(0,bodyY+5);X.lineTo(10,bodyY+armH);X.stroke();
   }
   
-  ctx.restore();
+  X.restore();
   
-  // Speed lines when fast
-  if(Math.abs(car.speed)>6){
-    ctx.globalAlpha=.15;
-    for(let i=0;i<3;i++){
-      const ox=(Math.random()-.5)*40,oy=(Math.random()-.5)*40;
-      ctx.strokeStyle='var(--cyan)';ctx.lineWidth=1;
-      ctx.beginPath();
-      ctx.moveTo(car.x+ox,car.y+oy);
-      ctx.lineTo(car.x+ox-Math.cos(car.angle)*30,car.y+oy-Math.sin(car.angle)*30);
-      ctx.stroke();
-    }
-    ctx.globalAlpha=1;
+  // HP bar
+  if(hp!==undefined&&maxHp!==undefined){
+    const bw=40,bh=4;
+    const bx=sx+w/2-bw/2,by=sy-12;
+    X.fillStyle='rgba(255,0,0,.2)';X.fillRect(bx,by,bw,bh);
+    X.fillStyle='#ff3e3e';X.fillRect(bx,by,bw*(hp/maxHp),bh);
   }
-}
-
-// ========== MINIMAP ==========
-function drawMinimap(){
-  if(!trackData)return;
-  const mc=miniCtx,mw=120,mh=120;
-  mc.clearRect(0,0,mw,mh);mc.fillStyle='rgba(10,10,20,.85)';mc.fillRect(0,0,mw,mh);
-  let minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9;
-  trackData.center.forEach(p=>{if(p.x<minX)minX=p.x;if(p.x>maxX)maxX=p.x;if(p.y<minY)minY=p.y;if(p.y>maxY)maxY=p.y});
-  const pad=12,sc=Math.min((mw-pad*2)/(maxX-minX),(mh-pad*2)/(maxY-minY));
-  const ox=(mw-(maxX-minX)*sc)/2,oy=(mh-(maxY-minY)*sc)/2;
-  mc.beginPath();
-  trackData.center.forEach((p,i)=>{const sx=(p.x-minX)*sc+ox,sy=(p.y-minY)*sc+oy;i===0?mc.moveTo(sx,sy):mc.lineTo(sx,sy)});
-  mc.closePath();mc.lineWidth=4;mc.strokeStyle='#4a4a5a';mc.stroke();
-  const cx=(car.x-minX)*sc+ox,cy=(car.y-minY)*sc+oy;
-  mc.fillStyle='#ff3e3e';mc.beginPath();mc.arc(cx,cy,4,0,Math.PI*2);mc.fill();
-  mc.fillStyle='rgba(255,62,62,.25)';mc.beginPath();mc.arc(cx,cy,8,0,Math.PI*2);mc.fill();
+  
+  // Name
+  if(name){
+    X.fillStyle=color;X.font='bold 10px sans-serif';X.textAlign='center';
+    X.fillText(name,sx+w/2,sy-18);
+  }
 }
 
 // ========== HUD ==========
 function updateHUD(){
-  const spd=Math.abs(Math.round(car.speed*25));
-  document.getElementById('speedVal').textContent=spd;
-  document.getElementById('speedBar').style.width=(spd/225*100)+'%';
-  document.getElementById('lapVal').textContent=Math.min(lapCount+1,trackData.totalLaps)+'/'+trackData.totalLaps;
-  document.getElementById('driftScore').textContent=totalDriftScore+Math.floor(currentDriftScore);
-  const di=document.getElementById('driftInd');
-  if(car.drifting&&car.driftTimer>.15){
-    di.classList.add('active');
-    di.textContent='🔥 DRIFT! +'+Math.floor(currentDriftScore);
-  } else di.classList.remove('active');
-  if(gameState==='playing') raceTime+=1/60;
-  document.getElementById('timeVal').textContent=fmtTime(raceTime);
+  const thp=getTotalHp(),tmp=getTotalMp();
+  document.getElementById('hpVal').textContent=Math.floor(P.hp)+'/'+thp;
+  document.getElementById('hpBar').style.width=(P.hp/thp*100)+'%';
+  document.getElementById('mpVal').textContent=Math.floor(P.mp)+'/'+tmp;
+  document.getElementById('mpBar').style.width=(P.mp/tmp*100)+'%';
+  document.getElementById('expBar').style.width=(P.exp/P.expNext*100)+'%';
+  document.getElementById('waveVal').textContent=wave;
+  document.getElementById('lvVal').textContent=P.lv;
+  document.getElementById('goldVal').textContent=P.gold;
+  
+  // Skills
+  const bar=document.getElementById('skillBar');
+  if(!bar.children.length) buildSkillBar();
+  P.skills.forEach((sk,i)=>{
+    const btn=bar.children[i];
+    if(!btn)return;
+    const overlay=btn.querySelector('.cd-overlay');
+    if(sk.cd>0){
+      overlay.style.height=(sk.cd/sk.maxCd*100)+'%';
+      btn.classList.remove('ready');
+    } else {
+      overlay.style.height='0%';
+      btn.classList.toggle('ready',P.mp>=sk.mp);
+    }
+  });
 }
-function fmtTime(t){const m=Math.floor(t/60),s=Math.floor(t%60),ms=Math.floor((t*10)%10);return m+':'+String(s).padStart(2,'0')+'.'+ms}
+
+function buildSkillBar(){
+  const bar=document.getElementById('skillBar');bar.innerHTML='';
+  P.skills.forEach((sk,i)=>{
+    const btn=document.createElement('div');
+    btn.className='skill-btn';
+    btn.innerHTML=`<div class="icon">${sk.icon}</div><div class="key">${sk.key}</div><div class="cd-overlay"></div>`;
+    btn.addEventListener('mousedown',()=>{keys[String(i+1)]=true});
+    btn.addEventListener('mouseup',()=>{keys[String(i+1)]=false});
+    btn.addEventListener('touchstart',e=>{e.preventDefault();keys[String(i+1)]=true;btn.classList.add('pressed')},{passive:false});
+    btn.addEventListener('touchend',e=>{e.preventDefault();keys[String(i+1)]=false;btn.classList.remove('pressed')},{passive:false});
+    bar.appendChild(btn);
+  });
+}
+
+// ========== INVENTORY ==========
+function toggleInv(){
+  document.getElementById('invPanel').classList.toggle('open');
+  renderInv();
+}
+
+function renderInv(){
+  const list=document.getElementById('invList');list.innerHTML='';
+  P.inventory.forEach((item,i)=>{
+    const div=document.createElement('div');
+    div.className='equip-slot '+item.rarity;
+    div.innerHTML=`<div class="slot-name" style="color:${RARITY_COLOR[item.rarity]}">${item.name}</div>
+      <div class="slot-type">${RARITY_NAME[item.rarity]} · ${{weapon:'武器',armor:'护甲',accessory:'饰品'}[item.type]}</div>
+      <div class="slot-stat">${item.desc}</div>
+      <div class="slot-stat">${formatStats(item)}</div>`;
+    div.onclick=()=>equipItem(i);
+    list.appendChild(div);
+  });
+}
+
+function formatStats(item){
+  const s=[];
+  if(item.atk) s.push('攻击+'+item.atk);
+  if(item.def) s.push('防御+'+item.def);
+  if(item.hp) s.push('生命+'+item.hp);
+  if(item.mp) s.push('能量+'+item.mp);
+  if(item.spd) s.push('速度+'+item.spd);
+  if(item.crit) s.push('暴击+'+item.crit+'%');
+  return s.join(' ');
+}
+
+function equipItem(idx){
+  const item=P.inventory[idx];
+  const slot=item.type;
+  // Unequip current
+  if(P.equipment[slot]) P.inventory.push(P.equipment[slot]);
+  P.equipment[slot]=item;
+  P.inventory.splice(idx,1);
+  // Recalc HP/MP
+  P.hp=Math.min(P.hp,getTotalHp());
+  P.mp=Math.min(P.mp,getTotalMp());
+  renderInv();
+  showToast('装备了 '+item.name);
+}
+
+function pickupLoot(item){
+  P.inventory.push(item);
+  showToast('获得 '+item.name);
+}
+
+// ========== TOAST ==========
+function showToast(msg){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card);border:1px solid var(--gold);color:var(--gold);padding:10px 20px;border-radius:10px;z-index:30;animation:popIn .3s;font-size:.85em;pointer-events:none';
+  t.textContent=msg;document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300)},1500);
+}
 
 // ========== GAME LOOP ==========
 let lastTime=0;
 function loop(ts){
   const dt=Math.min((ts-lastTime)/1000,.05);lastTime=ts;
-  if(gameState==='playing') updatePhysics(dt);
-  if(gameState==='playing'||gameState==='countdown'){drawGame();drawMinimap();updateHUD()}
+  
+  if(state==='playing'){
+    updatePlayer(dt);
+    
+    // Update enemies
+    enemies.forEach(e=>updateEnemy(e,dt));
+    
+    // Update particles
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.life-=dt;
+      if(p.isProjectile){
+        // Check hit player
+        const dx=p.x-P.x,dy=p.y-P.y-P.h/2;
+        if(Math.abs(dx)<25&&Math.abs(dy)<30&&P.invTimer<=0){
+          const dmg=Math.max(1,p.dmg-getTotalDef());
+          P.hp-=dmg;P.hurtTimer=.1;P.invTimer=.3;
+          spawnDmgText(P.x,P.y-20,dmg,false,false,true);
+          p.life=0;
+          if(P.hp<=0) playerDie();
+        }
+      }
+    });
+    particles=particles.filter(p=>p.life>0);
+    
+    // Update loot
+    lootItems.forEach(l=>l.timer-=dt);
+    lootItems=lootItems.filter(l=>l.timer>0);
+    
+    // Check loot pickup
+    lootItems=lootItems.filter(l=>{
+      const dx=l.x-P.x,dy=l.y-P.y;
+      if(Math.abs(dx)<35&&Math.abs(dy)<40){
+        pickupLoot(l.data);return false;
+      }
+      return true;
+    });
+    
+    // Wave check
+    if(enemies.every(e=>e.hp<=0)&&!waveCleared){
+      waveCleared=true;waveDelay=2;
+    }
+    if(waveCleared){
+      waveDelay-=dt;
+      if(waveDelay<=0){wave++;spawnWave()}
+    }
+    
+    // Camera
+    camX+=(P.x-W/2-camX)*0.08;
+    camY=0;
+    camX=Math.max(0,camX);
+  }
+  
+  if(state==='playing'||state==='dead') draw();
+  if(state==='playing') updateHUD();
+  
   requestAnimationFrame(loop);
 }
 
-// ========== START / FINISH ==========
+// ========== START / RESTART ==========
 function startGame(){
   document.getElementById('startScreen').classList.add('hidden');
-  buildTrack(selectedTrack);
-  gameState='countdown';
   document.getElementById('hud').style.display='';
-  document.getElementById('minimapWrap').style.display='';
-  const cd=document.getElementById('countdown');let c=3;
-  cd.style.display='block';cd.textContent=c;
-  const iv=setInterval(()=>{
-    c--;
-    if(c>0){cd.textContent=c;cd.style.animation='none';cd.offsetHeight;cd.style.animation='countPop .4s ease'}
-    else if(c===0){cd.textContent='GO!';cd.style.color='var(--green)';cd.style.animation='none';cd.offsetHeight;cd.style.animation='countPop .4s ease'}
-    else{cd.style.display='none';cd.style.color='var(--accent)';gameState='playing';clearInterval(iv)}
-  },800);
+  document.getElementById('skillBar').style.display='';
+  document.getElementById('invBtn').style.display='';
+  if(window.innerWidth<=900) document.getElementById('mobileDpad').style.display='grid';
+  
+  resetPlayer();wave=1;spawnWave();
+  state='playing';waveDelay=1.5;
 }
 
-function finishRace(){
-  gameState='finished';
-  document.getElementById('finishTime').textContent=fmtTime(raceTime);
-  document.getElementById('finishStats').innerHTML='漂移总分：'+totalDriftScore+'<br>最快单圈：'+(bestLapTime<Infinity?fmtTime(bestLapTime):'—');
-  document.getElementById('finishOverlay').classList.add('show');
-}
-function restartGame(){document.getElementById('finishOverlay').classList.remove('show');buildTrack(selectedTrack);gameState='playing'}
-function backToMenu(){
-  document.getElementById('finishOverlay').classList.remove('show');
-  document.getElementById('hud').style.display='none';document.getElementById('minimapWrap').style.display='none';
-  document.getElementById('startScreen').classList.remove('hidden');gameState='menu';
+function resetPlayer(){
+  P.x=200;P.y=GROUND_Y-P.h;P.vx=0;P.vy=0;
+  P.hp=100;P.maxHp=100;P.mp=100;P.maxMp=100;
+  P.atk=12;P.def=3;P.spd=4;P.lv=1;P.exp=0;P.expNext=30;P.gold=0;
+  P.onGround=false;P.facing=1;P.attacking=false;P.attackTimer=0;
+  P.hurtTimer=0;P.invTimer=0;
+  P.equipment={weapon:null,armor:null,accessory:null};
+  P.inventory=[];particles=[];lootItems=[];
+  P.skills.forEach(s=>s.cd=0);
 }
 
-// ========== KEYBOARD INPUT ==========
-document.addEventListener('keydown',e=>{keys[e.key]=true;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault()});
+function restartGame(){
+  document.getElementById('gameover').classList.remove('show');
+  resetPlayer();wave=1;enemies=[];spawnWave();
+  state='playing';waveDelay=1.5;
+}
+
+// ========== INPUT ==========
+document.addEventListener('keydown',e=>{
+  keys[e.key]=true;
+  if([' ','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+});
 document.addEventListener('keyup',e=>{keys[e.key]=false});
 
-// ========== TOUCH INPUT ==========
-const isMobile=/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)||window.innerWidth<=900;
-
-// Steering zone (left 70% of screen)
-const steerZone=document.getElementById('steerZone');
-steerZone.addEventListener('touchstart',e=>{
-  e.preventDefault();
-  if(touchSteerId===null){
-    const t=e.changedTouches[0];
-    touchSteerId=t.identifier;touchSteerStartX=t.clientX;
-  }
-},{passive:false});
-
-steerZone.addEventListener('touchmove',e=>{
-  e.preventDefault();
-  for(const t of e.changedTouches){
-    if(t.identifier===touchSteerId){
-      const dx=t.clientX-touchSteerStartX;
-      mobileSteer=Math.max(-1,Math.min(1,dx/80)); // 80px = full steer
-    }
-  }
-},{passive:false});
-
-steerZone.addEventListener('touchend',e=>{
-  for(const t of e.changedTouches){
-    if(t.identifier===touchSteerId){touchSteerId=null;mobileSteer=0}
-  }
-});
-steerZone.addEventListener('touchcancel',e=>{
-  for(const t of e.changedTouches){
-    if(t.identifier===touchSteerId){touchSteerId=null;mobileSteer=0}
-  }
-});
-
-// Gas zone (right 30% of screen, top 70%)
-const gasZone=document.getElementById('gasZone');
-gasZone.addEventListener('touchstart',e=>{e.preventDefault();mobileGas=true;touchGasId=e.changedTouches[0].identifier},{passive:false});
-gasZone.addEventListener('touchend',e=>{
-  for(const t of e.changedTouches){if(t.identifier===touchGasId){mobileGas=false;touchGasId=null}}
-});
-gasZone.addEventListener('touchcancel',e=>{mobileGas=false;touchGasId=null});
-
-// Brake button
-const brakeZone=document.getElementById('brakeZone');
-brakeZone.addEventListener('touchstart',e=>{e.preventDefault();mobileBrake=true;brakeZone.classList.add('pressed')},{passive:false});
-brakeZone.addEventListener('touchend',e=>{e.preventDefault();mobileBrake=false;brakeZone.classList.remove('pressed')},{passive:false});
-brakeZone.addEventListener('touchcancel',()=>{mobileBrake=false;brakeZone.classList.remove('pressed')});
-
-// Prevent default touch on body
-document.body.addEventListener('touchmove',e=>{if(gameState==='playing')e.preventDefault()},{passive:false});
-
-// ========== TRACK SELECT UI ==========
-function buildUI(){
-  const c=document.getElementById('trackSelect');
-  TRACKS.forEach((t,i)=>{
-    const b=document.createElement('div');
-    b.className='track-btn'+(i===selectedTrack?' active':'');
-    b.innerHTML=`<div class="name">${t.name}</div><div class="desc">${t.desc}</div>`;
-    b.onclick=()=>{selectedTrack=i;document.querySelectorAll('.track-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active')};
-    c.appendChild(b);
-  });
-  
-  const hint=document.getElementById('controlsHint');
-  if(isMobile){
-    hint.innerHTML='👆 左侧滑动 = 转向<br>👉 右侧按住 = 加速<br>🛑 刹车键 = 减速<br>🔥 高速急弯 = 自动漂移！';
-  } else {
-    hint.innerHTML='<kbd>W</kbd>/<kbd>↑</kbd> 加速 &nbsp; <kbd>S</kbd>/<kbd>↓</kbd> 刹车<br><kbd>A</kbd>/<kbd>←</kbd> 左转 &nbsp; <kbd>D</kbd>/<kbd>→</kbd> 右转 &nbsp; <kbd>Space</kbd> 手动漂移<br>🔥 高速急弯 = 自动漂移！';
-  }
+// Mobile D-pad
+function setupM(id,key){
+  const b=document.getElementById(id);if(!b)return;
+  const on=()=>{mobileInput[key]=true;b.classList.add('pressed')};
+  const off=()=>{mobileInput[key]=false;b.classList.remove('pressed')};
+  b.addEventListener('touchstart',e=>{e.preventDefault();on()},{passive:false});
+  b.addEventListener('touchend',e=>{e.preventDefault();off()},{passive:false});
+  b.addEventListener('mousedown',on);b.addEventListener('mouseup',off);b.addEventListener('mouseleave',off);
 }
+setupM('mLeft','left');setupM('mRight','right');setupM('mUp','up');setupM('mDown','up');
 
-// ========== POLYFILL ==========
-if(!CanvasRenderingContext2D.prototype.roundRect){
-  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
-    r=Math.min(r||0,w/2,h/2);this.moveTo(x+r,y);this.lineTo(x+w-r,y);this.arcTo(x+w,y,x+w,y+r,r);
-    this.lineTo(x+w,y+h-r);this.arcTo(x+w,y+h,x+w-r,y+h,r);this.lineTo(x+r,y+h);this.arcTo(x,y+h,x,y+h-r,r);
-    this.lineTo(x,y+r);this.arcTo(x,y,x+r,y,r);this.closePath();
-  };
-}
+// Touch: prevent scroll
+document.body.addEventListener('touchmove',e=>{if(state==='playing')e.preventDefault()},{passive:false});
 
 // ========== INIT ==========
-buildUI();buildTrack(0);requestAnimationFrame(loop);
-</script>
-</body>
-</html>
+requestAnimationFrame(loop);
