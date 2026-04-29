@@ -2,812 +2,1674 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>🎴 卡牌消除</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>网页设计交互式自学课件 - 产品展示页项目</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a1a;--card:#161630;--accent:#ff6b9d;--cyan:#00e5ff;--gold:#ffd700;--green:#00e676;--purple:#a855f7;--orange:#ff9100;--text:#e8eaf6;--muted:#7986cb;--border:rgba(255,255,255,.1)}
-html,body{overflow:hidden;height:100%;width:100%;touch-action:none;background:var(--bg)}
-body{color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none}
-
-/* BG particles */
-.bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-
-/* Header */
-.header{position:fixed;top:0;left:0;right:0;z-index:20;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
-.header-box{background:rgba(22,22,48,.9);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:10px;padding:6px 14px;pointer-events:auto}
-.header-label{font-size:.55em;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.header-value{font-family:'Orbitron',monospace;font-size:1.1em;font-weight:700}
-.score-color{color:var(--gold)}
-.combo-color{color:var(--accent)}
-.moves-color{color:var(--cyan)}
-.level-color{color:var(--purple)}
-
-/* Board */
-.board-wrap{position:relative;z-index:10}
-.board{display:grid;gap:6px;padding:12px;background:rgba(22,22,48,.85);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.5)}
-.cell{position:relative;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.6em;transition:transform .15s,box-shadow .15s;background:var(--card);border:2px solid var(--border)}
-.cell:hover{transform:scale(1.08);box-shadow:0 0 12px rgba(255,107,157,.3)}
-.cell:active{transform:scale(.92)}
-.cell.selected{border-color:var(--accent);box-shadow:0 0 20px rgba(255,107,157,.5);transform:scale(1.1);z-index:5}
-.cell.hint{animation:hintPulse .6s ease-in-out infinite alternate}
-@keyframes hintPulse{from{box-shadow:0 0 8px rgba(0,229,255,.3)}to{box-shadow:0 0 20px rgba(0,229,255,.7)}}
-.cell.matched{animation:matchPop .35s ease-out forwards}
-@keyframes matchPop{0%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.8}100%{transform:scale(0);opacity:0}}
-.cell.falling{animation:fallIn .3s ease-out}
-@keyframes fallIn{from{transform:translateY(-60px);opacity:0}to{transform:translateY(0);opacity:1}}
-.cell.swap-left{animation:swapL .2s ease-in-out}
-.cell.swap-right{animation:swapR .2s ease-in-out}
-@keyframes swapL{0%{transform:translateX(0)}50%{transform:translateX(-110%)}100%{transform:translateX(0)}}
-@keyframes swapR{0%{transform:translateX(0)}50%{transform:translateX(110%)}100%{transform:translateX(0)}}
-
-/* Card types - emoji + glow */
-.cell[data-type="0"]{border-color:#ff6b9d55;text-shadow:0 0 10px #ff6b9d}
-.cell[data-type="1"]{border-color:#00e5ff55;text-shadow:0 0 10px #00e5ff}
-.cell[data-type="2"]{border-color:#ffd70055;text-shadow:0 0 10px #ffd700}
-.cell[data-type="3"]{border-color:#00e67655;text-shadow:0 0 10px #00e676}
-.cell[data-type="4"]{border-color:#a855f755;text-shadow:0 0 10px #a855f7}
-.cell[data-type="5"]{border-color:#ff910055;text-shadow:0 0 10px #ff9100}
-
-/* Float text */
-.float-text{position:fixed;pointer-events:none;z-index:30;font-family:'Orbitron',monospace;font-weight:900;animation:floatUp .9s ease-out forwards}
-@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-50px) scale(.6)}}
-
-/* Combo */
-.combo-display{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:25;font-family:'Orbitron',monospace;font-weight:900;font-size:2.5em;pointer-events:none;opacity:0;transition:all .3s}
-.combo-display.show{opacity:1;animation:comboBounce .5s ease-out}
-@keyframes comboBounce{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}60%{transform:translate(-50%,-50%) scale(1.2);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
-
-/* Start screen */
-.start-screen{position:fixed;top:0;left:0;width:100%;height:100%;z-index:100;background:rgba(10,10,26,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s}
-.start-screen.hidden{opacity:0;pointer-events:none}
-.start-screen h1{font-family:'Orbitron',monospace;font-size:2.4em;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--gold),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
-.start-screen .sub{color:var(--muted);font-size:.8em;letter-spacing:3px;margin-bottom:24px}
-.start-btn{font-family:'Orbitron',monospace;font-size:1em;font-weight:700;padding:14px 36px;border-radius:14px;border:2px solid var(--accent);background:rgba(255,107,157,.1);color:var(--accent);cursor:pointer;transition:all .3s;letter-spacing:1px}
-.start-btn:hover{background:rgba(255,107,157,.25);transform:scale(1.05);box-shadow:0 0 20px rgba(255,107,157,.3)}
-.start-screen .hint{margin-top:20px;color:var(--muted);font-size:.7em;text-align:center;line-height:2}
-.start-screen .hint kbd{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2px 6px;color:var(--cyan);font-family:'Orbitron',monospace;font-size:.8em}
-
-/* Level complete */
-.level-complete{position:fixed;top:0;left:0;width:100%;height:100%;z-index:80;background:rgba(10,10,26,.9);display:none;align-items:center;justify-content:center}
-.level-complete.show{display:flex}
-.lc-card{background:var(--card);border:2px solid var(--gold);border-radius:20px;padding:30px 40px;text-align:center;animation:popIn .4s}
-@keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
-.lc-card h2{font-family:'Orbitron',monospace;font-size:1.6em;color:var(--gold);margin-bottom:8px}
-.lc-card .stars{font-size:2em;margin:10px 0}
-.lc-card .stats{color:var(--muted);font-size:.85em;margin:8px 0;line-height:1.8}
-.lc-card button{margin-top:12px;padding:10px 28px;border-radius:10px;border:2px solid var(--cyan);background:rgba(0,229,255,.1);color:var(--cyan);font-family:'Orbitron',monospace;font-weight:700;cursor:pointer;transition:all .2s;font-size:.9em}
-.lc-card button:hover{background:rgba(0,229,255,.2);transform:scale(1.05)}
-
-/* Game over */
-.gameover{position:fixed;top:0;left:0;width:100%;height:100%;z-index:80;background:rgba(10,10,26,.9);display:none;align-items:center;justify-content:center}
-.gameover.show{display:flex}
-.go-card{background:var(--card);border:2px solid var(--accent);border-radius:20px;padding:30px 40px;text-align:center;animation:popIn .4s}
-.go-card h2{font-family:'Orbitron',monospace;font-size:1.6em;color:var(--accent);margin-bottom:8px}
-.go-card .stats{color:var(--muted);font-size:.85em;margin:8px 0;line-height:1.8}
-.go-card button{margin-top:12px;padding:10px 28px;border-radius:10px;border:2px solid var(--accent);background:rgba(255,107,157,.1);color:var(--accent);font-family:'Orbitron',monospace;font-weight:700;cursor:pointer;transition:all .2s;font-size:.9em}
-.go-card button:hover{background:rgba(255,107,157,.2);transform:scale(1.05)}
-
-/* Toolbar */
-.toolbar{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:20;display:flex;gap:8px}
-.tool-btn{padding:8px 16px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:.8em;transition:all .2s;display:flex;align-items:center;gap:4px}
-.tool-btn:hover{border-color:var(--cyan);background:rgba(0,229,255,.08)}
-.tool-btn:active{transform:scale(.93)}
-.tool-btn .t-icon{font-size:1.1em}
-
-/* Responsive */
-@media(max-width:500px){
-  .header{padding:6px 10px}
-  .header-box{padding:4px 10px;border-radius:8px}
-  .header-value{font-size:.9em}
-  .board{gap:4px;padding:8px;border-radius:12px}
-  .cell{font-size:1.2em;border-radius:8px}
-  .start-screen h1{font-size:1.6em}
-  .combo-display{font-size:1.8em}
-  .toolbar{bottom:6px;gap:6px}
-  .tool-btn{padding:6px 12px;font-size:.7em}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+:root {
+  --primary: #667eea;
+  --primary-dark: #764ba2;
+  --bg: #0a0a1a;
+  --bg2: #0f0f2a;
+  --card: #14143a;
+  --card2: #1a1a44;
+  --text: #e8e8f0;
+  --text-dim: #7878a0;
+  --border: #2a2a5a;
+  --code-bg: #0d0d24;
+  --success: #4caf50;
+  --tag-html: #ff6b6b;
+  --tag-attr: #51cf66;
+  --tag-val: #ffd43b;
+  --css-sel: #74c0fc;
+  --css-prop: #da77f2;
+  --css-val: #ffa94d;
+  --comment: #555580;
 }
-@media(max-width:360px){
-  .cell{font-size:1em;border-radius:6px}
-  .board{gap:3px;padding:6px}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
 }
+
+/* ===== 顶部栏 ===== */
+.topbar {
+  height: 56px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  position: relative;
+  z-index: 100;
+  box-shadow: 0 4px 30px rgba(102,126,234,0.3);
+}
+.topbar-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+}
+.topbar-step {
+  margin-left: auto;
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  font-weight: 500;
+}
+
+/* ===== 进度条 ===== */
+.progress-wrap {
+  height: 4px;
+  background: var(--bg2);
+  position: relative;
+  z-index: 99;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), #f093fb);
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 12px rgba(102,126,234,0.5);
+}
+
+/* ===== 主体布局 ===== */
+.app {
+  display: flex;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+}
+
+/* ===== 侧边栏 ===== */
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 16px 0;
+  transition: transform 0.3s;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.step-item {
+  padding: 14px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.25s;
+  border-left: 3px solid transparent;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+.step-item:hover {
+  background: rgba(102,126,234,0.08);
+  color: var(--text);
+}
+.step-item.active {
+  background: rgba(102,126,234,0.12);
+  color: #fff;
+  border-left-color: var(--primary);
+}
+.step-item.completed {
+  color: var(--success);
+}
+.step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--card);
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+.step-item.active .step-num {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(102,126,234,0.4);
+}
+.step-item.completed .step-num {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+.step-label { line-height: 1.3; }
+
+/* ===== 主内容区 ===== */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.content-area {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ===== 左面板：说明+代码 ===== */
+.left-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-right: 1px solid var(--border);
+}
+.panel-tabs {
+  display: flex;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+}
+.panel-tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dim);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+.panel-tab:hover { color: var(--text); }
+.panel-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+.panel-content::-webkit-scrollbar { width: 6px; }
+.panel-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* 说明区 */
+.step-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, var(--primary), #f093fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.step-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.knowledge-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+.knowledge-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.knowledge-list {
+  list-style: none;
+  padding: 0;
+}
+.knowledge-list li {
+  font-size: 13px;
+  color: var(--text-dim);
+  padding: 5px 0 5px 20px;
+  position: relative;
+  line-height: 1.6;
+}
+.knowledge-list li::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-size: 10px;
+  top: 7px;
+}
+
+/* 代码区 */
+.code-container {
+  background: var(--code-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  position: relative;
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  background: rgba(102,126,234,0.08);
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+}
+.code-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.code-dot:nth-child(1) { background: #ff5f57; }
+.code-dot:nth-child(2) { background: #febc2e; }
+.code-dot:nth-child(3) { background: #28c840; }
+.code-filename {
+  margin-left: 8px;
+  font-size: 12px;
+  color: var(--text-dim);
+  font-family: monospace;
+}
+.code-lock {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.code-body {
+  padding: 16px;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 500px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: relative;
+}
+.code-body::-webkit-scrollbar { width: 6px; height: 6px; }
+.code-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.code-body pre {
+  margin: 0;
+  font-family: 'Consolas', 'Fira Code', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre;
+  tab-size: 2;
+}
+.code-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 10;
+  cursor: default;
+}
+.copy-warning {
+  display: none;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255,80,80,0.95);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 20;
+  pointer-events: none;
+  animation: warnFade 1.5s forwards;
+}
+@keyframes warnFade {
+  0% { opacity: 0; transform: translate(-50%,-50%) scale(0.8); }
+  20% { opacity: 1; transform: translate(-50%,-50%) scale(1.05); }
+  30% { transform: translate(-50%,-50%) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ===== 右面板：预览 ===== */
+.right-panel {
+  width: 45%;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+}
+.preview-header {
+  padding: 10px 16px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.preview-frame {
+  flex: 1;
+  border: none;
+  background: #fff;
+  width: 100%;
+}
+
+/* ===== 底部导航 ===== */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+}
+.nav-btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: inherit;
+}
+.nav-btn.prev {
+  background: var(--card);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+.nav-btn.prev:hover { background: var(--card2); color: var(--text); }
+.nav-btn.next {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+}
+.nav-btn.next:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+}
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.nav-center {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+/* ===== 完成页特效 ===== */
+.complete-badge {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), #f093fb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  margin: 0 auto 20px;
+  box-shadow: 0 0 40px rgba(102,126,234,0.4);
+  animation: badgePulse 2s infinite;
+}
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 40px rgba(102,126,234,0.4); }
+  50% { box-shadow: 0 0 60px rgba(102,126,234,0.6); }
+}
+.confetti-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ===== 移动端切换按钮 ===== */
+.mobile-toggle {
+  display: none;
+  position: fixed;
+  bottom: 70px;
+  right: 16px;
+  z-index: 200;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(102,126,234,0.5);
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .right-panel {
+    position: fixed;
+    top: 60px; left: 0; right: 0; bottom: 52px;
+    width: 100%;
+    z-index: 50;
+    display: none;
+  }
+  .right-panel.show { display: flex; }
+  .left-panel { border-right: none; }
+  .mobile-toggle { display: flex; align-items: center; justify-content: center; }
+  .content-area { flex-direction: column; }
+  .left-panel { width: 100%; }
+}
+@media (max-width: 600px) {
+  .topbar { padding: 0 12px; }
+  .topbar-title { font-size: 15px; }
+  .panel-content { padding: 16px; }
+  .step-title { font-size: 18px; }
+  .code-body pre { font-size: 11px; }
+}
+
+/* ===== 语法高亮色 ===== */
+.hl-tag { color: #ff6b6b; }
+.hl-attr { color: #51cf66; }
+.hl-val { color: #ffd43b; }
+.hl-sel { color: #74c0fc; }
+.hl-prop { color: #da77f2; }
+.hl-pval { color: #ffa94d; }
+.hl-cmt { color: #555580; font-style: italic; }
+.hl-punc { color: #8888aa; }
+.hl-kw { color: #c792ea; }
+.hl-num { color: #f78c6c; }
 </style>
 </head>
 <body>
 
-<canvas class="bg-canvas" id="bgCanvas"></canvas>
+<div class="topbar">
+  <div class="topbar-title">网页设计自学课件 · 产品展示页项目</div>
+  <div class="topbar-step" id="topStep">步骤 0/6</div>
+</div>
+<div class="progress-wrap">
+  <div class="progress-fill" id="progressFill" style="width:0%"></div>
+</div>
 
-<!-- Header -->
-<div class="header">
-  <div class="header-box">
-    <div class="header-label">分数</div>
-    <div class="header-value score-color" id="scoreVal">0</div>
-  </div>
-  <div class="header-box">
-    <div class="header-label">连击</div>
-    <div class="header-value combo-color" id="comboVal">0</div>
-  </div>
-  <div class="header-box">
-    <div class="header-label">步数</div>
-    <div class="header-value moves-color" id="movesVal">30</div>
-  </div>
-  <div class="header-box">
-    <div class="header-label">关卡</div>
-    <div class="header-value level-color" id="levelVal">1</div>
+<div class="app">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="main">
+    <div class="content-area">
+      <div class="left-panel">
+        <div class="panel-tabs">
+          <div class="panel-tab active" data-tab="explain" onclick="switchTab('explain')">学习说明</div>
+          <div class="panel-tab" data-tab="code" onclick="switchTab('code')">代码讲解</div>
+        </div>
+        <div class="panel-content" id="panelContent"></div>
+      </div>
+      <div class="right-panel" id="rightPanel">
+        <div class="preview-header">👁 实时预览</div>
+        <iframe class="preview-frame" id="previewFrame"></iframe>
+      </div>
+    </div>
+    <div class="nav-bar">
+      <button class="nav-btn prev" id="btnPrev" onclick="goStep(-1)">← 上一步</button>
+      <div class="nav-center" id="navCenter">0 / 6</div>
+      <button class="nav-btn next" id="btnNext" onclick="goStep(1)">下一步 →</button>
+    </div>
   </div>
 </div>
 
-<!-- Board -->
-<div class="board-wrap">
-  <div class="board" id="board"></div>
-</div>
+<button class="mobile-toggle" id="mobileToggle" onclick="togglePreview()">👁</button>
 
-<!-- Combo display -->
-<div class="combo-display" id="comboDisplay"></div>
-
-<!-- Toolbar -->
-<div class="toolbar">
-  <div class="tool-btn" onclick="useHint()"><span class="t-icon">💡</span>提示</div>
-  <div class="tool-btn" onclick="useShuffle()"><span class="t-icon">🔀</span>洗牌</div>
-  <div class="tool-btn" onclick="useBomb()"><span class="t-icon">💣</span>炸弹</div>
-</div>
-
-<!-- Start screen -->
-<div class="start-screen" id="startScreen">
-  <h1>CARD CRUSH</h1>
-  <div class="sub">卡 牌 消 除 大 作 战</div>
-  <button class="start-btn" onclick="startGame()">🎴 开始游戏</button>
-  <div class="hint">
-    点击相邻卡牌交换位置<br>
-    3个或以上相同卡牌连成一线即消除<br>
-    📱 触摸滑动 / 鼠标点击均可操作
-  </div>
-</div>
-
-<!-- Level complete -->
-<div class="level-complete" id="levelComplete">
-  <div class="lc-card">
-    <h2>🎉 关卡完成!</h2>
-    <div class="stars" id="lcStars"></div>
-    <div class="stats" id="lcStats"></div>
-    <button onclick="nextLevel()">下一关 ▶</button>
-  </div>
-</div>
-
-<!-- Game over -->
-<div class="gameover" id="gameover">
-  <div class="go-card">
-    <h2>💀 步数用尽</h2>
-    <div class="stats" id="goStats"></div>
-    <button onclick="restartGame()">🔄 再来一次</button>
-  </div>
-</div>
+<canvas class="confetti-canvas" id="confettiCanvas"></canvas>
 
 <script>
-// ========== BACKGROUND PARTICLES ==========
-const bgC=document.getElementById('bgCanvas');
-const bgX=bgC.getContext('2d');
-let bgW,bgH;
-const bgParticles=[];
-
-function resizeBg(){
-  bgW=bgC.width=window.innerWidth;
-  bgH=bgC.height=window.innerHeight;
+// ===== 项目代码数据（逐步累积） =====
+const stepData = [
+  {
+    title: '项目总览',
+    desc: '欢迎来到网页设计自学课件！在这个项目中，我们将从零开始，逐步完成一个<strong>精美的产品展示页</strong>——NovaWatch 智能手表官网。<br><br>通过 5 个步骤，你将学习到 HTML 结构搭建、CSS 样式设计、Flexbox 布局、渐变与动画特效、以及响应式适配等核心知识。<br><br>右侧是最终完成效果，先睹为快吧！',
+    points: [
+      'HTML5 语义化标签的使用',
+      'CSS Flexbox 弹性布局',
+      'CSS 渐变（linear-gradient）',
+      'CSS 过渡（transition）与动画（@keyframes）',
+      '响应式设计（@media 媒体查询）',
+      '卡片式设计与阴影效果'
+    ],
+    newCode: '// 👉 请查看右侧预览，了解最终效果\n// 点击"下一步"开始学习！',
+    css: '',
+    body: '',
+    fullPreview: true
+  },
+  {
+    title: '步骤一：搭建页面骨架',
+    desc: '万丈高楼平地起。第一步，我们创建 HTML 文档的基本结构，并添加<strong>导航栏</strong>和<strong>英雄区</strong>的 HTML 代码。<br><br>同时，我们会加入 CSS 重置样式（reset），确保不同浏览器的默认样式不会影响我们的设计。',
+    points: [
+      '&lt;!DOCTYPE html&gt; 声明文档类型为 HTML5',
+      '&lt;meta charset="UTF-8"&gt; 设置字符编码为 UTF-8，支持中文',
+      '&lt;meta name="viewport"&gt; 让页面适配移动设备',
+      'CSS 中的 * 选择器选中所有元素，统一重置 margin/padding',
+      'box-sizing: border-box 让宽高计算包含内边距和边框',
+      '语义化标签：&lt;nav&gt; 表示导航，&lt;section&gt; 表示内容区块'
+    ],
+    newCode: `/* === CSS 重置与基础样式 === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-window.addEventListener('resize',resizeBg);
-resizeBg();
-
-for(let i=0;i<60;i++){
-  bgParticles.push({
-    x:Math.random()*bgW,y:Math.random()*bgH,
-    vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,
-    r:1+Math.random()*2,
-    a:.2+Math.random()*.4,
-    color:['#ff6b9d','#00e5ff','#ffd700','#a855f7','#00e676','#ff9100'][Math.floor(Math.random()*6)]
-  });
+body {
+  font-family: 'Microsoft YaHei', sans-serif;
+  color: #333;
+  line-height: 1.6;
 }
 
-function drawBg(){
-  bgX.fillStyle='#0a0a1a';
-  bgX.fillRect(0,0,bgW,bgH);
-  bgParticles.forEach(p=>{
-    p.x+=p.vx;p.y+=p.vy;
-    if(p.x<0)p.x=bgW;if(p.x>bgW)p.x=0;
-    if(p.y<0)p.y=bgH;if(p.y>bgH)p.y=0;
-    bgX.globalAlpha=p.a;
-    bgX.fillStyle=p.color;
-    bgX.beginPath();bgX.arc(p.x,p.y,p.r,0,Math.PI*2);bgX.fill();
-  });
-  bgX.globalAlpha=1;
-  requestAnimationFrame(drawBg);
+/* === 导航栏 === */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 5%;
+  background: rgba(255,255,255,0.95);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
 }
-drawBg();
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+.nav-links a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+}
 
-// ========== GAME CONFIG ==========
-const CARD_TYPES=['🔥','💎','⭐','🍀','🔮','🌙'];
-const CARD_COLORS=['#ff6b9d','#00e5ff','#ffd700','#00e676','#a855f7','#ff9100'];
-const ROWS=8,COLS=8;
+/* === 英雄区 === */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 120px 20px 80px;
+}
+.hero-content h1 {
+  font-size: 56px;
+  margin-bottom: 20px;
+}
+.hero-content p {
+  font-size: 20px;
+  opacity: 0.9;
+  margin-bottom: 40px;
+}
+.btn {
+  display: inline-block;
+  padding: 15px 40px;
+  background: white;
+  color: #667eea;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 16px;
+}`,
+    css: `* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Microsoft YaHei', sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 5%;
+  background: rgba(255,255,255,0.95);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+.nav-links a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+}
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 120px 20px 80px;
+}
+.hero-content h1 {
+  font-size: 56px;
+  margin-bottom: 20px;
+}
+.hero-content p {
+  font-size: 20px;
+  opacity: 0.9;
+  margin-bottom: 40px;
+}
+.btn {
+  display: inline-block;
+  padding: 15px 40px;
+  background: white;
+  color: #667eea;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 16px;
+}`,
+    body: `<nav class="navbar">
+  <div class="logo">NovaWatch</div>
+  <ul class="nav-links">
+    <li><a href="#features">特性</a></li>
+    <li><a href="#stats">数据</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+<section class="hero">
+  <div class="hero-content">
+    <h1>NovaWatch Pro</h1>
+    <p>重新定义你的腕上体验</p>
+    <a href="#features" class="btn">了解更多</a>
+  </div>
+</section>`
+  },
+  {
+    title: '步骤二：特性卡片区域',
+    desc: '接下来，我们添加<strong>特性展示区</strong>。这里使用了 Flexbox 弹性布局，让三张卡片水平排列，每张卡片包含图标、标题和描述。<br><br>卡片设计是现代网页中最常见的 UI 模式之一，掌握它非常重要！',
+    points: [
+      'display: flex 开启弹性布局，子元素自动横向排列',
+      'justify-content: center 让子元素居中对齐',
+      'gap 属性设置子元素之间的间距',
+      'flex-wrap: wrap 允许子元素换行（响应式关键）',
+      'box-shadow 为卡片添加立体阴影效果',
+      'border-radius 圆角边框，让卡片更柔和'
+    ],
+    newCode: `/* === 特性卡片区域 === */
+.features {
+  padding: 100px 5%;
+  background: #f8f9fa;
+}
+.section-title {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 60px;
+  color: #333;
+}
+.feature-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 16px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+.card-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+.card h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: #333;
+}
+.card p {
+  color: #666;
+  font-size: 15px;
+}`,
+    css: `*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Microsoft YaHei',sans-serif;color:#333;line-height:1.6}.navbar{display:flex;justify-content:space-between;align-items:center;padding:20px 5%;background:rgba(255,255,255,0.95);position:fixed;width:100%;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.1)}.logo{font-size:24px;font-weight:bold;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.nav-links{display:flex;list-style:none;gap:30px}.nav-links a{text-decoration:none;color:#555;font-weight:500}.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:120px 20px 80px}.hero-content h1{font-size:56px;margin-bottom:20px}.hero-content p{font-size:20px;opacity:0.9;margin-bottom:40px}.btn{display:inline-block;padding:15px 40px;background:white;color:#667eea;text-decoration:none;border-radius:50px;font-weight:bold;font-size:16px}.features{padding:100px 5%;background:#f8f9fa}.section-title{text-align:center;font-size:36px;margin-bottom:60px;color:#333}.feature-cards{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;max-width:1200px;margin:0 auto}.card{background:white;padding:40px 30px;border-radius:16px;text-align:center;width:300px;box-shadow:0 10px 40px rgba(0,0,0,0.08)}.card-icon{font-size:48px;margin-bottom:20px}.card h3{font-size:22px;margin-bottom:12px;color:#333}.card p{color:#666;font-size:15px}`,
+    body: `<nav class="navbar">
+  <div class="logo">NovaWatch</div>
+  <ul class="nav-links">
+    <li><a href="#features">特性</a></li>
+    <li><a href="#stats">数据</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+<section class="hero">
+  <div class="hero-content">
+    <h1>NovaWatch Pro</h1>
+    <p>重新定义你的腕上体验</p>
+    <a href="#features" class="btn">了解更多</a>
+  </div>
+</section>
+<section class="features" id="features">
+  <h2 class="section-title">核心特性</h2>
+  <div class="feature-cards">
+    <div class="card">
+      <div class="card-icon">&#x1F3C3;</div>
+      <h3>运动追踪</h3>
+      <p>精准记录你的每一步，支持100+运动模式</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">&#x2764;&#xFE0F;</div>
+      <h3>健康监测</h3>
+      <p>24小时心率血氧监测，守护你的健康</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">&#x1F4F1;</div>
+      <h3>智能互联</h3>
+      <p>无缝连接你的数字生活，消息即时推送</p>
+    </div>
+  </div>
+</section>`
+  },
+  {
+    title: '步骤三：数据统计与页脚',
+    desc: '现在添加<strong>数据统计区</strong>和<strong>页脚</strong>。数据区用大号数字+标签的简洁设计，配合渐变背景突出品牌感。页脚是网站的收尾，通常包含版权信息。',
+    points: [
+      '再次使用 display: flex 水平排列统计项',
+      '大号数字 + 小号标签的排版对比，视觉层次分明',
+      'opacity: 0.8 让文字半透明，形成层次感',
+      '&lt;footer&gt; 语义化标签表示页脚',
+      'background: #1a1a2e 深色背景与页面形成对比',
+      '&amp;copy; 是版权符号 &copy; 的 HTML 实体写法'
+    ],
+    newCode: `/* === 数据统计 === */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  padding: 80px 5%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  flex-wrap: wrap;
+}
+.stat-item { text-align: center; }
+.stat-number {
+  display: block;
+  font-size: 48px;
+  font-weight: bold;
+}
+.stat-label {
+  font-size: 16px;
+  opacity: 0.8;
+}
 
-let grid=[];
-let score=0,combo=0,moves=30,level=1;
-let targetScore=1000;
-let selected=null;
-let animating=false;
-let hintTimer=null;
-let particles=[];
+/* === 页脚 === */
+.footer {
+  background: #1a1a2e;
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+  padding: 30px 20px;
+  font-size: 14px;
+}`,
+    css: `*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Microsoft YaHei',sans-serif;color:#333;line-height:1.6}.navbar{display:flex;justify-content:space-between;align-items:center;padding:20px 5%;background:rgba(255,255,255,0.95);position:fixed;width:100%;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.1)}.logo{font-size:24px;font-weight:bold;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.nav-links{display:flex;list-style:none;gap:30px}.nav-links a{text-decoration:none;color:#555;font-weight:500}.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:120px 20px 80px}.hero-content h1{font-size:56px;margin-bottom:20px}.hero-content p{font-size:20px;opacity:0.9;margin-bottom:40px}.btn{display:inline-block;padding:15px 40px;background:white;color:#667eea;text-decoration:none;border-radius:50px;font-weight:bold;font-size:16px}.features{padding:100px 5%;background:#f8f9fa}.section-title{text-align:center;font-size:36px;margin-bottom:60px;color:#333}.feature-cards{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;max-width:1200px;margin:0 auto}.card{background:white;padding:40px 30px;border-radius:16px;text-align:center;width:300px;box-shadow:0 10px 40px rgba(0,0,0,0.08)}.card-icon{font-size:48px;margin-bottom:20px}.card h3{font-size:22px;margin-bottom:12px;color:#333}.card p{color:#666;font-size:15px}.stats{display:flex;justify-content:center;gap:80px;padding:80px 5%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;flex-wrap:wrap}.stat-item{text-align:center}.stat-number{display:block;font-size:48px;font-weight:bold}.stat-label{font-size:16px;opacity:0.8}.footer{background:#1a1a2e;color:rgba(255,255,255,0.6);text-align:center;padding:30px 20px;font-size:14px}`,
+    body: `<nav class="navbar">
+  <div class="logo">NovaWatch</div>
+  <ul class="nav-links">
+    <li><a href="#features">特性</a></li>
+    <li><a href="#stats">数据</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+<section class="hero">
+  <div class="hero-content">
+    <h1>NovaWatch Pro</h1>
+    <p>重新定义你的腕上体验</p>
+    <a href="#features" class="btn">了解更多</a>
+  </div>
+</section>
+<section class="features" id="features">
+  <h2 class="section-title">核心特性</h2>
+  <div class="feature-cards">
+    <div class="card">
+      <div class="card-icon">&#x1F3C3;</div>
+      <h3>运动追踪</h3>
+      <p>精准记录你的每一步，支持100+运动模式</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">&#x2764;&#xFE0F;</div>
+      <h3>健康监测</h3>
+      <p>24小时心率血氧监测，守护你的健康</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">&#x1F4F1;</div>
+      <h3>智能互联</h3>
+      <p>无缝连接你的数字生活，消息即时推送</p>
+    </div>
+  </div>
+</section>
+<section class="stats" id="stats">
+  <div class="stat-item">
+    <span class="stat-number">7</span>
+    <span class="stat-label">天续航</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">50</span>
+    <span class="stat-label">米防水</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">100+</span>
+    <span class="stat-label">运动模式</span>
+  </div>
+</section>
+<footer class="footer" id="contact">
+  <p>&copy; 2026 NovaWatch. All rights reserved.</p>
+</footer>`
+  },
+  {
+    title: '步骤四：动画与悬停效果',
+    desc: '静态页面虽然好看，但缺少"灵气"。添加<strong>CSS 过渡和动画</strong>后，页面立刻活了起来！<br><br>悬停效果让用户知道元素可以交互，入场动画让页面加载更有仪式感。',
+    points: [
+      'transition 属性让样式变化平滑过渡（而非瞬间跳变）',
+      'transition: transform 0.3s 表示变换在 0.3 秒内平滑完成',
+      ':hover 伪类选择器，鼠标悬停时应用的样式',
+      'transform: translateY(-10px) 让元素向上移动 10px',
+      '@keyframes 定义关键帧动画序列',
+      'animation: fadeInUp 1s ease 应用名为 fadeInUp 的动画',
+      'animation 的 both 值让动画结束后保持最终状态'
+    ],
+    newCode: `/* === 悬停效果 === */
+.nav-links a:hover {
+  color: #667eea;
+  transition: color 0.3s;
+}
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
 
-// ========== GAME LOGIC ==========
-function initGrid(){
-  grid=[];
-  for(let r=0;r<ROWS;r++){
-    grid[r]=[];
-    for(let c=0;c<COLS;c++){
-      grid[r][c]=randomType(r,c);
-    }
+/* === 入场动画 === */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
-
-function randomType(r,c){
-  let t;
-  do{
-    t=Math.floor(Math.random()*CARD_TYPES.length);
-  }while(wouldMatch(r,c,t));
-  return t;
+.hero-content h1 {
+  animation: fadeInUp 1s ease;
 }
-
-function wouldMatch(r,c,type){
-  // Check left
-  if(c>=2 && grid[r][c-1]===type && grid[r][c-2]===type) return true;
-  // Check up
-  if(r>=2 && grid[r-1] && grid[r-1][c]===type && grid[r-2] && grid[r-2][c]===type) return true;
-  return false;
+.hero-content p {
+  animation: fadeInUp 1s ease 0.2s both;
 }
-
-function renderBoard(){
-  const board=document.getElementById('board');
-  const maxW=Math.min(window.innerWidth-32,480);
-  const cellSize=Math.floor((maxW-12*2-6*(COLS-1))/COLS);
-  board.style.gridTemplateColumns=`repeat(${COLS},${cellSize}px)`;
-  board.style.gridTemplateRows=`repeat(${ROWS},${cellSize}px)`;
-  board.innerHTML='';
-
-  for(let r=0;r<ROWS;r++){
-    for(let c=0;c<COLS;c++){
-      const cell=document.createElement('div');
-      cell.className='cell';
-      cell.dataset.row=r;
-      cell.dataset.col=c;
-      cell.dataset.type=grid[r][c];
-      cell.textContent=CARD_TYPES[grid[r][c]];
-      cell.style.width=cellSize+'px';
-      cell.style.height=cellSize+'px';
-      cell.style.fontSize=(cellSize*0.5)+'px';
-      cell.addEventListener('click',()=>onCellClick(r,c));
-      cell.addEventListener('touchstart',e=>onTouchStart(e,r,c),{passive:false});
-      cell.addEventListener('touchmove',e=>onTouchMove(e),{passive:false});
-      cell.addEventListener('touchend',e=>onTouchEnd(e,r,c),{passive:false});
-      board.appendChild(cell);
-    }
+.btn {
+  animation: fadeInUp 1s ease 0.4s both;
+}`,
+    css: `*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Microsoft YaHei',sans-serif;color:#333;line-height:1.6}.navbar{display:flex;justify-content:space-between;align-items:center;padding:20px 5%;background:rgba(255,255,255,0.95);position:fixed;width:100%;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.1)}.logo{font-size:24px;font-weight:bold;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.nav-links{display:flex;list-style:none;gap:30px}.nav-links a{text-decoration:none;color:#555;font-weight:500;transition:color 0.3s}.nav-links a:hover{color:#667eea}.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:120px 20px 80px}.hero-content h1{font-size:56px;margin-bottom:20px;animation:fadeInUp 1s ease}.hero-content p{font-size:20px;opacity:0.9;margin-bottom:40px;animation:fadeInUp 1s ease 0.2s both}.btn{display:inline-block;padding:15px 40px;background:white;color:#667eea;text-decoration:none;border-radius:50px;font-weight:bold;font-size:16px;animation:fadeInUp 1s ease 0.4s both;transition:transform 0.3s,box-shadow 0.3s}.btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.2)}.features{padding:100px 5%;background:#f8f9fa}.section-title{text-align:center;font-size:36px;margin-bottom:60px;color:#333}.feature-cards{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;max-width:1200px;margin:0 auto}.card{background:white;padding:40px 30px;border-radius:16px;text-align:center;width:300px;box-shadow:0 10px 40px rgba(0,0,0,0.08);transition:transform 0.3s,box-shadow 0.3s}.card:hover{transform:translateY(-10px);box-shadow:0 20px 60px rgba(0,0,0,0.15)}.card-icon{font-size:48px;margin-bottom:20px}.card h3{font-size:22px;margin-bottom:12px;color:#333}.card p{color:#666;font-size:15px}.stats{display:flex;justify-content:center;gap:80px;padding:80px 5%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;flex-wrap:wrap}.stat-item{text-align:center}.stat-number{display:block;font-size:48px;font-weight:bold}.stat-label{font-size:16px;opacity:0.8}.footer{background:#1a1a2e;color:rgba(255,255,255,0.6);text-align:center;padding:30px 20px;font-size:14px}@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}`,
+    body: `<nav class="navbar">
+  <div class="logo">NovaWatch</div>
+  <ul class="nav-links">
+    <li><a href="#features">特性</a></li>
+    <li><a href="#stats">数据</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+<section class="hero">
+  <div class="hero-content">
+    <h1>NovaWatch Pro</h1>
+    <p>重新定义你的腕上体验</p>
+    <a href="#features" class="btn">了解更多</a>
+  </div>
+</section>
+<section class="features" id="features">
+  <h2 class="section-title">核心特性</h2>
+  <div class="feature-cards">
+    <div class="card">
+      <div class="card-icon">&#x1F3C3;</div>
+      <h3>运动追踪</h3>
+      <p>精准记录你的每一步，支持100+运动模式</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">&#x2764;&#xFE0F;</div>
+      <h3>健康监测</h3>
+      <p>24小时心率血氧监测，守护你的健康</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">&#x1F4F1;</div>
+      <h3>智能互联</h3>
+      <p>无缝连接你的数字生活，消息即时推送</p>
+    </div>
+  </div>
+</section>
+<section class="stats" id="stats">
+  <div class="stat-item">
+    <span class="stat-number">7</span>
+    <span class="stat-label">天续航</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">50</span>
+    <span class="stat-label">米防水</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">100+</span>
+    <span class="stat-label">运动模式</span>
+  </div>
+</section>
+<footer class="footer" id="contact">
+  <p>&copy; 2026 NovaWatch. All rights reserved.</p>
+</footer>`
+  },
+  {
+    title: '步骤五：响应式适配',
+    desc: '最后一步！我们添加<strong>媒体查询（@media）</strong>，让页面在手机和平板上也能完美显示。<br><br>响应式设计的核心思想是：同一套 HTML，根据屏幕宽度应用不同的 CSS 规则。',
+    points: [
+      '@media (max-width: 768px) 屏幕宽度 ≤768px 时生效（平板/手机）',
+      'flex-direction: column 让卡片从横排变为竖排',
+      '缩小字号以适配小屏幕',
+      '减少间距避免内容过于拥挤',
+      'align-items: center 让竖排的卡片居中',
+      '移动优先（Mobile First）是现代响应式设计的趋势'
+    ],
+    newCode: `/* === 响应式适配 === */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 36px;
   }
-}
-
-function getCell(r,c){
-  return document.querySelector(`.cell[data-row="${r}"][data-col="${c}"]`);
-}
-
-// ========== INPUT ==========
-let touchStartX=0,touchStartY=0,touchCell=null;
-
-function onTouchStart(e,r,c){
-  e.preventDefault();
-  touchStartX=e.touches[0].clientX;
-  touchStartY=e.touches[0].clientY;
-  touchCell={r,c};
-}
-
-function onTouchMove(e){
-  e.preventDefault();
-}
-
-function onTouchEnd(e,r,c){
-  if(!touchCell)return;
-  const dx=e.changedTouches[0].clientX-touchStartX;
-  const dy=e.changedTouches[0].clientY-touchStartY;
-  const threshold=20;
-
-  if(Math.abs(dx)<threshold && Math.abs(dy)<threshold){
-    // Tap = click
-    onCellClick(touchCell.r,touchCell.c);
-  } else {
-    // Swipe
-    let tr=touchCell.r,tc=touchCell.c;
-    if(Math.abs(dx)>Math.abs(dy)){
-      tc+=dx>0?1:-1;
-    } else {
-      tr+=dy>0?1:-1;
-    }
-    if(tr>=0&&tr<ROWS&&tc>=0&&tc<COLS){
-      trySwap(touchCell.r,touchCell.c,tr,tc);
-    }
+  .hero-content p {
+    font-size: 16px;
   }
-  touchCell=null;
-}
-
-function onCellClick(r,c){
-  if(animating)return;
-  clearHint();
-
-  if(!selected){
-    selected={r,c};
-    getCell(r,c).classList.add('selected');
-  } else {
-    const sr=selected.r,sc=selected.c;
-    getCell(sr,sc).classList.remove('selected');
-
-    if(sr===r && sc===c){
-      selected=null;
-      return;
-    }
-
-    // Check adjacency
-    const dr=Math.abs(sr-r),dc=Math.abs(sc-c);
-    if((dr===1&&dc===0)||(dr===0&&dc===1)){
-      trySwap(sr,sc,r,c);
-    } else {
-      // Select new
-      selected={r,c};
-      getCell(r,c).classList.add('selected');
-      return;
-    }
-    selected=null;
+  .nav-links {
+    gap: 15px;
   }
+  .feature-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  .stats {
+    gap: 40px;
+  }
+  .stat-number {
+    font-size: 36px;
+  }
+}`,
+    css: `*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Microsoft YaHei',sans-serif;color:#333;line-height:1.6}.navbar{display:flex;justify-content:space-between;align-items:center;padding:20px 5%;background:rgba(255,255,255,0.95);position:fixed;width:100%;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.1)}.logo{font-size:24px;font-weight:bold;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.nav-links{display:flex;list-style:none;gap:30px}.nav-links a{text-decoration:none;color:#555;font-weight:500;transition:color 0.3s}.nav-links a:hover{color:#667eea}.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:120px 20px 80px}.hero-content h1{font-size:56px;margin-bottom:20px;animation:fadeInUp 1s ease}.hero-content p{font-size:20px;opacity:0.9;margin-bottom:40px;animation:fadeInUp 1s ease 0.2s both}.btn{display:inline-block;padding:15px 40px;background:white;color:#667eea;text-decoration:none;border-radius:50px;font-weight:bold;font-size:16px;animation:fadeInUp 1s ease 0.4s both;transition:transform 0.3s,box-shadow 0.3s}.btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.2)}.features{padding:100px 5%;background:#f8f9fa}.section-title{text-align:center;font-size:36px;margin-bottom:60px;color:#333}.feature-cards{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;max-width:1200px;margin:0 auto}.card{background:white;padding:40px 30px;border-radius:16px;text-align:center;width:300px;box-shadow:0 10px 40px rgba(0,0,0,0.08);transition:transform 0.3s,box-shadow 0.3s}.card:hover{transform:translateY(-10px);box-shadow:0 20px 60px rgba(0,0,0,0.15)}.card-icon{font-size:48px;margin-bottom:20px}.card h3{font-size:22px;margin-bottom:12px;color:#333}.card p{color:#666;font-size:15px}.stats{display:flex;justify-content:center;gap:80px;padding:80px 5%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;flex-wrap:wrap}.stat-item{text-align:center}.stat-number{display:block;font-size:48px;font-weight:bold}.stat-label{font-size:16px;opacity:0.8}.footer{background:#1a1a2e;color:rgba(255,255,255,0.6);text-align:center;padding:30px 20px;font-size:14px}@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}@media(max-width:768px){.hero-content h1{font-size:36px}.hero-content p{font-size:16px}.nav-links{gap:15px}.feature-cards{flex-direction:column;align-items:center}.stats{gap:40px}.stat-number{font-size:36px}}`,
+    body: `<nav class="navbar">
+  <div class="logo">NovaWatch</div>
+  <ul class="nav-links">
+    <li><a href="#features">特性</a></li>
+    <li><a href="#stats">数据</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+<section class="hero">
+  <div class="hero-content">
+    <h1>NovaWatch Pro</h1>
+    <p>重新定义你的腕上体验</p>
+    <a href="#features" class="btn">了解更多</a>
+  </div>
+</section>
+<section class="features" id="features">
+  <h2 class="section-title">核心特性</h2>
+  <div class="feature-cards">
+    <div class="card">
+      <div class="card-icon">&#x1F3C3;</div>
+      <h3>运动追踪</h3>
+      <p>精准记录你的每一步，支持100+运动模式</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">&#x2764;&#xFE0F;</div>
+      <h3>健康监测</h3>
+      <p>24小时心率血氧监测，守护你的健康</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">&#x1F4F1;</div>
+      <h3>智能互联</h3>
+      <p>无缝连接你的数字生活，消息即时推送</p>
+    </div>
+  </div>
+</section>
+<section class="stats" id="stats">
+  <div class="stat-item">
+    <span class="stat-number">7</span>
+    <span class="stat-label">天续航</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">50</span>
+    <span class="stat-label">米防水</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">100+</span>
+    <span class="stat-label">运动模式</span>
+  </div>
+</section>
+<footer class="footer" id="contact">
+  <p>&copy; 2026 NovaWatch. All rights reserved.</p>
+</footer>`
+  },
+  {
+    title: '项目完成',
+    desc: '恭喜你完成了所有学习步骤！🎉<br><br>现在你可以在下方查看项目的<strong>完整源代码</strong>。试着理解每一部分的作用，思考如果修改某个值会产生什么效果。<br><br>记住：学编程最好的方式就是<strong>动手改、动手试</strong>！',
+    points: [
+      '尝试修改渐变颜色（如 #667eea 改为 #f093fb）',
+      '尝试添加新的卡片或统计项',
+      '尝试修改动画的时长和延迟',
+      '尝试调整响应式断点（如改为 992px）',
+      '尝试添加新的 section（如评价区、价格区）'
+    ],
+    newCode: null,
+    css: null,
+    body: null,
+    isComplete: true
+  }
+];
+
+// ===== 完整项目代码（用于总览预览和完成页展示） =====
+const fullProjectCode = `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaWatch 智能手表</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Microsoft YaHei', sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 5%;
+  background: rgba(255,255,255,0.95);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+.nav-links a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.nav-links a:hover {
+  color: #667eea;
+}
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 120px 20px 80px;
+}
+.hero-content h1 {
+  font-size: 56px;
+  margin-bottom: 20px;
+  animation: fadeInUp 1s ease;
+}
+.hero-content p {
+  font-size: 20px;
+  opacity: 0.9;
+  margin-bottom: 40px;
+  animation: fadeInUp 1s ease 0.2s both;
+}
+.btn {
+  display: inline-block;
+  padding: 15px 40px;
+  background: white;
+  color: #667eea;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 16px;
+  animation: fadeInUp 1s ease 0.4s both;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.features {
+  padding: 100px 5%;
+  background: #f8f9fa;
+}
+.section-title {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 60px;
+  color: #333;
+}
+.feature-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 16px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+.card-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+.card h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: #333;
+}
+.card p {
+  color: #666;
+  font-size: 15px;
+}
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  padding: 80px 5%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  flex-wrap: wrap;
+}
+.stat-item { text-align: center; }
+.stat-number {
+  display: block;
+  font-size: 48px;
+  font-weight: bold;
+}
+.stat-label {
+  font-size: 16px;
+  opacity: 0.8;
+}
+.footer {
+  background: #1a1a2e;
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+  padding: 30px 20px;
+  font-size: 14px;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 36px; }
+  .hero-content p { font-size: 16px; }
+  .nav-links { gap: 15px; }
+  .feature-cards { flex-direction: column; align-items: center; }
+  .stats { gap: 40px; }
+  .stat-number { font-size: 36px; }
+}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="logo">NovaWatch</div>
+  <ul class="nav-links">
+    <li><a href="#features">特性</a></li>
+    <li><a href="#stats">数据</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+<section class="hero">
+  <div class="hero-content">
+    <h1>NovaWatch Pro</h1>
+    <p>重新定义你的腕上体验</p>
+    <a href="#features" class="btn">了解更多</a>
+  </div>
+</section>
+<section class="features" id="features">
+  <h2 class="section-title">核心特性</h2>
+  <div class="feature-cards">
+    <div class="card">
+      <div class="card-icon">&#x1F3C3;</div>
+      <h3>运动追踪</h3>
+      <p>精准记录你的每一步，支持100+运动模式</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">&#x2764;&#xFE0F;</div>
+      <h3>健康监测</h3>
+      <p>24小时心率血氧监测，守护你的健康</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">&#x1F4F1;</div>
+      <h3>智能互联</h3>
+      <p>无缝连接你的数字生活，消息即时推送</p>
+    </div>
+  </div>
+</section>
+<section class="stats" id="stats">
+  <div class="stat-item">
+    <span class="stat-number">7</span>
+    <span class="stat-label">天续航</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">50</span>
+    <span class="stat-label">米防水</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">100+</span>
+    <span class="stat-label">运动模式</span>
+  </div>
+</section>
+<footer class="footer" id="contact">
+  <p>&copy; 2026 NovaWatch. All rights reserved.</p>
+</footer>
+</body>
+</html>`;
+
+// ===== 构建预览用的完整HTML =====
+function buildPreviewHtml(stepIndex) {
+  if (stepIndex === 0) return fullProjectCode;
+  const step = stepData[stepIndex];
+  if (step.css && step.body) {
+    return `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaWatch 智能手表</title>
+<style>${step.css}</style>
+</head>
+<body>${step.body}</body>
+</html>`;
+  }
+  return fullProjectCode;
 }
 
-function trySwap(r1,c1,r2,c2){
-  if(animating)return;
-  animating=true;
+// ===== 语法高亮 =====
+function highlightCode(code) {
+  let html = code
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 
-  // Swap in grid
-  [grid[r1][c1],grid[r2][c2]]=[grid[r2][c2],grid[r1][c1]];
+  // 注释
+  html = html.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="hl-cmt">$1</span>');
+  html = html.replace(/(\/\/[^\n]*)/g, '<span class="hl-cmt">$1</span>');
 
-  // Check for matches
-  const matches=findMatches();
-  if(matches.length===0){
-    // Swap back
-    [grid[r1][c1],grid[r2][c2]]=[grid[r2][c2],grid[r1][c1]];
-    // Shake animation
-    const c1El=getCell(r1,c1),c2El=getCell(r2,c2);
-    if(c1El)c1El.style.animation='shake .3s';
-    if(c2El)c2El.style.animation='shake .3s';
-    setTimeout(()=>{
-      if(c1El)c1El.style.animation='';
-      if(c2El)c2El.style.animation='';
-      animating=false;
-    },300);
+  // HTML 标签
+  html = html.replace(/(&lt;\/?)([\w-]+)/g, '$1<span class="hl-tag">$2</span>');
+
+  // HTML 属性
+  html = html.replace(/\s([\w-]+)(=)/g, ' <span class="hl-attr">$1</span>$2');
+
+  // 属性值
+  html = html.replace(/(=)(&quot;|")(.*?)(&quot;|")/g, '$1<span class="hl-val">"$3"</span>');
+
+  // CSS 选择器 (简化)
+  html = html.replace(/^([.#][\w-]+)/gm, '<span class="hl-sel">$1</span>');
+
+  // CSS 属性 (简化)
+  html = html.replace(/^\s+([\w-]+)\s*:/gm, ' <span class="hl-prop">$1</span>:');
+
+  // 数字
+  html = html.replace(/\b(\d+\.?\d*)(px|em|rem|%|s|ms|deg|vh|vw)?\b/g, '<span class="hl-num">$1$2</span>');
+
+  // 关键字
+  html = html.replace(/\b(display|flex|position|background|color|padding|margin|font|width|height|border|text|overflow|cursor|opacity|z-index|gap|transition|animation|transform|box-shadow|content|top|left|right|bottom|min-height|max-width)\b/g, '<span class="hl-kw">$1</span>');
+
+  return html;
+}
+
+// ===== 状态 =====
+let currentStep = 0;
+let completedSteps = new Set();
+let currentTab = 'explain';
+
+// ===== 渲染侧边栏 =====
+function renderSidebar() {
+  const sb = document.getElementById('sidebar');
+  sb.innerHTML = stepData.map((s, i) => {
+    let cls = '';
+    if (i === currentStep) cls = 'active';
+    else if (completedSteps.has(i)) cls = 'completed';
+    const num = completedSteps.has(i) ? '✓' : i;
+    return `<div class="step-item ${cls}" onclick="goToStep(${i})">
+      <div class="step-num">${num}</div>
+      <div class="step-label">${s.title}</div>
+    </div>`;
+  }).join('');
+}
+
+// ===== 渲染步骤内容 =====
+function renderStep() {
+  const step = stepData[currentStep];
+  const panel = document.getElementById('panelContent');
+
+  // 更新顶部状态
+  document.getElementById('topStep').textContent = `步骤 ${currentStep}/6`;
+  document.getElementById('progressFill').style.width = `${(currentStep / 6) * 100}%`;
+  document.getElementById('navCenter').textContent = `${currentStep} / 6`;
+
+  // 导航按钮状态
+  document.getElementById('btnPrev').disabled = currentStep === 0;
+  document.getElementById('btnNext').textContent = currentStep === 6 ? '🎉 已完成' : '下一步 →';
+  document.getElementById('btnNext').disabled = currentStep === 6;
+
+  // 完成页
+  if (step.isComplete) {
+    completedSteps.add(currentStep - 1);
+    renderSidebar();
+    panel.innerHTML = `
+      <div style="text-align:center;padding:20px 0">
+        <div class="complete-badge">🏆</div>
+        <div class="step-title" style="text-align:center">项目完成！</div>
+        <p style="color:var(--text-dim);margin-bottom:30px;font-size:15px">${step.desc}</p>
+        <div class="knowledge-box">
+          <div class="knowledge-title">💡 进阶挑战</div>
+          <ul class="knowledge-list">
+            ${step.points.map(p => `<li>${p}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      <div class="code-container" style="margin-top:10px">
+        <div class="code-header">
+          <span class="code-dot"></span>
+          <span class="code-dot"></span>
+          <span class="code-dot"></span>
+          <span class="code-filename">index.html — 完整代码</span>
+          <span class="code-lock">🔒 只读模式</span>
+        </div>
+        <div class="code-body" id="codeBody">
+          <div class="code-overlay" id="codeOverlay"></div>
+          <pre id="codePre"></pre>
+          <div class="copy-warning" id="copyWarning">⚠️ 代码仅供学习查看，不可复制</div>
+        </div>
+      </div>
+    `;
+    document.getElementById('codePre').innerHTML = highlightCode(fullProjectCode);
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('topStep').textContent = '已完成！';
+    launchConfetti();
+    switchTab('explain');
+    updatePreview();
     return;
   }
 
-  // Valid move
-  moves--;
-  updateHUD();
-  combo=0;
-  renderBoard();
-  processMatches();
-}
+  // 普通步骤页
+  completedSteps.add(currentStep > 0 ? currentStep - 1 : 0);
+  renderSidebar();
 
-// ========== MATCH DETECTION ==========
-function findMatches(){
-  const matched=new Set();
+  const explainHtml = `
+    <div class="step-title">${step.title}</div>
+    <div class="step-desc">${step.desc}</div>
+    <div class="knowledge-box">
+      <div class="knowledge-title">📝 知识要点</div>
+      <ul class="knowledge-list">
+        ${step.points.map(p => `<li>${p}</li>`).join('')}
+      </ul>
+    </div>
+  `;
 
-  // Horizontal
-  for(let r=0;r<ROWS;r++){
-    for(let c=0;c<COLS-2;c++){
-      if(grid[r][c]===-1)continue;
-      const t=grid[r][c];
-      let len=1;
-      while(c+len<COLS && grid[r][c+len]===t) len++;
-      if(len>=3){
-        for(let i=0;i<len;i++) matched.add(r*COLS+(c+i));
-      }
-      c+=len-1;
-    }
-  }
+  const codeHtml = `
+    <div class="step-title" style="font-size:18px">${step.title} — 新增代码</div>
+    <div class="step-desc" style="margin-bottom:16px">以下是本步骤新增的代码，高亮部分为关键内容：</div>
+    <div class="code-container">
+      <div class="code-header">
+        <span class="code-dot"></span>
+        <span class="code-dot"></span>
+        <span class="code-dot"></span>
+        <span class="code-filename">${currentStep <= 1 ? 'index.html + style.css' : 'style.css'}</span>
+        <span class="code-lock">🔒 只读</span>
+      </div>
+      <div class="code-body" id="codeBody">
+        <div class="code-overlay" id="codeOverlay"></div>
+        <pre id="codePre"></pre>
+        <div class="copy-warning" id="copyWarning">⚠️ 代码仅供学习查看，不可复制</div>
+      </div>
+    </div>
+  `;
 
-  // Vertical
-  for(let c=0;c<COLS;c++){
-    for(let r=0;r<ROWS-2;r++){
-      if(grid[r][c]===-1)continue;
-      const t=grid[r][c];
-      let len=1;
-      while(r+len<ROWS && grid[r+len][c]===t) len++;
-      if(len>=3){
-        for(let i=0;i<len;i++) matched.add((r+i)*COLS+c);
-      }
-      r+=len-1;
-    }
-  }
+  // 保存两个 tab 的内容
+  panel._explainHtml = explainHtml;
+  panel._codeHtml = codeHtml;
 
-  return Array.from(matched).map(idx=>({r:Math.floor(idx/COLS),c:idx%COLS}));
-}
-
-// ========== MATCH PROCESSING ==========
-async function processMatches(){
-  let matches=findMatches();
-
-  while(matches.length>0){
-    combo++;
-    const matchScore=matches.length*10*combo;
-    score+=matchScore;
-
-    // Show combo
-    if(combo>=2) showCombo(combo);
-
-    // Show score float
-    const midMatch=matches[Math.floor(matches.length/2)];
-    spawnFloatText(midMatch.r,midMatch.c,'+'+matchScore,combo>=3?'#ffd700':'#fff');
-
-    // Animate matched cells
-    matches.forEach(m=>{
-      const cell=getCell(m.r,m.c);
-      if(cell){
-        cell.classList.add('matched');
-        spawnMatchParticles(cell,CARD_COLORS[grid[m.r][m.c]]);
-      }
-    });
-
-    await sleep(350);
-
-    // Remove matched
-    matches.forEach(m=>grid[m.r][m.c]=-1);
-
-    // Gravity
-    await applyGravity();
-
-    // Fill empty
-    await fillEmpty();
-
-    renderBoard();
-    updateHUD();
-
-    // Check for new matches
-    matches=findMatches();
-  }
-
-  // Check win/lose
-  if(score>=targetScore){
-    levelComplete();
-  } else if(moves<=0){
-    gameOver();
+  // 显示当前 tab
+  if (currentTab === 'explain') {
+    panel.innerHTML = explainHtml;
   } else {
-    // Auto hint after 5s
-    hintTimer=setTimeout(showHint,5000);
+    panel.innerHTML = codeHtml;
+    document.getElementById('codePre').innerHTML = highlightCode(step.newCode);
   }
 
-  animating=false;
-}
-
-async function applyGravity(){
-  let fell=false;
-  for(let c=0;c<COLS;c++){
-    let writeRow=ROWS-1;
-    for(let r=ROWS-1;r>=0;r--){
-      if(grid[r][c]!==-1){
-        if(r!==writeRow){
-          grid[writeRow][c]=grid[r][c];
-          grid[r][c]=-1;
-          fell=true;
-        }
-        writeRow--;
-      }
-    }
-  }
-  if(fell){
-    renderBoard();
-    // Add falling animation
-    document.querySelectorAll('.cell').forEach(cell=>{
-      const r=+cell.dataset.row;
-      const c=+cell.dataset.col;
-      if(grid[r][c]!==-1) cell.classList.add('falling');
-    });
-    await sleep(300);
-  }
-}
-
-async function fillEmpty(){
-  let filled=false;
-  for(let c=0;c<COLS;c++){
-    for(let r=0;r<ROWS;r++){
-      if(grid[r][c]===-1){
-        grid[r][c]=Math.floor(Math.random()*CARD_TYPES.length);
-        filled=true;
-      }
-    }
-  }
-  if(filled){
-    renderBoard();
-    document.querySelectorAll('.cell').forEach(cell=>{
-      const r=+cell.dataset.row;
-      if(r<3) cell.classList.add('falling');
-    });
-    await sleep(300);
-  }
-}
-
-// ========== EFFECTS ==========
-function spawnMatchParticles(cell,color){
-  const rect=cell.getBoundingClientRect();
-  const cx=rect.left+rect.width/2;
-  const cy=rect.top+rect.height/2;
-  for(let i=0;i<8;i++){
-    const el=document.createElement('div');
-    el.style.cssText=`position:fixed;left:${cx}px;top:${cy}px;width:6px;height:6px;border-radius:50%;background:${color};pointer-events:none;z-index:30;box-shadow:0 0 6px ${color}`;
-    document.body.appendChild(el);
-    const angle=Math.random()*Math.PI*2;
-    const dist=30+Math.random()*40;
-    const dx=Math.cos(angle)*dist;
-    const dy=Math.sin(angle)*dist;
-    el.animate([
-      {transform:'translate(0,0) scale(1)',opacity:1},
-      {transform:`translate(${dx}px,${dy}px) scale(0)`,opacity:0}
-    ],{duration:400+Math.random()*200,easing:'ease-out'});
-    setTimeout(()=>el.remove(),600);
-  }
-}
-
-function spawnFloatText(r,c,text,color){
-  const cell=getCell(r,c);
-  if(!cell)return;
-  const rect=cell.getBoundingClientRect();
-  const el=document.createElement('div');
-  el.className='float-text';
-  el.style.left=(rect.left+rect.width/2)+'px';
-  el.style.top=rect.top+'px';
-  el.style.color=color||'#fff';
-  el.style.fontSize=(combo>=3?'1.4em':'1em');
-  el.textContent=text;
-  document.body.appendChild(el);
-  setTimeout(()=>el.remove(),900);
-}
-
-function showCombo(n){
-  const el=document.getElementById('comboDisplay');
-  const colors=['','#00e5ff','#ffd700','#ff6b9d','#a855f7','#ff9100'];
-  el.style.color=colors[Math.min(n,5)]||'#fff';
-  el.textContent=n+'x 连击!';
-  el.className='combo-display show';
-  setTimeout(()=>el.className='combo-display',800);
-}
-
-// ========== HINT ==========
-function showHint(){
-  if(animating)return;
-  // Find a valid swap
-  for(let r=0;r<ROWS;r++){
-    for(let c=0;c<COLS;c++){
-      // Try swap right
-      if(c<COLS-1){
-        [grid[r][c],grid[r][c+1]]=[grid[r][c+1],grid[r][c]];
-        if(findMatches().length>0){
-          [grid[r][c],grid[r][c+1]]=[grid[r][c+1],grid[r][c]];
-          const cell=getCell(r,c);
-          const cell2=getCell(r,c+1);
-          if(cell)cell.classList.add('hint');
-          if(cell2)cell2.classList.add('hint');
-          return;
-        }
-        [grid[r][c],grid[r][c+1]]=[grid[r][c+1],grid[r][c]];
-      }
-      // Try swap down
-      if(r<ROWS-1){
-        [grid[r][c],grid[r+1][c]]=[grid[r+1][c],grid[r][c]];
-        if(findMatches().length>0){
-          [grid[r][c],grid[r+1][c]]=[grid[r+1][c],grid[r][c]];
-          const cell=getCell(r,c);
-          const cell2=getCell(r+1,c);
-          if(cell)cell.classList.add('hint');
-          if(cell2)cell2.classList.add('hint');
-          return;
-        }
-        [grid[r][c],grid[r+1][c]]=[grid[r+1][c],grid[r][c]];
-      }
-    }
-  }
-}
-
-function clearHint(){
-  if(hintTimer){clearTimeout(hintTimer);hintTimer=null}
-  document.querySelectorAll('.cell.hint').forEach(c=>c.classList.remove('hint'));
-}
-
-function useHint(){
-  if(animating)return;
-  clearHint();
-  showHint();
-}
-
-// ========== SHUFFLE ==========
-function useShuffle(){
-  if(animating)return;
-  // Shuffle all cards
-  const all=[];
-  for(let r=0;r<ROWS;r++)
-    for(let c=0;c<COLS;c++)
-      all.push(grid[r][c]);
-  // Fisher-Yates
-  for(let i=all.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [all[i],all[j]]=[all[j],all[i]];
-  }
-  let idx=0;
-  for(let r=0;r<ROWS;r++)
-    for(let c=0;c<COLS;c++)
-      grid[r][c]=all[idx++];
-
-  renderBoard();
-  showToast('🔀 已洗牌!');
-
-  // Check if there are valid moves, if not shuffle again
-  if(!hasValidMoves()) useShuffle();
-}
-
-// ========== BOMB ==========
-function useBomb(){
-  if(animating)return;
-  animating=true;
-
-  // Find the most common type and remove all of it
-  const counts=new Array(CARD_TYPES.length).fill(0);
-  for(let r=0;r<ROWS;r++)
-    for(let c=0;c<COLS;c++)
-      counts[grid[r][c]]++;
-  const maxType=counts.indexOf(Math.max(...counts));
-
-  const toRemove=[];
-  for(let r=0;r<ROWS;r++)
-    for(let c=0;c<COLS;c++)
-      if(grid[r][c]===maxType) toRemove.push({r,c});
-
-  const bombScore=toRemove.length*15;
-  score+=bombScore;
-
-  toRemove.forEach(m=>{
-    const cell=getCell(m.r,m.c);
-    if(cell){
-      cell.classList.add('matched');
-      spawnMatchParticles(cell,CARD_COLORS[maxType]);
-    }
+  // 更新 tab 状态
+  document.querySelectorAll('.panel-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === currentTab);
   });
-  spawnFloatText(toRemove[0].r,toRemove[0].c,'💣 +'+bombScore,'#ff9100');
 
-  setTimeout(async()=>{
-    toRemove.forEach(m=>grid[m.r][m.c]=-1);
-    await applyGravity();
-    await fillEmpty();
-    renderBoard();
-    updateHUD();
-
-    if(score>=targetScore) levelComplete();
-    animating=false;
-  },400);
+  updatePreview();
 }
 
-// ========== VALID MOVES CHECK ==========
-function hasValidMoves(){
-  for(let r=0;r<ROWS;r++){
-    for(let c=0;c<COLS;c++){
-      if(c<COLS-1){
-        [grid[r][c],grid[r][c+1]]=[grid[r][c+1],grid[r][c]];
-        if(findMatches().length>0){[grid[r][c],grid[r][c+1]]=[grid[r][c+1],grid[r][c]];return true}
-        [grid[r][c],grid[r][c+1]]=[grid[r][c+1],grid[r][c]];
-      }
-      if(r<ROWS-1){
-        [grid[r][c],grid[r+1][c]]=[grid[r+1][c],grid[r][c]];
-        if(findMatches().length>0){[grid[r][c],grid[r+1][c]]=[grid[r+1][c],grid[r][c]];return true}
-        [grid[r][c],grid[r+1][c]]=[grid[r+1][c],grid[r][c]];
+// ===== 更新预览 =====
+function updatePreview() {
+  const frame = document.getElementById('previewFrame');
+  const html = buildPreviewHtml(currentStep);
+  frame.srcdoc = html;
+}
+
+// ===== 切换标签 =====
+function switchTab(tab) {
+  currentTab = tab;
+  const panel = document.getElementById('panelContent');
+  const step = stepData[currentStep];
+
+  document.querySelectorAll('.panel-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === tab);
+  });
+
+  if (tab === 'explain') {
+    if (panel._explainHtml) panel.innerHTML = panel._explainHtml;
+  } else {
+    if (panel._codeHtml) {
+      panel.innerHTML = panel._codeHtml;
+      const codePre = document.getElementById('codePre');
+      if (codePre && step.newCode) {
+        codePre.innerHTML = highlightCode(step.newCode);
+      } else if (codePre && step.isComplete) {
+        codePre.innerHTML = highlightCode(fullProjectCode);
       }
     }
   }
-  return false;
 }
 
-// ========== HUD ==========
-function updateHUD(){
-  document.getElementById('scoreVal').textContent=score;
-  document.getElementById('comboVal').textContent=combo;
-  document.getElementById('movesVal').textContent=moves;
-  document.getElementById('levelVal').textContent=level;
-
-  // Flash moves if low
-  const movesEl=document.getElementById('movesVal');
-  if(moves<=5) movesEl.style.color='#ff3e3e';
-  else movesEl.style.color='';
-}
-
-// ========== LEVEL ==========
-function levelComplete(){
-  const stars=moves>=15?3:moves>=8?2:1;
-  document.getElementById('lcStars').textContent='⭐'.repeat(stars)+'☆'.repeat(3-stars);
-  document.getElementById('lcStats').innerHTML=`得分: ${score} · 剩余步数: ${moves}`;
-  document.getElementById('levelComplete').classList.add('show');
-  // Celebration particles
-  for(let i=0;i<30;i++){
-    setTimeout(()=>{
-      const el=document.createElement('div');
-      el.style.cssText=`position:fixed;left:${Math.random()*100}%;top:${Math.random()*50}%;font-size:${1+Math.random()*1.5}em;pointer-events:none;z-index:90`;
-      el.textContent=['🎉','✨','🌟','💫','🎊'][Math.floor(Math.random()*5)];
-      document.body.appendChild(el);
-      el.animate([
-        {transform:'translateY(0) scale(1)',opacity:1},
-        {transform:`translateY(${100+Math.random()*200}px) scale(0)`,opacity:0}
-      ],{duration:1500,easing:'ease-out'});
-      setTimeout(()=>el.remove(),1500);
-    },i*50);
+// ===== 导航 =====
+function goStep(delta) {
+  const next = currentStep + delta;
+  if (next >= 0 && next < stepData.length) {
+    currentStep = next;
+    currentTab = 'explain';
+    renderStep();
   }
 }
 
-function nextLevel(){
-  document.getElementById('levelComplete').classList.remove('show');
-  level++;
-  moves=Math.max(20,35-level*2);
-  targetScore=1000+level*500;
-  score=0;
-  combo=0;
-  selected=null;
-  initGrid();
-  // Make sure no initial matches and has valid moves
-  while(!hasValidMoves()) initGrid();
-  renderBoard();
-  updateHUD();
+function goToStep(index) {
+  if (index >= 0 && index < stepData.length) {
+    currentStep = index;
+    currentTab = 'explain';
+    renderStep();
+  }
 }
 
-function gameOver(){
-  document.getElementById('goStats').innerHTML=`最终得分: ${score} · 到达关卡: ${level}`;
-  document.getElementById('gameover').classList.add('show');
+// ===== 移动端预览切换 =====
+function togglePreview() {
+  const rp = document.getElementById('rightPanel');
+  rp.classList.toggle('show');
 }
 
-function restartGame(){
-  document.getElementById('gameover').classList.remove('show');
-  level=1;score=0;combo=0;moves=30;targetScore=1000;
-  selected=null;
-  initGrid();
-  while(!hasValidMoves()) initGrid();
-  renderBoard();
-  updateHUD();
-}
-
-// ========== TOAST ==========
-function showToast(msg){
-  const t=document.createElement('div');
-  t.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card);border:1px solid var(--cyan);color:var(--cyan);padding:10px 20px;border-radius:10px;z-index:30;font-size:.85em;pointer-events:none';
-  t.textContent=msg;document.body.appendChild(t);
-  setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300)},1200);
-}
-
-// ========== UTILITY ==========
-function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
-
-// ========== SHAKE ANIMATION ==========
-const shakeStyle=document.createElement('style');
-shakeStyle.textContent='@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}';
-document.head.appendChild(shakeStyle);
-
-// ========== START ==========
-function startGame(){
-  document.getElementById('startScreen').classList.add('hidden');
-  level=1;score=0;combo=0;moves=30;targetScore=1000;
-  selected=null;
-  initGrid();
-  while(!hasValidMoves()) initGrid();
-  renderBoard();
-  updateHUD();
-  hintTimer=setTimeout(showHint,5000);
-}
-
-// Resize handler
-window.addEventListener('resize',()=>{
-  if(grid.length) renderBoard();
+// ===== 复制保护 =====
+document.addEventListener('copy', function(e) {
+  const codeBody = document.getElementById('codeBody');
+  if (codeBody && codeBody.contains(e.target)) {
+    e.preventDefault();
+    showCopyWarning();
+  }
 });
+
+document.addEventListener('cut', function(e) {
+  const codeBody = document.getElementById('codeBody');
+  if (codeBody && codeBody.contains(e.target)) {
+    e.preventDefault();
+    showCopyWarning();
+  }
+});
+
+document.addEventListener('contextmenu', function(e) {
+  const codeBody = document.getElementById('codeBody');
+  if (codeBody && codeBody.contains(e.target)) {
+    e.preventDefault();
+    showCopyWarning();
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  const codeBody = document.getElementById('codeBody');
+  if (codeBody && codeBody.contains(e.target)) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'a' || e.key === 'u')) {
+      e.preventDefault();
+      showCopyWarning();
+    }
+  }
+});
+
+function showCopyWarning() {
+  const warn = document.getElementById('copyWarning');
+  if (warn) {
+    warn.style.display = 'block';
+    warn.style.animation = 'none';
+    warn.offsetHeight;
+    warn.style.animation = 'warnFade 1.5s forwards';
+    setTimeout(() => { warn.style.display = 'none'; }, 1600);
+  }
+}
+
+// ===== 礼花特效 =====
+function launchConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const particles = [];
+  const colors = ['#667eea', '#764ba2', '#f093fb', '#ffd43b', '#51cf66', '#ff6b6b', '#74c0fc'];
+
+  for (let i = 0; i < 150; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      w: Math.random() * 10 + 4,
+      h: Math.random() * 6 + 3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      vx: (Math.random() - 0.5) * 3,
+      vy: Math.random() * 3 + 2,
+      rot: Math.random() * 360,
+      rotV: (Math.random() - 0.5) * 10,
+      opacity: 1
+    });
+  }
+
+  let frame = 0;
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let alive = false;
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += p.rotV;
+      p.vy += 0.05;
+      if (frame > 60) p.opacity -= 0.008;
+      if (p.opacity <= 0) return;
+      alive = true;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.opacity);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    frame++;
+    if (alive && frame < 200) {
+      requestAnimationFrame(animate);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  animate();
+}
+
+// ===== 键盘导航 =====
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    goStep(1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    goStep(-1);
+  }
+});
+
+// ===== 初始化 =====
+renderSidebar();
+renderStep();
 </script>
 </body>
 </html>
