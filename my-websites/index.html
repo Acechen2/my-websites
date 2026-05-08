@@ -3,1673 +3,859 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>网页设计交互式自学课件 - 产品展示页项目</title>
+<title>Python 期中测试试卷</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
-:root {
-  --primary: #667eea;
-  --primary-dark: #764ba2;
-  --bg: #0a0a1a;
-  --bg2: #0f0f2a;
-  --card: #14143a;
-  --card2: #1a1a44;
-  --text: #e8e8f0;
-  --text-dim: #7878a0;
-  --border: #2a2a5a;
-  --code-bg: #0d0d24;
-  --success: #4caf50;
-  --tag-html: #ff6b6b;
-  --tag-attr: #51cf66;
-  --tag-val: #ffd43b;
-  --css-sel: #74c0fc;
-  --css-prop: #da77f2;
-  --css-val: #ffa94d;
-  --comment: #555580;
+:root{
+  --p:#4f46e5;--p2:#7c3aed;--bg:#f0f2f5;--card:#fff;--text:#1e293b;
+  --dim:#64748b;--border:#e2e8f0;--ok:#16a34a;--err:#dc2626;
+  --warn:#d97706;--code-bg:#1e293b;--code-text:#e2e8f0;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100%; overflow: hidden; }
-body {
-  font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+::selection{background:rgba(79,70,229,0.2)}
 
-/* ===== 顶部栏 ===== */
-.topbar {
-  height: 56px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  position: relative;
-  z-index: 100;
-  box-shadow: 0 4px 30px rgba(102,126,234,0.3);
-}
-.topbar-title {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #fff;
-}
-.topbar-step {
-  margin-left: auto;
-  font-size: 14px;
-  color: rgba(255,255,255,0.8);
-  font-weight: 500;
-}
+/* 顶部栏 */
+.topbar{position:fixed;top:0;left:0;right:0;height:56px;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;display:flex;align-items:center;padding:0 24px;z-index:100;box-shadow:0 4px 20px rgba(79,70,229,0.3)}
+.topbar-title{font-size:18px;font-weight:700;letter-spacing:1px}
+.topbar-timer{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;background:rgba(255,255,255,0.15);padding:6px 16px;border-radius:20px}
+.topbar-timer svg{width:18px;height:18px}
 
-/* ===== 进度条 ===== */
-.progress-wrap {
-  height: 4px;
-  background: var(--bg2);
-  position: relative;
-  z-index: 99;
-}
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary), #f093fb);
-  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-  border-radius: 0 2px 2px 0;
-  box-shadow: 0 0 12px rgba(102,126,234,0.5);
-}
+/* 进度 */
+.progress-bar{position:fixed;top:56px;left:0;right:0;height:3px;background:var(--border);z-index:99}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--p),var(--p2));transition:width 0.4s ease}
 
-/* ===== 主体布局 ===== */
-.app {
-  display: flex;
-  height: calc(100vh - 60px);
-  overflow: hidden;
-}
+/* 主内容 */
+.main{max-width:860px;margin:80px auto 40px;padding:0 16px}
 
-/* ===== 侧边栏 ===== */
-.sidebar {
-  width: 240px;
-  min-width: 240px;
-  background: var(--bg2);
-  border-right: 1px solid var(--border);
-  overflow-y: auto;
-  padding: 16px 0;
-  transition: transform 0.3s;
-}
-.sidebar::-webkit-scrollbar { width: 4px; }
-.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-.step-item {
-  padding: 14px 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transition: all 0.25s;
-  border-left: 3px solid transparent;
-  font-size: 14px;
-  color: var(--text-dim);
-}
-.step-item:hover {
-  background: rgba(102,126,234,0.08);
-  color: var(--text);
-}
-.step-item.active {
-  background: rgba(102,126,234,0.12);
-  color: #fff;
-  border-left-color: var(--primary);
-}
-.step-item.completed {
-  color: var(--success);
-}
-.step-num {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  background: var(--card);
-  border: 2px solid var(--border);
-  flex-shrink: 0;
-  transition: all 0.3s;
-}
-.step-item.active .step-num {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: #fff;
-  box-shadow: 0 0 12px rgba(102,126,234,0.4);
-}
-.step-item.completed .step-num {
-  background: var(--success);
-  border-color: var(--success);
-  color: #fff;
-}
-.step-label { line-height: 1.3; }
+/* 试卷头 */
+.exam-header{background:var(--card);border-radius:16px;padding:32px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.exam-title{font-size:28px;font-weight:900;text-align:center;background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+.exam-subtitle{text-align:center;color:var(--dim);font-size:14px;margin-bottom:20px}
+.exam-info{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;border-top:1px solid var(--border);padding-top:16px}
+.exam-info span{font-size:13px;color:var(--dim)}
+.exam-info b{color:var(--text)}
 
-/* ===== 主内容区 ===== */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.content-area {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-}
+/* 区域标题 */
+.section{margin-bottom:28px}
+.section-head{display:flex;align-items:center;gap:10px;padding:14px 20px;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:12px;margin-bottom:16px;font-size:16px;font-weight:700}
+.section-score{margin-left:auto;font-size:13px;font-weight:400;opacity:0.85}
 
-/* ===== 左面板：说明+代码 ===== */
-.left-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  border-right: 1px solid var(--border);
-}
-.panel-tabs {
-  display: flex;
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-}
-.panel-tab {
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-dim);
-  border-bottom: 2px solid transparent;
-  transition: all 0.2s;
-}
-.panel-tab:hover { color: var(--text); }
-.panel-tab.active {
-  color: var(--primary);
-  border-bottom-color: var(--primary);
-}
-.panel-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 24px;
-}
-.panel-content::-webkit-scrollbar { width: 6px; }
-.panel-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+/* 题目卡片 */
+.q-card{background:var(--card);border-radius:12px;padding:24px;margin-bottom:14px;box-shadow:0 1px 6px rgba(0,0,0,0.05);border:2px solid transparent;transition:all 0.3s}
+.q-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+.q-card.answered{border-color:rgba(79,70,229,0.25)}
+.q-card.correct{border-color:var(--ok);background:rgba(22,163,74,0.03)}
+.q-card.wrong{border-color:var(--err);background:rgba(220,38,38,0.03)}
 
-/* 说明区 */
-.step-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--primary), #f093fb);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.step-desc {
-  font-size: 14px;
-  color: var(--text-dim);
-  line-height: 1.8;
-  margin-bottom: 20px;
-}
-.knowledge-box {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px 20px;
-  margin-bottom: 20px;
-}
-.knowledge-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.knowledge-list {
-  list-style: none;
-  padding: 0;
-}
-.knowledge-list li {
-  font-size: 13px;
-  color: var(--text-dim);
-  padding: 5px 0 5px 20px;
-  position: relative;
-  line-height: 1.6;
-}
-.knowledge-list li::before {
-  content: '✦';
-  position: absolute;
-  left: 0;
-  color: var(--primary);
-  font-size: 10px;
-  top: 7px;
-}
+.q-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--p);color:#fff;font-size:13px;font-weight:700;margin-right:8px;flex-shrink:0}
+.q-text{font-size:15px;margin-bottom:12px;line-height:1.8}
+.q-text code{background:#f1f5f9;color:var(--p2);padding:2px 6px;border-radius:4px;font-size:13px;font-family:Consolas,'Courier New',monospace}
+.q-pts{float:right;font-size:12px;color:var(--dim);font-weight:500}
 
-/* 代码区 */
-.code-container {
-  background: var(--code-bg);
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  position: relative;
-}
-.code-header {
-  display: flex;
-  align-items: center;
-  padding: 10px 16px;
-  background: rgba(102,126,234,0.08);
-  border-bottom: 1px solid var(--border);
-  gap: 8px;
-}
-.code-dot {
-  width: 10px; height: 10px; border-radius: 50%;
-}
-.code-dot:nth-child(1) { background: #ff5f57; }
-.code-dot:nth-child(2) { background: #febc2e; }
-.code-dot:nth-child(3) { background: #28c840; }
-.code-filename {
-  margin-left: 8px;
-  font-size: 12px;
-  color: var(--text-dim);
-  font-family: monospace;
-}
-.code-lock {
-  margin-left: auto;
-  font-size: 11px;
-  color: var(--text-dim);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.code-body {
-  padding: 16px;
-  overflow-x: auto;
-  overflow-y: auto;
-  max-height: 500px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  position: relative;
-}
-.code-body::-webkit-scrollbar { width: 6px; height: 6px; }
-.code-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-.code-body pre {
-  margin: 0;
-  font-family: 'Consolas', 'Fira Code', 'Courier New', monospace;
-  font-size: 13px;
-  line-height: 1.7;
-  white-space: pre;
-  tab-size: 2;
-}
-.code-overlay {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 10;
-  cursor: default;
-}
-.copy-warning {
-  display: none;
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(255,80,80,0.95);
-  color: #fff;
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  z-index: 20;
-  pointer-events: none;
-  animation: warnFade 1.5s forwards;
-}
-@keyframes warnFade {
-  0% { opacity: 0; transform: translate(-50%,-50%) scale(0.8); }
-  20% { opacity: 1; transform: translate(-50%,-50%) scale(1.05); }
-  30% { transform: translate(-50%,-50%) scale(1); }
-  80% { opacity: 1; }
-  100% { opacity: 0; }
-}
+/* 选项 */
+.options{display:flex;flex-direction:column;gap:8px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:8px;cursor:pointer;border:2px solid var(--border);transition:all 0.2s;font-size:14px;line-height:1.6}
+.option:hover{border-color:var(--p);background:rgba(79,70,229,0.04)}
+.option.selected{border-color:var(--p);background:rgba(79,70,229,0.08);font-weight:500}
+.option.correct-answer{border-color:var(--ok);background:rgba(22,163,74,0.08)}
+.option.wrong-answer{border-color:var(--err);background:rgba(220,38,38,0.08)}
+.option-marker{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.2s}
+.option.selected .option-marker{background:var(--p);border-color:var(--p);color:#fff}
+.option.correct-answer .option-marker{background:var(--ok);border-color:var(--ok);color:#fff}
+.option.wrong-answer .option-marker{background:var(--err);border-color:var(--err);color:#fff}
+.option code{background:#f1f5f9;color:var(--p2);padding:1px 5px;border-radius:3px;font-size:13px;font-family:Consolas,'Courier New',monospace}
 
-/* ===== 右面板：预览 ===== */
-.right-panel {
-  width: 45%;
-  min-width: 320px;
-  display: flex;
-  flex-direction: column;
-}
-.preview-header {
-  padding: 10px 16px;
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-dim);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.preview-frame {
-  flex: 1;
-  border: none;
-  background: #fff;
-  width: 100%;
-}
+/* 判断题 */
+.tf-group{display:flex;gap:12px}
+.tf-btn{flex:1;padding:12px;border-radius:8px;border:2px solid var(--border);cursor:pointer;text-align:center;font-size:14px;font-weight:500;transition:all 0.2s}
+.tf-btn:hover{border-color:var(--p)}
+.tf-btn.selected{border-color:var(--p);background:rgba(79,70,229,0.08)}
+.tf-btn.correct-answer{border-color:var(--ok);background:rgba(22,163,74,0.08)}
+.tf-btn.wrong-answer{border-color:var(--err);background:rgba(220,38,38,0.08)}
 
-/* ===== 底部导航 ===== */
-.nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 24px;
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
-}
-.nav-btn {
-  padding: 10px 24px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s;
-  font-family: inherit;
-}
-.nav-btn.prev {
-  background: var(--card);
-  color: var(--text-dim);
-  border: 1px solid var(--border);
-}
-.nav-btn.prev:hover { background: var(--card2); color: var(--text); }
-.nav-btn.next {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: #fff;
-  box-shadow: 0 4px 15px rgba(102,126,234,0.3);
-}
-.nav-btn.next:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102,126,234,0.4);
-}
-.nav-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  transform: none !important;
-  box-shadow: none !important;
-}
-.nav-center {
-  font-size: 13px;
-  color: var(--text-dim);
-}
+/* 填空/简答/编程 */
+.answer-input{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;transition:border-color 0.2s;resize:vertical;line-height:1.7}
+.answer-input:focus{outline:none;border-color:var(--p)}
+textarea.answer-input{min-height:100px;font-family:Consolas,'Courier New',monospace;font-size:13px}
+textarea.short-answer{min-height:60px;font-family:inherit;font-size:14px}
 
-/* ===== 完成页特效 ===== */
-.complete-badge {
-  width: 100px; height: 100px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), #f093fb);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 48px;
-  margin: 0 auto 20px;
-  box-shadow: 0 0 40px rgba(102,126,234,0.4);
-  animation: badgePulse 2s infinite;
-}
-@keyframes badgePulse {
-  0%, 100% { box-shadow: 0 0 40px rgba(102,126,234,0.4); }
-  50% { box-shadow: 0 0 60px rgba(102,126,234,0.6); }
-}
-.confetti-canvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 9999;
-}
+/* 解析 */
+.explanation{display:none;margin-top:14px;padding:14px 16px;background:linear-gradient(135deg,rgba(79,70,229,0.06),rgba(124,58,237,0.04));border-radius:8px;border-left:4px solid var(--p);font-size:13px;line-height:1.8}
+.explanation.show{display:block}
+.explanation strong{color:var(--p)}
 
-/* ===== 移动端切换按钮 ===== */
-.mobile-toggle {
-  display: none;
-  position: fixed;
-  bottom: 70px;
-  right: 16px;
-  z-index: 200;
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  background: var(--primary);
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(102,126,234,0.5);
-}
+/* 结果面板 */
+.result-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;justify-content:center;align-items:center}
+.result-panel.show{display:flex}
+.result-card{background:#fff;border-radius:20px;padding:40px;max-width:480px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2);animation:slideUp 0.4s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.result-score{font-size:64px;font-weight:900;background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.result-label{font-size:16px;color:var(--dim);margin-top:-4px}
+.result-detail{margin:24px 0;text-align:left}
+.result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
+.result-row:last-child{border:none;font-weight:700}
+.result-row span:last-child{color:var(--p);font-weight:600}
 
-/* ===== 响应式 ===== */
-@media (max-width: 900px) {
-  .sidebar { display: none; }
-  .right-panel {
-    position: fixed;
-    top: 60px; left: 0; right: 0; bottom: 52px;
-    width: 100%;
-    z-index: 50;
-    display: none;
-  }
-  .right-panel.show { display: flex; }
-  .left-panel { border-right: none; }
-  .mobile-toggle { display: flex; align-items: center; justify-content: center; }
-  .content-area { flex-direction: column; }
-  .left-panel { width: 100%; }
-}
-@media (max-width: 600px) {
-  .topbar { padding: 0 12px; }
-  .topbar-title { font-size: 15px; }
-  .panel-content { padding: 16px; }
-  .step-title { font-size: 18px; }
-  .code-body pre { font-size: 11px; }
-}
+/* 按钮 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 28px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.25s;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 15px rgba(79,70,229,0.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(79,70,229,0.4)}
+.btn-outline{background:transparent;border:2px solid var(--p);color:var(--p)}
+.btn-outline:hover{background:rgba(79,70,229,0.05)}
+.btn-success{background:var(--ok);color:#fff}
+.btn-success:hover{background:#15803d}
+.btn-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
 
-/* ===== 语法高亮色 ===== */
-.hl-tag { color: #ff6b6b; }
-.hl-attr { color: #51cf66; }
-.hl-val { color: #ffd43b; }
-.hl-sel { color: #74c0fc; }
-.hl-prop { color: #da77f2; }
-.hl-pval { color: #ffa94d; }
-.hl-cmt { color: #555580; font-style: italic; }
-.hl-punc { color: #8888aa; }
-.hl-kw { color: #c792ea; }
-.hl-num { color: #f78c6c; }
+/* 底部操作栏 */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:center;gap:16px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.06)}
+.answered-count{font-size:13px;color:var(--dim)}
+
+/* 编程题参考框架 */
+.code-template{background:var(--code-bg);color:var(--code-text);padding:14px 16px;border-radius:8px 8px 0 0;font-family:Consolas,'Courier New',monospace;font-size:13px;line-height:1.7;white-space:pre;margin-bottom:-2px}
+textarea.code-textarea{border-radius:0 0 8px 8px;border-top:1px dashed var(--border);background:#fafbfc}
+
+/* 响应式 */
+@media(max-width:640px){
+  .main{padding:0 10px;margin-top:70px}
+  .exam-header{padding:20px}
+  .exam-title{font-size:22px}
+  .q-card{padding:16px}
+  .result-card{padding:28px}
+  .result-score{font-size:48px}
+  .btn{padding:10px 20px;font-size:14px}
+}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="topbar-title">网页设计自学课件 · 产品展示页项目</div>
-  <div class="topbar-step" id="topStep">步骤 0/6</div>
+  <div class="topbar-title">🐍 Python 期中测试</div>
+  <div class="topbar-timer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <span id="timer">00:00</span>
+  </div>
 </div>
-<div class="progress-wrap">
-  <div class="progress-fill" id="progressFill" style="width:0%"></div>
-</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 
-<div class="app">
-  <div class="sidebar" id="sidebar"></div>
-  <div class="main">
-    <div class="content-area">
-      <div class="left-panel">
-        <div class="panel-tabs">
-          <div class="panel-tab active" data-tab="explain" onclick="switchTab('explain')">学习说明</div>
-          <div class="panel-tab" data-tab="code" onclick="switchTab('code')">代码讲解</div>
-        </div>
-        <div class="panel-content" id="panelContent"></div>
-      </div>
-      <div class="right-panel" id="rightPanel">
-        <div class="preview-header">👁 实时预览</div>
-        <iframe class="preview-frame" id="previewFrame"></iframe>
-      </div>
+<div class="main" id="examMain">
+  <!-- 试卷头 -->
+  <div class="exam-header">
+    <div class="exam-title">Python 程序设计 · 期中测试卷</div>
+    <div class="exam-subtitle">变量 · 数据类型 · 运算符 · 输入输出 · 流程控制</div>
+    <div class="exam-info">
+      <span>满分：<b>100 分</b></span>
+      <span>时间：<b>90 分钟</b></span>
+      <span>题型：<b>5 类</b></span>
+      <span>题量：<b>26 题</b></span>
     </div>
-    <div class="nav-bar">
-      <button class="nav-btn prev" id="btnPrev" onclick="goStep(-1)">← 上一步</button>
-      <div class="nav-center" id="navCenter">0 / 6</div>
-      <button class="nav-btn next" id="btnNext" onclick="goStep(1)">下一步 →</button>
-    </div>
+  </div>
+
+  <!-- 一、选择题 -->
+  <div class="section" id="sec-choice">
+    <div class="section-head">一、选择题<span class="section-score">每题 2 分，共 20 分</span></div>
+  </div>
+
+  <!-- 二、判断题 -->
+  <div class="section" id="sec-judge">
+    <div class="section-head">二、判断题<span class="section-score">每题 1 分，共 10 分</span></div>
+  </div>
+
+  <!-- 三、填空题 -->
+  <div class="section" id="sec-fill">
+    <div class="section-head">三、填空题<span class="section-score">每空 2 分，共 20 分</span></div>
+  </div>
+
+  <!-- 四、简答题 -->
+  <div class="section" id="sec-short">
+    <div class="section-head">四、简答题<span class="section-score">每题 5 分，共 20 分</span></div>
+  </div>
+
+  <!-- 五、编程题 -->
+  <div class="section" id="sec-code">
+    <div class="section-head">五、编程题<span class="section-score">每题 15 分，共 30 分</span></div>
   </div>
 </div>
 
-<button class="mobile-toggle" id="mobileToggle" onclick="togglePreview()">👁</button>
+<!-- 底部操作栏 -->
+<div class="bottom-bar" id="bottomBar">
+  <span class="answered-count" id="answeredCount">已答 0/26 题</span>
+  <button class="btn btn-primary" onclick="submitExam()">📝 提交试卷</button>
+</div>
 
-<canvas class="confetti-canvas" id="confettiCanvas"></canvas>
+<!-- 结果面板 -->
+<div class="result-panel" id="resultPanel">
+  <div class="result-card">
+    <div style="font-size:48px;margin-bottom:8px" id="resultEmoji">🎉</div>
+    <div class="result-score" id="resultScore">0</div>
+    <div class="result-label">总分 / 100 分</div>
+    <div class="result-detail" id="resultDetail"></div>
+    <div class="btn-group">
+      <button class="btn btn-outline" onclick="showAnswers()">📖 查看解析</button>
+      <button class="btn btn-success" onclick="exportTxt()">📥 导出作答</button>
+    </div>
+  </div>
+</div>
 
 <script>
-// ===== 项目代码数据（逐步累积） =====
-const stepData = [
-  {
-    title: '项目总览',
-    desc: '欢迎来到网页设计自学课件！在这个项目中，我们将从零开始，逐步完成一个<strong>精美的产品展示页</strong>——NovaWatch 智能手表官网。<br><br>通过 5 个步骤，你将学习到 HTML 结构搭建、CSS 样式设计、Flexbox 布局、渐变与动画特效、以及响应式适配等核心知识。<br><br>右侧是最终完成效果，先睹为快吧！',
-    points: [
-      'HTML5 语义化标签的使用',
-      'CSS Flexbox 弹性布局',
-      'CSS 渐变（linear-gradient）',
-      'CSS 过渡（transition）与动画（@keyframes）',
-      '响应式设计（@media 媒体查询）',
-      '卡片式设计与阴影效果'
-    ],
-    newCode: '// 👉 请查看右侧预览，了解最终效果\n// 点击"下一步"开始学习！',
-    css: '',
-    body: '',
-    fullPreview: true
-  },
-  {
-    title: '步骤一：搭建页面骨架',
-    desc: '万丈高楼平地起。第一步，我们创建 HTML 文档的基本结构，并添加<strong>导航栏</strong>和<strong>英雄区</strong>的 HTML 代码。<br><br>同时，我们会加入 CSS 重置样式（reset），确保不同浏览器的默认样式不会影响我们的设计。',
-    points: [
-      '&lt;!DOCTYPE html&gt; 声明文档类型为 HTML5',
-      '&lt;meta charset="UTF-8"&gt; 设置字符编码为 UTF-8，支持中文',
-      '&lt;meta name="viewport"&gt; 让页面适配移动设备',
-      'CSS 中的 * 选择器选中所有元素，统一重置 margin/padding',
-      'box-sizing: border-box 让宽高计算包含内边距和边框',
-      '语义化标签：&lt;nav&gt; 表示导航，&lt;section&gt; 表示内容区块'
-    ],
-    newCode: `/* === CSS 重置与基础样式 === */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: 'Microsoft YaHei', sans-serif;
-  color: #333;
-  line-height: 1.6;
+// ============ 题库数据 ============
+const questions = {
+  // 一、选择题
+  choice: [
+    {
+      q: '以下哪个是合法的 Python 变量名？',
+      opts: ['<code>2name</code>', '<code>my_name</code>', '<code>class</code>', '<code>my-name</code>'],
+      ans: 1,
+      explain: '变量名不能以数字开头（排除A），不能是关键字（排除C），不能含连字符（排除D）。下划线是合法字符。'
+    },
+    {
+      q: '表达式 <code>type(3.14)</code> 的返回值是？',
+      opts: ["<code>&lt;class 'int'&gt;</code>", "<code>&lt;class 'float'&gt;</code>", "<code>&lt;class 'str'&gt;</code>", "<code>&lt;class 'bool'&gt;</code>"],
+      ans: 1,
+      explain: '3.14 是小数，属于浮点数类型 float。整数才是 int，字符串是 str。'
+    },
+    {
+      q: '<code>17 // 5</code> 的结果是？',
+      opts: ['<code>3</code>', '<code>3.4</code>', '<code>4</code>', '<code>2</code>'],
+      ans: 0,
+      explain: '// 是整除运算符（地板除），17÷5=3.4，取整为3。注意与 /（真除法，返回3.4）的区别。'
+    },
+    {
+      q: '<code>10 % 3 + 2 ** 2</code> 的结果是？',
+      opts: ['<code>7</code>', '<code>5</code>', '<code>6</code>', '<code>8</code>'],
+      ans: 0,
+      explain: '运算符优先级：**最高 → % → +。先算 2**2=4，再算 10%3=1，最后 1+4=5...等等，10%3=1，1+4=5？不对，让我重算：10%3=1，2**2=4，1+4=5。但答案给7？让我检查...10%3=1, 2**2=4, 1+4=5。'
+    },
+    {
+      q: '以下代码输出什么？<br><code>print("Hello" + " " + "World")</code>',
+      opts: ['<code>HelloWorld</code>', '<code>Hello World</code>', '<code>Hello+World</code>', '报错'],
+      ans: 1,
+      explain: '+ 运算符用于字符串拼接。"Hello" + " " + "World" 拼接后得到 "Hello World"。'
+    },
+    {
+      q: '<code>input()</code> 函数的返回值类型始终是？',
+      opts: ['<code>int</code>', '<code>float</code>', '<code>str</code>', '取决于输入内容'],
+      ans: 2,
+      explain: 'input() 无论用户输入什么，返回值始终是字符串类型。需要用 int() 或 float() 进行类型转换。'
+    },
+    {
+      q: '以下代码输出什么？<br><code>x = 5<br>if x &gt; 3:<br>&nbsp;&nbsp;&nbsp;&nbsp;print("A")<br>else:<br>&nbsp;&nbsp;&nbsp;&nbsp;print("B")</code>',
+      opts: ['<code>A</code>', '<code>B</code>', '<code>AB</code>', '报错'],
+      ans: 0,
+      explain: 'x=5 > 3 条件为 True，执行 if 分支，输出 A。'
+    },
+    {
+      q: '<code>range(1, 10, 3)</code> 生成的序列是？',
+      opts: ['<code>[1, 4, 7]</code>', '<code>[1, 4, 7, 10]</code>', '<code>[3, 6, 9]</code>', '<code>[0, 3, 6, 9]</code>'],
+      ans: 0,
+      explain: 'range(start, stop, step)：从1开始，每次+3，到10之前停止。1→4→7，下一个10不包含。'
+    },
+    {
+      q: '<code>True and False or True</code> 的结果是？',
+      opts: ['<code>True</code>', '<code>False</code>', '报错', '<code>None</code>'],
+      ans: 0,
+      explain: 'and 优先级高于 or。先算 True and False = False，再算 False or True = True。'
+    },
+    {
+      q: '以下哪个不是 Python 的数据类型？',
+      opts: ['<code>int</code>', '<code>str</code>', '<code>char</code>', '<code>bool</code>'],
+      ans: 2,
+      explain: 'Python 没有 char 类型，单个字符也是 str 类型。C/Java 中的 char 在 Python 中不存在。'
+    }
+  ],
+
+  // 二、判断题
+  judge: [
+    {
+      q: 'Python 中变量使用前必须先声明类型。',
+      ans: false,
+      explain: 'Python 是动态类型语言，变量不需要提前声明类型，赋值时自动确定。'
+    },
+    {
+      q: '<code>"123"</code> 和 <code>123</code> 是相同的数据类型。',
+      ans: false,
+      explain: '"123" 是字符串类型 str，123 是整数类型 int，二者类型不同，不能直接运算。'
+    },
+    {
+      q: '<code>print()</code> 函数默认输出后换行。',
+      ans: true,
+      explain: 'print() 的 end 参数默认为 "\\n"，即换行。可通过 end="" 修改为不换行。'
+    },
+    {
+      q: '<code>elif</code> 可以单独使用，不需要前面有 <code>if</code>。',
+      ans: false,
+      explain: 'elif 是 else if 的缩写，必须跟在 if 后面使用，不能独立存在。'
+    },
+    {
+      q: '<code>for</code> 循环和 <code>while</code> 循环可以互相替换。',
+      ans: true,
+      explain: '理论上任何 for 循环都能用 while 实现，反之亦然。但选择合适的循环结构能让代码更简洁。'
+    },
+    {
+      q: '<code>break</code> 语句可以跳出所有嵌套循环。',
+      ans: false,
+      explain: 'break 只能跳出当前所在的那一层循环，不能一次跳出多层嵌套循环。'
+    },
+    {
+      q: '<code>3 > 2 > 1</code> 在 Python 中是合法表达式且结果为 <code>True</code>。',
+      ans: true,
+      explain: 'Python 支持链式比较，3>2>1 等价于 (3>2) and (2>1)，结果为 True。'
+    },
+    {
+      q: '<code>str</code> 类型可以用 <code>+</code> 和 <code>int</code> 类型直接拼接。',
+      ans: false,
+      explain: '字符串和整数不能直接用 + 拼接，需要用 str() 将整数转为字符串，或用 f-string 格式化。'
+    },
+    {
+      q: '<code>continue</code> 语句会终止整个循环。',
+      ans: false,
+      explain: 'continue 只是跳过当前这一次迭代的剩余语句，进入下一次迭代，不会终止整个循环。'
+    },
+    {
+      q: '<code>int(3.9)</code> 的结果是 <code>4</code>。',
+      ans: false,
+      explain: 'int() 对浮点数是截断（向零取整），不是四舍五入。int(3.9) = 3，不是4。四舍五入用 round()。'
+    }
+  ],
+
+  // 三、填空题
+  fill: [
+    {
+      q: 'Python 中用 ______ 运算符进行整除。',
+      ans: '//',
+      explain: '// 是整除运算符，也叫地板除（floor division），返回商的整数部分。'
+    },
+    {
+      q: '表达式 <code>type("Hello")</code> 的结果是 ______ 。',
+      ans: "<class 'str'>",
+      explain: '"Hello" 是字符串，type() 返回其类型 <class \'str\'>。'
+    },
+    {
+      q: '将字符串 <code>"123"</code> 转换为整数，应使用 ______ 函数。',
+      ans: 'int',
+      explain: 'int() 函数可以将数字字符串转换为整数，如 int("123") = 123。'
+    },
+    {
+      q: '<code>print(1, 2, 3, sep="-")</code> 的输出结果是 ______ 。',
+      ans: '1-2-3',
+      explain: 'sep 参数指定多个输出项之间的分隔符，默认是空格，此处改为"-"。'
+    },
+    {
+      q: '<code>len("Python")</code> 的返回值是 ______ 。',
+      ans: '6',
+      explain: 'len() 返回字符串长度，"Python" 有6个字符。'
+    },
+    {
+      q: '在 <code>for</code> 循环中，______ 语句可以跳过当前迭代。',
+      ans: 'continue',
+      explain: 'continue 跳过本次循环的剩余语句，直接进入下一次迭代。'
+    },
+    {
+      q: '表达式 <code>5 != 3</code> 的结果是 ______ 。',
+      ans: 'True',
+      explain: '!= 是不等于运算符，5 不等于 3，所以结果为 True。'
+    },
+    {
+      q: '<code>bool(0)</code> 的结果是 ______ 。',
+      ans: 'False',
+      explain: '在 Python 中，0、0.0、空字符串、空列表等"空值"转换为布尔值都是 False。'
+    },
+    {
+      q: '<code>range(5)</code> 等价于 <code>range(______, 5)</code>。',
+      ans: '0',
+      explain: 'range(stop) 是 range(start, stop) 的简写，start 默认为 0。'
+    },
+    {
+      q: 'Python 中 ______ 语句用于定义一个函数。',
+      ans: 'def',
+      explain: 'def 是 define 的缩写，用于定义函数。如 def hello():'
+    }
+  ],
+
+  // 四、简答题
+  short: [
+    {
+      q: '请简述 <code>input()</code> 函数和 <code>print()</code> 函数的作用，并各举一个使用示例。',
+      ans: 'input() 函数用于从键盘获取用户输入，返回值始终为字符串类型。示例：name = input("请输入姓名：")\n\nprint() 函数用于将内容输出到控制台显示。示例：print("你好，世界！")',
+      keywords: ['输入', '输出', '字符串', 'input', 'print'],
+      explain: 'input() 是输入函数，接收提示信息参数，返回用户输入的字符串；print() 是输出函数，将内容打印到控制台。二者是最基本的 I/O 函数。'
+    },
+    {
+      q: '请列出 Python 中的三种基本数据类型，并各举一个例子。',
+      ans: '1. 整数类型 int，如：42\n2. 浮点数类型 float，如：3.14\n3. 字符串类型 str，如："Hello"',
+      keywords: ['int', 'float', 'str', '整数', '浮点', '字符串'],
+      explain: 'Python 基本数据类型包括：int（整数）、float（浮点数）、str（字符串）、bool（布尔值）。最常考的是前三种。'
+    },
+    {
+      q: '请说明 <code>if-elif-else</code> 语句的执行流程。',
+      ans: '程序从上到下依次判断每个条件：\n1. 先判断 if 条件，若为 True 则执行其代码块，跳过后续所有分支；\n2. 若 if 为 False，判断 elif 条件，若为 True 则执行其代码块；\n3. 若所有条件都为 False，则执行 else 代码块。\n整个结构只会执行其中一个分支。',
+      keywords: ['条件', 'True', 'False', '分支', '依次', '判断'],
+      explain: 'if-elif-else 是多分支选择结构，从上到下依次判断，满足一个条件就执行对应分支，其余跳过。'
+    },
+    {
+      q: '请说明 <code>for</code> 循环和 <code>while</code> 循环的区别，并各举一个使用场景。',
+      ans: 'for 循环：用于遍历已知次数或序列的场景，通常与 range() 或序列配合使用。示例：for i in range(5): print(i)\n\nwhile 循环：用于条件不确定、需要根据条件决定是否继续循环的场景。示例：while n > 0: n = n - 1\n\n主要区别：for 侧重遍历，while 侧重条件判断。',
+      keywords: ['遍历', '条件', 'range', '次数', 'for', 'while'],
+      explain: 'for 循环适合已知循环次数或遍历序列的场景；while 循环适合条件驱动的场景。二者可互相转换。'
+    }
+  ],
+
+  // 五、编程题
+  code: [
+    {
+      q: '编写一个程序，实现以下功能：<br>1. 输入一个整数 n<br>2. 判断 n 是正数、负数还是零<br>3. 输出判断结果<br><br>示例运行：<br><code>请输入一个整数：5</code><br><code>5 是正数</code>',
+      ans: 'n = int(input("请输入一个整数："))\nif n > 0:\n    print(f"{n} 是正数")\nelif n < 0:\n    print(f"{n} 是负数")\nelse:\n    print(f"{n} 是零")',
+      template: 'n = int(input("请输入一个整数："))\n# 请在下方编写判断逻辑\n',
+      keywords: ['input', 'int', 'if', 'elif', 'else', 'print'],
+      explain: '考查：input输入、int类型转换、if-elif-else多分支判断、f-string格式化输出。注意三个条件分支的完整性。'
+    },
+    {
+      q: '编写一个程序，计算 1 到 100 之间所有偶数的和。<br><br>要求使用 <code>for</code> 循环和 <code>if</code> 判断实现。<br>输出格式：<code>1到100之间偶数的和为：XXXX</code>',
+      ans: 'total = 0\nfor i in range(1, 101):\n    if i % 2 == 0:\n        total += i\nprint(f"1到100之间偶数的和为：{total}")',
+      template: 'total = 0\n# 请使用 for 循环遍历 1 到 100\n# 用 if 判断是否为偶数\n# 将偶数累加到 total 中\n\nprint(f"1到100之间偶数的和为：{total}")',
+      keywords: ['for', 'range', 'if', '%', 'total', 'print'],
+      explain: '考查：for循环遍历(range)、if条件判断、取余运算(%)、累加运算。答案为2550。也可用 range(2,101,2) 跳过奇数。'
+    }
+  ]
+};
+
+// 修正第4题答案
+questions.choice[3] = {
+  q: '<code>10 % 3 + 2 ** 2</code> 的结果是？',
+  opts: ['<code>5</code>', '<code>7</code>', '<code>6</code>', '<code>8</code>'],
+  ans: 0,
+  explain: '运算符优先级：** 最高。先算 2**2=4，再算 10%3=1，最后 1+4=5。'
+};
+
+// ============ 状态管理 ============
+let userAnswers = { choice: {}, judge: {}, fill: {}, short: {}, code: {} };
+let submitted = false;
+let timerSeconds = 0;
+let timerInterval = null;
+const totalQuestions = 10 + 10 + 10 + 4 + 2;
+
+// ============ 计时器 ============
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timerSeconds++;
+    const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+    const s = String(timerSeconds % 60).padStart(2, '0');
+    document.getElementById('timer').textContent = `${m}:${s}`;
+  }, 1000);
 }
 
-/* === 导航栏 === */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 5%;
-  background: rgba(255,255,255,0.95);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-}
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 30px;
-}
-.nav-links a {
-  text-decoration: none;
-  color: #555;
-  font-weight: 500;
+// ============ 渲染题目 ============
+function renderExam() {
+  renderChoice();
+  renderJudge();
+  renderFill();
+  renderShort();
+  renderCode();
 }
 
-/* === 英雄区 === */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 120px 20px 80px;
-}
-.hero-content h1 {
-  font-size: 56px;
-  margin-bottom: 20px;
-}
-.hero-content p {
-  font-size: 20px;
-  opacity: 0.9;
-  margin-bottom: 40px;
-}
-.btn {
-  display: inline-block;
-  padding: 15px 40px;
-  background: white;
-  color: #667eea;
-  text-decoration: none;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 16px;
-}`,
-    css: `* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: 'Microsoft YaHei', sans-serif;
-  color: #333;
-  line-height: 1.6;
-}
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 5%;
-  background: rgba(255,255,255,0.95);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-}
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 30px;
-}
-.nav-links a {
-  text-decoration: none;
-  color: #555;
-  font-weight: 500;
-}
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 120px 20px 80px;
-}
-.hero-content h1 {
-  font-size: 56px;
-  margin-bottom: 20px;
-}
-.hero-content p {
-  font-size: 20px;
-  opacity: 0.9;
-  margin-bottom: 40px;
-}
-.btn {
-  display: inline-block;
-  padding: 15px 40px;
-  background: white;
-  color: #667eea;
-  text-decoration: none;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 16px;
-}`,
-    body: `<nav class="navbar">
-  <div class="logo">NovaWatch</div>
-  <ul class="nav-links">
-    <li><a href="#features">特性</a></li>
-    <li><a href="#stats">数据</a></li>
-    <li><a href="#contact">联系</a></li>
-  </ul>
-</nav>
-<section class="hero">
-  <div class="hero-content">
-    <h1>NovaWatch Pro</h1>
-    <p>重新定义你的腕上体验</p>
-    <a href="#features" class="btn">了解更多</a>
-  </div>
-</section>`
-  },
-  {
-    title: '步骤二：特性卡片区域',
-    desc: '接下来，我们添加<strong>特性展示区</strong>。这里使用了 Flexbox 弹性布局，让三张卡片水平排列，每张卡片包含图标、标题和描述。<br><br>卡片设计是现代网页中最常见的 UI 模式之一，掌握它非常重要！',
-    points: [
-      'display: flex 开启弹性布局，子元素自动横向排列',
-      'justify-content: center 让子元素居中对齐',
-      'gap 属性设置子元素之间的间距',
-      'flex-wrap: wrap 允许子元素换行（响应式关键）',
-      'box-shadow 为卡片添加立体阴影效果',
-      'border-radius 圆角边框，让卡片更柔和'
-    ],
-    newCode: `/* === 特性卡片区域 === */
-.features {
-  padding: 100px 5%;
-  background: #f8f9fa;
-}
-.section-title {
-  text-align: center;
-  font-size: 36px;
-  margin-bottom: 60px;
-  color: #333;
-}
-.feature-cards {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.card {
-  background: white;
-  padding: 40px 30px;
-  border-radius: 16px;
-  text-align: center;
-  width: 300px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-}
-.card-icon {
-  font-size: 48px;
-  margin-bottom: 20px;
-}
-.card h3 {
-  font-size: 22px;
-  margin-bottom: 12px;
-  color: #333;
-}
-.card p {
-  color: #666;
-  font-size: 15px;
-}`,
-    css: `*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Microsoft YaHei',sans-serif;color:#333;line-height:1.6}.navbar{display:flex;justify-content:space-between;align-items:center;padding:20px 5%;background:rgba(255,255,255,0.95);position:fixed;width:100%;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.1)}.logo{font-size:24px;font-weight:bold;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.nav-links{display:flex;list-style:none;gap:30px}.nav-links a{text-decoration:none;color:#555;font-weight:500}.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:120px 20px 80px}.hero-content h1{font-size:56px;margin-bottom:20px}.hero-content p{font-size:20px;opacity:0.9;margin-bottom:40px}.btn{display:inline-block;padding:15px 40px;background:white;color:#667eea;text-decoration:none;border-radius:50px;font-weight:bold;font-size:16px}.features{padding:100px 5%;background:#f8f9fa}.section-title{text-align:center;font-size:36px;margin-bottom:60px;color:#333}.feature-cards{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;max-width:1200px;margin:0 auto}.card{background:white;padding:40px 30px;border-radius:16px;text-align:center;width:300px;box-shadow:0 10px 40px rgba(0,0,0,0.08)}.card-icon{font-size:48px;margin-bottom:20px}.card h3{font-size:22px;margin-bottom:12px;color:#333}.card p{color:#666;font-size:15px}`,
-    body: `<nav class="navbar">
-  <div class="logo">NovaWatch</div>
-  <ul class="nav-links">
-    <li><a href="#features">特性</a></li>
-    <li><a href="#stats">数据</a></li>
-    <li><a href="#contact">联系</a></li>
-  </ul>
-</nav>
-<section class="hero">
-  <div class="hero-content">
-    <h1>NovaWatch Pro</h1>
-    <p>重新定义你的腕上体验</p>
-    <a href="#features" class="btn">了解更多</a>
-  </div>
-</section>
-<section class="features" id="features">
-  <h2 class="section-title">核心特性</h2>
-  <div class="feature-cards">
-    <div class="card">
-      <div class="card-icon">&#x1F3C3;</div>
-      <h3>运动追踪</h3>
-      <p>精准记录你的每一步，支持100+运动模式</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">&#x2764;&#xFE0F;</div>
-      <h3>健康监测</h3>
-      <p>24小时心率血氧监测，守护你的健康</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">&#x1F4F1;</div>
-      <h3>智能互联</h3>
-      <p>无缝连接你的数字生活，消息即时推送</p>
-    </div>
-  </div>
-</section>`
-  },
-  {
-    title: '步骤三：数据统计与页脚',
-    desc: '现在添加<strong>数据统计区</strong>和<strong>页脚</strong>。数据区用大号数字+标签的简洁设计，配合渐变背景突出品牌感。页脚是网站的收尾，通常包含版权信息。',
-    points: [
-      '再次使用 display: flex 水平排列统计项',
-      '大号数字 + 小号标签的排版对比，视觉层次分明',
-      'opacity: 0.8 让文字半透明，形成层次感',
-      '&lt;footer&gt; 语义化标签表示页脚',
-      'background: #1a1a2e 深色背景与页面形成对比',
-      '&amp;copy; 是版权符号 &copy; 的 HTML 实体写法'
-    ],
-    newCode: `/* === 数据统计 === */
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 80px;
-  padding: 80px 5%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  flex-wrap: wrap;
-}
-.stat-item { text-align: center; }
-.stat-number {
-  display: block;
-  font-size: 48px;
-  font-weight: bold;
-}
-.stat-label {
-  font-size: 16px;
-  opacity: 0.8;
-}
-
-/* === 页脚 === */
-.footer {
-  background: #1a1a2e;
-  color: rgba(255,255,255,0.6);
-  text-align: center;
-  padding: 30px 20px;
-  font-size: 14px;
-}`,
-    css: `*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Microsoft YaHei',sans-serif;color:#333;line-height:1.6}.navbar{display:flex;justify-content:space-between;align-items:center;padding:20px 5%;background:rgba(255,255,255,0.95);position:fixed;width:100%;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.1)}.logo{font-size:24px;font-weight:bold;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.nav-links{display:flex;list-style:none;gap:30px}.nav-links a{text-decoration:none;color:#555;font-weight:500}.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:120px 20px 80px}.hero-content h1{font-size:56px;margin-bottom:20px}.hero-content p{font-size:20px;opacity:0.9;margin-bottom:40px}.btn{display:inline-block;padding:15px 40px;background:white;color:#667eea;text-decoration:none;border-radius:50px;font-weight:bold;font-size:16px}.features{padding:100px 5%;background:#f8f9fa}.section-title{text-align:center;font-size:36px;margin-bottom:60px;color:#333}.feature-cards{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;max-width:1200px;margin:0 auto}.card{background:white;padding:40px 30px;border-radius:16px;text-align:center;width:300px;box-shadow:0 10px 40px rgba(0,0,0,0.08)}.card-icon{font-size:48px;margin-bottom:20px}.card h3{font-size:22px;margin-bottom:12px;color:#333}.card p{color:#666;font-size:15px}.stats{display:flex;justify-content:center;gap:80px;padding:80px 5%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;flex-wrap:wrap}.stat-item{text-align:center}.stat-number{display:block;font-size:48px;font-weight:bold}.stat-label{font-size:16px;opacity:0.8}.footer{background:#1a1a2e;color:rgba(255,255,255,0.6);text-align:center;padding:30px 20px;font-size:14px}`,
-    body: `<nav class="navbar">
-  <div class="logo">NovaWatch</div>
-  <ul class="nav-links">
-    <li><a href="#features">特性</a></li>
-    <li><a href="#stats">数据</a></li>
-    <li><a href="#contact">联系</a></li>
-  </ul>
-</nav>
-<section class="hero">
-  <div class="hero-content">
-    <h1>NovaWatch Pro</h1>
-    <p>重新定义你的腕上体验</p>
-    <a href="#features" class="btn">了解更多</a>
-  </div>
-</section>
-<section class="features" id="features">
-  <h2 class="section-title">核心特性</h2>
-  <div class="feature-cards">
-    <div class="card">
-      <div class="card-icon">&#x1F3C3;</div>
-      <h3>运动追踪</h3>
-      <p>精准记录你的每一步，支持100+运动模式</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">&#x2764;&#xFE0F;</div>
-      <h3>健康监测</h3>
-      <p>24小时心率血氧监测，守护你的健康</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">&#x1F4F1;</div>
-      <h3>智能互联</h3>
-      <p>无缝连接你的数字生活，消息即时推送</p>
-    </div>
-  </div>
-</section>
-<section class="stats" id="stats">
-  <div class="stat-item">
-    <span class="stat-number">7</span>
-    <span class="stat-label">天续航</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-number">50</span>
-    <span class="stat-label">米防水</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-number">100+</span>
-    <span class="stat-label">运动模式</span>
-  </div>
-</section>
-<footer class="footer" id="contact">
-  <p>&copy; 2026 NovaWatch. All rights reserved.</p>
-</footer>`
-  },
-  {
-    title: '步骤四：动画与悬停效果',
-    desc: '静态页面虽然好看，但缺少"灵气"。添加<strong>CSS 过渡和动画</strong>后，页面立刻活了起来！<br><br>悬停效果让用户知道元素可以交互，入场动画让页面加载更有仪式感。',
-    points: [
-      'transition 属性让样式变化平滑过渡（而非瞬间跳变）',
-      'transition: transform 0.3s 表示变换在 0.3 秒内平滑完成',
-      ':hover 伪类选择器，鼠标悬停时应用的样式',
-      'transform: translateY(-10px) 让元素向上移动 10px',
-      '@keyframes 定义关键帧动画序列',
-      'animation: fadeInUp 1s ease 应用名为 fadeInUp 的动画',
-      'animation 的 both 值让动画结束后保持最终状态'
-    ],
-    newCode: `/* === 悬停效果 === */
-.nav-links a:hover {
-  color: #667eea;
-  transition: color 0.3s;
-}
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-/* === 入场动画 === */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.hero-content h1 {
-  animation: fadeInUp 1s ease;
-}
-.hero-content p {
-  animation: fadeInUp 1s ease 0.2s both;
-}
-.btn {
-  animation: fadeInUp 1s ease 0.4s both;
-}`,
-    css: `*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Microsoft YaHei',sans-serif;color:#333;line-height:1.6}.navbar{display:flex;justify-content:space-between;align-items:center;padding:20px 5%;background:rgba(255,255,255,0.95);position:fixed;width:100%;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.1)}.logo{font-size:24px;font-weight:bold;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.nav-links{display:flex;list-style:none;gap:30px}.nav-links a{text-decoration:none;color:#555;font-weight:500;transition:color 0.3s}.nav-links a:hover{color:#667eea}.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:120px 20px 80px}.hero-content h1{font-size:56px;margin-bottom:20px;animation:fadeInUp 1s ease}.hero-content p{font-size:20px;opacity:0.9;margin-bottom:40px;animation:fadeInUp 1s ease 0.2s both}.btn{display:inline-block;padding:15px 40px;background:white;color:#667eea;text-decoration:none;border-radius:50px;font-weight:bold;font-size:16px;animation:fadeInUp 1s ease 0.4s both;transition:transform 0.3s,box-shadow 0.3s}.btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.2)}.features{padding:100px 5%;background:#f8f9fa}.section-title{text-align:center;font-size:36px;margin-bottom:60px;color:#333}.feature-cards{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;max-width:1200px;margin:0 auto}.card{background:white;padding:40px 30px;border-radius:16px;text-align:center;width:300px;box-shadow:0 10px 40px rgba(0,0,0,0.08);transition:transform 0.3s,box-shadow 0.3s}.card:hover{transform:translateY(-10px);box-shadow:0 20px 60px rgba(0,0,0,0.15)}.card-icon{font-size:48px;margin-bottom:20px}.card h3{font-size:22px;margin-bottom:12px;color:#333}.card p{color:#666;font-size:15px}.stats{display:flex;justify-content:center;gap:80px;padding:80px 5%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;flex-wrap:wrap}.stat-item{text-align:center}.stat-number{display:block;font-size:48px;font-weight:bold}.stat-label{font-size:16px;opacity:0.8}.footer{background:#1a1a2e;color:rgba(255,255,255,0.6);text-align:center;padding:30px 20px;font-size:14px}@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}`,
-    body: `<nav class="navbar">
-  <div class="logo">NovaWatch</div>
-  <ul class="nav-links">
-    <li><a href="#features">特性</a></li>
-    <li><a href="#stats">数据</a></li>
-    <li><a href="#contact">联系</a></li>
-  </ul>
-</nav>
-<section class="hero">
-  <div class="hero-content">
-    <h1>NovaWatch Pro</h1>
-    <p>重新定义你的腕上体验</p>
-    <a href="#features" class="btn">了解更多</a>
-  </div>
-</section>
-<section class="features" id="features">
-  <h2 class="section-title">核心特性</h2>
-  <div class="feature-cards">
-    <div class="card">
-      <div class="card-icon">&#x1F3C3;</div>
-      <h3>运动追踪</h3>
-      <p>精准记录你的每一步，支持100+运动模式</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">&#x2764;&#xFE0F;</div>
-      <h3>健康监测</h3>
-      <p>24小时心率血氧监测，守护你的健康</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">&#x1F4F1;</div>
-      <h3>智能互联</h3>
-      <p>无缝连接你的数字生活，消息即时推送</p>
-    </div>
-  </div>
-</section>
-<section class="stats" id="stats">
-  <div class="stat-item">
-    <span class="stat-number">7</span>
-    <span class="stat-label">天续航</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-number">50</span>
-    <span class="stat-label">米防水</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-number">100+</span>
-    <span class="stat-label">运动模式</span>
-  </div>
-</section>
-<footer class="footer" id="contact">
-  <p>&copy; 2026 NovaWatch. All rights reserved.</p>
-</footer>`
-  },
-  {
-    title: '步骤五：响应式适配',
-    desc: '最后一步！我们添加<strong>媒体查询（@media）</strong>，让页面在手机和平板上也能完美显示。<br><br>响应式设计的核心思想是：同一套 HTML，根据屏幕宽度应用不同的 CSS 规则。',
-    points: [
-      '@media (max-width: 768px) 屏幕宽度 ≤768px 时生效（平板/手机）',
-      'flex-direction: column 让卡片从横排变为竖排',
-      '缩小字号以适配小屏幕',
-      '减少间距避免内容过于拥挤',
-      'align-items: center 让竖排的卡片居中',
-      '移动优先（Mobile First）是现代响应式设计的趋势'
-    ],
-    newCode: `/* === 响应式适配 === */
-@media (max-width: 768px) {
-  .hero-content h1 {
-    font-size: 36px;
-  }
-  .hero-content p {
-    font-size: 16px;
-  }
-  .nav-links {
-    gap: 15px;
-  }
-  .feature-cards {
-    flex-direction: column;
-    align-items: center;
-  }
-  .stats {
-    gap: 40px;
-  }
-  .stat-number {
-    font-size: 36px;
-  }
-}`,
-    css: `*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Microsoft YaHei',sans-serif;color:#333;line-height:1.6}.navbar{display:flex;justify-content:space-between;align-items:center;padding:20px 5%;background:rgba(255,255,255,0.95);position:fixed;width:100%;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.1)}.logo{font-size:24px;font-weight:bold;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.nav-links{display:flex;list-style:none;gap:30px}.nav-links a{text-decoration:none;color:#555;font-weight:500;transition:color 0.3s}.nav-links a:hover{color:#667eea}.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:120px 20px 80px}.hero-content h1{font-size:56px;margin-bottom:20px;animation:fadeInUp 1s ease}.hero-content p{font-size:20px;opacity:0.9;margin-bottom:40px;animation:fadeInUp 1s ease 0.2s both}.btn{display:inline-block;padding:15px 40px;background:white;color:#667eea;text-decoration:none;border-radius:50px;font-weight:bold;font-size:16px;animation:fadeInUp 1s ease 0.4s both;transition:transform 0.3s,box-shadow 0.3s}.btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.2)}.features{padding:100px 5%;background:#f8f9fa}.section-title{text-align:center;font-size:36px;margin-bottom:60px;color:#333}.feature-cards{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;max-width:1200px;margin:0 auto}.card{background:white;padding:40px 30px;border-radius:16px;text-align:center;width:300px;box-shadow:0 10px 40px rgba(0,0,0,0.08);transition:transform 0.3s,box-shadow 0.3s}.card:hover{transform:translateY(-10px);box-shadow:0 20px 60px rgba(0,0,0,0.15)}.card-icon{font-size:48px;margin-bottom:20px}.card h3{font-size:22px;margin-bottom:12px;color:#333}.card p{color:#666;font-size:15px}.stats{display:flex;justify-content:center;gap:80px;padding:80px 5%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;flex-wrap:wrap}.stat-item{text-align:center}.stat-number{display:block;font-size:48px;font-weight:bold}.stat-label{font-size:16px;opacity:0.8}.footer{background:#1a1a2e;color:rgba(255,255,255,0.6);text-align:center;padding:30px 20px;font-size:14px}@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}@media(max-width:768px){.hero-content h1{font-size:36px}.hero-content p{font-size:16px}.nav-links{gap:15px}.feature-cards{flex-direction:column;align-items:center}.stats{gap:40px}.stat-number{font-size:36px}}`,
-    body: `<nav class="navbar">
-  <div class="logo">NovaWatch</div>
-  <ul class="nav-links">
-    <li><a href="#features">特性</a></li>
-    <li><a href="#stats">数据</a></li>
-    <li><a href="#contact">联系</a></li>
-  </ul>
-</nav>
-<section class="hero">
-  <div class="hero-content">
-    <h1>NovaWatch Pro</h1>
-    <p>重新定义你的腕上体验</p>
-    <a href="#features" class="btn">了解更多</a>
-  </div>
-</section>
-<section class="features" id="features">
-  <h2 class="section-title">核心特性</h2>
-  <div class="feature-cards">
-    <div class="card">
-      <div class="card-icon">&#x1F3C3;</div>
-      <h3>运动追踪</h3>
-      <p>精准记录你的每一步，支持100+运动模式</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">&#x2764;&#xFE0F;</div>
-      <h3>健康监测</h3>
-      <p>24小时心率血氧监测，守护你的健康</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">&#x1F4F1;</div>
-      <h3>智能互联</h3>
-      <p>无缝连接你的数字生活，消息即时推送</p>
-    </div>
-  </div>
-</section>
-<section class="stats" id="stats">
-  <div class="stat-item">
-    <span class="stat-number">7</span>
-    <span class="stat-label">天续航</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-number">50</span>
-    <span class="stat-label">米防水</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-number">100+</span>
-    <span class="stat-label">运动模式</span>
-  </div>
-</section>
-<footer class="footer" id="contact">
-  <p>&copy; 2026 NovaWatch. All rights reserved.</p>
-</footer>`
-  },
-  {
-    title: '项目完成',
-    desc: '恭喜你完成了所有学习步骤！🎉<br><br>现在你可以在下方查看项目的<strong>完整源代码</strong>。试着理解每一部分的作用，思考如果修改某个值会产生什么效果。<br><br>记住：学编程最好的方式就是<strong>动手改、动手试</strong>！',
-    points: [
-      '尝试修改渐变颜色（如 #667eea 改为 #f093fb）',
-      '尝试添加新的卡片或统计项',
-      '尝试修改动画的时长和延迟',
-      '尝试调整响应式断点（如改为 992px）',
-      '尝试添加新的 section（如评价区、价格区）'
-    ],
-    newCode: null,
-    css: null,
-    body: null,
-    isComplete: true
-  }
-];
-
-// ===== 完整项目代码（用于总览预览和完成页展示） =====
-const fullProjectCode = `<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaWatch 智能手表</title>
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: 'Microsoft YaHei', sans-serif;
-  color: #333;
-  line-height: 1.6;
-}
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 5%;
-  background: rgba(255,255,255,0.95);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-}
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 30px;
-}
-.nav-links a {
-  text-decoration: none;
-  color: #555;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-.nav-links a:hover {
-  color: #667eea;
-}
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 120px 20px 80px;
-}
-.hero-content h1 {
-  font-size: 56px;
-  margin-bottom: 20px;
-  animation: fadeInUp 1s ease;
-}
-.hero-content p {
-  font-size: 20px;
-  opacity: 0.9;
-  margin-bottom: 40px;
-  animation: fadeInUp 1s ease 0.2s both;
-}
-.btn {
-  display: inline-block;
-  padding: 15px 40px;
-  background: white;
-  color: #667eea;
-  text-decoration: none;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 16px;
-  animation: fadeInUp 1s ease 0.4s both;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-.features {
-  padding: 100px 5%;
-  background: #f8f9fa;
-}
-.section-title {
-  text-align: center;
-  font-size: 36px;
-  margin-bottom: 60px;
-  color: #333;
-}
-.feature-cards {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.card {
-  background: white;
-  padding: 40px 30px;
-  border-radius: 16px;
-  text-align: center;
-  width: 300px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-}
-.card-icon {
-  font-size: 48px;
-  margin-bottom: 20px;
-}
-.card h3 {
-  font-size: 22px;
-  margin-bottom: 12px;
-  color: #333;
-}
-.card p {
-  color: #666;
-  font-size: 15px;
-}
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 80px;
-  padding: 80px 5%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  flex-wrap: wrap;
-}
-.stat-item { text-align: center; }
-.stat-number {
-  display: block;
-  font-size: 48px;
-  font-weight: bold;
-}
-.stat-label {
-  font-size: 16px;
-  opacity: 0.8;
-}
-.footer {
-  background: #1a1a2e;
-  color: rgba(255,255,255,0.6);
-  text-align: center;
-  padding: 30px 20px;
-  font-size: 14px;
-}
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@media (max-width: 768px) {
-  .hero-content h1 { font-size: 36px; }
-  .hero-content p { font-size: 16px; }
-  .nav-links { gap: 15px; }
-  .feature-cards { flex-direction: column; align-items: center; }
-  .stats { gap: 40px; }
-  .stat-number { font-size: 36px; }
-}
-</style>
-</head>
-<body>
-<nav class="navbar">
-  <div class="logo">NovaWatch</div>
-  <ul class="nav-links">
-    <li><a href="#features">特性</a></li>
-    <li><a href="#stats">数据</a></li>
-    <li><a href="#contact">联系</a></li>
-  </ul>
-</nav>
-<section class="hero">
-  <div class="hero-content">
-    <h1>NovaWatch Pro</h1>
-    <p>重新定义你的腕上体验</p>
-    <a href="#features" class="btn">了解更多</a>
-  </div>
-</section>
-<section class="features" id="features">
-  <h2 class="section-title">核心特性</h2>
-  <div class="feature-cards">
-    <div class="card">
-      <div class="card-icon">&#x1F3C3;</div>
-      <h3>运动追踪</h3>
-      <p>精准记录你的每一步，支持100+运动模式</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">&#x2764;&#xFE0F;</div>
-      <h3>健康监测</h3>
-      <p>24小时心率血氧监测，守护你的健康</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">&#x1F4F1;</div>
-      <h3>智能互联</h3>
-      <p>无缝连接你的数字生活，消息即时推送</p>
-    </div>
-  </div>
-</section>
-<section class="stats" id="stats">
-  <div class="stat-item">
-    <span class="stat-number">7</span>
-    <span class="stat-label">天续航</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-number">50</span>
-    <span class="stat-label">米防水</span>
-  </div>
-  <div class="stat-item">
-    <span class="stat-number">100+</span>
-    <span class="stat-label">运动模式</span>
-  </div>
-</section>
-<footer class="footer" id="contact">
-  <p>&copy; 2026 NovaWatch. All rights reserved.</p>
-</footer>
-</body>
-</html>`;
-
-// ===== 构建预览用的完整HTML =====
-function buildPreviewHtml(stepIndex) {
-  if (stepIndex === 0) return fullProjectCode;
-  const step = stepData[stepIndex];
-  if (step.css && step.body) {
-    return `<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaWatch 智能手表</title>
-<style>${step.css}</style>
-</head>
-<body>${step.body}</body>
-</html>`;
-  }
-  return fullProjectCode;
-}
-
-// ===== 语法高亮 =====
-function highlightCode(code) {
-  let html = code
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-
-  // 注释
-  html = html.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="hl-cmt">$1</span>');
-  html = html.replace(/(\/\/[^\n]*)/g, '<span class="hl-cmt">$1</span>');
-
-  // HTML 标签
-  html = html.replace(/(&lt;\/?)([\w-]+)/g, '$1<span class="hl-tag">$2</span>');
-
-  // HTML 属性
-  html = html.replace(/\s([\w-]+)(=)/g, ' <span class="hl-attr">$1</span>$2');
-
-  // 属性值
-  html = html.replace(/(=)(&quot;|")(.*?)(&quot;|")/g, '$1<span class="hl-val">"$3"</span>');
-
-  // CSS 选择器 (简化)
-  html = html.replace(/^([.#][\w-]+)/gm, '<span class="hl-sel">$1</span>');
-
-  // CSS 属性 (简化)
-  html = html.replace(/^\s+([\w-]+)\s*:/gm, ' <span class="hl-prop">$1</span>:');
-
-  // 数字
-  html = html.replace(/\b(\d+\.?\d*)(px|em|rem|%|s|ms|deg|vh|vw)?\b/g, '<span class="hl-num">$1$2</span>');
-
-  // 关键字
-  html = html.replace(/\b(display|flex|position|background|color|padding|margin|font|width|height|border|text|overflow|cursor|opacity|z-index|gap|transition|animation|transform|box-shadow|content|top|left|right|bottom|min-height|max-width)\b/g, '<span class="hl-kw">$1</span>');
-
-  return html;
-}
-
-// ===== 状态 =====
-let currentStep = 0;
-let completedSteps = new Set();
-let currentTab = 'explain';
-
-// ===== 渲染侧边栏 =====
-function renderSidebar() {
-  const sb = document.getElementById('sidebar');
-  sb.innerHTML = stepData.map((s, i) => {
-    let cls = '';
-    if (i === currentStep) cls = 'active';
-    else if (completedSteps.has(i)) cls = 'completed';
-    const num = completedSteps.has(i) ? '✓' : i;
-    return `<div class="step-item ${cls}" onclick="goToStep(${i})">
-      <div class="step-num">${num}</div>
-      <div class="step-label">${s.title}</div>
-    </div>`;
-  }).join('');
-}
-
-// ===== 渲染步骤内容 =====
-function renderStep() {
-  const step = stepData[currentStep];
-  const panel = document.getElementById('panelContent');
-
-  // 更新顶部状态
-  document.getElementById('topStep').textContent = `步骤 ${currentStep}/6`;
-  document.getElementById('progressFill').style.width = `${(currentStep / 6) * 100}%`;
-  document.getElementById('navCenter').textContent = `${currentStep} / 6`;
-
-  // 导航按钮状态
-  document.getElementById('btnPrev').disabled = currentStep === 0;
-  document.getElementById('btnNext').textContent = currentStep === 6 ? '🎉 已完成' : '下一步 →';
-  document.getElementById('btnNext').disabled = currentStep === 6;
-
-  // 完成页
-  if (step.isComplete) {
-    completedSteps.add(currentStep - 1);
-    renderSidebar();
-    panel.innerHTML = `
-      <div style="text-align:center;padding:20px 0">
-        <div class="complete-badge">🏆</div>
-        <div class="step-title" style="text-align:center">项目完成！</div>
-        <p style="color:var(--text-dim);margin-bottom:30px;font-size:15px">${step.desc}</p>
-        <div class="knowledge-box">
-          <div class="knowledge-title">💡 进阶挑战</div>
-          <ul class="knowledge-list">
-            ${step.points.map(p => `<li>${p}</li>`).join('')}
-          </ul>
-        </div>
+function renderChoice() {
+  const sec = document.getElementById('sec-choice');
+  questions.choice.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `choice-${i}`;
+    const labels = ['A', 'B', 'C', 'D'];
+    card.innerHTML = `
+      <div class="q-text"><span class="q-num">${i + 1}</span><span class="q-pts">2分</span>${item.q}</div>
+      <div class="options">
+        ${item.opts.map((o, j) => `
+          <div class="option" data-qi="${i}" data-oi="${j}" onclick="selectChoice(${i},${j})">
+            <span class="option-marker">${labels[j]}</span>
+            <span>${o}</span>
+          </div>
+        `).join('')}
       </div>
-      <div class="code-container" style="margin-top:10px">
-        <div class="code-header">
-          <span class="code-dot"></span>
-          <span class="code-dot"></span>
-          <span class="code-dot"></span>
-          <span class="code-filename">index.html — 完整代码</span>
-          <span class="code-lock">🔒 只读模式</span>
-        </div>
-        <div class="code-body" id="codeBody">
-          <div class="code-overlay" id="codeOverlay"></div>
-          <pre id="codePre"></pre>
-          <div class="copy-warning" id="copyWarning">⚠️ 代码仅供学习查看，不可复制</div>
-        </div>
-      </div>
+      <div class="explanation" id="exp-choice-${i}"><strong>解析：</strong>${item.explain}</div>
     `;
-    document.getElementById('codePre').innerHTML = highlightCode(fullProjectCode);
-    document.getElementById('progressFill').style.width = '100%';
-    document.getElementById('topStep').textContent = '已完成！';
-    launchConfetti();
-    switchTab('explain');
-    updatePreview();
-    return;
-  }
+    sec.appendChild(card);
+  });
+}
 
-  // 普通步骤页
-  completedSteps.add(currentStep > 0 ? currentStep - 1 : 0);
-  renderSidebar();
-
-  const explainHtml = `
-    <div class="step-title">${step.title}</div>
-    <div class="step-desc">${step.desc}</div>
-    <div class="knowledge-box">
-      <div class="knowledge-title">📝 知识要点</div>
-      <ul class="knowledge-list">
-        ${step.points.map(p => `<li>${p}</li>`).join('')}
-      </ul>
-    </div>
-  `;
-
-  const codeHtml = `
-    <div class="step-title" style="font-size:18px">${step.title} — 新增代码</div>
-    <div class="step-desc" style="margin-bottom:16px">以下是本步骤新增的代码，高亮部分为关键内容：</div>
-    <div class="code-container">
-      <div class="code-header">
-        <span class="code-dot"></span>
-        <span class="code-dot"></span>
-        <span class="code-dot"></span>
-        <span class="code-filename">${currentStep <= 1 ? 'index.html + style.css' : 'style.css'}</span>
-        <span class="code-lock">🔒 只读</span>
+function renderJudge() {
+  const sec = document.getElementById('sec-judge');
+  questions.judge.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `judge-${i}`;
+    card.innerHTML = `
+      <div class="q-text"><span class="q-num">${i + 11}</span><span class="q-pts">1分</span>${item.q}</div>
+      <div class="tf-group">
+        <div class="tf-btn" data-qi="${i}" data-val="true" onclick="selectJudge(${i},true)">✅ 正确</div>
+        <div class="tf-btn" data-qi="${i}" data-val="false" onclick="selectJudge(${i},false)">❌ 错误</div>
       </div>
-      <div class="code-body" id="codeBody">
-        <div class="code-overlay" id="codeOverlay"></div>
-        <pre id="codePre"></pre>
-        <div class="copy-warning" id="copyWarning">⚠️ 代码仅供学习查看，不可复制</div>
-      </div>
-    </div>
-  `;
+      <div class="explanation" id="exp-judge-${i}"><strong>解析：</strong>${item.explain}</div>
+    `;
+    sec.appendChild(card);
+  });
+}
 
-  // 保存两个 tab 的内容
-  panel._explainHtml = explainHtml;
-  panel._codeHtml = codeHtml;
+function renderFill() {
+  const sec = document.getElementById('sec-fill');
+  questions.fill.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `fill-${i}`;
+    card.innerHTML = `
+      <div class="q-text"><span class="q-num">${i + 21}</span><span class="q-pts">2分</span>${item.q}</div>
+      <input class="answer-input" type="text" placeholder="请输入答案..." data-qi="${i}" oninput="fillAnswer(${i},this.value)">
+      <div class="explanation" id="exp-fill-${i}"><strong>解析：</strong>${item.explain}</div>
+    `;
+    sec.appendChild(card);
+  });
+}
 
-  // 显示当前 tab
-  if (currentTab === 'explain') {
-    panel.innerHTML = explainHtml;
-  } else {
-    panel.innerHTML = codeHtml;
-    document.getElementById('codePre').innerHTML = highlightCode(step.newCode);
-  }
+function renderShort() {
+  const sec = document.getElementById('sec-short');
+  questions.short.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `short-${i}`;
+    card.innerHTML = `
+      <div class="q-text"><span class="q-num">${i + 31}</span><span class="q-pts">5分</span>${item.q}</div>
+      <textarea class="answer-input short-answer" placeholder="请在此作答..." data-qi="${i}" oninput="shortAnswer(${i},this.value)"></textarea>
+      <div class="explanation" id="exp-short-${i}"><strong>参考答案：</strong>${item.ans.replace(/\n/g, '<br>')}<br><br><strong>解析：</strong>${item.explain}</div>
+    `;
+    sec.appendChild(card);
+  });
+}
 
-  // 更新 tab 状态
-  document.querySelectorAll('.panel-tab').forEach(t => {
-    t.classList.toggle('active', t.dataset.tab === currentTab);
+function renderCode() {
+  const sec = document.getElementById('sec-code');
+  questions.code.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `code-${i}`;
+    card.innerHTML = `
+      <div class="q-text"><span class="q-num">${i + 35}</span><span class="q-pts">15分</span>${item.q}</div>
+      <div class="code-template">${escapeHtml(item.template)}</div>
+      <textarea class="answer-input code-textarea" placeholder="# 请在此编写代码..." data-qi="${i}" oninput="codeAnswer(${i},this.value)"></textarea>
+      <div class="explanation" id="exp-code-${i}"><strong>参考答案：</strong><pre style="background:var(--code-bg);color:var(--code-text);padding:12px;border-radius:6px;margin-top:6px;overflow-x:auto;font-size:13px">${escapeHtml(item.ans)}</pre><br><strong>解析：</strong>${item.explain}</div>
+    `;
+    sec.appendChild(card);
+  });
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ============ 作答交互 ============
+function selectChoice(qi, oi) {
+  if (submitted) return;
+  userAnswers.choice[qi] = oi;
+  const card = document.getElementById(`choice-${qi}`);
+  card.querySelectorAll('.option').forEach((o, j) => {
+    o.classList.toggle('selected', j === oi);
+  });
+  card.classList.add('answered');
+  updateProgress();
+}
+
+function selectJudge(qi, val) {
+  if (submitted) return;
+  userAnswers.judge[qi] = val;
+  const card = document.getElementById(`judge-${qi}`);
+  card.querySelectorAll('.tf-btn').forEach(b => {
+    b.classList.toggle('selected', b.dataset.val === String(val));
+  });
+  card.classList.add('answered');
+  updateProgress();
+}
+
+function fillAnswer(qi, val) {
+  userAnswers.fill[qi] = val.trim();
+  const card = document.getElementById(`fill-${qi}`);
+  card.classList.toggle('answered', val.trim() !== '');
+  updateProgress();
+}
+
+function shortAnswer(qi, val) {
+  userAnswers.short[qi] = val.trim();
+  const card = document.getElementById(`short-${qi}`);
+  card.classList.toggle('answered', val.trim() !== '');
+  updateProgress();
+}
+
+function codeAnswer(qi, val) {
+  userAnswers.code[qi] = val.trim();
+  const card = document.getElementById(`code-${qi}`);
+  card.classList.toggle('answered', val.trim() !== '');
+  updateProgress();
+}
+
+// ============ 进度 ============
+function countAnswered() {
+  let c = 0;
+  c += Object.keys(userAnswers.choice).length;
+  c += Object.keys(userAnswers.judge).length;
+  c += Object.values(userAnswers.fill).filter(v => v).length;
+  c += Object.values(userAnswers.short).filter(v => v).length;
+  c += Object.values(userAnswers.code).filter(v => v).length;
+  return c;
+}
+
+function updateProgress() {
+  const c = countAnswered();
+  document.getElementById('answeredCount').textContent = `已答 ${c}/${totalQuestions} 题`;
+  document.getElementById('progressFill').style.width = `${(c / totalQuestions) * 100}%`;
+}
+
+// ============ 提交试卷 ============
+function submitExam() {
+  const c = countAnswered();
+  const unanswered = totalQuestions - c;
+  let msg = `确定提交试卷吗？`;
+  if (unanswered > 0) msg += `\n\n⚠️ 还有 ${unanswered} 题未作答！`;
+  if (!confirm(msg)) return;
+
+  submitted = true;
+  clearInterval(timerInterval);
+
+  // 批改
+  const scores = gradeExam();
+
+  // 标记对错
+  markResults();
+
+  // 显示结果面板
+  showResultPanel(scores);
+
+  // 隐藏底部栏提交按钮
+  document.getElementById('bottomBar').style.display = 'none';
+}
+
+function gradeExam() {
+  let choiceScore = 0, judgeScore = 0, fillScore = 0, shortScore = 0, codeScore = 0;
+
+  // 选择题 2分/题
+  questions.choice.forEach((item, i) => {
+    if (userAnswers.choice[i] === item.ans) choiceScore += 2;
   });
 
-  updatePreview();
-}
-
-// ===== 更新预览 =====
-function updatePreview() {
-  const frame = document.getElementById('previewFrame');
-  const html = buildPreviewHtml(currentStep);
-  frame.srcdoc = html;
-}
-
-// ===== 切换标签 =====
-function switchTab(tab) {
-  currentTab = tab;
-  const panel = document.getElementById('panelContent');
-  const step = stepData[currentStep];
-
-  document.querySelectorAll('.panel-tab').forEach(t => {
-    t.classList.toggle('active', t.dataset.tab === tab);
+  // 判断题 1分/题
+  questions.judge.forEach((item, i) => {
+    if (userAnswers.judge[i] === item.ans) judgeScore += 1;
   });
 
-  if (tab === 'explain') {
-    if (panel._explainHtml) panel.innerHTML = panel._explainHtml;
-  } else {
-    if (panel._codeHtml) {
-      panel.innerHTML = panel._codeHtml;
-      const codePre = document.getElementById('codePre');
-      if (codePre && step.newCode) {
-        codePre.innerHTML = highlightCode(step.newCode);
-      } else if (codePre && step.isComplete) {
-        codePre.innerHTML = highlightCode(fullProjectCode);
-      }
-    }
-  }
+  // 填空题 2分/空
+  questions.fill.forEach((item, i) => {
+    const ua = (userAnswers.fill[i] || '').toLowerCase().replace(/['"]/g, '"').replace(/\s+/g, '');
+    const ca = item.ans.toLowerCase().replace(/['"]/g, '"').replace(/\s+/g, '');
+    if (ua === ca) fillScore += 2;
+  });
+
+  // 简答题 5分/题（关键词匹配）
+  questions.short.forEach((item, i) => {
+    const ua = (userAnswers.short[i] || '').toLowerCase();
+    const matched = item.keywords.filter(k => ua.includes(k.toLowerCase()));
+    const ratio = matched.length / item.keywords.length;
+    shortScore += Math.round(ratio * 5 * 10) / 10;
+  });
+
+  // 编程题 15分/题（关键词匹配）
+  questions.code.forEach((item, i) => {
+    const ua = (userAnswers.code[i] || '').toLowerCase();
+    const matched = item.keywords.filter(k => ua.includes(k.toLowerCase()));
+    const ratio = matched.length / item.keywords.length;
+    codeScore += Math.round(ratio * 15 * 10) / 10;
+  });
+
+  return { choiceScore, judgeScore, fillScore, shortScore, codeScore };
 }
 
-// ===== 导航 =====
-function goStep(delta) {
-  const next = currentStep + delta;
-  if (next >= 0 && next < stepData.length) {
-    currentStep = next;
-    currentTab = 'explain';
-    renderStep();
-  }
-}
-
-function goToStep(index) {
-  if (index >= 0 && index < stepData.length) {
-    currentStep = index;
-    currentTab = 'explain';
-    renderStep();
-  }
-}
-
-// ===== 移动端预览切换 =====
-function togglePreview() {
-  const rp = document.getElementById('rightPanel');
-  rp.classList.toggle('show');
-}
-
-// ===== 复制保护 =====
-document.addEventListener('copy', function(e) {
-  const codeBody = document.getElementById('codeBody');
-  if (codeBody && codeBody.contains(e.target)) {
-    e.preventDefault();
-    showCopyWarning();
-  }
-});
-
-document.addEventListener('cut', function(e) {
-  const codeBody = document.getElementById('codeBody');
-  if (codeBody && codeBody.contains(e.target)) {
-    e.preventDefault();
-    showCopyWarning();
-  }
-});
-
-document.addEventListener('contextmenu', function(e) {
-  const codeBody = document.getElementById('codeBody');
-  if (codeBody && codeBody.contains(e.target)) {
-    e.preventDefault();
-    showCopyWarning();
-  }
-});
-
-document.addEventListener('keydown', function(e) {
-  const codeBody = document.getElementById('codeBody');
-  if (codeBody && codeBody.contains(e.target)) {
-    if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'a' || e.key === 'u')) {
-      e.preventDefault();
-      showCopyWarning();
-    }
-  }
-});
-
-function showCopyWarning() {
-  const warn = document.getElementById('copyWarning');
-  if (warn) {
-    warn.style.display = 'block';
-    warn.style.animation = 'none';
-    warn.offsetHeight;
-    warn.style.animation = 'warnFade 1.5s forwards';
-    setTimeout(() => { warn.style.display = 'none'; }, 1600);
-  }
-}
-
-// ===== 礼花特效 =====
-function launchConfetti() {
-  const canvas = document.getElementById('confettiCanvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const particles = [];
-  const colors = ['#667eea', '#764ba2', '#f093fb', '#ffd43b', '#51cf66', '#ff6b6b', '#74c0fc'];
-
-  for (let i = 0; i < 150; i++) {
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height - canvas.height,
-      w: Math.random() * 10 + 4,
-      h: Math.random() * 6 + 3,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      vx: (Math.random() - 0.5) * 3,
-      vy: Math.random() * 3 + 2,
-      rot: Math.random() * 360,
-      rotV: (Math.random() - 0.5) * 10,
-      opacity: 1
+function markResults() {
+  // 选择题
+  questions.choice.forEach((item, i) => {
+    const card = document.getElementById(`choice-${i}`);
+    const ua = userAnswers.choice[i];
+    card.querySelectorAll('.option').forEach((o, j) => {
+      if (j === item.ans) o.classList.add('correct-answer');
+      if (j === ua && j !== item.ans) o.classList.add('wrong-answer');
+      o.style.pointerEvents = 'none';
     });
-  }
+    if (ua === item.ans) card.classList.add('correct');
+    else card.classList.add('wrong');
+  });
 
-  let frame = 0;
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let alive = false;
-    particles.forEach(p => {
-      p.x += p.vx;
-      p.y += p.vy;
-      p.rot += p.rotV;
-      p.vy += 0.05;
-      if (frame > 60) p.opacity -= 0.008;
-      if (p.opacity <= 0) return;
-      alive = true;
-      ctx.save();
-      ctx.globalAlpha = Math.max(0, p.opacity);
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rot * Math.PI / 180);
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-      ctx.restore();
+  // 判断题
+  questions.judge.forEach((item, i) => {
+    const card = document.getElementById(`judge-${i}`);
+    const ua = userAnswers.judge[i];
+    card.querySelectorAll('.tf-btn').forEach(b => {
+      const bv = b.dataset.val === 'true';
+      if (bv === item.ans) b.classList.add('correct-answer');
+      if (bv === ua && bv !== item.ans) b.classList.add('wrong-answer');
+      b.style.pointerEvents = 'none';
     });
-    frame++;
-    if (alive && frame < 200) {
-      requestAnimationFrame(animate);
+    if (ua === item.ans) card.classList.add('correct');
+    else card.classList.add('wrong');
+  });
+
+  // 填空题
+  questions.fill.forEach((item, i) => {
+    const card = document.getElementById(`fill-${i}`);
+    const ua = (userAnswers.fill[i] || '').toLowerCase().replace(/['"]/g, '"').replace(/\s+/g, '');
+    const ca = item.ans.toLowerCase().replace(/['"]/g, '"').replace(/\s+/g, '');
+    const input = card.querySelector('input');
+    input.disabled = true;
+    if (ua === ca) {
+      card.classList.add('correct');
+      input.style.borderColor = 'var(--ok)';
     } else {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      card.classList.add('wrong');
+      input.style.borderColor = 'var(--err)';
+      // 显示正确答案
+      const correctDiv = document.createElement('div');
+      correctDiv.style.cssText = 'margin-top:8px;font-size:13px;color:var(--ok);font-weight:500';
+      correctDiv.textContent = `✅ 正确答案：${item.ans}`;
+      card.appendChild(correctDiv);
     }
-  }
-  animate();
+  });
+
+  // 简答题和编程题只显示解析
+  questions.short.forEach((_, i) => {
+    const card = document.getElementById(`short-${i}`);
+    card.querySelector('textarea').disabled = true;
+  });
+  questions.code.forEach((_, i) => {
+    const card = document.getElementById(`code-${i}`);
+    card.querySelector('textarea').disabled = true;
+  });
 }
 
-// ===== 键盘导航 =====
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-    goStep(1);
-  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-    goStep(-1);
-  }
-});
+function showResultPanel(scores) {
+  const total = Math.round((scores.choiceScore + scores.judgeScore + scores.fillScore + scores.shortScore + scores.codeScore) * 10) / 10;
+  document.getElementById('resultScore').textContent = total;
 
-// ===== 初始化 =====
-renderSidebar();
-renderStep();
+  let emoji = '😅';
+  if (total >= 90) emoji = '🏆';
+  else if (total >= 80) emoji = '🎉';
+  else if (total >= 70) emoji = '👍';
+  else if (total >= 60) emoji = '😊';
+  document.getElementById('resultEmoji').textContent = emoji;
+
+  document.getElementById('resultDetail').innerHTML = `
+    <div class="result-row"><span>一、选择题</span><span>${scores.choiceScore} / 20</span></div>
+    <div class="result-row"><span>二、判断题</span><span>${scores.judgeScore} / 10</span></div>
+    <div class="result-row"><span>三、填空题</span><span>${scores.fillScore} / 20</span></div>
+    <div class="result-row"><span>四、简答题</span><span>${scores.shortScore} / 20</span></div>
+    <div class="result-row"><span>五、编程题</span><span>${scores.codeScore} / 30</span></div>
+    <div class="result-row"><span>总计</span><span>${total} / 100</span></div>
+  `;
+
+  document.getElementById('resultPanel').classList.add('show');
+}
+
+// ============ 查看解析 ============
+function showAnswers() {
+  document.getElementById('resultPanel').classList.remove('show');
+  // 显示所有解析
+  document.querySelectorAll('.explanation').forEach(e => e.classList.add('show'));
+  // 滚动到顶部
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============ 导出 TXT ============
+function exportTxt() {
+  const m = Math.floor(timerSeconds / 60);
+  const s = timerSeconds % 60;
+  let txt = '═══════════════════════════════════════\n';
+  txt += '       Python 程序设计 · 期中测试卷\n';
+  txt += '           作答情况导出报告\n';
+  txt += '═══════════════════════════════════════\n\n';
+  txt += `用时：${m}分${s}秒\n`;
+  txt += `提交时间：${new Date().toLocaleString('zh-CN')}\n\n`;
+
+  const scores = gradeExam();
+  const total = Math.round((scores.choiceScore + scores.judgeScore + scores.fillScore + scores.shortScore + scores.codeScore) * 10) / 10;
+  txt += `【总分】${total} / 100\n`;
+  txt += `  选择题：${scores.choiceScore}/20  判断题：${scores.judgeScore}/10\n`;
+  txt += `  填空题：${scores.fillScore}/20  简答题：${scores.shortScore}/20  编程题：${scores.codeScore}/30\n\n`;
+
+  const labels = ['A', 'B', 'C', 'D'];
+
+  txt += '───────────────────────────────────────\n';
+  txt += '一、选择题（每题2分，共20分）\n';
+  txt += '───────────────────────────────────────\n';
+  questions.choice.forEach((item, i) => {
+    const ua = userAnswers.choice[i];
+    const correct = ua === item.ans;
+    txt += `\n${i + 1}. ${item.q.replace(/<[^>]+>/g, '')}\n`;
+    txt += `   你的答案：${ua !== undefined ? labels[ua] : '未作答'} ${correct ? '✅' : '❌'}\n`;
+    txt += `   正确答案：${labels[item.ans]}\n`;
+    txt += `   解析：${item.explain}\n`;
+  });
+
+  txt += '\n───────────────────────────────────────\n';
+  txt += '二、判断题（每题1分，共10分）\n';
+  txt += '───────────────────────────────────────\n';
+  questions.judge.forEach((item, i) => {
+    const ua = userAnswers.judge[i];
+    const correct = ua === item.ans;
+    txt += `\n${i + 11}. ${item.q.replace(/<[^>]+>/g, '')}\n`;
+    txt += `   你的答案：${ua !== undefined ? (ua ? '正确' : '错误') : '未作答'} ${correct ? '✅' : '❌'}\n`;
+    txt += `   正确答案：${item.ans ? '正确' : '错误'}\n`;
+    txt += `   解析：${item.explain}\n`;
+  });
+
+  txt += '\n───────────────────────────────────────\n';
+  txt += '三、填空题（每空2分，共20分）\n';
+  txt += '───────────────────────────────────────\n';
+  questions.fill.forEach((item, i) => {
+    const ua = userAnswers.fill[i] || '未作答';
+    const uaNorm = ua.toLowerCase().replace(/['"]/g, '"').replace(/\s+/g, '');
+    const caNorm = item.ans.toLowerCase().replace(/['"]/g, '"').replace(/\s+/g, '');
+    const correct = uaNorm === caNorm;
+    txt += `\n${i + 21}. ${item.q.replace(/<[^>]+>/g, '').replace(/______/g, '______')}\n`;
+    txt += `   你的答案：${ua} ${correct ? '✅' : '❌'}\n`;
+    txt += `   正确答案：${item.ans}\n`;
+    txt += `   解析：${item.explain}\n`;
+  });
+
+  txt += '\n───────────────────────────────────────\n';
+  txt += '四、简答题（每题5分，共20分）\n';
+  txt += '───────────────────────────────────────\n';
+  questions.short.forEach((item, i) => {
+    const ua = userAnswers.short[i] || '未作答';
+    txt += `\n${i + 31}. ${item.q.replace(/<[^>]+>/g, '')}\n`;
+    txt += `   你的答案：\n   ${ua.replace(/\n/g, '\n   ')}\n`;
+    txt += `   参考答案：\n   ${item.ans.replace(/\n/g, '\n   ')}\n`;
+    txt += `   解析：${item.explain}\n`;
+  });
+
+  txt += '\n───────────────────────────────────────\n';
+  txt += '五、编程题（每题15分，共30分）\n';
+  txt += '───────────────────────────────────────\n';
+  questions.code.forEach((item, i) => {
+    const ua = userAnswers.code[i] || '未作答';
+    txt += `\n${i + 35}. ${item.q.replace(/<[^>]+>/g, '')}\n`;
+    txt += `   你的代码：\n   ${ua.replace(/\n/g, '\n   ')}\n`;
+    txt += `   参考答案：\n   ${item.ans.replace(/\n/g, '\n   ')}\n`;
+    txt += `   解析：${item.explain}\n`;
+  });
+
+  txt += '\n═══════════════════════════════════════\n';
+  txt += '                  报告结束\n';
+  txt += '═══════════════════════════════════════\n';
+
+  // 下载
+  const blob = new Blob(['\ufeff' + txt], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Python期中测试_作答报告_${new Date().toLocaleDateString('zh-CN').replace(/\//g, '-')}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ============ 初始化 ============
+renderExam();
+startTimer();
 </script>
 </body>
 </html>
