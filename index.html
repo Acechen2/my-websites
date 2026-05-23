@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极客智能全科学习任务平台</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 原生 CSS 样式表 -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/subjects.css">
+</head>
+<body>
+    <!-- 背景光效装饰 -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <!-- 粒子特效容器 -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- 应用主外壳 -->
+    <div class="app-container">
+        
+        <!-- 1. 侧边导航栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                <span class="logo-text">LearningHub</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-target="dashboard">
+                    <i class="fa-solid fa-chart-pie"></i> <span>学习大屏</span>
+                </a>
+                
+                <div class="nav-divider">基础学科</div>
+                <a href="#" class="nav-item" data-target="chinese">
+                    <i class="fa-solid fa-book-open-reader"></i> <span>语文古风</span>
+                </a>
+                <a href="#" class="nav-item" data-target="math">
+                    <i class="fa-solid fa-calculator"></i> <span>数学空间</span>
+                </a>
+                <a href="#" class="nav-item" data-target="english">
+                    <i class="fa-solid fa-language"></i> <span>英语驿站</span>
+                </a>
+                
+                <div class="nav-divider">专业IT学科</div>
+                <a href="#" class="nav-item" data-target="python">
+                    <i class="fa-brands fa-python"></i> <span>Python编程</span>
+                </a>
+                <a href="#" class="nav-item" data-target="mysql">
+                    <i class="fa-solid fa-database"></i> <span>MySQL数据库</span>
+                </a>
+                <a href="#" class="nav-item" data-target="web_design">
+                    <i class="fa-solid fa-code"></i> <span>网页制作</span>
+                </a>
+                <a href="#" class="nav-item" data-target="networking">
+                    <i class="fa-solid fa-network-wired"></i> <span>网络技术</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="version">Version 3.0 (Lite Edit)</div>
+            </div>
+        </aside>
+
+        <!-- 2. 主内容区 -->
+        <main class="main-content">
+            
+            <!-- 头部状态栏 -->
+            <header class="top-bar">
+                <div class="greeting-area">
+                    <h1 id="welcome-text">你好，学习极客 👋</h1>
+                    <p class="subtitle">今天又是充满可能的一天！</p>
+                </div>
+                
+                <div class="user-status-badges">
+                    <!-- 学习打卡天数 -->
+                    <div class="status-badge streak-badge" title="连续打卡天数">
+                        <i class="fa-solid fa-fire fire-icon"></i>
+                        <span id="streak-days">0</span> 天
+                    </div>
+                    
+                    <!-- 经验值与等级 -->
+                    <div class="status-badge exp-badge">
+                        <div class="exp-info">
+                            <span class="level-label">Lv.<span id="user-level">1</span></span>
+                            <span class="exp-text"><span id="user-exp">0</span> / <span id="next-level-exp">100</span> EXP</span>
+                        </div>
+                        <div class="exp-progress-bar">
+                            <div class="exp-progress" id="exp-progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 视图容器列表 -->
+            <div class="view-wrapper">
+                
+                <!-- ================= 仪表盘视图 ================= -->
+                <section id="view-dashboard" class="view-section active">
+                    <div class="dashboard-grid">
+                        
+                        <!-- 左侧：每日任务清单 -->
+                        <div class="glass-card daily-tasks-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-list-check icon-purple"></i> 今日学习计划</h3>
+                                <button class="btn btn-secondary btn-sm" id="btn-refresh-tasks" title="刷新任务">
+                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                </button>
+                            </div>
+                            <div class="task-list-container" id="daily-tasks-list">
+                                <!-- 动态加载任务 -->
+                            </div>
+                        </div>
+
+                        <!-- 右侧上：打卡日历与数据分析 -->
+                        <div class="glass-card stats-overview-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-chart-column icon-blue"></i> 学习成就雷达</h3>
+                            </div>
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <span class="stat-value" id="stats-total-time">0</span>
+                                    <span class="stat-label">总学习时长 (分)</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value" id="stats-finished-tasks">0</span>
+                                    <span class="stat-label">已完成任务</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value" id="stats-exp-gained">0</span>
+                                    <span class="stat-label">累计经验值</span>
+                                </div>
+                            </div>
+
+                            <!-- 科目进度条 -->
+                            <div class="subject-progress-container">
+                                <h4>学科掌握度</h4>
+                                <div class="sub-prog-list" id="subject-progress-list">
+                                    <!-- 动态渲染 -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 右侧下：今日推荐名言 -->
+                        <div class="glass-card quote-card">
+                            <div class="quote-content">
+                                <i class="fa-solid fa-quote-left quote-icon-left"></i>
+                                <p class="quote-text" id="daily-quote">“生如逆旅，一苇以航。”</p>
+                                <span class="quote-author" id="daily-quote-author">—— 苏轼</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 1. 语文古风 ================= -->
+                <section id="view-chinese" class="view-section">
+                    <div class="subject-header chinese-theme">
+                        <h2><i class="fa-solid fa-book-open-reader"></i> 语文古风阁</h2>
+                        <p>古典诗词背诵默写与实词虚词用法积累</p>
+                    </div>
+                    <div class="subject-grid">
+                        <!-- 默写区 -->
+                        <div class="glass-card item-double">
+                            <div class="card-tabs">
+                                <button class="tab-btn active" data-tab="poetry-recite">古诗词背诵默写</button>
+                                <button class="tab-btn" data-tab="words-practice">实词虚词积累</button>
+                            </div>
+                            
+                            <!-- 选项卡1：诗词默写 -->
+                            <div class="tab-content active" id="tab-poetry-recite">
+                                <div class="recite-control-bar">
+                                    <label for="poetry-select">选择篇目：</label>
+                                    <select id="poetry-select" class="form-select">
+                                        <!-- 动态选项 -->
+                                    </select>
+                                    <button class="btn btn-primary" id="btn-start-recite">开始默写</button>
+                                </div>
+                                <div class="poetry-playground hidden" id="poetry-playground">
+                                    <div class="poetry-title-box">
+                                        <h3 id="recite-title">琵琶行</h3>
+                                        <p id="recite-author">白居易</p>
+                                    </div>
+                                    <div class="poetry-prompt-info">提示：请在下方挖空的输入框中填入正确的上下句，点击“提交评判”查看正确率。</div>
+                                    <div class="poetry-lines-container" id="poetry-lines-box">
+                                        <!-- 诗句及挖空输入框 -->
+                                    </div>
+                                    <div class="playground-actions">
+                                        <button class="btn btn-success" id="btn-submit-poetry">提交评判</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-poetry-answer">查看原文</button>
+                                    </div>
+                                    <div class="poetry-result-panel hidden" id="poetry-result-panel">
+                                        <!-- 默写比对结果 -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 选项卡2：字词翻牌 -->
+                            <div class="tab-content" id="tab-words-practice">
+                                <div class="words-container">
+                                    <div class="flashcard-deck">
+                                        <div class="flashcard" id="word-flashcard">
+                                            <div class="flashcard-inner">
+                                                <div class="flashcard-front">
+                                                    <span class="word-tag" id="word-type">虚词</span>
+                                                    <h3 class="word-title" id="word-char">以</h3>
+                                                    <p class="word-context" id="word-example-sentence">“属予作文以记之”</p>
+                                                    <span class="click-hint">点击翻转查看释义</span>
+                                                </div>
+                                                <div class="flashcard-back">
+                                                    <h3>释义 & 用法</h3>
+                                                    <p class="word-meaning" id="word-meaning-text">连词，来，用来，表目的。</p>
+                                                    <p class="word-grammar" id="word-grammar-info">语法结构：连接动词或介词结构，表示后面的动作是前面的目的。</p>
+                                                    <span class="click-hint">点击再次翻转</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-controls">
+                                        <button class="btn btn-secondary" id="btn-prev-word"><i class="fa-solid fa-chevron-left"></i> 上一个</button>
+                                        <button class="btn btn-primary" id="btn-next-word">下一个 <i class="fa-solid fa-chevron-right"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 2. 数学空间 ================= -->
+                <section id="view-math" class="view-section">
+                    <div class="subject-header math-theme">
+                        <h2><i class="fa-solid fa-calculator"></i> 数学演算空间</h2>
+                        <p>高考/职高高频数学公式速记与几何函数解题手写空间</p>
+                    </div>
+                    
+                    <div class="math-split-container">
+                        <!-- 左侧：题目与公式记忆 -->
+                        <div class="glass-card math-question-card">
+                            <div class="card-tabs">
+                                <button class="tab-btn active" data-tab="math-formulas">高频公式记忆</button>
+                                <button class="tab-btn" data-tab="math-problems">每日精选练习</button>
+                            </div>
+                            
+                            <!-- 选项卡1：数学公式 -->
+                            <div class="tab-content active" id="tab-math-formulas">
+                                <div class="formula-exercise">
+                                    <div class="formula-prompt">请补全以下公式的右半部分：</div>
+                                    <div class="formula-card">
+                                        <div class="formula-left" id="formula-left-display">sin(α + β) = ?</div>
+                                        <div class="formula-input-area">
+                                            <input type="text" id="formula-input" placeholder="输入公式右半部分..." autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="formula-actions">
+                                        <button class="btn btn-success" id="btn-check-formula">检查答案</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-formula">查看正确公式</button>
+                                        <button class="btn btn-primary" id="btn-next-formula">下一条</button>
+                                    </div>
+                                    <div class="formula-tip hidden" id="formula-tip-box">
+                                        <!-- 提示 -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 选项卡2：精选练习 -->
+                            <div class="tab-content" id="tab-math-problems">
+                                <div class="math-problem-box">
+                                    <div class="problem-q">
+                                        <span class="badge badge-math">解析几何</span>
+                                        <p id="math-problem-text">求过点 P(2, 3) 且在两坐标轴上截距相等的直线方程。</p>
+                                    </div>
+                                    <div class="problem-ans-input">
+                                        <input type="text" id="math-ans-input" placeholder="请输入您的最终答案（如: x+y-5=0）">
+                                    </div>
+                                    <div class="math-problem-actions">
+                                        <button class="btn btn-success" id="btn-submit-math-ans">提交答案</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-math-solution">查看解析步骤</button>
+                                        <button class="btn btn-primary" id="btn-next-math-problem">下一题</button>
+                                    </div>
+                                    <div class="math-solution-panel hidden" id="math-solution-panel">
+                                        <!-- 数学解析 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 右侧：Canvas 电子草稿纸 -->
+                        <div class="glass-card scratchpad-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-pen-nib icon-cyan"></i> 极客电子草稿纸</h3>
+                                <div class="scratchpad-tools">
+                                    <!-- 颜色选择 -->
+                                    <div class="color-picker">
+                                        <span class="color-dot active" data-color="#00f2fe" style="background-color: #00f2fe"></span>
+                                        <span class="color-dot" data-color="#10b981" style="background-color: #10b981"></span>
+                                        <span class="color-dot" data-color="#ffffff" style="background-color: #ffffff"></span>
+                                    </div>
+                                    <!-- 笔刷大小 -->
+                                    <select id="brush-size" class="form-select select-sm">
+                                        <option value="2">细笔</option>
+                                        <option value="5" selected>中笔</option>
+                                        <option value="10">粗笔</option>
+                                    </select>
+                                    <button class="btn btn-danger btn-sm" id="btn-clear-scratchpad"><i class="fa-solid fa-trash-can"></i> 清除</button>
+                                </div>
+                            </div>
+                            <div class="scratchpad-canvas-container">
+                                <canvas id="scratchpad-canvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 3. 英语驿站 ================= -->
+                <section id="view-english" class="view-section">
+                    <div class="subject-header english-theme">
+                        <h2><i class="fa-solid fa-language"></i> 英语词汇翻译驿站</h2>
+                        <p>高考/职高高频英语单词记忆与英汉互译核心句型打卡</p>
+                    </div>
+                    
+                    <div class="subject-grid">
+                        <!-- 单词闪卡与拼写 -->
+                        <div class="glass-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-spell-check icon-green"></i> 单词背诵与发音检测</h3>
+                            </div>
+                            <div class="english-word-playground">
+                                <div class="word-card-face">
+                                    <div class="word-spelling-area">
+                                        <h2 id="english-word-spelling">algorithm</h2>
+                                        <button class="btn btn-audio" id="btn-speak-word" title="朗读单词">
+                                            <i class="fa-solid fa-volume-high"></i>
+                                        </button>
+                                    </div>
+                                    <p class="word-phonetic" id="english-word-phonetic">/ˈælɡərɪðəm/</p>
+                                    <p class="word-meaning-hidden" id="english-word-meaning">n. 算法，运算法则</p>
+                                </div>
+
+                                <div class="word-input-validation">
+                                    <label for="english-word-input">尝试拼写上面发音的单词：</label>
+                                    <div class="input-group">
+                                        <input type="text" id="english-word-input" autocomplete="off" placeholder="看着中文或听发音拼写...">
+                                        <button class="btn btn-success" id="btn-check-spelling">检测</button>
+                                    </div>
+                                    <div class="validation-message hidden" id="word-val-msg"></div>
+                                </div>
+
+                                <div class="word-navigator">
+                                    <button class="btn btn-secondary hidden" id="btn-show-word-meaning">显示释义</button>
+                                    <button class="btn btn-primary" id="btn-next-word-eng">下一个单词</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 英汉互译训练 -->
+                        <div class="glass-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-file-signature icon-purple"></i> 英汉互译句型演练</h3>
+                            </div>
+                            <div class="translation-playground">
+                                <div class="translation-prompt">
+                                    <span class="badge badge-english">英译汉</span>
+                                    <p id="trans-source-sentence">Learning a foreign language is a bridge to explore the wilder world.</p>
+                                </div>
+                                <div class="translation-input-box">
+                                    <textarea id="trans-user-input" rows="3" placeholder="请输入您的中文翻译..."></textarea>
+                                </div>
+                                <div class="translation-actions">
+                                    <button class="btn btn-success" id="btn-submit-trans">提交对照</button>
+                                    <button class="btn btn-secondary hidden" id="btn-show-trans-ref">查看参考译文</button>
+                                    <button class="btn btn-primary" id="btn-next-trans">下一句</button>
+                                </div>
+                                <div class="translation-feedback hidden" id="trans-feedback-box">
+                                    <!-- 译文对比 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 4. Python编程 ================= -->
+                <section id="view-python" class="view-section">
+                    <div class="subject-header python-theme">
+                        <h2><i class="fa-brands fa-python"></i> Python 代码单词补全阁</h2>
+                        <p>背诵 Python 编程代码高频单词及核心概念挖空训练</p>
+                    </div>
+
+                    <div class="subject-grid">
+                        <div class="glass-card item-double">
+                            <div class="card-tabs">
+                                <button class="tab-btn active" data-tab="python-code">代码单词补全</button>
+                                <button class="tab-btn" data-tab="python-theory">核心概念填空</button>
+                            </div>
+                            
+                            <!-- 选项卡1：代码补全 -->
+                            <div class="tab-content active" id="tab-python-code">
+                                <div class="code-gap-container">
+                                    <div class="formula-prompt">提示：请补全下方 Python 代码片段中挖空部分的关键字或语法单词。</div>
+                                    <div class="code-gap-block" id="python-code-box">
+                                        <!-- 动态渲染 -->
+                                    </div>
+                                    <div class="playground-actions">
+                                        <button class="btn btn-success" id="btn-submit-python-code">提交比对</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-python-code">查看原码</button>
+                                        <button class="btn btn-primary" id="btn-next-python-code">下一关</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 选项卡2：概念填空 -->
+                            <div class="tab-content" id="tab-python-theory">
+                                <div class="concept-fill-box">
+                                    <div class="concept-q">
+                                        <span class="badge badge-python">Python 基础</span>
+                                        <p id="python-concept-text">概念问题加载中...</p>
+                                    </div>
+                                    <div class="problem-ans-input">
+                                        <input type="text" id="python-concept-input" placeholder="请在此处输入您的概念答案...">
+                                    </div>
+                                    <div class="math-problem-actions">
+                                        <button class="btn btn-success" id="btn-submit-python-concept">验证答案</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-python-concept">看一眼答案</button>
+                                        <button class="btn btn-primary" id="btn-next-python-concept">下一题</button>
+                                    </div>
+                                    <div class="math-solution-panel hidden" id="python-concept-solution">
+                                        <!-- 解析 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 5. MySQL数据库 ================= -->
+                <section id="view-mysql" class="view-section">
+                    <div class="subject-header mysql-theme">
+                        <h2><i class="fa-solid fa-database"></i> MySQL SQL补全及概念阁</h2>
+                        <p>记忆 SQL 核心操作指令与数据库模式基础填空挑战</p>
+                    </div>
+
+                    <div class="subject-grid">
+                        <div class="glass-card item-double">
+                            <div class="card-tabs">
+                                <button class="tab-btn active" data-tab="mysql-code">SQL 指令补全</button>
+                                <button class="tab-btn" data-tab="mysql-theory">数据库概念填空</button>
+                            </div>
+                            
+                            <!-- 选项卡1：SQL补全 -->
+                            <div class="tab-content active" id="tab-mysql-code">
+                                <div class="code-gap-container">
+                                    <div class="formula-prompt">提示：请在下方 SQL 数据操作指令的挖空处填入正确的数据库关键字。</div>
+                                    <div class="code-gap-block" id="mysql-code-box">
+                                        <!-- 动态渲染 -->
+                                    </div>
+                                    <div class="playground-actions">
+                                        <button class="btn btn-success" id="btn-submit-mysql-code">提交比对</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-mysql-code">查看标准指令</button>
+                                        <button class="btn btn-primary" id="btn-next-mysql-code">下一句</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 选项卡2：概念填空 -->
+                            <div class="tab-content" id="tab-mysql-theory">
+                                <div class="concept-fill-box">
+                                    <div class="concept-q">
+                                        <span class="badge badge-mysql">MySQL 基础</span>
+                                        <p id="mysql-concept-text">概念问题加载中...</p>
+                                    </div>
+                                    <div class="problem-ans-input">
+                                        <input type="text" id="mysql-concept-input" placeholder="请在此处输入您的概念答案...">
+                                    </div>
+                                    <div class="math-problem-actions">
+                                        <button class="btn btn-success" id="btn-submit-mysql-concept">验证答案</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-mysql-concept">看一眼答案</button>
+                                        <button class="btn btn-primary" id="btn-next-mysql-concept">下一题</button>
+                                    </div>
+                                    <div class="math-solution-panel hidden" id="mysql-concept-solution">
+                                        <!-- 解析 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 6. 网页制作 ================= -->
+                <section id="view-web_design" class="view-section">
+                    <div class="subject-header web-theme">
+                        <h2><i class="fa-solid fa-code"></i> 网页设计标签补全阁</h2>
+                        <p>熟悉 HTML 骨架标签与 CSS3 精美排版属性填空自测</p>
+                    </div>
+
+                    <div class="subject-grid">
+                        <div class="glass-card item-double">
+                            <div class="card-tabs">
+                                <button class="tab-btn active" data-tab="web-code">网页标签补全</button>
+                                <button class="tab-btn" data-tab="web-theory">网页制作概念填空</button>
+                            </div>
+                            
+                            <!-- 选项卡1：网页标签补全 -->
+                            <div class="tab-content active" id="tab-web-code">
+                                <div class="code-gap-container">
+                                    <div class="formula-prompt">提示：请补全下方 HTML / CSS 代码段中遗漏的标签、属性或样式关键字。</div>
+                                    <div class="code-gap-block" id="web-code-box">
+                                        <!-- 动态渲染 -->
+                                    </div>
+                                    <div class="playground-actions">
+                                        <button class="btn btn-success" id="btn-submit-web-code">提交比对</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-web-code">查看正确源码</button>
+                                        <button class="btn btn-primary" id="btn-next-web-code">下一题</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 选项卡2：网页概念填空 -->
+                            <div class="tab-content" id="tab-web-theory">
+                                <div class="concept-fill-box">
+                                    <div class="concept-q">
+                                        <span class="badge badge-web">网页制作</span>
+                                        <p id="web-concept-text">概念问题加载中...</p>
+                                    </div>
+                                    <div class="problem-ans-input">
+                                        <input type="text" id="web-concept-input" placeholder="请在此处输入您的概念答案...">
+                                    </div>
+                                    <div class="math-problem-actions">
+                                        <button class="btn btn-success" id="btn-submit-web-concept">验证答案</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-web-concept">看一眼答案</button>
+                                        <button class="btn btn-primary" id="btn-next-web-concept">下一题</button>
+                                    </div>
+                                    <div class="math-solution-panel hidden" id="web-concept-solution">
+                                        <!-- 解析 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 7. 网络技术 ================= -->
+                <section id="view-networking" class="view-section">
+                    <div class="subject-header networking-theme">
+                        <h2><i class="fa-solid fa-network-wired"></i> 网络技术配置与原理阁</h2>
+                        <p>复习网络配置检测指令、子网分段与 OSI 分层概念填空</p>
+                    </div>
+
+                    <div class="subject-grid">
+                        <div class="glass-card item-double">
+                            <div class="card-tabs">
+                                <button class="tab-btn active" data-tab="net-code">网络指令补全</button>
+                                <button class="tab-btn" data-tab="net-theory">网络技术概念填空</button>
+                            </div>
+                            
+                            <!-- 选项卡1：网络指令补全 -->
+                            <div class="tab-content active" id="tab-net-code">
+                                <div class="code-gap-container">
+                                    <div class="formula-prompt">提示：请补全下方命令提示符中的网络探测诊断命令关键字。</div>
+                                    <div class="code-gap-block" id="net-code-box">
+                                        <!-- 动态渲染 -->
+                                    </div>
+                                    <div class="playground-actions">
+                                        <button class="btn btn-success" id="btn-submit-net-code">提交比对</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-net-code">查看标准指令</button>
+                                        <button class="btn btn-primary" id="btn-next-net-code">下一题</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 选项卡2：网络概念填空 -->
+                            <div class="tab-content" id="tab-net-theory">
+                                <div class="concept-fill-box">
+                                    <div class="concept-q">
+                                        <span class="badge badge-net">网络技术</span>
+                                        <p id="net-concept-text">概念问题加载中...</p>
+                                    </div>
+                                    <div class="problem-ans-input">
+                                        <input type="text" id="net-concept-input" placeholder="请在此处输入您的概念答案...">
+                                    </div>
+                                    <div class="math-problem-actions">
+                                        <button class="btn btn-success" id="btn-submit-net-concept">验证答案</button>
+                                        <button class="btn btn-secondary hidden" id="btn-net-hint">查看核心提示</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-net-concept">看一眼答案</button>
+                                        <button class="btn btn-primary" id="btn-next-net-concept">下一题</button>
+                                    </div>
+                                    <div class="math-solution-panel hidden" id="net-concept-solution">
+                                        <!-- 解析 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- 全局精美玻璃拟态 Toast 提示框 -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- 外部彩带庆祝粒子效果 -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- 业务模块加载 -->
+    <script src="js/data.js"></script>
+    <script src="js/chinese.js"></script>
+    <script src="js/math.js"></script>
+    <script src="js/english.js"></script>
+    <script src="js/python.js"></script>
+    <script src="js/mysql.js"></script>
+    <script src="js/web_design.js"></script>
+    <script src="js/networking.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
