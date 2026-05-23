@@ -1,861 +1,619 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Python 期中测试试卷</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
-:root{
-  --p:#4f46e5;--p2:#7c3aed;--bg:#f0f2f5;--card:#fff;--text:#1e293b;
-  --dim:#64748b;--border:#e2e8f0;--ok:#16a34a;--err:#dc2626;
-  --warn:#d97706;--code-bg:#1e293b;--code-text:#e2e8f0;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
-::selection{background:rgba(79,70,229,0.2)}
-
-/* 顶部栏 */
-.topbar{position:fixed;top:0;left:0;right:0;height:56px;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;display:flex;align-items:center;padding:0 24px;z-index:100;box-shadow:0 4px 20px rgba(79,70,229,0.3)}
-.topbar-title{font-size:18px;font-weight:700;letter-spacing:1px}
-.topbar-timer{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:15px;font-weight:500;background:rgba(255,255,255,0.15);padding:6px 16px;border-radius:20px}
-.topbar-timer svg{width:18px;height:18px}
-
-/* 进度 */
-.progress-bar{position:fixed;top:56px;left:0;right:0;height:3px;background:var(--border);z-index:99}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--p),var(--p2));transition:width 0.4s ease}
-
-/* 主内容 */
-.main{max-width:860px;margin:80px auto 40px;padding:0 16px}
-
-/* 试卷头 */
-.exam-header{background:var(--card);border-radius:16px;padding:32px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
-.exam-title{font-size:28px;font-weight:900;text-align:center;background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
-.exam-subtitle{text-align:center;color:var(--dim);font-size:14px;margin-bottom:20px}
-.exam-info{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;border-top:1px solid var(--border);padding-top:16px}
-.exam-info span{font-size:13px;color:var(--dim)}
-.exam-info b{color:var(--text)}
-
-/* 区域标题 */
-.section{margin-bottom:28px}
-.section-head{display:flex;align-items:center;gap:10px;padding:14px 20px;background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:12px;margin-bottom:16px;font-size:16px;font-weight:700}
-.section-score{margin-left:auto;font-size:13px;font-weight:400;opacity:0.85}
-
-/* 题目卡片 */
-.q-card{background:var(--card);border-radius:12px;padding:24px;margin-bottom:14px;box-shadow:0 1px 6px rgba(0,0,0,0.05);border:2px solid transparent;transition:all 0.3s}
-.q-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08)}
-.q-card.answered{border-color:rgba(79,70,229,0.25)}
-.q-card.correct{border-color:var(--ok);background:rgba(22,163,74,0.03)}
-.q-card.wrong{border-color:var(--err);background:rgba(220,38,38,0.03)}
-
-.q-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--p);color:#fff;font-size:13px;font-weight:700;margin-right:8px;flex-shrink:0}
-.q-text{font-size:15px;margin-bottom:12px;line-height:1.8}
-.q-text code{background:#f1f5f9;color:var(--p2);padding:2px 6px;border-radius:4px;font-size:13px;font-family:Consolas,'Courier New',monospace}
-.q-pts{float:right;font-size:12px;color:var(--dim);font-weight:500}
-
-/* 选项 */
-.options{display:flex;flex-direction:column;gap:8px}
-.option{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:8px;cursor:pointer;border:2px solid var(--border);transition:all 0.2s;font-size:14px;line-height:1.6}
-.option:hover{border-color:var(--p);background:rgba(79,70,229,0.04)}
-.option.selected{border-color:var(--p);background:rgba(79,70,229,0.08);font-weight:500}
-.option.correct-answer{border-color:var(--ok);background:rgba(22,163,74,0.08)}
-.option.wrong-answer{border-color:var(--err);background:rgba(220,38,38,0.08)}
-.option-marker{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;border:2px solid var(--border);font-size:12px;font-weight:700;flex-shrink:0;transition:all 0.2s}
-.option.selected .option-marker{background:var(--p);border-color:var(--p);color:#fff}
-.option.correct-answer .option-marker{background:var(--ok);border-color:var(--ok);color:#fff}
-.option.wrong-answer .option-marker{background:var(--err);border-color:var(--err);color:#fff}
-.option code{background:#f1f5f9;color:var(--p2);padding:1px 5px;border-radius:3px;font-size:13px;font-family:Consolas,'Courier New',monospace}
-
-/* 判断题 */
-.tf-group{display:flex;gap:12px}
-.tf-btn{flex:1;padding:12px;border-radius:8px;border:2px solid var(--border);cursor:pointer;text-align:center;font-size:14px;font-weight:500;transition:all 0.2s}
-.tf-btn:hover{border-color:var(--p)}
-.tf-btn.selected{border-color:var(--p);background:rgba(79,70,229,0.08)}
-.tf-btn.correct-answer{border-color:var(--ok);background:rgba(22,163,74,0.08)}
-.tf-btn.wrong-answer{border-color:var(--err);background:rgba(220,38,38,0.08)}
-
-/* 填空/简答/编程 */
-.answer-input{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;transition:border-color 0.2s;resize:vertical;line-height:1.7}
-.answer-input:focus{outline:none;border-color:var(--p)}
-textarea.answer-input{min-height:100px;font-family:Consolas,'Courier New',monospace;font-size:13px}
-textarea.short-answer{min-height:60px;font-family:inherit;font-size:14px}
-
-/* 解析 */
-.explanation{display:none;margin-top:14px;padding:14px 16px;background:linear-gradient(135deg,rgba(79,70,229,0.06),rgba(124,58,237,0.04));border-radius:8px;border-left:4px solid var(--p);font-size:13px;line-height:1.8}
-.explanation.show{display:block}
-.explanation strong{color:var(--p)}
-
-/* 结果面板 */
-.result-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;justify-content:center;align-items:center}
-.result-panel.show{display:flex}
-.result-card{background:#fff;border-radius:20px;padding:40px;max-width:480px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2);animation:slideUp 0.4s ease}
-@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.result-score{font-size:64px;font-weight:900;background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.result-label{font-size:16px;color:var(--dim);margin-top:-4px}
-.result-detail{margin:24px 0;text-align:left}
-.result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
-.result-row:last-child{border:none;font-weight:700}
-.result-row span:last-child{color:var(--p);font-weight:600}
-
-/* 按钮 */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 28px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.25s;font-family:inherit}
-.btn-primary{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;box-shadow:0 4px 15px rgba(79,70,229,0.3)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(79,70,229,0.4)}
-.btn-outline{background:transparent;border:2px solid var(--p);color:var(--p)}
-.btn-outline:hover{background:rgba(79,70,229,0.05)}
-.btn-success{background:var(--ok);color:#fff}
-.btn-success:hover{background:#15803d}
-.btn-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
-
-/* 底部操作栏 */
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:center;gap:16px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.06)}
-.answered-count{font-size:13px;color:var(--dim)}
-
-/* 编程题参考框架 */
-.code-template{background:var(--code-bg);color:var(--code-text);padding:14px 16px;border-radius:8px 8px 0 0;font-family:Consolas,'Courier New',monospace;font-size:13px;line-height:1.7;white-space:pre;margin-bottom:-2px}
-textarea.code-textarea{border-radius:0 0 8px 8px;border-top:1px dashed var(--border);background:#fafbfc}
-
-/* 响应式 */
-@media(max-width:640px){
-  .main{padding:0 10px;margin-top:70px}
-  .exam-header{padding:20px}
-  .exam-title{font-size:22px}
-  .q-card{padding:16px}
-  .result-card{padding:28px}
-  .result-score{font-size:48px}
-  .btn{padding:10px 20px;font-size:14px}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极客智能全科学习任务平台</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 原生 CSS 样式表 -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/subjects.css">
 </head>
 <body>
+    <!-- 背景光效装饰 -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
 
-<div class="topbar">
-  <div class="topbar-title">🐍 Python 期中测试</div>
-  <div class="topbar-timer">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-    <span id="timer">00:00</span>
-  </div>
-</div>
-<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <!-- 粒子特效容器 -->
+    <canvas id="particles-canvas"></canvas>
 
-<div class="main" id="examMain">
-  <!-- 试卷头 -->
-  <div class="exam-header">
-    <div class="exam-title">Python 程序设计 · 期中测试卷</div>
-    <div class="exam-subtitle">变量 · 数据类型 · 运算符 · 输入输出 · 流程控制</div>
-    <div class="exam-info">
-      <span>满分：<b>100 分</b></span>
-      <span>时间：<b>90 分钟</b></span>
-      <span>题型：<b>5 类</b></span>
-      <span>题量：<b>26 题</b></span>
+    <!-- 应用主外壳 -->
+    <div class="app-container">
+        
+        <!-- 1. 侧边导航栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                <span class="logo-text">LearningHub</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-target="dashboard">
+                    <i class="fa-solid fa-chart-pie"></i> <span>学习大屏</span>
+                </a>
+                
+                <div class="nav-divider">基础学科</div>
+                <a href="#" class="nav-item" data-target="chinese">
+                    <i class="fa-solid fa-book-open-reader"></i> <span>语文古风</span>
+                </a>
+                <a href="#" class="nav-item" data-target="math">
+                    <i class="fa-solid fa-calculator"></i> <span>数学空间</span>
+                </a>
+                <a href="#" class="nav-item" data-target="english">
+                    <i class="fa-solid fa-language"></i> <span>英语驿站</span>
+                </a>
+                
+                <div class="nav-divider">专业IT学科</div>
+                <a href="#" class="nav-item" data-target="python">
+                    <i class="fa-brands fa-python"></i> <span>Python编程</span>
+                </a>
+                <a href="#" class="nav-item" data-target="mysql">
+                    <i class="fa-solid fa-database"></i> <span>MySQL数据库</span>
+                </a>
+                <a href="#" class="nav-item" data-target="web_design">
+                    <i class="fa-solid fa-code"></i> <span>网页制作</span>
+                </a>
+                <a href="#" class="nav-item" data-target="networking">
+                    <i class="fa-solid fa-network-wired"></i> <span>网络技术</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="version">Version 3.0 (Lite Edit)</div>
+            </div>
+        </aside>
+
+        <!-- 2. 主内容区 -->
+        <main class="main-content">
+            
+            <!-- 头部状态栏 -->
+            <header class="top-bar">
+                <div class="greeting-area">
+                    <h1 id="welcome-text">你好，学习极客 👋</h1>
+                    <p class="subtitle">今天又是充满可能的一天！</p>
+                </div>
+                
+                <div class="user-status-badges">
+                    <!-- 学习打卡天数 -->
+                    <div class="status-badge streak-badge" title="连续打卡天数">
+                        <i class="fa-solid fa-fire fire-icon"></i>
+                        <span id="streak-days">0</span> 天
+                    </div>
+                    
+                    <!-- 经验值与等级 -->
+                    <div class="status-badge exp-badge">
+                        <div class="exp-info">
+                            <span class="level-label">Lv.<span id="user-level">1</span></span>
+                            <span class="exp-text"><span id="user-exp">0</span> / <span id="next-level-exp">100</span> EXP</span>
+                        </div>
+                        <div class="exp-progress-bar">
+                            <div class="exp-progress" id="exp-progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 视图容器列表 -->
+            <div class="view-wrapper">
+                
+                <!-- ================= 仪表盘视图 ================= -->
+                <section id="view-dashboard" class="view-section active">
+                    <div class="dashboard-grid">
+                        
+                        <!-- 左侧：每日任务清单 -->
+                        <div class="glass-card daily-tasks-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-list-check icon-purple"></i> 今日学习计划</h3>
+                                <button class="btn btn-secondary btn-sm" id="btn-refresh-tasks" title="刷新任务">
+                                    <i class="fa-solid fa-arrows-rotate"></i>
+                                </button>
+                            </div>
+                            <div class="task-list-container" id="daily-tasks-list">
+                                <!-- 动态加载任务 -->
+                            </div>
+                        </div>
+
+                        <!-- 右侧上：打卡日历与数据分析 -->
+                        <div class="glass-card stats-overview-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-chart-column icon-blue"></i> 学习成就雷达</h3>
+                            </div>
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <span class="stat-value" id="stats-total-time">0</span>
+                                    <span class="stat-label">总学习时长 (分)</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value" id="stats-finished-tasks">0</span>
+                                    <span class="stat-label">已完成任务</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value" id="stats-exp-gained">0</span>
+                                    <span class="stat-label">累计经验值</span>
+                                </div>
+                            </div>
+
+                            <!-- 科目进度条 -->
+                            <div class="subject-progress-container">
+                                <h4>学科掌握度</h4>
+                                <div class="sub-prog-list" id="subject-progress-list">
+                                    <!-- 动态渲染 -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 右侧下：今日推荐名言 -->
+                        <div class="glass-card quote-card">
+                            <div class="quote-content">
+                                <i class="fa-solid fa-quote-left quote-icon-left"></i>
+                                <p class="quote-text" id="daily-quote">“生如逆旅，一苇以航。”</p>
+                                <span class="quote-author" id="daily-quote-author">—— 苏轼</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 1. 语文古风 ================= -->
+                <section id="view-chinese" class="view-section">
+                    <div class="subject-header chinese-theme">
+                        <h2><i class="fa-solid fa-book-open-reader"></i> 语文古风阁</h2>
+                        <p>古典诗词背诵默写与实词虚词用法积累</p>
+                    </div>
+                    <div class="subject-grid">
+                        <!-- 默写区 -->
+                        <div class="glass-card item-double">
+                            <div class="card-tabs">
+                                <button class="tab-btn active" data-tab="poetry-recite">古诗词背诵默写</button>
+                                <button class="tab-btn" data-tab="words-practice">实词虚词积累</button>
+                            </div>
+                            
+                            <!-- 选项卡1：诗词默写 -->
+                            <div class="tab-content active" id="tab-poetry-recite">
+                                <div class="recite-control-bar">
+                                    <label for="poetry-select">选择篇目：</label>
+                                    <select id="poetry-select" class="form-select">
+                                        <!-- 动态选项 -->
+                                    </select>
+                                    <button class="btn btn-primary" id="btn-start-recite">开始默写</button>
+                                </div>
+                                <div class="poetry-playground hidden" id="poetry-playground">
+                                    <div class="poetry-title-box">
+                                        <h3 id="recite-title">琵琶行</h3>
+                                        <p id="recite-author">白居易</p>
+                                    </div>
+                                    <div class="poetry-prompt-info">提示：请在下方挖空的输入框中填入正确的上下句，点击“提交评判”查看正确率。</div>
+                                    <div class="poetry-lines-container" id="poetry-lines-box">
+                                        <!-- 诗句及挖空输入框 -->
+                                    </div>
+                                    <div class="playground-actions">
+                                        <button class="btn btn-success" id="btn-submit-poetry">提交评判</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-poetry-answer">查看原文</button>
+                                    </div>
+                                    <div class="poetry-result-panel hidden" id="poetry-result-panel">
+                                        <!-- 默写比对结果 -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 选项卡2：字词翻牌 -->
+                            <div class="tab-content" id="tab-words-practice">
+                                <div class="words-container">
+                                    <div class="flashcard-deck">
+                                        <div class="flashcard" id="word-flashcard">
+                                            <div class="flashcard-inner">
+                                                <div class="flashcard-front">
+                                                    <span class="word-tag" id="word-type">虚词</span>
+                                                    <h3 class="word-title" id="word-char">以</h3>
+                                                    <p class="word-context" id="word-example-sentence">“属予作文以记之”</p>
+                                                    <span class="click-hint">点击翻转查看释义</span>
+                                                </div>
+                                                <div class="flashcard-back">
+                                                    <h3>释义 & 用法</h3>
+                                                    <p class="word-meaning" id="word-meaning-text">连词，来，用来，表目的。</p>
+                                                    <p class="word-grammar" id="word-grammar-info">语法结构：连接动词或介词结构，表示后面的动作是前面的目的。</p>
+                                                    <span class="click-hint">点击再次翻转</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-controls">
+                                        <button class="btn btn-secondary" id="btn-prev-word"><i class="fa-solid fa-chevron-left"></i> 上一个</button>
+                                        <button class="btn btn-primary" id="btn-next-word">下一个 <i class="fa-solid fa-chevron-right"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 2. 数学空间 ================= -->
+                <section id="view-math" class="view-section">
+                    <div class="subject-header math-theme">
+                        <h2><i class="fa-solid fa-calculator"></i> 数学演算空间</h2>
+                        <p>高考/职高高频数学公式速记与几何函数解题手写空间</p>
+                    </div>
+                    
+                    <div class="math-split-container">
+                        <!-- 左侧：题目与公式记忆 -->
+                        <div class="glass-card math-question-card">
+                            <div class="card-tabs">
+                                <button class="tab-btn active" data-tab="math-formulas">高频公式记忆</button>
+                                <button class="tab-btn" data-tab="math-problems">每日精选练习</button>
+                            </div>
+                            
+                            <!-- 选项卡1：数学公式 -->
+                            <div class="tab-content active" id="tab-math-formulas">
+                                <div class="formula-exercise">
+                                    <div class="formula-prompt">请补全以下公式的右半部分：</div>
+                                    <div class="formula-card">
+                                        <div class="formula-left" id="formula-left-display">sin(α + β) = ?</div>
+                                        <div class="formula-input-area">
+                                            <input type="text" id="formula-input" placeholder="输入公式右半部分..." autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="formula-actions">
+                                        <button class="btn btn-success" id="btn-check-formula">检查答案</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-formula">查看正确公式</button>
+                                        <button class="btn btn-primary" id="btn-next-formula">下一条</button>
+                                    </div>
+                                    <div class="formula-tip hidden" id="formula-tip-box">
+                                        <!-- 提示 -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 选项卡2：精选练习 -->
+                            <div class="tab-content" id="tab-math-problems">
+                                <div class="math-problem-box">
+                                    <div class="problem-q">
+                                        <span class="badge badge-math">解析几何</span>
+                                        <p id="math-problem-text">求过点 P(2, 3) 且在两坐标轴上截距相等的直线方程。</p>
+                                    </div>
+                                    <div class="problem-ans-input">
+                                        <input type="text" id="math-ans-input" placeholder="请输入您的最终答案（如: x+y-5=0）">
+                                    </div>
+                                    <div class="math-problem-actions">
+                                        <button class="btn btn-success" id="btn-submit-math-ans">提交答案</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-math-solution">查看解析步骤</button>
+                                        <button class="btn btn-primary" id="btn-next-math-problem">下一题</button>
+                                    </div>
+                                    <div class="math-solution-panel hidden" id="math-solution-panel">
+                                        <!-- 数学解析 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 右侧：Canvas 电子草稿纸 -->
+                        <div class="glass-card scratchpad-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-pen-nib icon-cyan"></i> 极客电子草稿纸</h3>
+                                <div class="scratchpad-tools">
+                                    <!-- 颜色选择 -->
+                                    <div class="color-picker">
+                                        <span class="color-dot active" data-color="#00f2fe" style="background-color: #00f2fe"></span>
+                                        <span class="color-dot" data-color="#10b981" style="background-color: #10b981"></span>
+                                        <span class="color-dot" data-color="#ffffff" style="background-color: #ffffff"></span>
+                                    </div>
+                                    <!-- 笔刷大小 -->
+                                    <select id="brush-size" class="form-select select-sm">
+                                        <option value="2">细笔</option>
+                                        <option value="5" selected>中笔</option>
+                                        <option value="10">粗笔</option>
+                                    </select>
+                                    <button class="btn btn-danger btn-sm" id="btn-clear-scratchpad"><i class="fa-solid fa-trash-can"></i> 清除</button>
+                                </div>
+                            </div>
+                            <div class="scratchpad-canvas-container">
+                                <canvas id="scratchpad-canvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 3. 英语驿站 ================= -->
+                <section id="view-english" class="view-section">
+                    <div class="subject-header english-theme">
+                        <h2><i class="fa-solid fa-language"></i> 英语词汇翻译驿站</h2>
+                        <p>高考/职高高频英语单词记忆与英汉互译核心句型打卡</p>
+                    </div>
+                    
+                    <div class="subject-grid">
+                        <!-- 单词闪卡与拼写 -->
+                        <div class="glass-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-spell-check icon-green"></i> 单词背诵与发音检测</h3>
+                            </div>
+                            <div class="english-word-playground">
+                                <div class="word-card-face">
+                                    <div class="word-spelling-area">
+                                        <h2 id="english-word-spelling">algorithm</h2>
+                                        <button class="btn btn-audio" id="btn-speak-word" title="朗读单词">
+                                            <i class="fa-solid fa-volume-high"></i>
+                                        </button>
+                                    </div>
+                                    <p class="word-phonetic" id="english-word-phonetic">/ˈælɡərɪðəm/</p>
+                                    <p class="word-meaning-hidden" id="english-word-meaning">n. 算法，运算法则</p>
+                                </div>
+
+                                <div class="word-input-validation">
+                                    <label for="english-word-input">尝试拼写上面发音的单词：</label>
+                                    <div class="input-group">
+                                        <input type="text" id="english-word-input" autocomplete="off" placeholder="看着中文或听发音拼写...">
+                                        <button class="btn btn-success" id="btn-check-spelling">检测</button>
+                                    </div>
+                                    <div class="validation-message hidden" id="word-val-msg"></div>
+                                </div>
+
+                                <div class="word-navigator">
+                                    <button class="btn btn-secondary hidden" id="btn-show-word-meaning">显示释义</button>
+                                    <button class="btn btn-primary" id="btn-next-word-eng">下一个单词</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 英汉互译训练 -->
+                        <div class="glass-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-file-signature icon-purple"></i> 英汉互译句型演练</h3>
+                            </div>
+                            <div class="translation-playground">
+                                <div class="translation-prompt">
+                                    <span class="badge badge-english">英译汉</span>
+                                    <p id="trans-source-sentence">Learning a foreign language is a bridge to explore the wilder world.</p>
+                                </div>
+                                <div class="translation-input-box">
+                                    <textarea id="trans-user-input" rows="3" placeholder="请输入您的中文翻译..."></textarea>
+                                </div>
+                                <div class="translation-actions">
+                                    <button class="btn btn-success" id="btn-submit-trans">提交对照</button>
+                                    <button class="btn btn-secondary hidden" id="btn-show-trans-ref">查看参考译文</button>
+                                    <button class="btn btn-primary" id="btn-next-trans">下一句</button>
+                                </div>
+                                <div class="translation-feedback hidden" id="trans-feedback-box">
+                                    <!-- 译文对比 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 4. Python编程 ================= -->
+                <section id="view-python" class="view-section">
+                    <div class="subject-header python-theme">
+                        <h2><i class="fa-brands fa-python"></i> Python 代码单词补全阁</h2>
+                        <p>背诵 Python 编程代码高频单词及核心概念挖空训练</p>
+                    </div>
+
+                    <div class="subject-grid">
+                        <div class="glass-card item-double">
+                            <div class="card-tabs">
+                                <button class="tab-btn active" data-tab="python-code">代码单词补全</button>
+                                <button class="tab-btn" data-tab="python-theory">核心概念填空</button>
+                            </div>
+                            
+                            <!-- 选项卡1：代码补全 -->
+                            <div class="tab-content active" id="tab-python-code">
+                                <div class="code-gap-container">
+                                    <div class="formula-prompt">提示：请补全下方 Python 代码片段中挖空部分的关键字或语法单词。</div>
+                                    <div class="code-gap-block" id="python-code-box">
+                                        <!-- 动态渲染 -->
+                                    </div>
+                                    <div class="playground-actions">
+                                        <button class="btn btn-success" id="btn-submit-python-code">提交比对</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-python-code">查看原码</button>
+                                        <button class="btn btn-primary" id="btn-next-python-code">下一关</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 选项卡2：概念填空 -->
+                            <div class="tab-content" id="tab-python-theory">
+                                <div class="concept-fill-box">
+                                    <div class="concept-q">
+                                        <span class="badge badge-python">Python 基础</span>
+                                        <p id="python-concept-text">概念问题加载中...</p>
+                                    </div>
+                                    <div class="problem-ans-input">
+                                        <input type="text" id="python-concept-input" placeholder="请在此处输入您的概念答案...">
+                                    </div>
+                                    <div class="math-problem-actions">
+                                        <button class="btn btn-success" id="btn-submit-python-concept">验证答案</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-python-concept">看一眼答案</button>
+                                        <button class="btn btn-primary" id="btn-next-python-concept">下一题</button>
+                                    </div>
+                                    <div class="math-solution-panel hidden" id="python-concept-solution">
+                                        <!-- 解析 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 5. MySQL数据库 ================= -->
+                <section id="view-mysql" class="view-section">
+                    <div class="subject-header mysql-theme">
+                        <h2><i class="fa-solid fa-database"></i> MySQL SQL补全及概念阁</h2>
+                        <p>记忆 SQL 核心操作指令与数据库模式基础填空挑战</p>
+                    </div>
+
+                    <div class="subject-grid">
+                        <div class="glass-card item-double">
+                            <div class="card-tabs">
+                                <button class="tab-btn active" data-tab="mysql-code">SQL 指令补全</button>
+                                <button class="tab-btn" data-tab="mysql-theory">数据库概念填空</button>
+                            </div>
+                            
+                            <!-- 选项卡1：SQL补全 -->
+                            <div class="tab-content active" id="tab-mysql-code">
+                                <div class="code-gap-container">
+                                    <div class="formula-prompt">提示：请在下方 SQL 数据操作指令的挖空处填入正确的数据库关键字。</div>
+                                    <div class="code-gap-block" id="mysql-code-box">
+                                        <!-- 动态渲染 -->
+                                    </div>
+                                    <div class="playground-actions">
+                                        <button class="btn btn-success" id="btn-submit-mysql-code">提交比对</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-mysql-code">查看标准指令</button>
+                                        <button class="btn btn-primary" id="btn-next-mysql-code">下一句</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 选项卡2：概念填空 -->
+                            <div class="tab-content" id="tab-mysql-theory">
+                                <div class="concept-fill-box">
+                                    <div class="concept-q">
+                                        <span class="badge badge-mysql">MySQL 基础</span>
+                                        <p id="mysql-concept-text">概念问题加载中...</p>
+                                    </div>
+                                    <div class="problem-ans-input">
+                                        <input type="text" id="mysql-concept-input" placeholder="请在此处输入您的概念答案...">
+                                    </div>
+                                    <div class="math-problem-actions">
+                                        <button class="btn btn-success" id="btn-submit-mysql-concept">验证答案</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-mysql-concept">看一眼答案</button>
+                                        <button class="btn btn-primary" id="btn-next-mysql-concept">下一题</button>
+                                    </div>
+                                    <div class="math-solution-panel hidden" id="mysql-concept-solution">
+                                        <!-- 解析 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 6. 网页制作 ================= -->
+                <section id="view-web_design" class="view-section">
+                    <div class="subject-header web-theme">
+                        <h2><i class="fa-solid fa-code"></i> 网页设计标签补全阁</h2>
+                        <p>熟悉 HTML 骨架标签与 CSS3 精美排版属性填空自测</p>
+                    </div>
+
+                    <div class="subject-grid">
+                        <div class="glass-card item-double">
+                            <div class="card-tabs">
+                                <button class="tab-btn active" data-tab="web-code">网页标签补全</button>
+                                <button class="tab-btn" data-tab="web-theory">网页制作概念填空</button>
+                            </div>
+                            
+                            <!-- 选项卡1：网页标签补全 -->
+                            <div class="tab-content active" id="tab-web-code">
+                                <div class="code-gap-container">
+                                    <div class="formula-prompt">提示：请补全下方 HTML / CSS 代码段中遗漏的标签、属性或样式关键字。</div>
+                                    <div class="code-gap-block" id="web-code-box">
+                                        <!-- 动态渲染 -->
+                                    </div>
+                                    <div class="playground-actions">
+                                        <button class="btn btn-success" id="btn-submit-web-code">提交比对</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-web-code">查看正确源码</button>
+                                        <button class="btn btn-primary" id="btn-next-web-code">下一题</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 选项卡2：网页概念填空 -->
+                            <div class="tab-content" id="tab-web-theory">
+                                <div class="concept-fill-box">
+                                    <div class="concept-q">
+                                        <span class="badge badge-web">网页制作</span>
+                                        <p id="web-concept-text">概念问题加载中...</p>
+                                    </div>
+                                    <div class="problem-ans-input">
+                                        <input type="text" id="web-concept-input" placeholder="请在此处输入您的概念答案...">
+                                    </div>
+                                    <div class="math-problem-actions">
+                                        <button class="btn btn-success" id="btn-submit-web-concept">验证答案</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-web-concept">看一眼答案</button>
+                                        <button class="btn btn-primary" id="btn-next-web-concept">下一题</button>
+                                    </div>
+                                    <div class="math-solution-panel hidden" id="web-concept-solution">
+                                        <!-- 解析 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= 7. 网络技术 ================= -->
+                <section id="view-networking" class="view-section">
+                    <div class="subject-header networking-theme">
+                        <h2><i class="fa-solid fa-network-wired"></i> 网络技术配置与原理阁</h2>
+                        <p>复习网络配置检测指令、子网分段与 OSI 分层概念填空</p>
+                    </div>
+
+                    <div class="subject-grid">
+                        <div class="glass-card item-double">
+                            <div class="card-tabs">
+                                <button class="tab-btn active" data-tab="net-code">网络指令补全</button>
+                                <button class="tab-btn" data-tab="net-theory">网络技术概念填空</button>
+                            </div>
+                            
+                            <!-- 选项卡1：网络指令补全 -->
+                            <div class="tab-content active" id="tab-net-code">
+                                <div class="code-gap-container">
+                                    <div class="formula-prompt">提示：请补全下方命令提示符中的网络探测诊断命令关键字。</div>
+                                    <div class="code-gap-block" id="net-code-box">
+                                        <!-- 动态渲染 -->
+                                    </div>
+                                    <div class="playground-actions">
+                                        <button class="btn btn-success" id="btn-submit-net-code">提交比对</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-net-code">查看标准指令</button>
+                                        <button class="btn btn-primary" id="btn-next-net-code">下一题</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 选项卡2：网络概念填空 -->
+                            <div class="tab-content" id="tab-net-theory">
+                                <div class="concept-fill-box">
+                                    <div class="concept-q">
+                                        <span class="badge badge-net">网络技术</span>
+                                        <p id="net-concept-text">概念问题加载中...</p>
+                                    </div>
+                                    <div class="problem-ans-input">
+                                        <input type="text" id="net-concept-input" placeholder="请在此处输入您的概念答案...">
+                                    </div>
+                                    <div class="math-problem-actions">
+                                        <button class="btn btn-success" id="btn-submit-net-concept">验证答案</button>
+                                        <button class="btn btn-secondary hidden" id="btn-net-hint">查看核心提示</button>
+                                        <button class="btn btn-secondary hidden" id="btn-show-net-concept">看一眼答案</button>
+                                        <button class="btn btn-primary" id="btn-next-net-concept">下一题</button>
+                                    </div>
+                                    <div class="math-solution-panel hidden" id="net-concept-solution">
+                                        <!-- 解析 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
     </div>
-  </div>
 
-  <!-- 一、选择题 -->
-  <div class="section" id="sec-choice">
-    <div class="section-head">一、选择题<span class="section-score">每题 2 分，共 20 分</span></div>
-  </div>
+    <!-- 全局精美玻璃拟态 Toast 提示框 -->
+    <div class="toast-container" id="toast-container"></div>
 
-  <!-- 二、判断题 -->
-  <div class="section" id="sec-judge">
-    <div class="section-head">二、判断题<span class="section-score">每题 1 分，共 10 分</span></div>
-  </div>
-
-  <!-- 三、填空题 -->
-  <div class="section" id="sec-fill">
-    <div class="section-head">三、填空题<span class="section-score">每空 2 分，共 20 分</span></div>
-  </div>
-
-  <!-- 四、简答题 -->
-  <div class="section" id="sec-short">
-    <div class="section-head">四、简答题<span class="section-score">每题 5 分，共 20 分</span></div>
-  </div>
-
-  <!-- 五、编程题 -->
-  <div class="section" id="sec-code">
-    <div class="section-head">五、编程题<span class="section-score">每题 15 分，共 30 分</span></div>
-  </div>
-</div>
-
-<!-- 底部操作栏 -->
-<div class="bottom-bar" id="bottomBar">
-  <span class="answered-count" id="answeredCount">已答 0/26 题</span>
-  <button class="btn btn-primary" onclick="submitExam()">📝 提交试卷</button>
-</div>
-
-<!-- 结果面板 -->
-<div class="result-panel" id="resultPanel">
-  <div class="result-card">
-    <div style="font-size:48px;margin-bottom:8px" id="resultEmoji">🎉</div>
-    <div class="result-score" id="resultScore">0</div>
-    <div class="result-label">总分 / 100 分</div>
-    <div class="result-detail" id="resultDetail"></div>
-    <div class="btn-group">
-      <button class="btn btn-outline" onclick="showAnswers()">📖 查看解析</button>
-      <button class="btn btn-success" onclick="exportTxt()">📥 导出作答</button>
-    </div>
-  </div>
-</div>
-
-<script>
-// ============ 题库数据 ============
-const questions = {
-  // 一、选择题
-  choice: [
-    {
-      q: '以下哪个是合法的 Python 变量名？',
-      opts: ['<code>2name</code>', '<code>my_name</code>', '<code>class</code>', '<code>my-name</code>'],
-      ans: 1,
-      explain: '变量名不能以数字开头（排除A），不能是关键字（排除C），不能含连字符（排除D）。下划线是合法字符。'
-    },
-    {
-      q: '表达式 <code>type(3.14)</code> 的返回值是？',
-      opts: ["<code>&lt;class 'int'&gt;</code>", "<code>&lt;class 'float'&gt;</code>", "<code>&lt;class 'str'&gt;</code>", "<code>&lt;class 'bool'&gt;</code>"],
-      ans: 1,
-      explain: '3.14 是小数，属于浮点数类型 float。整数才是 int，字符串是 str。'
-    },
-    {
-      q: '<code>17 // 5</code> 的结果是？',
-      opts: ['<code>3</code>', '<code>3.4</code>', '<code>4</code>', '<code>2</code>'],
-      ans: 0,
-      explain: '// 是整除运算符（地板除），17÷5=3.4，取整为3。注意与 /（真除法，返回3.4）的区别。'
-    },
-    {
-      q: '<code>10 % 3 + 2 ** 2</code> 的结果是？',
-      opts: ['<code>7</code>', '<code>5</code>', '<code>6</code>', '<code>8</code>'],
-      ans: 0,
-      explain: '运算符优先级：**最高 → % → +。先算 2**2=4，再算 10%3=1，最后 1+4=5...等等，10%3=1，1+4=5？不对，让我重算：10%3=1，2**2=4，1+4=5。但答案给7？让我检查...10%3=1, 2**2=4, 1+4=5。'
-    },
-    {
-      q: '以下代码输出什么？<br><code>print("Hello" + " " + "World")</code>',
-      opts: ['<code>HelloWorld</code>', '<code>Hello World</code>', '<code>Hello+World</code>', '报错'],
-      ans: 1,
-      explain: '+ 运算符用于字符串拼接。"Hello" + " " + "World" 拼接后得到 "Hello World"。'
-    },
-    {
-      q: '<code>input()</code> 函数的返回值类型始终是？',
-      opts: ['<code>int</code>', '<code>float</code>', '<code>str</code>', '取决于输入内容'],
-      ans: 2,
-      explain: 'input() 无论用户输入什么，返回值始终是字符串类型。需要用 int() 或 float() 进行类型转换。'
-    },
-    {
-      q: '以下代码输出什么？<br><code>x = 5<br>if x &gt; 3:<br>&nbsp;&nbsp;&nbsp;&nbsp;print("A")<br>else:<br>&nbsp;&nbsp;&nbsp;&nbsp;print("B")</code>',
-      opts: ['<code>A</code>', '<code>B</code>', '<code>AB</code>', '报错'],
-      ans: 0,
-      explain: 'x=5 > 3 条件为 True，执行 if 分支，输出 A。'
-    },
-    {
-      q: '<code>range(1, 10, 3)</code> 生成的序列是？',
-      opts: ['<code>[1, 4, 7]</code>', '<code>[1, 4, 7, 10]</code>', '<code>[3, 6, 9]</code>', '<code>[0, 3, 6, 9]</code>'],
-      ans: 0,
-      explain: 'range(start, stop, step)：从1开始，每次+3，到10之前停止。1→4→7，下一个10不包含。'
-    },
-    {
-      q: '<code>True and False or True</code> 的结果是？',
-      opts: ['<code>True</code>', '<code>False</code>', '报错', '<code>None</code>'],
-      ans: 0,
-      explain: 'and 优先级高于 or。先算 True and False = False，再算 False or True = True。'
-    },
-    {
-      q: '以下哪个不是 Python 的数据类型？',
-      opts: ['<code>int</code>', '<code>str</code>', '<code>char</code>', '<code>bool</code>'],
-      ans: 2,
-      explain: 'Python 没有 char 类型，单个字符也是 str 类型。C/Java 中的 char 在 Python 中不存在。'
-    }
-  ],
-
-  // 二、判断题
-  judge: [
-    {
-      q: 'Python 中变量使用前必须先声明类型。',
-      ans: false,
-      explain: 'Python 是动态类型语言，变量不需要提前声明类型，赋值时自动确定。'
-    },
-    {
-      q: '<code>"123"</code> 和 <code>123</code> 是相同的数据类型。',
-      ans: false,
-      explain: '"123" 是字符串类型 str，123 是整数类型 int，二者类型不同，不能直接运算。'
-    },
-    {
-      q: '<code>print()</code> 函数默认输出后换行。',
-      ans: true,
-      explain: 'print() 的 end 参数默认为 "\\n"，即换行。可通过 end="" 修改为不换行。'
-    },
-    {
-      q: '<code>elif</code> 可以单独使用，不需要前面有 <code>if</code>。',
-      ans: false,
-      explain: 'elif 是 else if 的缩写，必须跟在 if 后面使用，不能独立存在。'
-    },
-    {
-      q: '<code>for</code> 循环和 <code>while</code> 循环可以互相替换。',
-      ans: true,
-      explain: '理论上任何 for 循环都能用 while 实现，反之亦然。但选择合适的循环结构能让代码更简洁。'
-    },
-    {
-      q: '<code>break</code> 语句可以跳出所有嵌套循环。',
-      ans: false,
-      explain: 'break 只能跳出当前所在的那一层循环，不能一次跳出多层嵌套循环。'
-    },
-    {
-      q: '<code>3 > 2 > 1</code> 在 Python 中是合法表达式且结果为 <code>True</code>。',
-      ans: true,
-      explain: 'Python 支持链式比较，3>2>1 等价于 (3>2) and (2>1)，结果为 True。'
-    },
-    {
-      q: '<code>str</code> 类型可以用 <code>+</code> 和 <code>int</code> 类型直接拼接。',
-      ans: false,
-      explain: '字符串和整数不能直接用 + 拼接，需要用 str() 将整数转为字符串，或用 f-string 格式化。'
-    },
-    {
-      q: '<code>continue</code> 语句会终止整个循环。',
-      ans: false,
-      explain: 'continue 只是跳过当前这一次迭代的剩余语句，进入下一次迭代，不会终止整个循环。'
-    },
-    {
-      q: '<code>int(3.9)</code> 的结果是 <code>4</code>。',
-      ans: false,
-      explain: 'int() 对浮点数是截断（向零取整），不是四舍五入。int(3.9) = 3，不是4。四舍五入用 round()。'
-    }
-  ],
-
-  // 三、填空题
-  fill: [
-    {
-      q: 'Python 中用 ______ 运算符进行整除。',
-      ans: '//',
-      explain: '// 是整除运算符，也叫地板除（floor division），返回商的整数部分。'
-    },
-    {
-      q: '表达式 <code>type("Hello")</code> 的结果是 ______ 。',
-      ans: "<class 'str'>",
-      explain: '"Hello" 是字符串，type() 返回其类型 <class \'str\'>。'
-    },
-    {
-      q: '将字符串 <code>"123"</code> 转换为整数，应使用 ______ 函数。',
-      ans: 'int',
-      explain: 'int() 函数可以将数字字符串转换为整数，如 int("123") = 123。'
-    },
-    {
-      q: '<code>print(1, 2, 3, sep="-")</code> 的输出结果是 ______ 。',
-      ans: '1-2-3',
-      explain: 'sep 参数指定多个输出项之间的分隔符，默认是空格，此处改为"-"。'
-    },
-    {
-      q: '<code>len("Python")</code> 的返回值是 ______ 。',
-      ans: '6',
-      explain: 'len() 返回字符串长度，"Python" 有6个字符。'
-    },
-    {
-      q: '在 <code>for</code> 循环中，______ 语句可以跳过当前迭代。',
-      ans: 'continue',
-      explain: 'continue 跳过本次循环的剩余语句，直接进入下一次迭代。'
-    },
-    {
-      q: '表达式 <code>5 != 3</code> 的结果是 ______ 。',
-      ans: 'True',
-      explain: '!= 是不等于运算符，5 不等于 3，所以结果为 True。'
-    },
-    {
-      q: '<code>bool(0)</code> 的结果是 ______ 。',
-      ans: 'False',
-      explain: '在 Python 中，0、0.0、空字符串、空列表等"空值"转换为布尔值都是 False。'
-    },
-    {
-      q: '<code>range(5)</code> 等价于 <code>range(______, 5)</code>。',
-      ans: '0',
-      explain: 'range(stop) 是 range(start, stop) 的简写，start 默认为 0。'
-    },
-    {
-      q: 'Python 中 ______ 语句用于定义一个函数。',
-      ans: 'def',
-      explain: 'def 是 define 的缩写，用于定义函数。如 def hello():'
-    }
-  ],
-
-  // 四、简答题
-  short: [
-    {
-      q: '请简述 <code>input()</code> 函数和 <code>print()</code> 函数的作用，并各举一个使用示例。',
-      ans: 'input() 函数用于从键盘获取用户输入，返回值始终为字符串类型。示例：name = input("请输入姓名：")\n\nprint() 函数用于将内容输出到控制台显示。示例：print("你好，世界！")',
-      keywords: ['输入', '输出', '字符串', 'input', 'print'],
-      explain: 'input() 是输入函数，接收提示信息参数，返回用户输入的字符串；print() 是输出函数，将内容打印到控制台。二者是最基本的 I/O 函数。'
-    },
-    {
-      q: '请列出 Python 中的三种基本数据类型，并各举一个例子。',
-      ans: '1. 整数类型 int，如：42\n2. 浮点数类型 float，如：3.14\n3. 字符串类型 str，如："Hello"',
-      keywords: ['int', 'float', 'str', '整数', '浮点', '字符串'],
-      explain: 'Python 基本数据类型包括：int（整数）、float（浮点数）、str（字符串）、bool（布尔值）。最常考的是前三种。'
-    },
-    {
-      q: '请说明 <code>if-elif-else</code> 语句的执行流程。',
-      ans: '程序从上到下依次判断每个条件：\n1. 先判断 if 条件，若为 True 则执行其代码块，跳过后续所有分支；\n2. 若 if 为 False，判断 elif 条件，若为 True 则执行其代码块；\n3. 若所有条件都为 False，则执行 else 代码块。\n整个结构只会执行其中一个分支。',
-      keywords: ['条件', 'True', 'False', '分支', '依次', '判断'],
-      explain: 'if-elif-else 是多分支选择结构，从上到下依次判断，满足一个条件就执行对应分支，其余跳过。'
-    },
-    {
-      q: '请说明 <code>for</code> 循环和 <code>while</code> 循环的区别，并各举一个使用场景。',
-      ans: 'for 循环：用于遍历已知次数或序列的场景，通常与 range() 或序列配合使用。示例：for i in range(5): print(i)\n\nwhile 循环：用于条件不确定、需要根据条件决定是否继续循环的场景。示例：while n > 0: n = n - 1\n\n主要区别：for 侧重遍历，while 侧重条件判断。',
-      keywords: ['遍历', '条件', 'range', '次数', 'for', 'while'],
-      explain: 'for 循环适合已知循环次数或遍历序列的场景；while 循环适合条件驱动的场景。二者可互相转换。'
-    }
-  ],
-
-  // 五、编程题
-  code: [
-    {
-      q: '编写一个程序，实现以下功能：<br>1. 输入一个整数 n<br>2. 判断 n 是正数、负数还是零<br>3. 输出判断结果<br><br>示例运行：<br><code>请输入一个整数：5</code><br><code>5 是正数</code>',
-      ans: 'n = int(input("请输入一个整数："))\nif n > 0:\n    print(f"{n} 是正数")\nelif n < 0:\n    print(f"{n} 是负数")\nelse:\n    print(f"{n} 是零")',
-      template: 'n = int(input("请输入一个整数："))\n# 请在下方编写判断逻辑\n',
-      keywords: ['input', 'int', 'if', 'elif', 'else', 'print'],
-      explain: '考查：input输入、int类型转换、if-elif-else多分支判断、f-string格式化输出。注意三个条件分支的完整性。'
-    },
-    {
-      q: '编写一个程序，计算 1 到 100 之间所有偶数的和。<br><br>要求使用 <code>for</code> 循环和 <code>if</code> 判断实现。<br>输出格式：<code>1到100之间偶数的和为：XXXX</code>',
-      ans: 'total = 0\nfor i in range(1, 101):\n    if i % 2 == 0:\n        total += i\nprint(f"1到100之间偶数的和为：{total}")',
-      template: 'total = 0\n# 请使用 for 循环遍历 1 到 100\n# 用 if 判断是否为偶数\n# 将偶数累加到 total 中\n\nprint(f"1到100之间偶数的和为：{total}")',
-      keywords: ['for', 'range', 'if', '%', 'total', 'print'],
-      explain: '考查：for循环遍历(range)、if条件判断、取余运算(%)、累加运算。答案为2550。也可用 range(2,101,2) 跳过奇数。'
-    }
-  ]
-};
-
-// 修正第4题答案
-questions.choice[3] = {
-  q: '<code>10 % 3 + 2 ** 2</code> 的结果是？',
-  opts: ['<code>5</code>', '<code>7</code>', '<code>6</code>', '<code>8</code>'],
-  ans: 0,
-  explain: '运算符优先级：** 最高。先算 2**2=4，再算 10%3=1，最后 1+4=5。'
-};
-
-// ============ 状态管理 ============
-let userAnswers = { choice: {}, judge: {}, fill: {}, short: {}, code: {} };
-let submitted = false;
-let timerSeconds = 0;
-let timerInterval = null;
-const totalQuestions = 10 + 10 + 10 + 4 + 2;
-
-// ============ 计时器 ============
-function startTimer() {
-  timerInterval = setInterval(() => {
-    timerSeconds++;
-    const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
-    const s = String(timerSeconds % 60).padStart(2, '0');
-    document.getElementById('timer').textContent = `${m}:${s}`;
-  }, 1000);
-}
-
-// ============ 渲染题目 ============
-function renderExam() {
-  renderChoice();
-  renderJudge();
-  renderFill();
-  renderShort();
-  renderCode();
-}
-
-function renderChoice() {
-  const sec = document.getElementById('sec-choice');
-  questions.choice.forEach((item, i) => {
-    const card = document.createElement('div');
-    card.className = 'q-card';
-    card.id = `choice-${i}`;
-    const labels = ['A', 'B', 'C', 'D'];
-    card.innerHTML = `
-      <div class="q-text"><span class="q-num">${i + 1}</span><span class="q-pts">2分</span>${item.q}</div>
-      <div class="options">
-        ${item.opts.map((o, j) => `
-          <div class="option" data-qi="${i}" data-oi="${j}" onclick="selectChoice(${i},${j})">
-            <span class="option-marker">${labels[j]}</span>
-            <span>${o}</span>
-          </div>
-        `).join('')}
-      </div>
-      <div class="explanation" id="exp-choice-${i}"><strong>解析：</strong>${item.explain}</div>
-    `;
-    sec.appendChild(card);
-  });
-}
-
-function renderJudge() {
-  const sec = document.getElementById('sec-judge');
-  questions.judge.forEach((item, i) => {
-    const card = document.createElement('div');
-    card.className = 'q-card';
-    card.id = `judge-${i}`;
-    card.innerHTML = `
-      <div class="q-text"><span class="q-num">${i + 11}</span><span class="q-pts">1分</span>${item.q}</div>
-      <div class="tf-group">
-        <div class="tf-btn" data-qi="${i}" data-val="true" onclick="selectJudge(${i},true)">✅ 正确</div>
-        <div class="tf-btn" data-qi="${i}" data-val="false" onclick="selectJudge(${i},false)">❌ 错误</div>
-      </div>
-      <div class="explanation" id="exp-judge-${i}"><strong>解析：</strong>${item.explain}</div>
-    `;
-    sec.appendChild(card);
-  });
-}
-
-function renderFill() {
-  const sec = document.getElementById('sec-fill');
-  questions.fill.forEach((item, i) => {
-    const card = document.createElement('div');
-    card.className = 'q-card';
-    card.id = `fill-${i}`;
-    card.innerHTML = `
-      <div class="q-text"><span class="q-num">${i + 21}</span><span class="q-pts">2分</span>${item.q}</div>
-      <input class="answer-input" type="text" placeholder="请输入答案..." data-qi="${i}" oninput="fillAnswer(${i},this.value)">
-      <div class="explanation" id="exp-fill-${i}"><strong>解析：</strong>${item.explain}</div>
-    `;
-    sec.appendChild(card);
-  });
-}
-
-function renderShort() {
-  const sec = document.getElementById('sec-short');
-  questions.short.forEach((item, i) => {
-    const card = document.createElement('div');
-    card.className = 'q-card';
-    card.id = `short-${i}`;
-    card.innerHTML = `
-      <div class="q-text"><span class="q-num">${i + 31}</span><span class="q-pts">5分</span>${item.q}</div>
-      <textarea class="answer-input short-answer" placeholder="请在此作答..." data-qi="${i}" oninput="shortAnswer(${i},this.value)"></textarea>
-      <div class="explanation" id="exp-short-${i}"><strong>参考答案：</strong>${item.ans.replace(/\n/g, '<br>')}<br><br><strong>解析：</strong>${item.explain}</div>
-    `;
-    sec.appendChild(card);
-  });
-}
-
-function renderCode() {
-  const sec = document.getElementById('sec-code');
-  questions.code.forEach((item, i) => {
-    const card = document.createElement('div');
-    card.className = 'q-card';
-    card.id = `code-${i}`;
-    card.innerHTML = `
-      <div class="q-text"><span class="q-num">${i + 35}</span><span class="q-pts">15分</span>${item.q}</div>
-      <div class="code-template">${escapeHtml(item.template)}</div>
-      <textarea class="answer-input code-textarea" placeholder="# 请在此编写代码..." data-qi="${i}" oninput="codeAnswer(${i},this.value)"></textarea>
-      <div class="explanation" id="exp-code-${i}"><strong>参考答案：</strong><pre style="background:var(--code-bg);color:var(--code-text);padding:12px;border-radius:6px;margin-top:6px;overflow-x:auto;font-size:13px">${escapeHtml(item.ans)}</pre><br><strong>解析：</strong>${item.explain}</div>
-    `;
-    sec.appendChild(card);
-  });
-}
-
-function escapeHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-// ============ 作答交互 ============
-function selectChoice(qi, oi) {
-  if (submitted) return;
-  userAnswers.choice[qi] = oi;
-  const card = document.getElementById(`choice-${qi}`);
-  card.querySelectorAll('.option').forEach((o, j) => {
-    o.classList.toggle('selected', j === oi);
-  });
-  card.classList.add('answered');
-  updateProgress();
-}
-
-function selectJudge(qi, val) {
-  if (submitted) return;
-  userAnswers.judge[qi] = val;
-  const card = document.getElementById(`judge-${qi}`);
-  card.querySelectorAll('.tf-btn').forEach(b => {
-    b.classList.toggle('selected', b.dataset.val === String(val));
-  });
-  card.classList.add('answered');
-  updateProgress();
-}
-
-function fillAnswer(qi, val) {
-  userAnswers.fill[qi] = val.trim();
-  const card = document.getElementById(`fill-${qi}`);
-  card.classList.toggle('answered', val.trim() !== '');
-  updateProgress();
-}
-
-function shortAnswer(qi, val) {
-  userAnswers.short[qi] = val.trim();
-  const card = document.getElementById(`short-${qi}`);
-  card.classList.toggle('answered', val.trim() !== '');
-  updateProgress();
-}
-
-function codeAnswer(qi, val) {
-  userAnswers.code[qi] = val.trim();
-  const card = document.getElementById(`code-${qi}`);
-  card.classList.toggle('answered', val.trim() !== '');
-  updateProgress();
-}
-
-// ============ 进度 ============
-function countAnswered() {
-  let c = 0;
-  c += Object.keys(userAnswers.choice).length;
-  c += Object.keys(userAnswers.judge).length;
-  c += Object.values(userAnswers.fill).filter(v => v).length;
-  c += Object.values(userAnswers.short).filter(v => v).length;
-  c += Object.values(userAnswers.code).filter(v => v).length;
-  return c;
-}
-
-function updateProgress() {
-  const c = countAnswered();
-  document.getElementById('answeredCount').textContent = `已答 ${c}/${totalQuestions} 题`;
-  document.getElementById('progressFill').style.width = `${(c / totalQuestions) * 100}%`;
-}
-
-// ============ 提交试卷 ============
-function submitExam() {
-  const c = countAnswered();
-  const unanswered = totalQuestions - c;
-  let msg = `确定提交试卷吗？`;
-  if (unanswered > 0) msg += `\n\n⚠️ 还有 ${unanswered} 题未作答！`;
-  if (!confirm(msg)) return;
-
-  submitted = true;
-  clearInterval(timerInterval);
-
-  // 批改
-  const scores = gradeExam();
-
-  // 标记对错
-  markResults();
-
-  // 显示结果面板
-  showResultPanel(scores);
-
-  // 隐藏底部栏提交按钮
-  document.getElementById('bottomBar').style.display = 'none';
-}
-
-function gradeExam() {
-  let choiceScore = 0, judgeScore = 0, fillScore = 0, shortScore = 0, codeScore = 0;
-
-  // 选择题 2分/题
-  questions.choice.forEach((item, i) => {
-    if (userAnswers.choice[i] === item.ans) choiceScore += 2;
-  });
-
-  // 判断题 1分/题
-  questions.judge.forEach((item, i) => {
-    if (userAnswers.judge[i] === item.ans) judgeScore += 1;
-  });
-
-  // 填空题 2分/空
-  questions.fill.forEach((item, i) => {
-    const ua = (userAnswers.fill[i] || '').toLowerCase().replace(/['"]/g, '"').replace(/\s+/g, '');
-    const ca = item.ans.toLowerCase().replace(/['"]/g, '"').replace(/\s+/g, '');
-    if (ua === ca) fillScore += 2;
-  });
-
-  // 简答题 5分/题（关键词匹配）
-  questions.short.forEach((item, i) => {
-    const ua = (userAnswers.short[i] || '').toLowerCase();
-    const matched = item.keywords.filter(k => ua.includes(k.toLowerCase()));
-    const ratio = matched.length / item.keywords.length;
-    shortScore += Math.round(ratio * 5 * 10) / 10;
-  });
-
-  // 编程题 15分/题（关键词匹配）
-  questions.code.forEach((item, i) => {
-    const ua = (userAnswers.code[i] || '').toLowerCase();
-    const matched = item.keywords.filter(k => ua.includes(k.toLowerCase()));
-    const ratio = matched.length / item.keywords.length;
-    codeScore += Math.round(ratio * 15 * 10) / 10;
-  });
-
-  return { choiceScore, judgeScore, fillScore, shortScore, codeScore };
-}
-
-function markResults() {
-  // 选择题
-  questions.choice.forEach((item, i) => {
-    const card = document.getElementById(`choice-${i}`);
-    const ua = userAnswers.choice[i];
-    card.querySelectorAll('.option').forEach((o, j) => {
-      if (j === item.ans) o.classList.add('correct-answer');
-      if (j === ua && j !== item.ans) o.classList.add('wrong-answer');
-      o.style.pointerEvents = 'none';
-    });
-    if (ua === item.ans) card.classList.add('correct');
-    else card.classList.add('wrong');
-  });
-
-  // 判断题
-  questions.judge.forEach((item, i) => {
-    const card = document.getElementById(`judge-${i}`);
-    const ua = userAnswers.judge[i];
-    card.querySelectorAll('.tf-btn').forEach(b => {
-      const bv = b.dataset.val === 'true';
-      if (bv === item.ans) b.classList.add('correct-answer');
-      if (bv === ua && bv !== item.ans) b.classList.add('wrong-answer');
-      b.style.pointerEvents = 'none';
-    });
-    if (ua === item.ans) card.classList.add('correct');
-    else card.classList.add('wrong');
-  });
-
-  // 填空题
-  questions.fill.forEach((item, i) => {
-    const card = document.getElementById(`fill-${i}`);
-    const ua = (userAnswers.fill[i] || '').toLowerCase().replace(/['"]/g, '"').replace(/\s+/g, '');
-    const ca = item.ans.toLowerCase().replace(/['"]/g, '"').replace(/\s+/g, '');
-    const input = card.querySelector('input');
-    input.disabled = true;
-    if (ua === ca) {
-      card.classList.add('correct');
-      input.style.borderColor = 'var(--ok)';
-    } else {
-      card.classList.add('wrong');
-      input.style.borderColor = 'var(--err)';
-      // 显示正确答案
-      const correctDiv = document.createElement('div');
-      correctDiv.style.cssText = 'margin-top:8px;font-size:13px;color:var(--ok);font-weight:500';
-      correctDiv.textContent = `✅ 正确答案：${item.ans}`;
-      card.appendChild(correctDiv);
-    }
-  });
-
-  // 简答题和编程题只显示解析
-  questions.short.forEach((_, i) => {
-    const card = document.getElementById(`short-${i}`);
-    card.querySelector('textarea').disabled = true;
-  });
-  questions.code.forEach((_, i) => {
-    const card = document.getElementById(`code-${i}`);
-    card.querySelector('textarea').disabled = true;
-  });
-}
-
-function showResultPanel(scores) {
-  const total = Math.round((scores.choiceScore + scores.judgeScore + scores.fillScore + scores.shortScore + scores.codeScore) * 10) / 10;
-  document.getElementById('resultScore').textContent = total;
-
-  let emoji = '😅';
-  if (total >= 90) emoji = '🏆';
-  else if (total >= 80) emoji = '🎉';
-  else if (total >= 70) emoji = '👍';
-  else if (total >= 60) emoji = '😊';
-  document.getElementById('resultEmoji').textContent = emoji;
-
-  document.getElementById('resultDetail').innerHTML = `
-    <div class="result-row"><span>一、选择题</span><span>${scores.choiceScore} / 20</span></div>
-    <div class="result-row"><span>二、判断题</span><span>${scores.judgeScore} / 10</span></div>
-    <div class="result-row"><span>三、填空题</span><span>${scores.fillScore} / 20</span></div>
-    <div class="result-row"><span>四、简答题</span><span>${scores.shortScore} / 20</span></div>
-    <div class="result-row"><span>五、编程题</span><span>${scores.codeScore} / 30</span></div>
-    <div class="result-row"><span>总计</span><span>${total} / 100</span></div>
-  `;
-
-  document.getElementById('resultPanel').classList.add('show');
-}
-
-// ============ 查看解析 ============
-function showAnswers() {
-  document.getElementById('resultPanel').classList.remove('show');
-  // 显示所有解析
-  document.querySelectorAll('.explanation').forEach(e => e.classList.add('show'));
-  // 滚动到顶部
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// ============ 导出 TXT ============
-function exportTxt() {
-  const m = Math.floor(timerSeconds / 60);
-  const s = timerSeconds % 60;
-  let txt = '═══════════════════════════════════════\n';
-  txt += '       Python 程序设计 · 期中测试卷\n';
-  txt += '           作答情况导出报告\n';
-  txt += '═══════════════════════════════════════\n\n';
-  txt += `用时：${m}分${s}秒\n`;
-  txt += `提交时间：${new Date().toLocaleString('zh-CN')}\n\n`;
-
-  const scores = gradeExam();
-  const total = Math.round((scores.choiceScore + scores.judgeScore + scores.fillScore + scores.shortScore + scores.codeScore) * 10) / 10;
-  txt += `【总分】${total} / 100\n`;
-  txt += `  选择题：${scores.choiceScore}/20  判断题：${scores.judgeScore}/10\n`;
-  txt += `  填空题：${scores.fillScore}/20  简答题：${scores.shortScore}/20  编程题：${scores.codeScore}/30\n\n`;
-
-  const labels = ['A', 'B', 'C', 'D'];
-
-  txt += '───────────────────────────────────────\n';
-  txt += '一、选择题（每题2分，共20分）\n';
-  txt += '───────────────────────────────────────\n';
-  questions.choice.forEach((item, i) => {
-    const ua = userAnswers.choice[i];
-    const correct = ua === item.ans;
-    txt += `\n${i + 1}. ${item.q.replace(/<[^>]+>/g, '')}\n`;
-    txt += `   你的答案：${ua !== undefined ? labels[ua] : '未作答'} ${correct ? '✅' : '❌'}\n`;
-    txt += `   正确答案：${labels[item.ans]}\n`;
-    txt += `   解析：${item.explain}\n`;
-  });
-
-  txt += '\n───────────────────────────────────────\n';
-  txt += '二、判断题（每题1分，共10分）\n';
-  txt += '───────────────────────────────────────\n';
-  questions.judge.forEach((item, i) => {
-    const ua = userAnswers.judge[i];
-    const correct = ua === item.ans;
-    txt += `\n${i + 11}. ${item.q.replace(/<[^>]+>/g, '')}\n`;
-    txt += `   你的答案：${ua !== undefined ? (ua ? '正确' : '错误') : '未作答'} ${correct ? '✅' : '❌'}\n`;
-    txt += `   正确答案：${item.ans ? '正确' : '错误'}\n`;
-    txt += `   解析：${item.explain}\n`;
-  });
-
-  txt += '\n───────────────────────────────────────\n';
-  txt += '三、填空题（每空2分，共20分）\n';
-  txt += '───────────────────────────────────────\n';
-  questions.fill.forEach((item, i) => {
-    const ua = userAnswers.fill[i] || '未作答';
-    const uaNorm = ua.toLowerCase().replace(/['"]/g, '"').replace(/\s+/g, '');
-    const caNorm = item.ans.toLowerCase().replace(/['"]/g, '"').replace(/\s+/g, '');
-    const correct = uaNorm === caNorm;
-    txt += `\n${i + 21}. ${item.q.replace(/<[^>]+>/g, '').replace(/______/g, '______')}\n`;
-    txt += `   你的答案：${ua} ${correct ? '✅' : '❌'}\n`;
-    txt += `   正确答案：${item.ans}\n`;
-    txt += `   解析：${item.explain}\n`;
-  });
-
-  txt += '\n───────────────────────────────────────\n';
-  txt += '四、简答题（每题5分，共20分）\n';
-  txt += '───────────────────────────────────────\n';
-  questions.short.forEach((item, i) => {
-    const ua = userAnswers.short[i] || '未作答';
-    txt += `\n${i + 31}. ${item.q.replace(/<[^>]+>/g, '')}\n`;
-    txt += `   你的答案：\n   ${ua.replace(/\n/g, '\n   ')}\n`;
-    txt += `   参考答案：\n   ${item.ans.replace(/\n/g, '\n   ')}\n`;
-    txt += `   解析：${item.explain}\n`;
-  });
-
-  txt += '\n───────────────────────────────────────\n';
-  txt += '五、编程题（每题15分，共30分）\n';
-  txt += '───────────────────────────────────────\n';
-  questions.code.forEach((item, i) => {
-    const ua = userAnswers.code[i] || '未作答';
-    txt += `\n${i + 35}. ${item.q.replace(/<[^>]+>/g, '')}\n`;
-    txt += `   你的代码：\n   ${ua.replace(/\n/g, '\n   ')}\n`;
-    txt += `   参考答案：\n   ${item.ans.replace(/\n/g, '\n   ')}\n`;
-    txt += `   解析：${item.explain}\n`;
-  });
-
-  txt += '\n═══════════════════════════════════════\n';
-  txt += '                  报告结束\n';
-  txt += '═══════════════════════════════════════\n';
-
-  // 下载
-  const blob = new Blob(['\ufeff' + txt], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `Python期中测试_作答报告_${new Date().toLocaleDateString('zh-CN').replace(/\//g, '-')}.txt`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-// ============ 初始化 ============
-renderExam();
-startTimer();
-</script>
+    <!-- 外部彩带庆祝粒子效果 -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- 业务模块加载 -->
+    <script src="js/data.js"></script>
+    <script src="js/chinese.js"></script>
+    <script src="js/math.js"></script>
+    <script src="js/english.js"></script>
+    <script src="js/python.js"></script>
+    <script src="js/mysql.js"></script>
+    <script src="js/web_design.js"></script>
+    <script src="js/networking.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
