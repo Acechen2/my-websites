@@ -22,3 +22,7 @@ tmp_image.jpg
 .DS_Store
 Thumbs.db
 
+# Interactive Courseware (Local Only)
+my-websites/courseware.html
+
+
