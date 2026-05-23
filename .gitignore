@@ -1,0 +1,24 @@
+# IDE and editor
+.vscode/
+.idea/
+
+# WorkBuddy internal
+.codebuddy/
+.workbuddy/
+
+# Node.js
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+
+# Temporary files
+tmp_image.jpg
+*.tmp
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
