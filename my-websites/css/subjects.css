@@ -820,3 +820,100 @@
     }
 }
 
+/* ==========================================================================
+   10. 语文虚词用法检测微测面板 (Classical Chinese Vocabulary Quiz)
+   ========================================================================== */
+.word-quiz-panel {
+    width: 100%;
+    max-width: 320px;
+    margin: 4px 0 20px 0;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.word-quiz-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.word-quiz-header {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-rose);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+    padding-bottom: 8px;
+}
+
+.word-quiz-question {
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.5;
+}
+
+.word-quiz-opts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.word-quiz-opt-btn {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--color-text-main);
+    padding: 8px 12px;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 12px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    outline: none;
+    line-height: 1.4;
+}
+
+.word-quiz-opt-btn:hover {
+    background: rgba(244, 63, 94, 0.05);
+    border-color: var(--color-rose);
+    color: #ffffff;
+}
+
+.word-quiz-opt-btn.correct {
+    background: rgba(16, 185, 129, 0.15) !important;
+    border-color: var(--color-emerald) !important;
+    color: var(--color-emerald) !important;
+    font-weight: 600;
+}
+
+.word-quiz-opt-btn.incorrect {
+    background: rgba(244, 63, 94, 0.15) !important;
+    border-color: var(--color-rose) !important;
+    color: var(--color-rose) !important;
+}
+
+.word-quiz-result {
+    font-size: 11px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.4;
+}
+
+.word-quiz-result.correct {
+    background: rgba(16, 185, 129, 0.05);
+    color: var(--color-emerald);
+}
+
+.word-quiz-result.incorrect {
+    background: rgba(244, 63, 94, 0.05);
+    color: var(--color-rose);
+}
+
+

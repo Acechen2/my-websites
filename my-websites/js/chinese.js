@@ -209,7 +209,78 @@ const ChineseModule = {
             
             document.getElementById("word-meaning-text").innerHTML = word.meaning.replace(/②|③|④/g, "<br>$&");
             document.getElementById("word-grammar-info").textContent = `语境例句常驻脑海，助你高考/职高语文实虚词斩获高分！`;
+
+            // 渲染随堂用法检测
+            this.renderWordQuiz(word);
         }, 150);
+    },
+
+    // 渲染文言虚词用法自测题
+    renderWordQuiz(word) {
+        const panel = document.getElementById("word-quiz-panel");
+        if (!panel) return;
+
+        let optionsHTML = "";
+        word.options.forEach((opt, idx) => {
+            optionsHTML += `
+                <button class="word-quiz-opt-btn" data-idx="${idx}">
+                    ${opt}
+                </button>
+            `;
+        });
+
+        panel.innerHTML = `
+            <div class="word-quiz-wrapper">
+                <div class="word-quiz-header">
+                    <i class="fa-solid fa-graduation-cap"></i> 随堂用法检测
+                </div>
+                <p class="word-quiz-question">${word.question}</p>
+                <div class="word-quiz-opts">
+                    ${optionsHTML}
+                </div>
+                <div class="word-quiz-result hidden" id="word-quiz-feedback"></div>
+            </div>
+        `;
+
+        // 绑定选项点击事件
+        const optButtons = panel.querySelectorAll(".word-quiz-opt-btn");
+        optButtons.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const selectedIdx = parseInt(e.currentTarget.dataset.idx);
+                this.verifyWordQuizAnswer(selectedIdx, word.answer, optButtons, e.currentTarget);
+            });
+        });
+    },
+
+    // 验证虚词选择题答案
+    verifyWordQuizAnswer(selectedIdx, correctIdx, allButtons, clickedButton) {
+        const feedback = document.getElementById("word-quiz-feedback");
+        if (!feedback) return;
+
+        // 如果已经选了正确答案，则不重复点击
+        if (Array.from(allButtons).some(b => b.classList.contains("correct"))) {
+            return;
+        }
+
+        if (selectedIdx === correctIdx) {
+            clickedButton.className = "word-quiz-opt-btn correct";
+            feedback.classList.remove("hidden");
+            feedback.className = "word-quiz-result correct";
+            feedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> 回答完全正确！你已牢牢掌握了“${StudyData.chinese.vocabulary[this.currentWordIndex].char}”在当前句中的用法！经验值 +10`;
+            
+            App.showToast("回答正确！", `恭喜您答对了文言虚词“${StudyData.chinese.vocabulary[this.currentWordIndex].char}”在例句中的用法！`, "success");
+            App.awardExp(10, `文言虚词 [${StudyData.chinese.vocabulary[this.currentWordIndex].char}] 用法微测通关`);
+            App.completeTask("chinese-words");
+        } else {
+            clickedButton.className = "word-quiz-opt-btn incorrect";
+            clickedButton.style.animation = "shake 0.4s";
+            setTimeout(() => clickedButton.style.animation = "", 400);
+
+            feedback.classList.remove("hidden");
+            feedback.className = "word-quiz-result incorrect";
+            feedback.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> 用法匹配有误哦！可以翻转上方卡片仔细查阅释义与例句。`;
+            App.showToast("用法选择有误", "选错了哦，请对照提示，并点击上方卡片进行查漏补缺！", "error");
+        }
     },
 
     // 词汇导航
