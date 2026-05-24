@@ -203,12 +203,18 @@ const ChineseModule = {
         card.classList.remove("flipped");
         
         setTimeout(() => {
-            document.getElementById("word-type").textContent = word.type;
-            document.getElementById("word-char").textContent = word.char;
-            document.getElementById("word-context").textContent = word.sentence;
+            const typeEl = document.getElementById("word-type");
+            const charEl = document.getElementById("word-char");
+            const contextEl = document.getElementById("word-example-sentence");
+            const meaningEl = document.getElementById("word-meaning-text");
+            const grammarEl = document.getElementById("word-grammar-info");
+
+            if (typeEl) typeEl.textContent = word.type;
+            if (charEl) charEl.textContent = word.char;
+            if (contextEl) contextEl.textContent = word.sentence;
             
-            document.getElementById("word-meaning-text").innerHTML = word.meaning.replace(/②|③|④/g, "<br>$&");
-            document.getElementById("word-grammar-info").textContent = `语境例句常驻脑海，助你高考/职高语文实虚词斩获高分！`;
+            if (meaningEl) meaningEl.innerHTML = word.meaning.replace(/②|③|④/g, "<br>$&");
+            if (grammarEl) grammarEl.textContent = `语境例句常驻脑海，助你高考/职高语文实虚词斩获高分！`;
 
             // 渲染随堂用法检测
             this.renderWordQuiz(word);
