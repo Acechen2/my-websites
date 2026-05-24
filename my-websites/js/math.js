@@ -23,6 +23,19 @@ const MathModule = {
     },
 
     bindEvents() {
+        // 选项卡切换
+        const tabs = document.querySelectorAll("#view-math .tab-btn");
+        tabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                tabs.forEach(t => t.classList.remove("active"));
+                tab.classList.add("active");
+                
+                const target = tab.dataset.tab;
+                document.querySelectorAll("#view-math .tab-content").forEach(tc => tc.classList.remove("active"));
+                document.getElementById(`tab-${target}`).classList.add("active");
+            });
+        });
+
         // 公式
         document.getElementById("btn-check-formula").addEventListener("click", () => this.checkFormulaAnswer());
         document.getElementById("btn-show-formula").addEventListener("click", () => this.showFormulaAnswer());
@@ -38,7 +51,7 @@ const MathModule = {
         document.getElementById("brush-size").addEventListener("change", (e) => {
             this.lineWidth = parseInt(e.target.value);
         });
-
+ 
         // 颜色选择器
         const colorDots = document.querySelectorAll(".color-dot");
         colorDots.forEach(dot => {
@@ -48,7 +61,7 @@ const MathModule = {
                 this.drawColor = e.target.dataset.color;
             });
         });
-
+ 
         // 快捷希腊字母输入面板（动态附加到公式卡片中）
         this.createMathSymbolHelper();
     },

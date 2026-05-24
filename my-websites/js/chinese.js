@@ -13,6 +13,19 @@ const ChineseModule = {
     },
 
     bindEvents() {
+        // 选项卡切换
+        const tabs = document.querySelectorAll("#view-chinese .tab-btn");
+        tabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                tabs.forEach(t => t.classList.remove("active"));
+                tab.classList.add("active");
+                
+                const target = tab.dataset.tab;
+                document.querySelectorAll("#view-chinese .tab-content").forEach(tc => tc.classList.remove("active"));
+                document.getElementById(`tab-${target}`).classList.add("active");
+            });
+        });
+
         // 诗词
         document.getElementById("btn-start-recite").addEventListener("click", () => this.startPoetryRecitation());
         document.getElementById("btn-submit-poetry").addEventListener("click", () => this.verifyPoetryAnswers());
