@@ -51,9 +51,26 @@ const NetworkingModule = {
         const box = document.getElementById("net-code-box");
         box.innerHTML = "";
 
-        // 隐藏查看答案按钮
+        // 1. 隐藏查看答案按钮
         document.getElementById("btn-show-net-code").classList.add("hidden");
 
+        // 2. 渲染随堂微课核心要点
+        const kCard = document.getElementById("net-knowledge-card");
+        if (kCard && ex.studyGuide) {
+            kCard.innerHTML = `
+                <div class="k-guide-header"><i class="fa-solid fa-lightbulb"></i> 先学后做 · 核心要点小贴士</div>
+                <div class="k-guide-content">${ex.studyGuide}</div>
+            `;
+        }
+
+        // 3. 重置聚焦指引横幅
+        const banner = document.getElementById("net-focus-banner");
+        if (banner) {
+            banner.classList.add("hidden");
+            banner.innerHTML = "";
+        }
+
+        // 4. 逐行解析代码段，将 [blankX] 替换为漂亮的行内输入框
         ex.codeLines.forEach(line => {
             const lineDiv = document.createElement("div");
             
@@ -74,7 +91,7 @@ const NetworkingModule = {
                 return `<input type="text" class="code-inline-input" 
                                data-answer="${blankData.ans}" 
                                data-desc="${blankData.desc}" 
-                               title="提示：${blankData.desc}"
+                               placeholder="点击有指引..."
                                autocomplete="off">`;
             });
 
@@ -82,11 +99,22 @@ const NetworkingModule = {
             box.appendChild(lineDiv);
         });
 
-        // 绑定输入框自动检测样式
+        // 5. 绑定输入框自动检测样式及聚焦动态指引
         const inputs = box.querySelectorAll(".code-inline-input");
         inputs.forEach(input => {
             input.addEventListener("input", () => {
                 input.className = "code-inline-input";
+            });
+
+            // 获得焦点时：展开浮现横幅展示动态指引
+            input.addEventListener("focus", () => {
+                if (banner) {
+                    banner.classList.remove("hidden");
+                    banner.innerHTML = `
+                        <span class="focus-guide-icon"><i class="fa-solid fa-circle-question"></i> 💡 助学指引：</span>
+                        <span class="focus-guide-text">${input.dataset.desc}</span>
+                    `;
+                }
             });
         });
     },

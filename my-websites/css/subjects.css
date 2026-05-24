@@ -969,4 +969,69 @@
     color: var(--color-rose);
 }
 
+/* ==========================================================================
+   11. 专业课“先学再做”随堂微课与“助学指引”样式 (IT Study Guide & Focus Banner)
+   ========================================================================== */
+.knowledge-guide-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(99, 102, 241, 0.04) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+}
+.k-guide-header {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-cyan);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.python-theme .k-guide-header { color: var(--color-purple); }
+.mysql-theme .k-guide-header { color: #3b82f6; }
+.web-theme .k-guide-header { color: #f97316; }
+.networking-theme .k-guide-header { color: #ec4899; }
+
+.k-guide-content {
+    font-size: 12px;
+    color: #94a3b8;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+}
+.focus-guide-banner {
+    background: rgba(16, 185, 129, 0.06);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    border-radius: 12px;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.python-theme .focus-guide-banner { background: rgba(168, 85, 247, 0.06); border-color: rgba(168, 85, 247, 0.15); }
+.mysql-theme .focus-guide-banner { background: rgba(59, 130, 246, 0.06); border-color: rgba(59, 130, 246, 0.15); }
+.web-theme .focus-guide-banner { background: rgba(249, 115, 22, 0.06); border-color: rgba(249, 115, 22, 0.15); }
+.networking-theme .focus-guide-banner { background: rgba(236, 72, 153, 0.06); border-color: rgba(236, 72, 153, 0.15); }
+
+.focus-guide-icon { font-weight: bold; color: var(--color-emerald); white-space: nowrap; }
+.python-theme .focus-guide-icon { color: var(--color-purple); }
+.mysql-theme .focus-guide-icon { color: #3b82f6; }
+.web-theme .focus-guide-icon { color: #f97316; }
+.networking-theme .focus-guide-icon { color: #ec4899; }
+
+.focus-guide-text { color: #e2e8f0; line-height: 1.4; }
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
 

@@ -175,37 +175,47 @@ const StudyData = {
         codeExercises: [
             {
                 title: "Python 输出 Hello World",
+                studyGuide: "【先学要点】print() 是 Python 的最核心内置函数，专门用于向终端或屏幕输出文本信息。它的括号内部如果要打印一段个性的文字（字符串），必须用英文半角双引号（\"\"）或者单引号（''）进行包裹，不可丢漏！",
                 codeLines: [
+                    "# 第一步：使用内置函数在屏幕上打印出 'Hello World' 文本",
                     "[blank1](\"Hello World\")"
                 ],
                 blanks: {
-                    blank1: { ans: "print", desc: "在终端或控制台打印输出文本的内置函数名" }
+                    blank1: { ans: "print", desc: "请输入代表在控制台打印输出文本的 Python 内置函数名" }
                 }
             },
             {
                 title: "变量赋值与强制类型转换",
+                studyGuide: "【先学要点】在 Python 中，通过 input() 等接收的数据默认是字符串。如果想进行加减法等算术计算，必须使用 int() 内置函数将数字字符串（例如 \"10\"）强行转换为整型数字，转换后才能与普通整数（例如 5）通过算术加号（+）进行计算！",
                 codeLines: [
+                    "# 第一步：将数字字符串 \"10\" 强行转换为整型数字并赋给 a",
                     "a = [blank1](\"10\")",
+                    "# 第二步：定义一个整型变量 b，赋值为 5",
                     "b = 5",
+                    "# 第三步：将 a 与 b 的数值进行算术累加之和，并赋给 c",
                     "c = a [blank2] b"
                 ],
                 blanks: {
-                    blank1: { ans: "int", desc: "将数字字符串转换为整型数的内置函数名" },
-                    blank2: { ans: "+", desc: "算术加法运算符" }
+                    blank1: { ans: "int", desc: "请输入代表将数据强行转换为整型数字的 Python 内置函数名" },
+                    blank2: { ans: "+", desc: "请输入代表进行算术加法求和的算术运算符符号" }
                 }
             },
             {
                 title: "if-else 选择结构",
+                studyGuide: "【先学要点】Python 使用 if 关键字启动条件判断，若 if 后方的条件（如 x > 0）成立，执行其下方缩进的命令；当条件不满足时，程序会跳转到 else 分支执行备用命令。注意，判断条件和 else 关键字后必须紧跟英文冒号 (:)！",
                 codeLines: [
+                    "# 定义变量 x 赋值为 5",
                     "x = 5",
+                    "# 第一步：判断如果满足条件 x > 0",
                     "[blank1] x > 0:",
                     "    print(\"正数\")",
+                    "# 第二步：否则，即当上述 if 条件不成立时的备用分支",
                     "[blank2]:",
                     "    print(\"非正数\")"
                 ],
                 blanks: {
-                    blank1: { ans: "if", desc: "判断条件是否成立的启动关键字" },
-                    blank2: { ans: "else", desc: "当 if 条件不满足时执行的备用分支关键字" }
+                    blank1: { ans: "if", desc: "请输入代表'如果...则'判断条件成立的条件分支启动关键字" },
+                    blank2: { ans: "else", desc: "请输入代表'否则/别的情况'的备用条件分支关键字" }
                 }
             }
         ],
@@ -235,46 +245,55 @@ const StudyData = {
         codeExercises: [
             {
                 title: "创建新数据库",
+                studyGuide: "【先学要点】CREATE DATABASE 是 SQL 核心指令，专门用于在 MySQL 数据库服务器上定义并创建一个崭新的数据库对象。所有的 SQL 核心关键字都必须在拼写上保证完全正确，且在语句的末尾推荐附上半角分号 (;) 代表指令结束。",
                 codeLines: [
+                    "-- DDL操作：创建一个名字为 school 的崭新数据库",
                     "[blank1] [blank2] school;"
                 ],
                 blanks: {
-                    blank1: { ans: "CREATE", desc: "创建资源对象的 SQL 动作字" },
-                    blank2: { ans: "DATABASE", desc: "表示要创建的对象是数据库的关键字" }
+                    blank1: { ans: "CREATE", desc: "请输入代表'创建/定义'资源对象的 SQL 核心关键字（大写）" },
+                    blank2: { ans: "DATABASE", desc: "请输入代表要创建的对象类型是'数据库'的 SQL 关键字（大写）" }
                 }
             },
             {
                 title: "删除已有数据库",
+                studyGuide: "【先学要点】DROP DATABASE 语句用于彻底销毁 MySQL 中已存在的一个数据库对象；该命令会瞬间将数据库本身连同其包含的所有表格、数据记录全部销毁，是一个破坏性极强的 DDL (数据定义) 命令，在实际工作中执行时需极其谨慎！",
                 codeLines: [
+                    "-- DDL操作：彻底销毁丢弃一个名称为 school 的已有数据库",
                     "[blank1] [blank2] school;"
                 ],
                 blanks: {
-                    blank1: { ans: "DROP", desc: "彻底删除表结构或数据库的 DDL 关键字" },
-                    blank2: { ans: "DATABASE", desc: "表示要删除数据库的关键字" }
+                    blank1: { ans: "DROP", desc: "请输入代表'彻底销毁/丢弃表结构或数据库'的 DDL 关键字（大写）" },
+                    blank2: { ans: "DATABASE", desc: "请输入代表要删除的对象是'数据库'的 SQL 关键字（大写）" }
                 }
             },
             {
                 title: "创建简单数据表",
+                studyGuide: "【先学要点】CREATE TABLE 是 SQL 核心指令，专门用于在指定的数据库下定义并新建一张用来存储记录的数据表；VARCHAR(N) 是 MySQL 中最经典、最常用的数据类型，代表“可变长度的字符串”，括号内的数字代表该列能存放的最大字符字数限制。",
                 codeLines: [
+                    "-- DDL操作：创建一张名为 users 的新数据表格",
                     "CREATE [blank1] users (",
                     "    id INT PRIMARY KEY,",
+                    "    -- 定义 name 字段，最大允许存放 20 个字符长度的可变长度字符串",
                     "    name [blank2](20)",
                     ");"
                 ],
                 blanks: {
-                    blank1: { ans: "TABLE", desc: "表示要创建的对象是数据表的关键字" },
-                    blank2: { ans: "VARCHAR", desc: "MySQL 中代表可变长度字符串的字符数据类型" }
+                    blank1: { ans: "TABLE", desc: "请输入代表要创建的对象是'数据表/表格'的 SQL 关键字（大写）" },
+                    blank2: { ans: "VARCHAR", desc: "请输入代表 MySQL 中'可变长度字符串'类型的字符数据类型关键字（大写）" }
                 }
             },
             {
                 title: "向表中新增记录",
+                studyGuide: "【先学要点】INSERT INTO 是标准的 DML (数据操作) 语句，用于向指定的表格追加一行新记录。追加内容时，必须使用 VALUES 关键字，并紧跟括号括起来的具体字段值元组。切记，新插入的数据类型必须与定义表结构时的字段类型位置一一对应！",
                 codeLines: [
+                    "-- DML操作：向 users 表的 (id, name) 列中追加一行新记录数据",
                     "[blank1] INTO users (id, name)",
                     "[blank2] (1, '张三');"
                 ],
                 blanks: {
-                    blank1: { ans: "INSERT", desc: "数据插入操作的 SQL 动作词" },
-                    blank2: { ans: "VALUES", desc: "指定需要插入的数据元组值的关键字" }
+                    blank1: { ans: "INSERT", desc: "请输入代表向数据表中进行'记录数据插入'操作的 SQL 核心关键字（大写）" },
+                    blank2: { ans: "VALUES", desc: "请输入代表指定要插入的具体'数据数值列表'的 SQL 关键字（大写）" }
                 }
             }
         ],
@@ -304,41 +323,49 @@ const StudyData = {
         codeExercises: [
             {
                 title: "网页最基础 HTML 骨架",
+                studyGuide: "【先学要点】符合 HTML5 规范的网页代码，都包裹在根标签 <html> 内部，且通过 lang 属性标明页面主语言。网页向用户直接渲染的核心内容全部封装在 <body> 标签中，它是网页的主干和灵魂！",
                 codeLines: [
                     "<!DOCTYPE html>",
+                    "<!-- 网页的根标签，并通过属性指定网页的主语言为中文简体 -->",
                     "<[blank1] lang=\"zh-CN\">",
                     "<head>",
                     "    <meta charset=\"UTF-8\">",
                     "    <title>我的网页</title>",
                     "</head>",
+                    "<!-- 网页的主体内容外层容器标签 -->",
                     "<[blank2]>",
                     "    <h1>网页制作零起点</h1>",
                     "</[blank2]>",
                     "</[blank1]>"
                 ],
                 blanks: {
-                    blank1: { ans: "html", desc: "HTML 文档的根标签名" },
-                    blank2: { ans: "body", desc: "网页主体内容标签名" }
+                    blank1: { ans: "html", desc: "请输入代表整个网页文档的根标签名（小写）" },
+                    blank2: { ans: "body", desc: "请输入包裹网页全部可视化主体内容的专属标签名（小写）" }
                 }
             },
             {
                 title: "网页超链接属性",
+                studyGuide: "【先学要点】HTML 中使用 <a> 标签定义超链接（Hyperlink），实现页面间的跳转。要指定链接的跳转目标网址，必须通过 a 标签的核心属性 href 属性来指定，其英文全称是 Hypertext Reference（超文本引用）。",
                 codeLines: [
+                    "<!-- 创建一个超链接标签，并通过指定其跳转目标属性访问谷歌 -->",
                     "<a [blank1]=\"https://google.com\">访问谷歌</a>"
                 ],
                 blanks: {
-                    blank1: { ans: "href", desc: "超链接指定跳转目标 URL 的核心属性名" }
+                    blank1: { ans: "href", desc: "请输入 <a> 标签中代表指定跳转目标 URL 的核心属性名（小写）" }
                 }
             },
             {
                 title: "网页标题与普通段落",
+                studyGuide: "【先学要点】标题和段落是网页文本最核心的排版标记。<h1> 标签代表一级大标题，在整个网页中其权重和字号最高，通常用于主标题；<p> 标签是普通文本段落（Paragraph）的缩写，用于承载文章和普通文字叙述。",
                 codeLines: [
+                    "<!-- 声明权重和字号最大的一级标题标签 -->",
                     "<[blank1]>网页设计起步</[blank1]>",
+                    "<!-- 声明承载普通文字叙述的普通段落标签 -->",
                     "<[blank2]>从最简单的标签学起，持之以恒。</[blank2]>"
                 ],
                 blanks: {
-                    blank1: { ans: "h1", desc: "最高权重的一级标题标签" },
-                    blank2: { ans: "p", desc: "普通文本段落标签" }
+                    blank1: { ans: "h1", desc: "请输入代表最高权重、最大字号的一级大标题标签名（小写）" },
+                    blank2: { ans: "p", desc: "请输入代表包裹普通正文文字的段落标签名（小写）" }
                 }
             }
         ],
@@ -368,20 +395,24 @@ const StudyData = {
         codeExercises: [
             {
                 title: "测试本地 TCP/IP 协议栈 (环回地址)",
+                studyGuide: "【先学要点】ping 命令是计算机网络中最基本、最常用的命令行诊断工具。通过向特殊的本地环回 IP 地址 127.0.0.1 发送测试数据包并接收反馈，可以快速判断当前电脑的 TCP/IP 协议栈（网卡驱动及基础系统网络协议配置）是否安装并正常工作。",
                 codeLines: [
+                    "# 使用经典网络诊断命令测试本机 TCP/IP 协议栈是否正常工作",
                     "[blank1] 127.0.0.1"
                 ],
                 blanks: {
-                    blank1: { ans: "ping", desc: "用于在命令行测试网络连通性与丢包率的 ICMP 经典命令" }
+                    blank1: { ans: "ping", desc: "请输入用于网络连通性探测的 ICMP 控制台诊断命令关键字（小写）" }
                 }
             },
             {
                 title: "查看本机网卡最基础的 IP 配置参数",
+                studyGuide: "【先学要点】在 Windows 操作系统中，想快速获知本机物理网卡或无线网卡的 IPv4 地址、子网掩码以及默认网关（路由出口），可以在命令提示符（cmd）中直接执行 ipconfig 命令，它会瞬间列出所有网卡的基础网络配置详情！",
                 codeLines: [
+                    "# 在 Windows 命令提示符中快速读取本机的 IP 地址和网卡参数",
                     "[blank1]"
                 ],
                 blanks: {
-                    blank1: { ans: "ipconfig", desc: "Windows 系统下快速查看本机各网卡 IPv4 状态的命令" }
+                    blank1: { ans: "ipconfig", desc: "请输入 Windows 控制台下用于排查并显示本机网卡 IP 配置的命令关键字（小写）" }
                 }
             }
         ],
